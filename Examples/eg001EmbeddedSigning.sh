@@ -82,7 +82,7 @@ printf \
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
+     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes \
      --output ${response}
 
 echo ""
