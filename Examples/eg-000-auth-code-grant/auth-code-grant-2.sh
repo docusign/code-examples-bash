@@ -9,7 +9,6 @@ if [ $# -eq 0 ]
     echo ""
 fi
 
-source ../startup_checks.sh
 source ../../Env.txt
 
 CODE="$1"
@@ -40,8 +39,6 @@ sed 's/\",\"token_type\":\"Bearer\"\,\"refresh_token\":\".*\",\"expires_in\":.*}
 echo "$DS_ACCESS_TOKEN" > ../../DS_ACCESS_TOKEN
 echo "Access token:"
 echo $DS_ACCESS_TOKEN
-echo ""
-echo "The access token has been written to file DS_ACCESS_TOKEN for use by other scripts."
 
 # Pull out the refresh_token
 DS_REFRESH_TOKEN=`sed 's/{\"access_token\":\".*\",\"token_type\":\"Bearer\"\,\"refresh_token\":\"//' $tmpfile |

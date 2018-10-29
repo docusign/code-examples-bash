@@ -1,12 +1,10 @@
 # First leg of Authorization Code Grant
-source ../startup_checks.sh
 source ../../Env.txt
 
-SCOPE="signature"
 URL_AUTH_START=$(cat <<END
 ${DS_AUTH_SERVER}/oauth/auth?\
 response_type=code\
-&scope=${SCOPE}\
+&scope=signature\
 &client_id=${DS_CLIENT_ID}\
 &state=${DS_AUTH_STATE}\
 &redirect_uri=${DS_REDIRECT_URL_ENCODED}

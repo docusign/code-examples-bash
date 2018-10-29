@@ -8,7 +8,6 @@ if [ ! -f "$ACCESS_TOKEN_FILE" ]; then
     exit 1;
 fi
 
-source ../startup_checks.sh
 source ../../Env.txt
 DS_ACCESS_TOKEN=`cat $ACCESS_TOKEN_FILE`
 
