@@ -10,10 +10,6 @@ source ../Env.txt
 #
 # Step 1. Create the envelope.
 #         The signer recipient includes a clientUserId setting
-# Step 2. Create a recipient view (a signing ceremony view)
-#         that the signer will directly open in their browser to sign.
-
-#  Step 1...
 #
 #  document 1 (pdf) has tag /sn1/ 
 #  The envelope has two recipients.
@@ -90,8 +86,35 @@ echo "Response:"
 cat $response
 
 # pull out the envelopeId
-ENVELOPE_ID=`sed 's/{\"access_token\":\"//' $response |
-sed 's/\",\"token_type\":\"Bearer\"\,\"refresh_token\":\".*\",\"expires_in\":.*}//'` 
+ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//'` 
+echo "EnvelopeId: |${ENVELOPE_ID}|"
+
+
+# Step 2. Create a recipient view (a signing ceremony view)
+#         that the signer will directly open in their browser to sign.
+#
+# The returnUrl is normally your own web app. DocuSign will redirect
+# the signer to returnUrl when the signing ceremony completes.
+# For this example, we'll use http://httpbin.org/get to show the 
+# query parameters passed back from DocuSign
+
+curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+     --header "Content-Type: application/json" \
+     --data-binary '
+{
+    "returnUrl": "http://httpbin.org/get",
+    "authenticationMethod": "none",
+    "email": "{USER_EMAIL}",
+    "userName": "{USER_FULLNAME}",
+    "clientUserId": 1000,
+}' \
+     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes/${ENVELOPE_ID}/views/recipient \
+     --output ${response}
+
+echo ""
+echo "Get recipient view response:"
+cat $response
+
 
 
 #echo ""
