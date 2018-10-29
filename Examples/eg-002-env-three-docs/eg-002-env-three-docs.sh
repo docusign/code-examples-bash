@@ -35,14 +35,14 @@ echo "Results:"
 echo ""
 
 # Concatenate the different parts of the request
-cat \
+echo \
 '{
     "emailSubject": "Please sign this document set",
     "documents": [
         {
             "documentBase64": "' > $request_data
 cat $doc1_base64 >> $request_data
-cat \
+echo \
 '",
             "name": "Order acknowledgement",
             "fileExtension": "html",
@@ -51,7 +51,7 @@ cat \
         {
             "documentBase64": "' >> $request_data
 cat $doc2_base64 >> $request_data
-cat \
+echo \
 '",
             "name": "Battle Plan",
             "fileExtension": "docx",
