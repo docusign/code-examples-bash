@@ -60,7 +60,7 @@ echo \
         {
             "documentBase64": "' >> $request_data
 cat $doc3_base64 >> $request_data
-cat \
+echo \
 '",
             "name": "Lorem Ipsum",
             "fileExtension": "pdf",
