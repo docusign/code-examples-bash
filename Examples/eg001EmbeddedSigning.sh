@@ -84,10 +84,11 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
 echo ""
 echo "Response:"
 cat $response
+echo ""
 
 # pull out the envelopeId
-ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//'` 
-echo "EnvelopeId: |${ENVELOPE_ID}|"
+ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
+echo "EnvelopeId: ${ENVELOPE_ID}"
 
 
 # Step 2. Create a recipient view (a signing ceremony view)
@@ -98,6 +99,7 @@ echo "EnvelopeId: |${ENVELOPE_ID}|"
 # For this example, we'll use http://httpbin.org/get to show the 
 # query parameters passed back from DocuSign
 
+echo "Request the url for the signing ceremony..."
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary '
@@ -112,24 +114,25 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --output ${response}
 
 echo ""
-echo "Get recipient view response:"
+echo "Response:"
 cat $response
+echo ""
 
-
-
-#echo ""
-#echo ""
-#echo "Files"
-#echo "$request_data"
-#echo "$doc1_base64"
-#echo "$doc2_base64"
-#echo "$doc3_base64"
+REDIRECT_URL=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\"//' | tr -d '\r'`
+echo ""
+echo "Attempting to automatically open your browser to the signing ceremony url..."
+if which open > /dev/null 2>/dev/null
+then
+  open "$REDIRECT_URL"
+elif which start > /dev/null
+then
+  start "$REDIRECT_URL"
+fi
 
 # cleanup
 rm "$request_data"
+rm "$response"
 rm "$doc1_base64"
-rm "$doc2_base64"
-rm "$doc3_base64"
 
 echo ""
 echo ""
