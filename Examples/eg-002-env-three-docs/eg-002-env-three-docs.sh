@@ -35,14 +35,14 @@ echo "Results:"
 echo ""
 
 # Concatenate the different parts of the request
-echo \
+printf \
 '{
     "emailSubject": "Please sign this document set",
     "documents": [
         {
             "documentBase64": "' > $request_data
 cat $doc1_base64 >> $request_data
-echo \
+printf \
 '",
             "name": "Order acknowledgement",
             "fileExtension": "html",
@@ -51,7 +51,7 @@ echo \
         {
             "documentBase64": "' >> $request_data
 cat $doc2_base64 >> $request_data
-echo \
+printf \
 '",
             "name": "Battle Plan",
             "fileExtension": "docx",
@@ -60,7 +60,7 @@ echo \
         {
             "documentBase64": "' >> $request_data
 cat $doc3_base64 >> $request_data
-echo \
+printf \
 '",
             "name": "Lorem Ipsum",
             "fileExtension": "pdf",
@@ -106,7 +106,7 @@ echo \
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
-     --data-binary @${request_data}
+     --data-binary @${request_data} \
      --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
 
 echo ""
