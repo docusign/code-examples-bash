@@ -102,6 +102,12 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
 }' \
      --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
 
+echo "Base64 Files"
+echo "$doc1_base64"
+echo "$doc2_base64"
+echo "$doc3_base64"
+
+
 # cleanup
 #rm "$doc1_base64"
 #rm "$doc2_base64"
