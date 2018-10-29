@@ -18,6 +18,7 @@ source ../../Env.txt
 #  After it is signed, a copy is sent to the cc person.
 
 # temp files:
+request_data=$(mktemp /tmp/request.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-002-doc1.XXXXXX)
 doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
 doc3_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
@@ -33,32 +34,34 @@ echo "The envelope has three documents. Processing time will be about 15 seconds
 echo "Results:"
 echo ""
 
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --data-binary \
+# Concatenate the different parts of the request
+cat \
 '{
     "emailSubject": "Please sign this document set",
     "documents": [
         {
-            "documentBase64": "' \
-    --data-binary @${doc1_base64} \
-    --data-binary '",
+            "documentBase64": "' > $request_data
+cat $doc1_base64 >> $request_data
+cat \
+'",
             "name": "Order acknowledgement",
             "fileExtension": "html",
             "documentId": "1"
         },
         {
-            "documentBase64": "' \
-    --data-binary @${doc2_base64} \
-    --data-binary '",
+            "documentBase64": "' >> $request_data
+cat $doc2_base64 >> $request_data
+cat \
+'",
             "name": "Battle Plan",
             "fileExtension": "docx",
             "documentId": "2"
         },
         {
-            "documentBase64": "' \
-    --data-binary @${doc3_base64} \
-    --data-binary '",
+            "documentBase64": "' >> $request_data
+cat $doc3_base64 >> $request_data
+cat \
+'",
             "name": "Lorem Ipsum",
             "fileExtension": "pdf",
             "documentId": "3"
@@ -99,18 +102,24 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
         ]
     },
     "status": "sent"
-}' \
+}' >> $request_data
+
+curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+     --header "Content-Type: application/json" \
+     --data-binary @${request_data}
      --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
 
 echo ""
 echo ""
-echo "Base64 Files"
+echo "Files"
+echo "$request_data"
 echo "$doc1_base64"
 echo "$doc2_base64"
 echo "$doc3_base64"
 
 
 # cleanup
+#rm "$request_data"
 #rm "$doc1_base64"
 #rm "$doc2_base64"
 #rm "$doc3_base64"
