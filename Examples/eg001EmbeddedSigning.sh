@@ -99,7 +99,8 @@ echo "EnvelopeId: ${ENVELOPE_ID}"
 # For this example, we'll use http://httpbin.org/get to show the 
 # query parameters passed back from DocuSign
 
-echo "Request the url for the signing ceremony..."
+echo ""
+echo "Requesting the url for the signing ceremony..."
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary '
@@ -118,15 +119,15 @@ echo "Response:"
 cat $response
 echo ""
 
-REDIRECT_URL=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\"//' | tr -d '\r'`
+SIGNING_CEREMONY_URL=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\"//' | tr -d '\r'`
 echo ""
 echo "Attempting to automatically open your browser to the signing ceremony url..."
 if which open > /dev/null 2>/dev/null
 then
-  open "$REDIRECT_URL"
+  open "$SIGNING_CEREMONY_URL"
 elif which start > /dev/null
 then
-  start "$REDIRECT_URL"
+  start "$SIGNING_CEREMONY_URL"
 fi
 
 # cleanup
