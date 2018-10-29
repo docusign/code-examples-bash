@@ -36,70 +36,70 @@ echo ""
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data \
-'{                                                                   \
-    "emailSubject": "Please sign this document set",                 \
-    "documents": [                                                   \
-        {                                                            \
-            "documentBase64": "'\
+'{
+    "emailSubject": "Please sign this document set",
+    "documents": [
+        {
+            "documentBase64": "' \
     --data @${doc1_base64} \
-    --data '",                                                       \
-            "name": "Order acknowledgement",                         \
-            "fileExtension": "html",                                 \
-            "documentId": "1"                                        \
-        },                                                           \
-        {                                                            \
-            "documentBase64": "'\
+    --data '",
+            "name": "Order acknowledgement",
+            "fileExtension": "html",
+            "documentId": "1"
+        },
+        {
+            "documentBase64": "' \
     --data @${doc2_base64} \
-    --data '",                                                       \
-            "name": "Battle Plan",                                   \
-            "fileExtension": "docx",                                 \
-            "documentId": "2"                                        \
-        },                                                           \
-        {                                                            \
-            "documentBase64": "'\
+    --data '",
+            "name": "Battle Plan",
+            "fileExtension": "docx",
+            "documentId": "2"
+        },
+        {
+            "documentBase64": "' \
     --data @${doc3_base64} \
-    --data '",                                                       \
-            "name": "Lorem Ipsum",                                   \
-            "fileExtension": "pdf",                                  \
-            "documentId": "3"                                        \
-        }                                                            \
-    ],                                                               \
-    "recipients": {                                                  \
-        "carbonCopies": [                                            \
-            {                                                        \
-                "email": "{USER_EMAIL}",                             \
-                "name": "Charles Copy",                              \
-                "recipientId": "2",                                  \
-                "routingOrder": "2"                                  \
-            }                                                        \
-        ],                                                           \
-        "signers": [                                                 \
-            {                                                        \
-                "email": "{USER_EMAIL}",                             \
-                "name": "{USER_FULLNAME}",                           \
-                "recipientId": "1",                                  \
-                "routingOrder": "1",                                 \
-                "tabs": {                                            \
-                    "signHereTabs": [                                \
-                        {                                            \
-                            "anchorString": "**signature_1**",       \
-                            "anchorUnits": "pixels",                 \
-                            "anchorXOffset": "20",                   \
-                            "anchorYOffset": "10"                    \
-                        },                                           \
-                        {                                            \
-                            "anchorString": "/sn1/",                 \
-                            "anchorUnits": "pixels",                 \
-                            "anchorXOffset": "20",                   \
-                            "anchorYOffset": "10"                    \
-                        }                                            \
-                    ]                                                \
-                }                                                    \
-            }                                                        \
-        ]                                                            \
-    },                                                               \
-    "status": "sent"                                                 \
-}'                                                                   \
+    --data '",
+            "name": "Lorem Ipsum",
+            "fileExtension": "pdf",
+            "documentId": "3"
+        }
+    ],
+    "recipients": {
+        "carbonCopies": [
+            {
+                "email": "{USER_EMAIL}",
+                "name": "Charles Copy",
+                "recipientId": "2",
+                "routingOrder": "2"
+            }
+        ],
+        "signers": [
+            {
+                "email": "{USER_EMAIL}",
+                "name": "{USER_FULLNAME}",
+                "recipientId": "1",
+                "routingOrder": "1",
+                "tabs": {
+                    "signHereTabs": [
+                        {
+                            "anchorString": "**signature_1**",
+                            "anchorUnits": "pixels",
+                            "anchorXOffset": "20",
+                            "anchorYOffset": "10"
+                        },
+                        {
+                            "anchorString": "/sn1/",
+                            "anchorUnits": "pixels",
+                            "anchorXOffset": "20",
+                            "anchorYOffset": "10"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "status": "sent"
+}' \
      --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
 
 # cleanup
