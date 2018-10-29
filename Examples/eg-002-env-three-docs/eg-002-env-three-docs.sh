@@ -35,30 +35,30 @@ echo ""
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
-     --data \
+     --data-binary \
 '{
     "emailSubject": "Please sign this document set",
     "documents": [
         {
             "documentBase64": "' \
-    --data @${doc1_base64} \
-    --data '",
+    --data-binary @${doc1_base64} \
+    --data-binary '",
             "name": "Order acknowledgement",
             "fileExtension": "html",
             "documentId": "1"
         },
         {
             "documentBase64": "' \
-    --data @${doc2_base64} \
-    --data '",
+    --data-binary @${doc2_base64} \
+    --data-binary '",
             "name": "Battle Plan",
             "fileExtension": "docx",
             "documentId": "2"
         },
         {
             "documentBase64": "' \
-    --data @${doc3_base64} \
-    --data '",
+    --data-binary @${doc3_base64} \
+    --data-binary '",
             "name": "Lorem Ipsum",
             "fileExtension": "pdf",
             "documentId": "3"
@@ -102,6 +102,8 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
 }' \
      --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
 
+echo ""
+echo ""
 echo "Base64 Files"
 echo "$doc1_base64"
 echo "$doc2_base64"
