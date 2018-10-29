@@ -35,7 +35,6 @@ echo ""
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
      --data \
 '{                                                                   \
     "emailSubject": "Please sign this document set",                 \
@@ -100,12 +99,13 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
         ]                                                            \
     },                                                               \
     "status": "sent"                                                 \
-}'
+}'                                                                   \
+     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
 
 # cleanup
-rm "$doc1_base64"
-rm "$doc2_base64"
-rm "$doc3_base64"
+#rm "$doc1_base64"
+#rm "$doc2_base64"
+#rm "$doc3_base64"
 
 echo ""
 echo ""
