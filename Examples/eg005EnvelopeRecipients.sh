@@ -1,4 +1,4 @@
-# Get the envelope's details
+# Get the envelope recipients' details
 # This script uses the envelope_id stored in ../ENVELOPE_ID.
 # The ENVELOPE_ID file is created by example eg002SigningViaEmail.sh or
 # can be manually created.
@@ -19,13 +19,13 @@ fi
 envelope_id=`cat ../ENVELOPE_ID`
 
 echo ""
-echo "Sending the Envelopes::get request to DocuSign..."
+echo "Sending the EnvelopeRecipients::list request to DocuSign..."
 echo "Results:"
 echo ""
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
-     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes/${envelope_id}
+     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes/${envelope_id}/recipients
 
 echo ""
 echo ""
