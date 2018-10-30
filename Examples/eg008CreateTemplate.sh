@@ -181,7 +181,7 @@ echo ""
 echo "Results:"
 cat $response
 
-# pull out the envelopeId
+# pull out the template id
 TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | sed 's/\",.*//'`
 echo ""
 echo "Template '${template_name}' was created! Template ID ${TEMPLATE_ID}."
