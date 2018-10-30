@@ -1,9 +1,23 @@
-# Send an envelope with three documents
+# Create a template. First, the account's templates are listed.
+# If one of the templates is named "Example Signer and CC template"
+# then the template will not be created.
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+# Step 1. List the account's templates
+template_name="Example Signer and CC template"
+response=$(mktemp /tmp/response-eg-008.XXXXXX)
+curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+     --header "Content-Type: application/json" \
+     --get \
+     --data-urlencode "search_text=${template_name}" \
+     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/templates
+
+
+exit 0
 
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
