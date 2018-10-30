@@ -35,8 +35,6 @@ if [ "${TEMPLATE_ID}" != "" ]; then
 fi
 
 # Step 2. Create the template programmatically
-
-#  document 3 (pdf) has tag /sn1/
 # 
 #  The envelope has two recipients.
 #  recipient 1 - signer
@@ -54,7 +52,6 @@ echo ""
 
 # Fetch docs and encode
 cat ../demo_documents/World_Wide_Corp_fields.pdf | base64 > $doc1_base64
-
 
 # Concatenate the different parts of the request
 printf \
