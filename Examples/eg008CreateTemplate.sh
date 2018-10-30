@@ -14,7 +14,14 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "search_text=${template_name}" \
-     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/templates
+     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/templates \
+     --output $response
+
+# pull out the templateId if it was returned
+TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | sed 's/\",.*//'`
+
+# Save the template id for use by other scripts
+echo ${TEMPLATE_ID} > ../TEMPLATE_ID
 
 
 exit 0
