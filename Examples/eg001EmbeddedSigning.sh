@@ -87,7 +87,8 @@ echo ""
 # pull out the envelopeId
 ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
 echo "EnvelopeId: ${ENVELOPE_ID}"
-
+# Save the envelope id for use by other scripts
+echo ${ENVELOPE_ID} > ../ENVELOPE_ID
 
 # Step 2. Create a recipient view (a signing ceremony view)
 #         that the signer will directly open in their browser to sign.
