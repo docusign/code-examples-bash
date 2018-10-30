@@ -19,15 +19,20 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
 
 # pull out the templateId if it was returned
 TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | sed 's/\",.*//'`
+if [ "${TEMPLATE_ID}" != "" ]; then
+    echo ""
+    echo "Your account already includes the '${template_name}' template."
+    # Save the template id for use by other scripts
+    echo ${TEMPLATE_ID} > ../TEMPLATE_ID
+    rm "$response"
+    echo ""
+    echo "Done"
+    echo ""
+    exit 0
+fi
 
-# Save the template id for use by other scripts
-echo ${TEMPLATE_ID} > ../TEMPLATE_ID
+# Step 2. Create the template programmatically
 
-
-exit 0
-
-#  document 1 (html) has tag **signature_1**
-#  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
 # 
 #  The envelope has two recipients.
@@ -37,113 +42,156 @@ exit 0
 #  After it is signed, a copy is sent to the cc person.
 
 # temp files:
-request_data=$(mktemp /tmp/request-eg-002.XXXXXX)
-response=$(mktemp /tmp/response-eg-002.XXXXXX)
-doc1_base64=$(mktemp /tmp/eg-002-doc1.XXXXXX)
-doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
-doc3_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
+request_data=$(mktemp /tmp/request-eg-008.XXXXXX)
+doc1_base64=$(mktemp /tmp/eg-008-doc1.XXXXXX)
+
+echo ""
+echo "Sending the template create request to DocuSign..."
+echo ""
 
 # Fetch docs and encode
-cat ../demo_documents/doc_1.html | base64 > $doc1_base64
-cat ../demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc2_base64
-cat ../demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc3_base64
+cat ../demo_documents/World_Wide_Corp_fields.pdf | base64 > $doc1_base64
 
-echo ""
-echo "Sending the envelope request to DocuSign..."
-echo "The envelope has three documents. Processing time will be about 15 seconds."
-echo "Results:"
-echo ""
 
 # Concatenate the different parts of the request
 printf \
 '{
-    "emailSubject": "Please sign this document set",
     "documents": [
         {
             "documentBase64": "' > $request_data
 cat $doc1_base64 >> $request_data
 printf \
 '",
-            "name": "Order acknowledgement",
-            "fileExtension": "html",
-            "documentId": "1"
-        },
-        {
-            "documentBase64": "' >> $request_data
-cat $doc2_base64 >> $request_data
-printf \
-'",
-            "name": "Battle Plan",
-            "fileExtension": "docx",
-            "documentId": "2"
-        },
-        {
-            "documentBase64": "' >> $request_data
-cat $doc3_base64 >> $request_data
-printf \
-'",
-            "name": "Lorem Ipsum",
-            "fileExtension": "pdf",
-            "documentId": "3"
+            "documentId": "1", "fileExtension": "pdf",
+            "name": "Lorem Ipsum"
         }
     ],
+    "emailSubject": "Please sign this document",
+    "envelopeTemplateDefinition": {
+        "description": "Example template created via the API",
+        "name": "Example Signer and CC template",
+        "shared": "false"
+    },
     "recipients": {
         "carbonCopies": [
-            {
-                "email": "{USER_EMAIL}",
-                "name": "Charles Copy",
-                "recipientId": "2",
-                "routingOrder": "2"
-            }
+            {"recipientId": "2", "roleName": "cc", "routingOrder": "2"}
         ],
         "signers": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "{USER_FULLNAME}",
-                "recipientId": "1",
-                "routingOrder": "1",
+                "recipientId": "1", "roleName": "signer", "routingOrder": "1",
                 "tabs": {
-                    "signHereTabs": [
+                    "checkboxTabs": [
                         {
-                            "anchorString": "**signature_1**",
-                            "anchorUnits": "pixels",
-                            "anchorXOffset": "20",
-                            "anchorYOffset": "10"
+                            "documentId": "1", "pageNumber": "1",
+                            "tabLabel": "ckAuthorization", "xPosition": "75",
+                            "yPosition": "417"
                         },
                         {
-                            "anchorString": "/sn1/",
-                            "anchorUnits": "pixels",
-                            "anchorXOffset": "20",
-                            "anchorYOffset": "10"
+                            "documentId": "1", "pageNumber": "1",
+                            "tabLabel": "ckAuthentication", "xPosition": "75",
+                            "yPosition": "447"
+                        },
+                        {
+                            "documentId": "1", "pageNumber": "1",
+                            "tabLabel": "ckAgreement", "xPosition": "75",
+                            "yPosition": "478"
+                        },
+                        {
+                            "documentId": "1", "pageNumber": "1",
+                            "tabLabel": "ckAcknowledgement", "xPosition": "75",
+                            "yPosition": "508"
+                        }
+                    ],
+                    "listTabs": [
+                        {
+                            "documentId": "1", "font": "helvetica", 
+                            "fontSize": "size14",
+                            "listItems": [
+                                {"text": "Red", "value": "red"},
+                                {"text": "Orange", "value": "orange"},
+                                {"text": "Yellow", "value": "yellow"},
+                                {"text": "Green", "value": "green"},
+                                {"text": "Blue", "value": "blue"},
+                                {"text": "Indigo", "value": "indigo"},
+                                {"text": "Violet", "value": "violet"}
+                            ],
+                            "pageNumber": "1", "required": "false", 
+                            "tabLabel": "list", "xPosition": "142",
+                            "yPosition": "291"
+                        }
+                    ],
+                    "radioGroupTabs": [
+                        {
+                            "documentId": "1", "groupName": "radio1",
+                            "radios": [
+                                {
+                                    "pageNumber": "1", "required": "false",
+                                    "value": "white", "xPosition": "142",
+                                    "yPosition": "384"
+                                },
+                                {
+                                    "pageNumber": "1", "required": "false",
+                                    "value": "red", "xPosition": "74",
+                                    "yPosition": "384"
+                                },
+                                {
+                                    "pageNumber": "1", "required": "false",
+                                    "value": "blue", "xPosition": "220",
+                                    "yPosition": "384"
+                                }
+                            ]
+                        }
+                    ],
+                    "signHereTabs": [
+                        {
+                            "documentId": "1", "pageNumber": "1",
+                            "xPosition": "191", "yPosition": "148"
+                        }
+                    ],
+                    "textTabs": [
+                        {
+                            "documentId": "1", "font": "helvetica",
+                            "fontSize": "size14", "height": 23, 
+                            "pageNumber": "1", "required": "false",
+                            "tabLabel": "text", "width": 84,
+                            "xPosition": "153", "yPosition": "230"
+                        },
+                        {
+                            "documentId": "1", "font": "helvetica",
+                            "fontSize": "size14", "height": 23,
+                            "pageNumber": "1", "required": "false",
+                            "tabLabel": "numbersOnly", "width": 84,
+                            "xPosition": "153", "yPosition": "260"
                         }
                     ]
                 }
             }
         ]
     },
-    "status": "sent"
+    "status": "created"
 }' >> $request_data
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes \
+     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/templates \
      --output $response
 
 echo ""
+echo "Results:"
 cat $response
 
 # pull out the envelopeId
-ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
-# Save the envelope id for use by other scripts
-echo ${ENVELOPE_ID} > ../ENVELOPE_ID
+TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | sed 's/\",.*//'`
+echo ""
+echo "Template '${template_name}' was created! Template ID ${TEMPLATE_ID}."
+# Save the template id for use by other scripts
+echo ${TEMPLATE_ID} > ../TEMPLATE_ID
 
 # cleanup
 rm "$request_data"
 rm "$response"
 rm "$doc1_base64"
-rm "$doc2_base64"
-rm "$doc3_base64"
 
 echo ""
 echo ""
