@@ -16,7 +16,8 @@ fi
 #  After it is signed, a copy is sent to the cc person.
 
 # temp files:
-request_data=$(mktemp /tmp/request.XXXXXX)
+request_data=$(mktemp /tmp/request-eg-002.XXXXXX)
+response=$(mktemp /tmp/response-eg-002.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-002-doc1.XXXXXX)
 doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
 doc3_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
@@ -105,10 +106,20 @@ printf \
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
+     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes \
+     --output $response
+
+echo ""
+cat $response
+
+# pull out the envelopeId
+ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
+# Save the envelope id for use by other scripts
+echo ${ENVELOPE_ID} > ../ENVELOPE_ID
 
 # cleanup
 rm "$request_data"
+rm "$response"
 rm "$doc1_base64"
 rm "$doc2_base64"
 rm "$doc3_base64"
