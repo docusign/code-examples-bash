@@ -20,6 +20,7 @@ envelope_id=`cat ../ENVELOPE_ID`
 
 doc_choice=1
 output_file_extension=pdf
+echo ""
 PS3='Select a document or document set to download: '
 options=("Documents combined together" "ZIP file" "Document 1" "Document 2" "Document 3")
 select opt in "${options[@]}"
@@ -27,19 +28,24 @@ do
     case $opt in
         "Documents combined together")
             doc_choice=combined
+            break
             ;;
         "ZIP file")
             doc_choice=archive
             output_file_extension=zip
+            break
             ;;
         "Document 1")
             doc_choice=1
+            break
             ;;
         "Document 2")
             doc_choice=2
+            break
             ;;
         "Document 3")
             doc_choice=3
+            break
             ;;
     esac
 done
