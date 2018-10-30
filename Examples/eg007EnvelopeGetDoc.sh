@@ -52,7 +52,6 @@ done
 
 echo ""
 echo "Sending the EnvelopeDocuments::get request to DocuSign..."
-echo "The document(s) are stored in file ${output_file}${output_file_extension}"
 echo ""
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
@@ -61,6 +60,7 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --output ${output_file}${output_file_extension}
 
 echo ""
+echo "The document(s) are stored in file ${output_file}${output_file_extension}"
 echo ""
 echo "Done."
 echo ""
