@@ -5,8 +5,6 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-source ../Env.txt
-
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
@@ -109,15 +107,6 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --data-binary @${request_data} \
      --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
 
-
-#echo ""
-#echo ""
-#echo "Files"
-#echo "$request_data"
-#echo "$doc1_base64"
-#echo "$doc2_base64"
-#echo "$doc3_base64"
-
 # cleanup
 rm "$request_data"
 rm "$doc1_base64"
@@ -128,5 +117,4 @@ echo ""
 echo ""
 echo "Done."
 echo ""
-
 

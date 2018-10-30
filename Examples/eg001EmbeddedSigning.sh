@@ -5,8 +5,6 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-source ../Env.txt
-
 #
 # Step 1. Create the envelope.
 #         The signer recipient includes a clientUserId setting
