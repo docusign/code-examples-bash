@@ -8,6 +8,9 @@ if [[ $SHELL != *"bash"* ]]; then
 fi
 
 # Step 1. List the account's templates
+echo ""
+echo "Checking to see if the template already exists in your account..."
+echo ""
 template_name="Example Signer and CC template"
 response=$(mktemp /tmp/response-eg-008.XXXXXX)
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
