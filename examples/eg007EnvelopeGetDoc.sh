@@ -24,10 +24,14 @@ doc_choice=1
 output_file_extension=pdf
 echo ""
 PS3='Select a document or document set to download: '
-options=("Documents combined together" "ZIP file" "Document 1" "Document 2" "Document 3")
+options=("Document 1" "Document 2" "Document 3" "Certificate of Completion" "Documents combined together" "ZIP file" )
 select opt in "${options[@]}"
 do
     case $opt in
+        "Certificate of Completion")
+            doc_choice=certificate
+            break
+            ;;
         "Documents combined together")
             doc_choice=combined
             break

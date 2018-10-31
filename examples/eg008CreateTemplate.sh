@@ -30,7 +30,7 @@ if [ "${TEMPLATE_ID}" != "" ]; then
     echo ${TEMPLATE_ID} > ../TEMPLATE_ID
     rm "$response"
     echo ""
-    echo "Done"
+    echo "Done."
     echo ""
     exit 0
 fi
@@ -60,9 +60,8 @@ printf \
     "documents": [
         {
             "documentBase64": "' > $request_data
-cat $doc1_base64 >> $request_data
-printf \
-'",
+            cat $doc1_base64 >> $request_data
+            printf '",
             "documentId": "1", "fileExtension": "pdf",
             "name": "Lorem Ipsum"
         }
