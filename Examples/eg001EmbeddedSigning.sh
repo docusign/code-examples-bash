@@ -16,7 +16,7 @@ fi
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
 
-base_path="https://demo.docusign.com/restapi"
+base_path="https://demo.docusign.net/restapi"
 # temp files:
 request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
 response=$(mktemp /tmp/response-eg-001.XXXXXX)

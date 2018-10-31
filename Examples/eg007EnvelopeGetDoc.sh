@@ -9,7 +9,7 @@ output_file="envelope_document."
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
-base_path="https://demo.docusign.com/restapi"
+base_path="https://demo.docusign.net/restapi"
 
 # Check that we have an envelope id
 if [ ! -f ../envelope_id ]; then

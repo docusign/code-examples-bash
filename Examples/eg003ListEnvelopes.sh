@@ -5,7 +5,7 @@
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
-base_path="https://demo.docusign.com/restapi"
+base_path="https://demo.docusign.net/restapi"
 
 echo ""
 echo "Sending the list envelope status request to DocuSign..."
