@@ -31,7 +31,7 @@ echo "Results:"
 echo ""
 
 # Step 1. Make the JSON part of the final request body
-json="
+json='
 {
     "emailSubject": "Please sign this document set",
     "documents": [
@@ -83,8 +83,7 @@ json="
         ]
     },
     "status": "sent"
-}
-"
+}'
 
 # Step 2. Assemble the multipart body
 CRLF="\r\n"
