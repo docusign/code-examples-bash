@@ -5,6 +5,7 @@
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+base_path="https://demo.docusign.com/restapi"
 
 echo ""
 echo "Sending the list envelope status request to DocuSign..."
@@ -22,7 +23,7 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "from_date=${from_date}" \
-     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes
+     --request GET ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes
 
 echo ""
 echo ""

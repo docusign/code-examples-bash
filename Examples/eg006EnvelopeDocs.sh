@@ -1,22 +1,22 @@
 # List the envelope's documents
-# This script uses the envelope_id stored in ../ENVELOPE_ID.
-# The ENVELOPE_ID file is created by example eg002SigningViaEmail.sh or
+# This script uses the envelope_id stored in ../envelope_id.
+# The envelope_id file is created by example eg002SigningViaEmail.sh or
 # can be manually created.
-
 
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+base_path="https://demo.docusign.com/restapi"
 
 # Check that we have an envelope id
-if [ ! -f ../ENVELOPE_ID ]; then
+if [ ! -f ../envelope_id ]; then
     echo ""
     echo "PROBLEM: An envelope id is needed. Fix: execute script eg002SigningViaEmail.sh"
     echo ""
     exit -1
 fi
-envelope_id=`cat ../ENVELOPE_ID`
+envelope_id=`cat ../envelope_id`
 
 echo ""
 echo "Sending the EnvelopeDocuments::list request to DocuSign..."
@@ -25,7 +25,7 @@ echo ""
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
-     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes/${envelope_id}/documents
+     --request GET ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes/${envelope_id}/documents
 
 echo ""
 echo ""

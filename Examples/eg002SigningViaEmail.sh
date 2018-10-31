@@ -4,6 +4,7 @@
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+base_path="https://demo.docusign.com/restapi"
 
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
@@ -106,16 +107,16 @@ printf \
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes \
+     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes \
      --output $response
 
 echo ""
 cat $response
 
 # pull out the envelopeId
-ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
 # Save the envelope id for use by other scripts
-echo ${ENVELOPE_ID} > ../ENVELOPE_ID
+echo ${envelope_id} > ../ENVELOPE_ID
 
 # cleanup
 rm "$request_data"

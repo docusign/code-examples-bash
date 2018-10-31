@@ -16,6 +16,7 @@ fi
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
 
+base_path="https://demo.docusign.com/restapi"
 # temp files:
 request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
 response=$(mktemp /tmp/response-eg-001.XXXXXX)
@@ -33,9 +34,8 @@ printf \
     "documents": [
         {
             "documentBase64": "' > $request_data
-cat $doc1_base64 >> $request_data
-printf \
-'",
+            cat $doc1_base64 >> $request_data
+            printf '",
             "name": "Lorem Ipsum",
             "fileExtension": "pdf",
             "documentId": "1"
@@ -76,7 +76,7 @@ printf \
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes \
+     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes \
      --output ${response}
 
 echo ""
@@ -85,8 +85,8 @@ cat $response
 echo ""
 
 # pull out the envelopeId
-ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
-echo "EnvelopeId: ${ENVELOPE_ID}"
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",.*//'`
+echo "EnvelopeId: ${envelope_id}"
 
 # Step 2. Create a recipient view (a signing ceremony view)
 #         that the signer will directly open in their browser to sign.
@@ -108,7 +108,7 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
     "userName": "{USER_FULLNAME}",
     "clientUserId": 1000,
 }' \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/envelopes/${ENVELOPE_ID}/views/recipient \
+     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes/${envelope_id}/views/recipient \
      --output ${response}
 
 echo ""
@@ -116,15 +116,15 @@ echo "Response:"
 cat $response
 echo ""
 
-SIGNING_CEREMONY_URL=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\"//' | tr -d '\r'`
+signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
 echo ""
 echo "Attempting to automatically open your browser to the signing ceremony url..."
 if which open > /dev/null 2>/dev/null
 then
-  open "$SIGNING_CEREMONY_URL"
+  open "$signing_ceremony_url"
 elif which start > /dev/null
 then
-  start "$SIGNING_CEREMONY_URL"
+  start "$signing_ceremony_url"
 fi
 
 # cleanup

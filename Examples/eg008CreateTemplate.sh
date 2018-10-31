@@ -6,6 +6,7 @@
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+base_path="https://demo.docusign.com/restapi"
 
 # Step 1. List the account's templates
 echo ""
@@ -17,7 +18,7 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "search_text=${template_name}" \
-     --request GET https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/templates \
+     --request GET ${base_path}/v2/accounts/{ACCOUNT_ID}/templates \
      --output $response
 
 # pull out the templateId if it was returned
@@ -174,7 +175,7 @@ printf \
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST https://demo.docusign.net/restapi/v2/accounts/{ACCOUNT_ID}/templates \
+     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/templates \
      --output $response
 
 echo ""
