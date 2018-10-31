@@ -91,7 +91,7 @@ boundary="multipartboundary_multipartboundary"
 # it is not easy to printf hyphens. See https://unix.stackexchange.com/q/22764/149244
 hyphens_cmd='printf "--" --' 
 
-eval hyphens_cmd > $request_data
+eval "$hyphens_cmd" > $request_data
 printf "${boundary}" >> $request_data
 printf "${CRLF}Content-Type: application/json" >> $request_data
 printf "${CRLF}Content-Disposition: form-data" >> $request_data
@@ -102,7 +102,7 @@ printf "${CRLF}${json}" >> $request_data
 # filename, and documentId. The filename and documentId must match
 # the document's info in the JSON.
 printf "${CRLF}"     >> $request_data
-eval hyphens_cmd     >> $request_data
+eval "$hyphens_cmd"     >> $request_data
 printf "${boundary}" >> $request_data
 printf "${CRLF}Content-Type: text/html"  >> $request_data
 printf "${CRLF}Content-Disposition: file; filename=\"Order acknowledgement\";documentid=1" >> $request_data
@@ -111,7 +111,7 @@ printf "${CRLF}" >> $request_data
 cat "$doc1_path" >> $request_data
 
 printf "${CRLF}"     >> $request_data
-eval hyphens_cmd     >> $request_data
+eval "$hyphens_cmd"     >> $request_data
 printf "${boundary}" >> $request_data
 printf "${CRLF}Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document"  >> $request_data
 printf "${CRLF}Content-Disposition: file; filename=\"Battle Plan\";documentid=2" >> $request_data
@@ -120,7 +120,7 @@ printf "${CRLF}" >> $request_data
 cat "$doc2_path" >> $request_data
 
 printf "${CRLF}"     >> $request_data
-eval hyphens_cmd     >> $request_data
+eval "$hyphens_cmd"     >> $request_data
 printf "${boundary}" >> $request_data
 printf "${CRLF}Content-Type: application/pdf"  >> $request_data
 printf "${CRLF}Content-Disposition: file; filename=\"Lorem Ipsum\";documentid=3" >> $request_data
@@ -130,9 +130,9 @@ cat "$doc3_path" >> $request_data
 
 # Add closing boundary
 printf "${CRLF}"     >> $request_data
-eval hyphens_cmd     >> $request_data
+eval "$hyphens_cmd"     >> $request_data
 printf "${boundary}" >> $request_data
-eval hyphens_cmd     >> $request_data
+eval "$hyphens_cmd"     >> $request_data
 printf "${CRLF}"     >> $request_data
 
 curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
