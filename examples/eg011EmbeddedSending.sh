@@ -46,6 +46,9 @@ done
 #  The envelope has two recipients.
 #  recipient 1 - signer
 #  recipient 2 - cc
+#
+#  The envelope is created with "created" (draft) status.
+# 
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
 
@@ -131,7 +134,7 @@ printf \
             }
         ]
     },
-    "status": "draft"
+    "status": "created"
 }' >> $request_data
 
 curl --header "Authorization: Bearer ${access_token}" \
@@ -165,7 +168,7 @@ sending_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed '
 # Next, we update the returned url if we want to start with the Recipient
 # and Documents view
 if [ "$starting_view" = "recipient" ]; then
-   sending_ceremony_url=`printf "${sending_ceremony/send=1/send=0}"`
+   sending_ceremony_url=`printf "${sending_ceremony_url/send=1/send=0}"`
 fi
 
 echo ""
