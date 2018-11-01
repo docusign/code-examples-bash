@@ -1,11 +1,4 @@
-# List envelopes and their status
-# List changes for the last 10 days
-
-# Check that we're in a bash shell
-if [[ $SHELL != *"bash"* ]]; then
-  echo "PROBLEM: Run these scripts from within the bash shell."
-fi
-base_path="https://demo.docusign.net/restapi"
+# Redirect to the DocuSign console web tool
 
 # Configuration
 # 1. Obtain an OAuth access token from 
@@ -16,30 +9,74 @@ access_token='{ACCESS_TOKEN}'
 #    the default picture. 
 account_id='{ACCOUNT_ID}'
 
-echo ""
-echo "Sending the list envelope status request to DocuSign..."
-echo "Results:"
-echo ""
-
-# Calculate the from_date query parameter and use the ISO 8601 format.
-# Example:
-# from_date=2018-09-30T07:43:12+03:00
-# For a Mac, 10 days in the past:
-if date -v -10d &> /dev/null ; then
-    # Mac
-    from_date=`date -v -10d '+%Y-%m-%dT%H:%M:%S%z'`
-else
-    # Not a Mac
-    from_date=`date --date='-10 days' '+%Y-%m-%dT%H:%M:%S%z'`
+# Check that we're in a bash shell
+if [[ $SHELL != *"bash"* ]]; then
+  echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+base_path="https://demo.docusign.net/restapi"
 
+# Check that we have an envelope id
+if [ ! -f ../ENVELOPE_ID ]; then
+    echo ""
+    echo "PROBLEM: An envelope id is needed. Fix: execute script eg002SigningViaEmail.sh"
+    echo ""
+    exit -1
+fi
+envelope_id=`cat ../ENVELOPE_ID`
+
+# The returnUrl is normally your own web app. DocuSign will redirect
+# the signer to returnUrl when the signing ceremony completes.
+# For this example, we'll use http://httpbin.org/get to show the 
+# query parameters passed back from DocuSign
+
+# The web tool console can be opened in either of two views:
+echo ""
+PS3='Select the console view: '
+options=("Front page" "Envelope view")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Front page")
+            json='{"returnUrl": "http://httpbin.org/get"}'
+            break
+            ;;
+        "Envelope view")
+            json="{\"returnUrl\": \"http://httpbin.org/get\",
+                   \"envelopeId\": \"${envelope_id}\"}"
+            break
+            ;;
+    esac
+done
+
+echo ""
+echo "Requesting the console view url"
+echo ""
+
+response=$(mktemp /tmp/response-eg-012.XXXXXX)
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
-     --get \
-     --data-urlencode "from_date=${from_date}" \
-     --request GET ${base_path}/v2/accounts/${account_id}/envelopes
+     --data-binary "${json}" \
+     --request POST ${base_path}/v2/accounts/${account_id}/views/console
 
 echo ""
+echo "Results:"
+echo ""
+cat $response
+console_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
+echo ""
+printf "The console URL is ${console_url}\n"
+printf "It is only valid for a couple of minutes. Attempting to automatically open your browser...\n"
+if which xdg-open &> /dev/null  ; then
+  xdg-open "$console_url"
+elif which open &> /dev/null    ; then
+  open "$console_url"
+elif which start &> /dev/null   ; then
+  start "$console_url"
+fi
+
+# cleanup
+rm "$response"
+
 echo ""
 echo "Done."
 echo ""
