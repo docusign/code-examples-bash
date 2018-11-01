@@ -53,11 +53,11 @@ done
 #  After it is signed, a copy is sent to the cc person.
 
 # temp files:
-request_data=$(mktemp /tmp/request-eg-002.XXXXXX)
-response=$(mktemp /tmp/response-eg-002.XXXXXX)
-doc1_base64=$(mktemp /tmp/eg-002-doc1.XXXXXX)
-doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
-doc3_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
+request_data=$(mktemp /tmp/request-eg-011.XXXXXX)
+response=$(mktemp /tmp/response-eg-011.XXXXXX)
+doc1_base64=$(mktemp /tmp/eg-011-doc1.XXXXXX)
+doc2_base64=$(mktemp /tmp/eg-011-doc2.XXXXXX)
+doc3_base64=$(mktemp /tmp/eg-011-doc3.XXXXXX)
 
 # Fetch docs and encode
 cat ../demo_documents/doc_1.html | base64 > $doc1_base64
@@ -80,53 +80,44 @@ printf \
             cat $doc1_base64 >> $request_data
             printf '",
             "name": "Order acknowledgement",
-            "fileExtension": "html",
-            "documentId": "1"
+            "fileExtension": "html", "documentId": "1"
         },
         {
             "documentBase64": "' >> $request_data
             cat $doc2_base64 >> $request_data
             printf '",
             "name": "Battle Plan",
-            "fileExtension": "docx",
-            "documentId": "2"
+            "fileExtension": "docx", "documentId": "2"
         },
         {
             "documentBase64": "' >> $request_data
             cat $doc3_base64 >> $request_data
             printf '",
             "name": "Lorem Ipsum",
-            "fileExtension": "pdf",
-            "documentId": "3"
+            "fileExtension": "pdf", "documentId": "3"
         }
     ],
     "recipients": {
         "carbonCopies": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "Charles Copy",
-                "recipientId": "2",
-                "routingOrder": "2"
+                "email": "{USER_EMAIL}", "name": "Charles Copy",
+                "recipientId": "2", "routingOrder": "2"
             }
         ],
         "signers": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "{USER_FULLNAME}",
-                "recipientId": "1",
-                "routingOrder": "1",
+                "email": "{USER_EMAIL}", "name": "{USER_FULLNAME}",
+                "recipientId": "1", "routingOrder": "1",
                 "tabs": {
                     "signHereTabs": [
                         {
                             "anchorString": "**signature_1**",
-                            "anchorUnits": "pixels",
-                            "anchorXOffset": "20",
+                            "anchorUnits": "pixels", "anchorXOffset": "20",
                             "anchorYOffset": "10"
                         },
                         {
                             "anchorString": "/sn1/",
-                            "anchorUnits": "pixels",
-                            "anchorXOffset": "20",
+                            "anchorUnits": "pixels", "anchorXOffset": "20",
                             "anchorYOffset": "10"
                         }
                     ]
