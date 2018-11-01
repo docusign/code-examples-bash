@@ -129,14 +129,14 @@ echo ""
 
 signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
 echo ""
-printf "The signing ceremony URL is ${signingCeremonyUrl}\n"
+printf "The signing ceremony URL is ${signing_ceremony_url}\n"
 printf "It is only valid for a couple of minutes. Attempting to automatically open your browser...\n"
 if which xdg-open &> /dev/null  ; then
-  xdg-open "$signingCeremonyUrl"
+  xdg-open "$signing_ceremony_url"
 elif which open &> /dev/null    ; then
-  open "$signingCeremonyUrl"
+  open "$signing_ceremony_url"
 elif which start &> /dev/null   ; then
-  start "$signingCeremonyUrl"
+  start "$signing_ceremony_url"
 fi
 
 # cleanup
