@@ -6,6 +6,17 @@ if [[ $SHELL != *"bash"* ]]; then
 fi
 base_path="https://demo.docusign.net/restapi"
 
+# Configuration
+# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
+#    They occur and re-occur multiple times below.
+# 2. Obtain an OAuth access token from 
+#    https://developers.hqtest.tst/oauth-token-generator
+access_token='{ACCESS_TOKEN}'
+# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or 
+#    the default picture. 
+account_id='{ACCOUNT_ID}'
+
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
@@ -41,27 +52,24 @@ printf \
     "documents": [
         {
             "documentBase64": "' > $request_data
-cat $doc1_base64 >> $request_data
-printf \
-'",
+            cat $doc1_base64 >> $request_data
+            printf '",
             "name": "Order acknowledgement",
             "fileExtension": "html",
             "documentId": "1"
         },
         {
             "documentBase64": "' >> $request_data
-cat $doc2_base64 >> $request_data
-printf \
-'",
+            cat $doc2_base64 >> $request_data
+            printf '",
             "name": "Battle Plan",
             "fileExtension": "docx",
             "documentId": "2"
         },
         {
             "documentBase64": "' >> $request_data
-cat $doc3_base64 >> $request_data
-printf \
-'",
+            cat $doc3_base64 >> $request_data
+            printf '",
             "name": "Lorem Ipsum",
             "fileExtension": "pdf",
             "documentId": "3"
@@ -104,17 +112,17 @@ printf \
     "status": "sent"
 }' >> $request_data
 
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes \
+     --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
      --output $response
 
 echo ""
 cat $response
 
 # pull out the envelopeId
-envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",//' | tr -d '\r'`
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",.*//'`
 # Save the envelope id for use by other scripts
 echo ${envelope_id} > ../ENVELOPE_ID
 

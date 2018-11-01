@@ -1,7 +1,16 @@
 # Create a template. First, the account's templates are listed.
 # If one of the templates is named "Example Signer and CC template"
 # then the template will not be created.
-#
+
+# Configuration
+# 1. Obtain an OAuth access token from 
+#    https://developers.hqtest.tst/oauth-token-generator
+access_token='{ACCESS_TOKEN}'
+# 2. Obtain your accountId from demo.docusign.com -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or 
+#    the default picture. 
+account_id='{ACCOUNT_ID}'
+
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
@@ -14,11 +23,11 @@ echo "Checking to see if the template already exists in your account..."
 echo ""
 template_name="Example Signer and CC template"
 response=$(mktemp /tmp/response-eg-008.XXXXXX)
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "search_text=${template_name}" \
-     --request GET ${base_path}/v2/accounts/{ACCOUNT_ID}/templates \
+     --request GET ${base_path}/v2/accounts/${account_id}/templates \
      --output $response
 
 # pull out the templateId if it was returned
@@ -27,7 +36,7 @@ if [ "${TEMPLATE_ID}" != "" ]; then
     echo ""
     echo "Your account already includes the '${template_name}' template."
     # Save the template id for use by other scripts
-    echo ${TEMPLATE_ID} > ../TEMPLATE_ID
+    echo "${TEMPLATE_ID}" > ../TEMPLATE_ID
     rm "$response"
     echo ""
     echo "Done."
@@ -171,10 +180,10 @@ printf \
     "status": "created"
 }' >> $request_data
 
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/templates \
+     --request POST ${base_path}/v2/accounts/${account_id}/templates \
      --output $response
 
 echo ""

@@ -1,5 +1,16 @@
 # Send an envelope with three documents using multipart transfer
-#
+
+# Configuration
+# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
+#    They occur and re-occur multiple times below.
+# 2. Obtain an OAuth access token from 
+#    https://developers.hqtest.tst/oauth-token-generator
+access_token='{ACCESS_TOKEN}'
+# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or 
+#    the default picture. 
+account_id='{ACCOUNT_ID}'
+
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
@@ -102,7 +113,7 @@ printf "${CRLF}${json}" >> $request_data
 # filename, and documentId. The filename and documentId must match
 # the document's info in the JSON.
 printf "${CRLF}"     >> $request_data
-eval "$hyphens_cmd"     >> $request_data
+eval "$hyphens_cmd"  >> $request_data
 printf "${boundary}" >> $request_data
 printf "${CRLF}Content-Type: text/html"  >> $request_data
 printf "${CRLF}Content-Disposition: file; filename=\"Order acknowledgement\";documentid=1" >> $request_data
@@ -111,7 +122,7 @@ printf "${CRLF}" >> $request_data
 cat "$doc1_path" >> $request_data
 
 printf "${CRLF}"     >> $request_data
-eval "$hyphens_cmd"     >> $request_data
+eval "$hyphens_cmd"  >> $request_data
 printf "${boundary}" >> $request_data
 printf "${CRLF}Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document"  >> $request_data
 printf "${CRLF}Content-Disposition: file; filename=\"Battle Plan\";documentid=2" >> $request_data
@@ -120,7 +131,7 @@ printf "${CRLF}" >> $request_data
 cat "$doc2_path" >> $request_data
 
 printf "${CRLF}"     >> $request_data
-eval "$hyphens_cmd"     >> $request_data
+eval "$hyphens_cmd"  >> $request_data
 printf "${boundary}" >> $request_data
 printf "${CRLF}Content-Type: application/pdf"  >> $request_data
 printf "${CRLF}Content-Disposition: file; filename=\"Lorem Ipsum\";documentid=3" >> $request_data
@@ -130,15 +141,15 @@ cat "$doc3_path" >> $request_data
 
 # Add closing boundary
 printf "${CRLF}"     >> $request_data
-eval "$hyphens_cmd"     >> $request_data
+eval "$hyphens_cmd"  >> $request_data
 printf "${boundary}" >> $request_data
-eval "$hyphens_cmd"     >> $request_data
+eval "$hyphens_cmd"  >> $request_data
 printf "${CRLF}"     >> $request_data
 
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: multipart/form-data; boundary=${boundary}" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes \
+     --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
      --output $response
 
 echo ""

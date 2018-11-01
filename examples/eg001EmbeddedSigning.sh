@@ -5,6 +5,17 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+# Configuration
+# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
+#    They occur and re-occur multiple times below.
+# 2. Obtain an OAuth access token from 
+#    https://developers.hqtest.tst/oauth-token-generator
+access_token='{ACCESS_TOKEN}'
+# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or 
+#    the default picture. 
+account_id='{ACCOUNT_ID}'
+
 #
 # Step 1. Create the envelope.
 #         The signer recipient includes a clientUserId setting
@@ -73,10 +84,10 @@ printf \
     "status": "sent"
 }' >> $request_data
 
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes \
+     --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
      --output ${response}
 
 echo ""
@@ -98,7 +109,7 @@ echo "EnvelopeId: ${envelope_id}"
 
 echo ""
 echo "Requesting the url for the signing ceremony..."
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary '
 {
@@ -108,7 +119,7 @@ curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
     "userName": "{USER_FULLNAME}",
     "clientUserId": 1000,
 }' \
-     --request POST ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes/${envelope_id}/views/recipient \
+     --request POST ${base_path}/v2/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
      --output ${response}
 
 echo ""
@@ -118,13 +129,14 @@ echo ""
 
 signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
 echo ""
-echo "Attempting to automatically open your browser to the signing ceremony url..."
-if which open > /dev/null 2>/dev/null
-then
-  open "$signing_ceremony_url"
-elif which start > /dev/null
-then
-  start "$signing_ceremony_url"
+printf "The signing ceremony URL is ${signingCeremonyUrl}\n"
+printf "It is only valid for a couple of minutes. Attempting to automatically open your browser...\n"
+if which xdg-open &> /dev/null  ; then
+  xdg-open "$signingCeremonyUrl"
+elif which open &> /dev/null    ; then
+  open "$signingCeremonyUrl"
+elif which start &> /dev/null   ; then
+  start "$signingCeremonyUrl"
 fi
 
 # cleanup

@@ -3,6 +3,14 @@
 # The envelope_id file is created by example eg002SigningViaEmail.sh or
 # can be manually created.
 
+# Configuration
+# 1. Obtain an OAuth access token from 
+#    https://developers.hqtest.tst/oauth-token-generator
+access_token='{ACCESS_TOKEN}'
+# 2. Obtain your accountId from demo.docusign.com -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or 
+#    the default picture. 
+account_id='{ACCOUNT_ID}'
 
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -24,9 +32,9 @@ echo "Sending the Envelopes::get request to DocuSign..."
 echo "Results:"
 echo ""
 
-curl --header "Authorization: Bearer {ACCESS_TOKEN}" \
+curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
-     --request GET ${base_path}/v2/accounts/{ACCOUNT_ID}/envelopes/${envelope_id}
+     --request GET ${base_path}/v2/accounts/${account_id}/envelopes/${envelope_id}
 
 echo ""
 echo ""
