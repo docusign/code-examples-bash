@@ -1,53 +1,53 @@
-# API Authorization Code Grant Examples with Curl
+# API code examples with Curl
 
 ### Github repo: eg-03-curl
 ## Introduction
-This repo includes bash scripts that use curl to demonstrate":
+This repo includes bash scripts that use curl to demonstrate:
 
 1. **Embedded Signing Ceremony.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg001EmbeddedSigning.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg001EmbeddedSigning.sh)
    This example sends an envelope, and then uses an embedded signing ceremony for the first signer.
    With embedded signing, the DocuSign signing ceremony is initiated from your website.
 1. **Send an envelope with a remote (email) signer and cc recipient.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg002SigningViaEmail.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg002SigningViaEmail.sh)
    The envelope includes a pdf, Word, and HTML document.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
 1. **List envelopes in the user's account.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg003ListEnvelopes.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg003ListEnvelopes.sh)
 1. **Get an envelope's basic information.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg004EnvelopeInfo.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg004EnvelopeInfo.sh)
    The example lists the basic information about an envelope, including its overall status.
 1. **List an envelope's recipients** 
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg005EnvelopeRecipients.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg005EnvelopeRecipients.sh)
    Includes current recipient status.
 1. **List an envelope's documents.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg006EnvelopeDocs.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg006EnvelopeDocs.sh)
 1. **Download an envelope's documents.** 
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg007EnvelopeGetDoc.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg007EnvelopeGetDoc.sh)
    The example can download individual
    documents, the documents concatenated together, or a zip file of the documents.
 1. **Programmatically create a template.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg008CreateTemplate.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg008CreateTemplate.sh)
 1. **Send an envelope using a template.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg009UseTemplate.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg009UseTemplate.sh)
 1. **Send an envelope and upload its documents with multpart binary transfer.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg010SendBinaryDocs.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg010SendBinaryDocs.sh)
    Binary transfer is 33% more efficient than using Base64 encoding.
 1. **Embedded sending.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg011EmbeddedSending.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg011EmbeddedSending.sh)
    Embeds the DocuSign web tool (NDSE) in your web app to finalize or update 
    the envelope and documents before they are sent.
 1. **Embedded DocuSign web tool (NDSE).**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg012EmbeddedConsole.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg012EmbeddedConsole.sh)
 1. **Embedded Signing Ceremony from a template with an added document.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg013AddDocToTemplate.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg013AddDocToTemplate.sh)
    This example sends an envelope based on a template.
    In addition to the template's document(s), the example adds an
    additional document to the envelope by using the
    [Composite Templates](https://developers.docusign.com/esign-rest-api/guides/features/templates#composite-templates)
    feature.
 1. **Payments example: an order form, with online payment by credit card.**
-   [Source.](https://github.com/docusign/eg-03-node-auth-code-grant/blob/master/lib/examples/eg014CollectPayment.js)
+   [Source.](https://github.com/LarryKlugerDS/eg-03-curl/blob/master/examples/eg014CollectPayment.sh)
 
 ## Installation
 
