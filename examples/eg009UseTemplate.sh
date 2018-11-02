@@ -37,7 +37,7 @@ curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary \
 "{
-    \"templateId\": \"8daaae89-e16d-47b8-929a-d6b8b59e1ba8\",
+    \"templateId\": \"${template_id}\",
     \"templateRoles\": [
         {
             \"email\": \"{USER_EMAIL}\",
