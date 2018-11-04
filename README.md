@@ -76,7 +76,7 @@ file:
 ### Payments code example
 To use the payments code example, first create a test payments gatway in your account.
 Follow the instructions in the
-[PAYMENTS_INSTALLATION.md](ss)
+[PAYMENTS_INSTALLATION.md](https://github.com/docusign/eg-03-curl/blob/master/PAYMENTS_INSTALLATION.md)
 file.
 
 Then add the payment gateway id to the code example file.

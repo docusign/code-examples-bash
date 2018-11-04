@@ -11,7 +11,7 @@ gateway service.
 1. For development, you can skip the Stripe account application
    by using the `Skip this account form` link:
 
-   ![Skipping the Stripe account form](docs/stripe_skip_account_form_link.png)
+   ![Skipping the Stripe account form](documentation/stripe_skip_account_form_link.png)
 1. Next, your browser will show that an enabled Stripe
    payment gateway account has been associated with your
    DocuSign demo sandbox account.
