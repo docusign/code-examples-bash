@@ -73,6 +73,14 @@ file:
  * **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
    email client.
 
+### Payments code example
+To use the payments code example, first create a test payments gatway in your account.
+Follow the instructions in the
+[PAYMENTS_INSTALLATION.md](ss)
+file.
+
+Then add the payment gateway id to the code example file.
+
 ## Run the examples
 
 Use the bash shell to run the examples. 
