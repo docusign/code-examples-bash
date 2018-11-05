@@ -30,7 +30,7 @@ This repo includes bash scripts that use curl to demonstrate:
    [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg008CreateTemplate.sh)
 1. **Send an envelope using a template.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg009UseTemplate.sh)
-1. **Send an envelope and upload its documents with multpart binary transfer.**
+1. **Send an envelope and upload its documents with multipart binary transfer.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg010SendBinaryDocs.sh)
    Binary transfer is 33% more efficient than using Base64 encoding.
 1. **Embedded sending.**
