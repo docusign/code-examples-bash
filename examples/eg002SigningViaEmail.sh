@@ -17,6 +17,7 @@ access_token='{ACCESS_TOKEN}'
 #    the default picture. 
 account_id='{ACCOUNT_ID}'
 
+# ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
@@ -123,6 +124,7 @@ cat $response
 
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",.*//'`
+# ***DS.snippet.0.end
 # Save the envelope id for use by other scripts
 echo ${envelope_id} > ../ENVELOPE_ID
 

@@ -24,7 +24,7 @@ if [ ! -f ../TEMPLATE_ID ]; then
 fi
 template_id=`cat ../TEMPLATE_ID`
 
-#
+# ***DS.snippet.0.start
 # Step 1. Create the envelope request.
 base_path="https://demo.docusign.net/restapi"
 # temp files:
@@ -54,6 +54,7 @@ curl --header "Authorization: Bearer ${access_token}" \
 }" \
      --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
      --output ${response}
+# ***DS.snippet.0.end
 
 echo ""
 echo "Response:"

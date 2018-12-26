@@ -17,6 +17,7 @@ if [[ $SHELL != *"bash"* ]]; then
 fi
 base_path="https://demo.docusign.net/restapi"
 
+# ***DS.snippet.0.start
 # Step 1. List the account's templates
 echo ""
 echo "Checking to see if the template already exists in your account..."
@@ -192,6 +193,7 @@ cat $response
 
 # pull out the template id
 TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | sed 's/\",.*//'`
+# ***DS.snippet.0.end
 echo ""
 echo "Template '${template_name}' was created! Template ID ${TEMPLATE_ID}."
 # Save the template id for use by other scripts

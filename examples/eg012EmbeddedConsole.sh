@@ -53,6 +53,7 @@ echo "Requesting the console view url"
 echo ""
 
 response=$(mktemp /tmp/response-eg-012.XXXXXX)
+# ***DS.snippet.0.start
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary "${json}" \
@@ -64,6 +65,7 @@ echo "Results:"
 echo ""
 cat $response
 console_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
+# ***DS.snippet.0.end
 echo ""
 printf "The console URL is ${console_url}\n"
 printf "It is only valid for a couple of minutes. Attempting to automatically open your browser...\n"

@@ -38,6 +38,7 @@ do
     esac
 done
 
+# ***DS.snippet.0.start
 # Create the document request body
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
@@ -161,6 +162,7 @@ sending_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed '
 if [ "$starting_view" = "recipient" ]; then
    sending_ceremony_url=`printf "${sending_ceremony_url/send=1/send=0}"`
 fi
+# ***DS.snippet.0.end
 
 echo ""
 printf "The sending ceremony URL is ${sending_ceremony_url}\n"

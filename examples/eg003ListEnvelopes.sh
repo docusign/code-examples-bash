@@ -21,6 +21,7 @@ echo "Sending the list envelope status request to DocuSign..."
 echo "Results:"
 echo ""
 
+# ***DS.snippet.0.start
 # Calculate the from_date query parameter and use the ISO 8601 format.
 # Example:
 # from_date=2018-09-30T07:43:12+03:00
@@ -38,6 +39,7 @@ curl --header "Authorization: Bearer ${access_token}" \
      --get \
      --data-urlencode "from_date=${from_date}" \
      --request GET ${base_path}/v2/accounts/${account_id}/envelopes
+# ***DS.snippet.0.end
 
 echo ""
 echo ""

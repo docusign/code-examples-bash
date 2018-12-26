@@ -69,10 +69,12 @@ echo ""
 echo "Sending the EnvelopeDocuments::get request to DocuSign..."
 echo ""
 
+# ***DS.snippet.0.start
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --request GET ${base_path}/v2/accounts/${account_id}/envelopes/${envelope_id}/documents/${doc_choice} \
      --output ${output_file}${output_file_extension}
+# ***DS.snippet.0.end
 
 echo ""
 echo "The document(s) are stored in file ${output_file}${output_file_extension}"

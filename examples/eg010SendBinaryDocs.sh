@@ -17,6 +17,7 @@ if [[ $SHELL != *"bash"* ]]; then
 fi
 base_path="https://demo.docusign.net/restapi"
 
+# ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
@@ -151,6 +152,7 @@ curl --header "Authorization: Bearer ${access_token}" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
      --output $response
+# ***DS.snippet.0.end
 
 echo ""
 cat $response

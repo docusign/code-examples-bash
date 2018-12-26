@@ -25,6 +25,7 @@ request_data=$(mktemp /tmp/request-eg-014.XXXXXX)
 response=$(mktemp /tmp/response-eg-014.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-014-doc1.XXXXXX)
 
+# ***DS.snippet.0.start
 # Fetch doc and encode
 cat ../demo_documents/order_form.html | base64 > $doc1_base64
 
@@ -169,6 +170,7 @@ curl --header "Authorization: Bearer ${access_token}" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
      --output $response
+# ***DS.snippet.0.end
 
 echo ""
 echo "Results:"

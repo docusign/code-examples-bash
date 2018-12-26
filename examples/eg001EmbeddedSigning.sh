@@ -16,7 +16,7 @@ access_token='{ACCESS_TOKEN}'
 #    the default picture. 
 account_id='{ACCOUNT_ID}'
 
-#
+# ***DS.snippet.0.start
 # Step 1. Create the envelope.
 #         The signer recipient includes a clientUserId setting
 #
@@ -128,6 +128,7 @@ cat $response
 echo ""
 
 signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
+# ***DS.snippet.0.end
 echo ""
 printf "The signing ceremony URL is ${signing_ceremony_url}\n"
 printf "It is only valid for a couple of minutes. Attempting to automatically open your browser...\n"
