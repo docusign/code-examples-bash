@@ -60,7 +60,7 @@ file:
 
  * **Access token:** Use the [OAuth Token Generator](https://developers.docusign.com/oauth-token-generator).
    To use the token generator, you'll need a
-   [free DocuSign Developer's account.](https://go.docusign.com/o/sandbox/)
+   [free DocuSign Developer's account.](https://go.docusign.com/sandbox/productshot/?elqCampaignId=16537)
 
    Each access token lasts 8 hours, you will need to repeat this process
    when the token expires. You can use the same access token for
