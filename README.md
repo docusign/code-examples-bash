@@ -47,7 +47,7 @@ This repo includes bash scripts that use curl to demonstrate:
    [Composite Templates](https://developers.docusign.com/esign-rest-api/guides/features/templates#composite-templates)
    feature.
 1. **Payments Example.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg014Payments.sh)
+   [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg014CollectPayment.sh)
    An order form, with online payment by credit card.
 1. **Get the envelope tab data.** (Coming Soon...)
 1. **Set envelope tab values.** (Coming Soon...)
@@ -124,7 +124,7 @@ bash eg010SendBinaryDocs.sh
 bash eg011EmbeddedSending.sh
 bash eg012EmbeddedConsole.sh
 bash eg013AddDocToTemplate.sh
-base eg014Payments.sh
+bash eg014CollectPayment.sh
 bash eg015GetEnvelopeTabData.sh (Coming Soon...)
 bash eg016SetEnvelopeTabValues.sh (Coming Soon...)
 bash eg017SetTemplateTabValues.sh (Coming Soon...)
