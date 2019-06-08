@@ -132,7 +132,7 @@ printf \
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
+     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output $response
 
 echo ""
@@ -151,7 +151,7 @@ echo "Requesting the sender view url"
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary "{\"returnUrl\": \"http://httpbin.org/get\"}" \
-     --request POST ${base_path}/v2/accounts/${account_id}/envelopes/${envelope_id}/views/sender \
+     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/sender \
      --output $response
 
 echo ""

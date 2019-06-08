@@ -38,7 +38,7 @@ curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "from_date=${from_date}" \
-     --request GET ${base_path}/v2/accounts/${account_id}/envelopes
+     --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes
 # ***DS.snippet.0.end
 
 echo ""

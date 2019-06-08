@@ -35,7 +35,7 @@ echo ""
 # ***DS.snippet.0.start
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
-     --request GET ${base_path}/v2/accounts/${account_id}/envelopes/${envelope_id}
+     --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}
 # ***DS.snippet.0.end
 
 echo ""

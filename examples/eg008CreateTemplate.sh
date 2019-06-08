@@ -28,7 +28,7 @@ curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "search_text=${template_name}" \
-     --request GET ${base_path}/v2/accounts/${account_id}/templates \
+     --request GET ${base_path}/v2.1/accounts/${account_id}/templates \
      --output $response
 
 # pull out the templateId if it was returned
@@ -184,7 +184,7 @@ printf \
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/${account_id}/templates \
+     --request POST ${base_path}/v2.1/accounts/${account_id}/templates \
      --output $response
 
 echo ""

@@ -87,7 +87,7 @@ printf \
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
+     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output ${response}
 
 echo ""
@@ -119,7 +119,7 @@ curl --header "Authorization: Bearer ${access_token}" \
     "userName": "{USER_FULLNAME}",
     "clientUserId": 1000,
 }' \
-     --request POST ${base_path}/v2/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
+     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
      --output ${response}
 
 echo ""

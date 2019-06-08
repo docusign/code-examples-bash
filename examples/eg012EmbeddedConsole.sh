@@ -57,7 +57,7 @@ response=$(mktemp /tmp/response-eg-012.XXXXXX)
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary "${json}" \
-     --request POST ${base_path}/v2/accounts/${account_id}/views/console \
+     --request POST ${base_path}/v2.1/accounts/${account_id}/views/console \
      --output $response
 
 echo ""

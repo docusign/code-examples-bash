@@ -150,7 +150,7 @@ printf "${CRLF}"     >> $request_data
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: multipart/form-data; boundary=${boundary}" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2/accounts/${account_id}/envelopes \
+     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output $response
 # ***DS.snippet.0.end
 
