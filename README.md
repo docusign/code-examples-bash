@@ -52,12 +52,16 @@ This repo includes bash scripts that use curl to demonstrate:
 1. **Get the envelope custom field data (metadata).** (Coming Soon...)
 1. **Send an envelope with a remote (email) signer using Access Code authentication.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg019SigningViaEmailWithAccessCode.sh)
+   This example sends an envelope using remote (email) signing requiring the recipient to enter an access code.
 1. **Send an envelope with a remote (email) signer using SMS authentication.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg020SigningViaEmailWithSmsAuthentication.sh)
+   This example sends an envelope using remote (email) signing requiring the recipient to supply a verification code sent to them via SMS.
 1. **Send an envelope with a remote (email) signer using Phone authentication.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg021SigningViaEmailWithPhoneAuthentication.sh)
+   This example sends an envelope using remote (email) signing requiring the recipient to supply a verification code sent to them via a phone call.
 1. **Send an envelope with a remote (email) signer using Knowledge-Based authentication.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg022SigningViaEmailWithKnoweldgeBasedAuthentication.sh)
+   This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via Knowledge-Based authentication.
 
 ## Installation
 
