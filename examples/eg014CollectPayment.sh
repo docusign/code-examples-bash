@@ -5,7 +5,7 @@
 # 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
 #    They occur and re-occur multiple times below.
 # 2. Obtain an OAuth access token from 
-#    https://developers.hqtest.tst/oauth-token-generator
+#    https://developers.docusign.com/oauth-token-generator
 access_token='{ACCESS_TOKEN}'
 # 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
 #    the drop down on the upper right corner of the screen by your picture or 
