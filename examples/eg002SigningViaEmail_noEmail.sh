@@ -1,6 +1,6 @@
 # Send an envelope with three documents
 #
-# New: We suppress the emails for the signer
+####### New: We suppress the emails for the signer
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -79,14 +79,6 @@ printf \
         }
     ],
     "recipients": {
-        "carbonCopies": [
-            {
-                "email": "{USER_EMAIL}",
-                "name": "Charles Copy",
-                "recipientId": "2",
-                "routingOrder": "2"
-            }
-        ],
         "signers": [
             {
                 "suppressEmails": "true",
