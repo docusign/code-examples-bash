@@ -56,6 +56,9 @@ echo ""
 echo "Response:"
 cat $response
 
+echo ""
+echo "Note: the envelope is now not available from the signer's DocuSign account."
+
 # Step 2. Create a recipient view (a signing ceremony view)
 #         that the signer will directly open in their browser to sign.
 #
@@ -84,7 +87,8 @@ echo "Response:"
 cat $response
 echo ""
 
-signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
+signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\":\"//'| sed 's/\".*//'`
+
 # ***DS.snippet.0.end
 echo ""
 printf "The signing ceremony URL is ${signing_ceremony_url}\n"
