@@ -68,7 +68,7 @@ console_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'
 # ***DS.snippet.0.end
 echo ""
 printf "The console URL is ${console_url}\n"
-printf "It is only valid for a couple of minutes. Attempting to automatically open your browser...\n"
+printf "It is only valid for five minutes. Attempting to automatically open your browser...\n"
 if which xdg-open &> /dev/null  ; then
   xdg-open "$console_url"
 elif which open &> /dev/null    ; then

@@ -166,7 +166,7 @@ fi
 
 echo ""
 printf "The sending ceremony URL is ${sending_ceremony_url}\n"
-printf "It is only valid for a couple of minutes. Attempting to automatically open your browser...\n"
+printf "It is only valid for five minutes. Attempting to automatically open your browser...\n"
 if which xdg-open &> /dev/null  ; then
   xdg-open "$sending_ceremony_url"
 elif which open &> /dev/null    ; then
