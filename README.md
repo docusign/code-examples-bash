@@ -5,68 +5,79 @@
 This repo includes bash scripts that use curl to demonstrate:
 
 1. **Embedded Signing Ceremony.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg001EmbeddedSigning.sh)
+   [Source.](./examples/eg001EmbeddedSigning.sh)
    This example sends an envelope, and then uses an embedded signing ceremony for the first signer.
    With embedded signing, the DocuSign signing ceremony is initiated from your website.
 1. **Send an envelope with a remote (email) signer and cc recipient.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg002SigningViaEmail.sh)
+   [Source.](./examples/eg002SigningViaEmail.sh)
    The envelope includes a pdf, Word, and HTML document.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
 1. **List envelopes in the user's account.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg003ListEnvelopes.sh)
+   [Source.](./examples/eg003ListEnvelopes.sh)
 1. **Get an envelope's basic information.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg004EnvelopeInfo.sh)
+   [Source.](./examples/eg004EnvelopeInfo.sh)
    The example lists the basic information about an envelope, including its overall status.
 1. **List an envelope's recipients** 
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg005EnvelopeRecipients.sh)
+   [Source.](./examples/eg005EnvelopeRecipients.sh)
    Includes current recipient status.
 1. **List an envelope's documents.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg006EnvelopeDocs.sh)
+   [Source.](./examples/eg006EnvelopeDocs.sh)
 1. **Download an envelope's documents.** 
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg007EnvelopeGetDoc.sh)
+   [Source.](./examples/eg007EnvelopeGetDoc.sh)
    The example can download individual
    documents, the documents concatenated together, or a zip file of the documents.
 1. **Programmatically create a template.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg008CreateTemplate.sh)
+   [Source.](./examples/eg008CreateTemplate.sh)
 1. **Send an envelope using a template.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg009UseTemplate.sh)
+   [Source.](./examples/eg009UseTemplate.sh)
 1. **Send an envelope and upload its documents with multipart binary transfer.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg010SendBinaryDocs.sh)
+   [Source.](./examples/eg010SendBinaryDocs.sh)
    Binary transfer is 33% more efficient than using Base64 encoding.
 1. **Embedded sending.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg011EmbeddedSending.sh)
+   [Source.](./examples/eg011EmbeddedSending.sh)
    Embeds the DocuSign web tool (NDSE) in your web app to finalize or update 
    the envelope and documents before they are sent.
 1. **Embedded DocuSign web tool (NDSE).**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg012EmbeddedConsole.sh)
+   [Source.](./examples/eg012EmbeddedConsole.sh)
 1. **Embedded Signing Ceremony from a template with an added document.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg013AddDocToTemplate.sh)
+   [Source.](./examples/eg013AddDocToTemplate.sh)
    This example sends an envelope based on a template.
    In addition to the template's document(s), the example adds an
    additional document to the envelope by using the
    [Composite Templates](https://developers.docusign.com/esign-rest-api/guides/features/templates#composite-templates)
    feature.
 1. **Payments Example.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg014CollectPayment.sh)
+   [Source.](./examples/eg014CollectPayment.sh)
    An order form, with online payment by credit card.
-1. **Get the envelope tab data.** (Coming Soon...)
-1. **Set envelope tab values.** (Coming Soon...)
-1. **Set template tab values.** (Coming Soon...)
-1. **Get the envelope custom field data (metadata).** (Coming Soon...)
-1. **Send an envelope with a remote (email) signer using Access Code authentication.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg019SigningViaEmailWithAccessCode.sh)
+1. **Get the envelope tab data.**
+   Retrieve the tab (field) values for all of the envelope's recipients.
+   [Source.](./examples/eg015EnvelopeTabData.sh)
+1. **Set envelope tab values.**
+   The example creates an envelope and sets the initial values for its tabs (fields). Some of the tabs
+   are set to be read-only, others can be updated by the recipient. The example also stores
+   metadata with the envelope.
+   [Source.](./examples/eg016SetTabValues.sh)
+1. **Set template tab values.**
+   The example creates an envelope using a template and sets the initial values for its tabs (fields).
+   The example also stores metadata with the envelope.
+   [Source.](./examples/eg017SetTemplateTabValues.sh)
+1. **Get the envelope custom field data (metadata).**
+   The example retrieves the custom metadata (custom data fields) stored with the envelope.
+   [Source.](./examples/eg018EnvelopeCustomFieldData.sh)
+1. **Requiring an Access Code for a Recipient**   
+   [Source.](./examples/eg019SigningViaEmailWithAccessCode.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to enter an access code.
 1. **Send an envelope with a remote (email) signer using SMS authentication.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg020SigningViaEmailWithSmsAuthentication.sh)
+   [Source.](./examples/eg020SigningViaEmailWithSmsAuthentication.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to supply a verification code sent to them via SMS.
 1. **Send an envelope with a remote (email) signer using Phone authentication.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg021SigningViaEmailWithPhoneAuthentication.sh)
+   [Source.](./examples/eg021SigningViaEmailWithPhoneAuthentication.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to supply a verification code sent to them via a phone call.
 1. **Send an envelope with a remote (email) signer using Knowledge-Based authentication.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg022SigningViaEmailWithKnoweldgeBasedAuthentication.sh)
+   [Source.](./examples/eg022SigningViaEmailWithKnoweldgeBasedAuthentication.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via Knowledge-Based authentication.
 1. **Send an envelope with a remote (email) signer using Identity Verification.**
-   [Source.](https://github.com/docusign/eg-03-curl/blob/master/examples/eg023SigningViaEmailWithIDVAuthentication.sh)
+   [Source.](./examples/eg023SigningViaEmailWithIDVAuthentication.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via a government issued ID.
 
 ## Installation
@@ -128,10 +139,10 @@ bash eg011EmbeddedSending.sh
 bash eg012EmbeddedConsole.sh
 bash eg013AddDocToTemplate.sh
 base eg014CollectPayment.sh
-bash eg015GetEnvelopeTabData.sh (Coming Soon...)
-bash eg016SetEnvelopeTabValues.sh (Coming Soon...)
-bash eg017SetTemplateTabValues.sh (Coming Soon...)
-bash eg018GetEnvelopeCustomFieldData.sh (Coming Soon...)
+bash eg015GetEnvelopeTabData.sh 
+bash eg016SetEnvelopeTabValues.sh
+bash eg017SetTemplateTabValues.sh 
+bash eg018GetEnvelopeCustomFieldData.sh 
 bash eg019SigningViaEmailWithAccessCode.sh
 bash eg020SigningViaEmailWithSmsAuthentication.sh
 bash eg021SigningViaEmailWithPhoneAuthentication.sh

@@ -2,14 +2,14 @@
 # If one of the templates is named "Example Signer and CC template"
 # then the template will not be created.
 
-# Configuration
-# 1. Obtain an OAuth access token from 
-#    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 2. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
+
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+access_token="{ACCESS_TOKEN}"
+
+# Set up variables for full code example
+# Note: Substitute these values with your own
+account_id="{ACCOUNT_ID}"
 
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -32,7 +32,8 @@ curl --header "Authorization: Bearer ${access_token}" \
      --output $response
 
 # pull out the templateId if it was returned
-TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | sed 's/\",.*//'`
+TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\":\"//' | sed 's/\",.*//'`
+
 if [ "${TEMPLATE_ID}" != "" ]; then
     echo ""
     echo "Your account already includes the '${template_name}' template."
