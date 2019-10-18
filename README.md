@@ -49,10 +49,21 @@ This repo includes bash scripts that use curl to demonstrate:
 1. **Payments Example.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg014CollectPayment.sh)
    An order form, with online payment by credit card.
-1. **Get the envelope tab data.** (Coming Soon...)
-1. **Set envelope tab values.** (Coming Soon...)
-1. **Set template tab values.** (Coming Soon...)
-1. **Get the envelope custom field data (metadata).** (Coming Soon...)
+1. **Get the envelope tab data.**
+   Retrieve the tab (field) values for all of the envelope's recipients.
+   [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg015EnvelopeTabData.sh)
+1. **Set envelope tab values.**
+   The example creates an envelope and sets the initial values for its tabs (fields). Some of the tabs
+   are set to be read-only, others can be updated by the recipient. The example also stores
+   metadata with the envelope.
+   [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg016SetTabValues.sh)
+1. **Set template tab values.**
+   The example creates an envelope using a template and sets the initial values for its tabs (fields).
+   The example also stores metadata with the envelope.
+   [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg017SetTemplateTabValues.sh)
+1. **Get the envelope custom field data (metadata).**
+   The example retrieves the custom metadata (custom data fields) stored with the envelope.
+   [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg018EnvelopeCustomFieldData.sh)
 1. **Send an envelope with a remote (email) signer using Access Code authentication.**
    [Source.](https://github.com/docusign/eg-03-curl/blob/apiv2/examples/eg019SigningViaEmailWithAccessCode.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to enter an access code.
@@ -125,10 +136,10 @@ bash eg011EmbeddedSending.sh
 bash eg012EmbeddedConsole.sh
 bash eg013AddDocToTemplate.sh
 bash eg014CollectPayment.sh
-bash eg015GetEnvelopeTabData.sh (Coming Soon...)
-bash eg016SetEnvelopeTabValues.sh (Coming Soon...)
-bash eg017SetTemplateTabValues.sh (Coming Soon...)
-bash eg018GetEnvelopeCustomFieldData.sh (Coming Soon...)
+bash eg015GetEnvelopeTabData.sh 
+bash eg016SetEnvelopeTabValues.sh
+bash eg017SetTemplateTabValues.sh 
+bash eg018GetEnvelopeCustomFieldData.sh 
 bash eg019SigningViaEmailWithAccessCode.sh
 bash eg020SigningViaEmailWithSmsAuthentication.sh
 bash eg021SigningViaEmailWithPhoneAuthentication.sh
