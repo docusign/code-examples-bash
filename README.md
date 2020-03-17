@@ -79,6 +79,30 @@ This repo includes bash scripts that use curl to demonstrate:
 1. **Send an envelope with a remote (email) signer using Identity Verification.**
    [Source.](./examples/eg023SigningViaEmailWithIDVAuthentication.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via a government issued ID.
+1. **Create a permissions profile to set against a user group.**
+   [Source.](./examples/eg024CreatingPermissionProfiles.sh)
+   This example creates a permissions profile that can be used to set account permissions for the different user groups associated with your account.
+1. **Set a permissions profile against a user group.**
+   [Source.](./examples/eg025SettingPermissionProfiles.sh)
+   This example updates a user group by setting the permissions profile.
+1. **Update individual settings on a permissions profile.**
+   [Source.](./examples/eg026UpdatingIndividualPermission.sh)
+   This example updates a user group by setting the permissions profile.
+1. **Delete a permissions profile**
+   [Source.](./examples/eg027DeletingPermissions.sh)
+   This example deletes a permissions profile.
+1. **Creating a brand**
+   [Source.](./examples/eg028CreatingABrand.sh)
+   This example creates a brand on your account that can be used to override style elements on envelopes.
+1. **Apply a brand to an envelope**
+   [Source.](./examples/eg029ApplyingBrandEnvelope.sh)
+   This example sends a branded envelope.
+1. **Apply a brand to a template**
+   [Source.](./examples/eg030ApplyingBrandTemplate.sh)
+   This example sends a branded templated envelope.
+1. **Sending bulk envelopes to multiple recipients**
+   [Source.](./examples/eg031BulkSending.sh)
+   This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
 
 ## Installation
 
@@ -148,6 +172,15 @@ bash eg020SigningViaEmailWithSmsAuthentication.sh
 bash eg021SigningViaEmailWithPhoneAuthentication.sh
 bash eg022SigningViaEmailWithKnoweldgeBasedAuthentication.sh
 bash eg023SigningViaEmailWithIDVAuthentication.sh
+bash eg024CreatingPermissionProfiles.sh
+bash eg025SettingPermissionProfiles.sh
+bash eg026UpdatingIndividualPermission.sh
+bash eg027DeletingPermissions.sh
+bash eg028CreatingABrand.sh
+bash eg029ApplyingBrandEnvelope.sh
+bash eg030ApplyingBrandTemplate.sh
+bash eg031BulkSending.sh
+
 
 # Note: to use example 14 you must also configure a
 # payment gateway for your account.
