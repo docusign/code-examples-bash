@@ -1,8 +1,8 @@
-# API code examples with Curl
+# DocuSign eSignature Bash Code Examples
 
-### Github repo: eg-03-curl
+### Github repo: [code-examples-bash](./)
 ## Introduction
-This repo includes bash scripts that use curl to demonstrate:
+This repo includes a bash command line application that use curl to demonstrate:
 
 1. **Embedded Signing Ceremony.**
    [Source.](./examples/eg001EmbeddedSigning.sh)
@@ -79,113 +79,63 @@ This repo includes bash scripts that use curl to demonstrate:
 1. **Send an envelope with a remote (email) signer using Identity Verification.**
    [Source.](./examples/eg023SigningViaEmailWithIDVAuthentication.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via a government issued ID.
-1. **Create a permissions profile to set against a user group.**
-   [Source.](./examples/eg024CreatingPermissionProfiles.sh)
-   This example creates a permissions profile that can be used to set account permissions for the different user groups associated with your account.
-1. **Set a permissions profile against a user group.**
-   [Source.](./examples/eg025SettingPermissionProfiles.sh)
-   This example updates a user group by setting the permissions profile.
-1. **Update individual settings on a permissions profile.**
-   [Source.](./examples/eg026UpdatingIndividualPermission.sh)
-   This example updates a user group by setting the permissions profile.
-1. **Delete a permissions profile**
-   [Source.](./examples/eg027DeletingPermissions.sh)
-   This example deletes a permissions profile.
-1. **Creating a brand**
-   [Source.](./examples/eg028CreatingABrand.sh)
-   This example creates a brand on your account that can be used to override style elements on envelopes.
-1. **Apply a brand to an envelope**
-   [Source.](./examples/eg029ApplyingBrandEnvelope.sh)
-   This example sends a branded envelope.
-1. **Apply a brand to a template**
-   [Source.](./examples/eg030ApplyingBrandTemplate.sh)
-   This example sends a branded templated envelope.
-1. **Sending bulk envelopes to multiple recipients**
-   [Source.](./examples/eg031BulkSending.sh)
-   This example creates and sends a bulk envelope by generating a bulk recipient list and initiating a bulk send.
 
 ## Installation
 
 Download or clone this repository to your workstation
 
-### Configure the examples' settings
-Each code example is a standalone file. You will configure
-each of the example files by setting the variables at the top of each
-file:
+## Collect your Integration information
 
- * **Access token:** Use the [OAuth Token Generator](https://developers.docusign.com/oauth-token-generator).
-   To use the token generator, you'll need a
-   [free DocuSign Developer's account.](https://go.docusign.com/sandbox/productshot/?elqCampaignId=16537)
+* Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so.
+* Once you have a Docusign account created, make a new [**integration key**](https://admindemo.docusign.com/api-integrator-key). 
+* Add in the following **redirect uri** `http://localhost:8080/authorization-code/callback`
+* Find your **API Account Id:** on the same page you used to setup your [**integration key**](https://admindemo.docusign.com/api-integrator-key). 
 
-   Each access token lasts 8 hours, you will need to repeat this process
-   when the token expires. You can use the same access token for
-   multiple examples.
-
- * **Account Id:** After logging into the [DocuSign Sandbox system](https://demo.docusign.net),
-   you can copy your Account Id from the dropdown menu by your name. See the figure:
-
-   ![Figure](https://raw.githubusercontent.com/docusign/qs-python/master/documentation/account_id.png)
+   ![Figure](https://raw.githubusercontent.com/docusign/code examples-bash/master/documentation/account_id.png)
  * **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
    email client.
 
+
+
+## JWT Authentication
+
+* create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
+* OPTIONAL: If you intend to use JWT grant authentication, set **Impersonation_user_guid** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/api-integrator-key). 
+
+
+## OAuth Details
+
+This launcher is a collection of bash scripts, however the OAuth mechanisms are PHP scripts that setup a small http listener on **port 8080** in order to receive the redirect callback from successful authorization with DocuSign servers that include the Authorization code or an access token in the response payload.  
+
+These php scripts are integrated into the launcher and hardcode the location for the RSA private key in the case of the JWT php scripts.  
+
+Do not delete or change the name of the private.key file located in the config directory as this will cause problems with jwt authentication. 
+
+## Running the examples
+You can see each of the various examples in action by running `bash launcher.sh` and pressing the number six to get to the option to edit your form data. 
+
+Log in to your DocuSign account using either Authorization Code Grant or using JWT to gain an OAuth token. From there, you can pick the number that corresponds to a setting or feature you wish to try out. 
+
+If you make a mistake, simply run the settings option again. Each code example is a standalone file, but can be reached using the launcher.sh file.
+
+Use the bash shell to run the examples. 
+
+The examples have been tested on Windows using the **Git-Bash** software included with the [git for Windows](https://gitforwindows.org/) open source application.
+
+The scripts can also be used with MacOS and Linux systems.
+
+The source files for each example are located in the `/examples` directory.
+
+
 ### Payments code example
-To use the payments code example, first create a test payments gatway in your account.
+To use the payments code example, first create a test payments gateway in your account.
 Follow the instructions in the
-[PAYMENTS_INSTALLATION.md](https://github.com/docusign/eg-03-curl/blob/master/PAYMENTS_INSTALLATION.md)
+[PAYMENTS_INSTALLATION.md](https://github.com/docusign/code-examples-bash/blob/master/PAYMENTS_INSTALLATION.md)
 file.
 
 Then add the payment gateway id to the code example file.
 
-## Run the examples
 
-Use the bash shell to run the examples. 
-
-The examples have been tested on 
-Windows using the **Git-Bash** software included with the 
-[git for Windows](https://gitforwindows.org/) open source application.
-
-The scripts can also be used with MacOS and Linux systems.
-
-The examples are in the `/examples` directory.
-
-```
-bash eg001EmbeddedSigning.sh
-bash eg002SigningViaEmail.sh
-bash eg003ListEnvelopes.sh
-bash eg004EnvelopeInfo.sh
-bash eg005EnvelopeRecipients.sh
-bash eg006EnvelopeDocs.sh
-bash eg007EnvelopeGetDoc.sh
-bash eg008CreateTemplate.sh
-bash eg009UseTemplate.sh
-bash eg010SendBinaryDocs.sh
-bash eg011EmbeddedSending.sh
-bash eg012EmbeddedConsole.sh
-bash eg013AddDocToTemplate.sh
-base eg014CollectPayment.sh
-bash eg015GetEnvelopeTabData.sh 
-bash eg016SetEnvelopeTabValues.sh
-bash eg017SetTemplateTabValues.sh 
-bash eg018GetEnvelopeCustomFieldData.sh 
-bash eg019SigningViaEmailWithAccessCode.sh
-bash eg020SigningViaEmailWithSmsAuthentication.sh
-bash eg021SigningViaEmailWithPhoneAuthentication.sh
-bash eg022SigningViaEmailWithKnoweldgeBasedAuthentication.sh
-bash eg023SigningViaEmailWithIDVAuthentication.sh
-bash eg024CreatingPermissionProfiles.sh
-bash eg025SettingPermissionProfiles.sh
-bash eg026UpdatingIndividualPermission.sh
-bash eg027DeletingPermissions.sh
-bash eg028CreatingABrand.sh
-bash eg029ApplyingBrandEnvelope.sh
-bash eg030ApplyingBrandTemplate.sh
-bash eg031BulkSending.sh
-
-
-# Note: to use example 14 you must also configure a
-# payment gateway for your account.
-bash eg014CollectPayment.sh
-```
 
 ## License and additional information
 
@@ -195,10 +145,3 @@ This repository uses the MIT License. See the LICENSE file for more information.
 ### Pull Requests
 Pull requests are welcomed. Pull requests will only be considered if their content
 uses the MIT License.
-
-### Additional Resources
-* [DocuSign Developer Center](https://developers.docusign.com)
-* [DocuSign API on Twitter](https://twitter.com/docusignapi)
-* [DocuSign For Developers on LinkedIn](https://www.linkedin.com/showcase/docusign-for-developers/)
-* [DocuSign For Developers on YouTube](https://www.youtube.com/channel/UCJSJ2kMs_qeQotmw4-lX2NQ)
-

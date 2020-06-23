@@ -8,19 +8,19 @@ fi
 # Configuration
 # 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
 #    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from 
+# 2. Obtain an OAuth access token from
 #    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
+access_token=$(cat config/ds_access_token.txt)
+# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
 
 # ***DS.snippet.0.start
 # Step 1. Create the envelope.
 #         The signer recipient includes a clientUserId setting
 #
-#  document 1 (pdf) has tag /sn1/ 
+#  document 1 (pdf) has tag /sn1/
 #  The envelope has two recipients.
 #  recipient 1 - signer
 #  recipient 2 - cc
@@ -28,16 +28,19 @@ account_id='{ACCOUNT_ID}'
 #  After it is signed, a copy is sent to the cc person.
 
 base_path="https://demo.docusign.net/restapi"
+
 # temp files:
 request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
 response=$(mktemp /tmp/response-eg-001.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
 
+# Fetch doc and encode
+cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
+
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
-# Fetch doc and encode
-cat ../demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
+
 # Concatenate the different parts of the request
 printf \
 '{
@@ -55,16 +58,16 @@ printf \
     "recipients": {
         "carbonCopies": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "Charles Copy",
+                "email": "'"${CC_EMAIL}"'",
+                "name": "'"${CC_NAME}"'",
                 "recipientId": "2",
                 "routingOrder": "2"
             }
         ],
         "signers": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "{USER_FULLNAME}",
+                "email": "'"${SIGNER_EMAIL}"'",
+                "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1",
                 "routingOrder": "1",
                 "clientUserId": "1000",
@@ -96,7 +99,7 @@ cat $response
 echo ""
 
 # pull out the envelopeId
-envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",.*//'`
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 echo "EnvelopeId: ${envelope_id}"
 
 # Step 2. Create a recipient view (a signing ceremony view)
@@ -104,7 +107,7 @@ echo "EnvelopeId: ${envelope_id}"
 #
 # The returnUrl is normally your own web app. DocuSign will redirect
 # the signer to returnUrl when the signing ceremony completes.
-# For this example, we'll use http://httpbin.org/get to show the 
+# For this example, we'll use http://httpbin.org/get to show the
 # query parameters passed back from DocuSign
 
 echo ""
@@ -115,8 +118,8 @@ curl --header "Authorization: Bearer ${access_token}" \
 {
     "returnUrl": "http://httpbin.org/get",
     "authenticationMethod": "none",
-    "email": "{USER_EMAIL}",
-    "userName": "{USER_FULLNAME}",
+    "email": "'"${SIGNER_EMAIL}"'",
+    "userName": "'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
@@ -127,7 +130,7 @@ echo "Response:"
 cat $response
 echo ""
 
-signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
+signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 # ***DS.snippet.0.end
 echo ""
 printf "The signing ceremony URL is ${signing_ceremony_url}\n"
@@ -149,5 +152,4 @@ echo ""
 echo ""
 echo "Done."
 echo ""
-
 

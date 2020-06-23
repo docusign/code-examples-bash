@@ -1,17 +1,19 @@
 # Set Envelope Tab Data
 
-# Step 1: Obtain your OAuth token
-# Note: Substitute these values with your own
-access_token="{ACCESS_TOKEN}"
-
-# Set up variables for full code example
-# Note: Substitute these values with your own
-account_id="{ACCOUNT_ID}"
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+
+
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+access_token=$(cat config/ds_access_token.txt)
+
+# Set up variables for full code example
+# Note: Substitute these values with your own
+account_id=$API_ACCOUNT_ID
 
 base_path="https://demo.docusign.net/restapi"
 
@@ -24,7 +26,7 @@ echo ""
 echo "Sending the envelope request to DocuSign..."
 
 # Fetch doc and encode
-cat ../demo_documents/World_Wide_Corp_salary.docx | base64 > $doc1_base64
+cat demo_documents/World_Wide_Corp_salary.docx | base64 > $doc1_base64
 
 # Step 2. Construct the JSON body for your envelope
 printf \
@@ -53,8 +55,8 @@ printf \
     "recipients": {
         "signers": [{
             "clientUserId": "1000",
-            "email": "{USER_EMAIL}",
-            "name": "{USER_NAME}",
+            "email": "'"${SIGNER_EMAIL}"'",
+            "name": "'"${SIGNER_NAME}"'",
             "recipientId": "1",
             "routingOrder": "1",
             "tabs": {
@@ -75,7 +77,7 @@ printf \
                     "locked": "false",
                     "tabId": "legal_name",
                     "tabLabel": "Legal name",
-                    "value": "{USER_NAME}"
+                    "value": "'"${SIGNER_NAME}"'"
                 }, {
                     "anchorString": "/familiar/",
                     "anchorUnits": "pixels",
@@ -87,7 +89,7 @@ printf \
                     "locked": "false",
                     "tabId": "familiar_name",
                     "tabLabel": "Familiar name",
-                    "value": "{USER_NAME}"
+                    "value": "'"${SIGNER_NAME}"'"
                 }, {
                     "anchorString": "/salary/",
                     "anchorUnits": "pixels",
@@ -127,7 +129,7 @@ echo ""
 echo "EnvelopeId: ${envelope_id}"
 
 # Save the envelope ID for use by other scripts
-echo ${envelope_id} > ../ENVELOPE_ID
+echo ${envelope_id} > config/ENVELOPE_ID
 
 
 # Step 4. Create a recipient view (a signing ceremony view)
@@ -146,8 +148,8 @@ curl --header "Authorization: Bearer ${access_token}" \
 {
     "returnUrl": "http://httpbin.org/get",
     "authenticationMethod": "none",
-    "email": "{USER_EMAIL}",
-    "userName": "{USER_NAME}",
+    "email": "'"${SIGNER_EMAIL}"'",
+    "userName": "'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \

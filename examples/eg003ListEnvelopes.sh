@@ -5,16 +5,18 @@
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
-base_path="https://demo.docusign.net/restapi"
 
 # Configuration
-# 1. Obtain an OAuth access token from 
+# 1. Obtain an OAuth access token from
 #    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 2. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
+access_token=$(cat config/ds_access_token.txt)
+# 2. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
+
+base_path="https://demo.docusign.net/restapi"
+
 
 echo ""
 echo "Sending the list envelope status request to DocuSign..."

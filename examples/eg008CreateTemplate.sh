@@ -2,19 +2,21 @@
 # If one of the templates is named "Example Signer and CC template"
 # then the template will not be created.
 
-
-# Step 1: Obtain your OAuth token
-# Note: Substitute these values with your own
-access_token="{ACCESS_TOKEN}"
-
-# Set up variables for full code example
-# Note: Substitute these values with your own
-account_id="{ACCOUNT_ID}"
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+
+
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+access_token=$(cat config/ds_access_token.txt)
+
+# Set up variables for full code example
+# Note: Substitute these values with your own
+account_id=$API_ACCOUNT_ID
+
 base_path="https://demo.docusign.net/restapi"
 
 # ***DS.snippet.0.start

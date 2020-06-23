@@ -1,17 +1,19 @@
 # Set Template-based Envelope Tab Data
 
-# Step 1: Obtain your OAuth token
-# Note: Substitute these values with your own
-access_token="{ACCESS_TOKEN}"
-
-# Set up variables for full code example
-# Note: Substitute these values with your own
-account_id="{ACCOUNT_ID}"
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+
+
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+access_token=$(cat config/ds_access_token.txt)
+
+# Set up variables for full code example
+# Note: Substitute these values with your own
+account_id=$API_ACCOUNT_ID
 
 base_path="https://demo.docusign.net/restapi"
 
@@ -20,13 +22,13 @@ request_data=$(mktemp /tmp/request-eg-017.XXXXXX)
 response=$(mktemp /tmp/response-eg-017.XXXXXX)
 
 # Check that we have a template ID
-if [ ! -f ../TEMPLATE_ID ]; then
+if [ ! -f config/TEMPLATE_ID ]; then
     echo ""
     echo "PROBLEM: A templateId is needed. Fix: execute script eg008CreateTemplate.sh"
     echo ""
     exit -1
 fi
-template_id=`cat ../TEMPLATE_ID`
+template_id=`cat config/TEMPLATE_ID`
 
 response=$(mktemp /tmp/response-eg-017.XXXXXX)
 
@@ -48,8 +50,8 @@ printf \
     "templateId": "'${template_id}'",
     "templateRoles": [{
         "clientUserId": "1000",
-        "email": "{USER_EMAIL}",
-        "name": "{USER_NAME}",
+        "email": "'${SIGNER_EMAIL}'",
+        "name": "'${SIGNER_NAME}'",
         "roleName": "signer",
         "tabs": {
             "checkboxTabs": [{
@@ -86,15 +88,15 @@ printf \
                 "required": "false",
                 "tabId": "name",
                 "tabLabel": "added text field",
-                "value": "{USER_NAME}",
+                "value": "'"${SIGNER_NAME}"'",
                 "width": "84",
                 "xPosition": "280",
                 "yPosition": "172"
             }]
         }
     }, {
-        "email": "{CC_EMAIL}",
-        "name": "{CC_NAME}",
+        "email": "'"${CC_EMAIL}"'",
+        "name": "'"${CC_NAME}"'",
         "roleName": "cc"
     }]
 }' >> $request_data
@@ -135,8 +137,8 @@ curl --header "Authorization: Bearer ${access_token}" \
 {
     "returnUrl": "http://httpbin.org/get",
     "authenticationMethod": "none",
-    "email": "{USER_EMAIL}",
-    "userName"{USER_NAME}",
+    "email": "'"${SIGNER_EMAIL}"'",
+    "userName"'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \

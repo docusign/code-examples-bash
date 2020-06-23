@@ -1,20 +1,30 @@
 # Updating Individual Permissions
 
-# Step 1: Obtain your OAuth token
-# Note: Substitute these values with your own
-# Set up variables for full code example
-ACCESS_TOKEN="{ACCESS_TOKEN}"
-API_ACCOUNT_ID="{API_ACCOUNT_ID}" 
-PERMISSION_PROFILE_ID="{PERMISSION_PROFILE_ID}"
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+# Check that we have a profile id
+if [ ! -f config/PROFILE_ID ]; then
+    echo ""
+    echo "PROBLEM: Permission profile Id is needed. To fix: execute script eg024CreateingPermissionProfiles.sh"
+    echo ""
+    exit -1
+fi
+
+
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+# Set up variables for full code example
+access_token=$(cat config/ds_access_token.txt)
+account_id=$API_ACCOUNT_ID
+permission_profile_id=`cat config/PROFILE_ID`
+profile_name=`cat config/PROFILE_NAME`
 base_path="https://demo.docusign.net/restapi"
 
 # Step 2: Construct your API headers
-declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
+declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
 
@@ -23,7 +33,8 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 request_data=$(mktemp /tmp/request-perm-001.XXXXXX)
 printf \
 '{
-    "permissionProfileName": "Ipsum Reader",
+
+   "permissionProfileName": "'"${profile_name} - updated $(date +%Y-%m-%d-%H:%M:%S) "'",
     "settings" : { 
         "useNewDocuSignExperienceInterface":0,
         "allowBulkSending":"true",
@@ -58,13 +69,13 @@ printf \
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-perm.XXXXXX)
 
-Status=$(curl -w '%{http_code}' -i --request POST ${BASE_PATH}/v2.1/accounts/${API_ACCOUNT_ID}/permission_profiles/${PERMISSION_PROFILE_ID} \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/permission_profiles/${permission_profile_id} \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
 
-# If the Status code returned is greater than 201 (OK/Accepted), display an error message along with the API response
-if [[ "$Status" -gt "201" ]] ; then
+# If the Status code returned is greater than 399, display an error message along with the API response
+if [[ "$Status" -gt "399" ]] ; then
     echo ""
 	echo "Updating Individual Permission Settings failed."
 	echo ""
@@ -80,3 +91,8 @@ echo ""
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
+echo ""
+echo ""
+echo "Done."
+echo ""
+
