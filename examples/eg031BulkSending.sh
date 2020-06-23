@@ -1,16 +1,20 @@
 # Bulk sending envelopes to multiple recipients
 
+# Check that we're in a bash shell
+if [[ $SHELL != *"bash"* ]]; then
+  echo "PROBLEM: Run these scripts from within the bash shell."
+fi
+
+
+
 # Step 1: Create your API Headers
 # Note: These values are not valid, but are shown for example purposes only!
-ACCESS_TOKEN="{ACCESS_TOKEN}"
-API_ACCOUNT_ID="{API_ACCOUNT_ID}"
-
-
-BASE_PATH="https://demo.docusign.net/restapi"
-
+access_token=$(cat config/ds_access_token.txt)
+account_id=$API_ACCOUNT_ID
+base_path="https://demo.docusign.net/restapi"
 
 # Step 2: Construct your API headers
-declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
+declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
 					'--header' "Accept: application/json, text/plain, */*" \
 					'--header' "Content-Type: application/json;charset=UTF-8" \
 					'--header' "Accept-Encoding: gzip, deflate, br" \
@@ -25,35 +29,35 @@ printf \
 	"name": "sample.csv",
 	"bulkCopies": [{
 		"recipients": [{
-			"recipientId": "39542944",
+			"recipientId": "1",
 			"role": "signer",
 			"tabs": [],
-			"name": "Alice UserName",
-			"email": "alice.username@example.com"
+			"name": "'"${SIGNER_NAME}"'",
+			"email": "'"${SIGNER_EMAIL}"'"
 		},
 		{
-			"recipientId": "84754526",
+			"recipientId": "2",
 			"role": "cc",
 			"tabs": [],
-			"name": "Bob CarbonCopied",
-			"email": "bob.carboncopy@example.com"
+			"name": "'"${CC_NAME}"'",
+			"email": "'"${CC_EMAIL}"'"
 		}],
 		"customFields": []
 	},
   {
 		"recipients": [{
-			"recipientId": "39542944",
+			"recipientId": "1",
 			"role": "signer",
 			"tabs": [],
-			"name": "Carol NextUser",
-			"email": "carol.nextuser@example.com"
+			"name": "'"${SIGNER_NAME}"'",
+			"email": "'"${SIGNER_EMAIL}"'"
 		},
 		{
-			"recipientId": "84754526",
+			"recipientId": "2",
 			"role": "cc",
 			"tabs": [],
-			"name": "Dave NextCarbon",
-			"email": "dave.nextcarbon@example.com"
+			"name": "'"${CC_NAME}"'",
+			"email": "'"${CC_EMAIL}"'"
 		}],
 		"customFields": []
 	}]
@@ -67,7 +71,7 @@ echo ""
 echo "Posting Bulk Send List"
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request POST ${BASE_PATH}/v2.1/accounts/${API_ACCOUNT_ID}/bulk_send_lists \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/bulk_send_lists \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
@@ -119,7 +123,7 @@ echo ""
 echo "Creating a draft envelope."
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request POST ${BASE_PATH}/v2.1/accounts/${API_ACCOUNT_ID}/envelopes \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
@@ -156,7 +160,7 @@ printf \
 		"name": "mailingListId",
 		"required": false,
 		"show": false,
-		"value": "'$BULK_LIST_ID'"
+		"value": "'"$BULK_LIST_ID"'"
 	}]
 }	
 ' >> $request_data
@@ -164,7 +168,7 @@ echo ""
 echo "Adding the listId as an envelope custom field."
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request POST ${BASE_PATH}/v2.1/accounts/${API_ACCOUNT_ID}/envelopes/${ENVELOPE_ID}/custom_fields \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${ENVELOPE_ID}/custom_fields \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
@@ -228,7 +232,7 @@ echo ""
 echo "Adding placeholder recipients to the envelope."
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request POST ${BASE_PATH}/v2.1/accounts/${API_ACCOUNT_ID}/envelopes/${ENVELOPE_ID}/recipients \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${ENVELOPE_ID}/recipients \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
@@ -256,7 +260,7 @@ rm "$request_data"
 # Target endpoint: {ACCOUNT_ID}/bulk_send_lists/{LIST_ID}/send
 printf \
 '{
-	"listId": "'"${BULK_LIST_ID}"'"",
+	"listId": "'"${BULK_LIST_ID}"'",
 	"envelopeOrTemplateId": "'"${ENVELOPE_ID}"'",
 }	
 ' >> $request_data
@@ -265,7 +269,7 @@ echo ""
 echo "Initiating the Bulk Send."
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request POST ${BASE_PATH}/v2.1/accounts/${API_ACCOUNT_ID}/bulk_send_lists/${BULK_LIST_ID}/send \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/bulk_send_lists/${BULK_LIST_ID}/send \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
@@ -284,7 +288,7 @@ echo "Response:"
 cat $response
 echo ""
 
-batchId=`cat $response | grep batchId | sed 's/.*\"batchId\":\"//' | sed 's/\"}.*//'`
+batchId=`cat $response | grep batchId | sed 's/.*\"batchId\":\"//' | sed 's/\",.*//'`
 
 rm "$response"
 rm "$request_data"
@@ -299,7 +303,7 @@ echo ""
 sleep 10s
 
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request GET ${BASE_PATH}/v2.1/accounts/${API_ACCOUNT_ID}/bulk_envelopes/${batchId} \
+Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/bulk_envelopes/${batchId} \
      "${Headers[@]}" \
      --output ${response})
 	 
@@ -318,3 +322,10 @@ echo ""
 cat $response
 #Remove the temporary file
 rm "$response"
+
+
+echo ""
+echo ""
+echo "Done."
+echo ""
+

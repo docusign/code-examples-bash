@@ -2,22 +2,24 @@
 # 1. create a draft envelope with three documents
 # 2. Open the sending view of the DocuSign web tool
 #
-
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from 
-#    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+
+
+# Configuration
+# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
+#    They occur and re-occur multiple times below.
+# 2. Obtain an OAuth access token from
+#    https://developers.docusign.com/oauth-token-generator
+access_token=$(cat config/ds_access_token.txt)
+# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
+
 base_path="https://demo.docusign.net/restapi"
 
 # The sending editor can be opened in either of two views:
@@ -101,13 +103,13 @@ printf \
     "recipients": {
         "carbonCopies": [
             {
-                "email": "{USER_EMAIL}", "name": "Charles Copy",
+                "email": "'${CC_EMAIL}'", "name": "'"${CC_NAME}"'",
                 "recipientId": "2", "routingOrder": "2"
             }
         ],
         "signers": [
             {
-                "email": "{USER_EMAIL}", "name": "{USER_FULLNAME}",
+                "email": "'${SIGNER_EMAIL}'", "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1", "routingOrder": "1",
                 "tabs": {
                     "signHereTabs": [

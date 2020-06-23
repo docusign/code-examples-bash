@@ -1,21 +1,25 @@
 # Embedded Signing Ceremony from template with added document
 
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from 
-#    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+
+
+# Configuration
+# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
+#    They occur and re-occur multiple times below.
+# 2. Obtain an OAuth access token from
+#    https://developers.docusign.com/oauth-token-generator
+access_token=$(cat config/ds_access_token.txt)
+# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
+
 base_path="https://demo.docusign.net/restapi"
+
 # Check that we have a template id
 if [ ! -f ../TEMPLATE_ID ]; then
     echo ""
@@ -51,8 +55,8 @@ printf \
                     "recipients": {
                         "carbonCopies": [
                             {
-                                "email": "{USER_EMAIL}",
-                                "name": "Charlie Copy",
+                                "email": "'"${CC_EMAIL}"'",
+                                "name": "'"${CC_NAME}"'",
                                 "recipientId": "2",
                                 "roleName": "cc"
                             }
@@ -60,8 +64,8 @@ printf \
                         "signers": [
                             {
                                 "clientUserId": "1000",
-                                "email": "{USER_EMAIL}",
-                                "name": "{USER_FULLNAME}",
+                                "email": "'"${SIGNER_EMAIL}"'",
+                                "name": "'"${SIGNER_NAME}"'",
                                 "recipientId": "1",
                                 "roleName": "signer"
                             }
@@ -94,16 +98,16 @@ printf \
                     "recipients": {
                         "carbonCopies": [
                             {
-                                "email": "{USER_EMAIL}",
-                                "name": "Charlie Copy",
+                                "email": "'${CC_EMAIL}'",
+                                "name": "'"${CC_NAME}"'",
                                 "recipientId": "2",
                                 "roleName": "cc"
                             }
                         ],
                         "signers": [
                             {
-                                "email": "{USER_EMAIL}",
-                                "name": "{USER_FULLNAME}",
+                                "email": "'"${SIGNER_EMAIL}"'",
+                                "name": "'"${SIGNER_NAME}"'",
                                 "recipientId": "1",
                                 "roleName": "signer",
                                 "tabs": {
@@ -157,8 +161,8 @@ curl --header "Authorization: Bearer ${access_token}" \
 {
     "returnUrl": "http://httpbin.org/get",
     "authenticationMethod": "none",
-    "email": "{USER_EMAIL}",
-    "userName": "{USER_FULLNAME}",
+    "email": "'"${SIGNER_EMAIL}"'",
+    "userName": "'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \

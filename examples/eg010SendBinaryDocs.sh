@@ -1,32 +1,35 @@
 # Send an envelope with three documents using multipart transfer
 
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from 
-#    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
-base_path="https://demo.docusign.net/restapi"
+
+
+
+# Configuration
+# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
+#    They occur and re-occur multiple times below.
+# 2. Obtain an OAuth access token from
+#    https://developers.docusign.com/oauth-token-generator
+access_token=$(cat config/ds_access_token.txt)
+# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
 
 # ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
-# 
+#
 #  The envelope has two recipients.
 #  recipient 1 - signer
 #  recipient 2 - cc
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
+
+base_path="https://demo.docusign.net/restapi"
 
 # temp files
 request_data=$(mktemp /tmp/request-eg-010.XXXXXX)
@@ -63,8 +66,8 @@ json='
     "recipients": {
         "signers": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "{USER_FULLNAME}",
+                "email": "'"${SIGNER_EMAIL}"'",
+                "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1",
                 "routingOrder": "1",
                 "tabs": {
@@ -87,8 +90,8 @@ json='
         ],
         "carbonCopies": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "Charlie Copy",
+                "email": "'"${CC_EMAIL}"'",
+                "name": "'"${CC_NAME}"'",
                 "routingOrder": "2",
                 "recipientId": "2"
             }

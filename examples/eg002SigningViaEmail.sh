@@ -4,29 +4,30 @@
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
-base_path="https://demo.docusign.net/restapi"
 
 # Configuration
 # 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
 #    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from 
+# 2. Obtain an OAuth access token from
 #    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
+access_token=$(cat config/ds_access_token.txt)
+# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
 
 # ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
-# 
+#
 #  The envelope has two recipients.
 #  recipient 1 - signer
 #  recipient 2 - cc
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
+
+base_path="https://demo.docusign.net/restapi"
 
 # temp files:
 request_data=$(mktemp /tmp/request-eg-002.XXXXXX)
@@ -36,9 +37,9 @@ doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
 doc3_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
 
 # Fetch docs and encode
-cat ../demo_documents/doc_1.html | base64 > $doc1_base64
-cat ../demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc2_base64
-cat ../demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc3_base64
+cat demo_documents/doc_1.html | base64 > $doc1_base64
+cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc2_base64
+cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc3_base64
 
 echo ""
 echo "Sending the envelope request to DocuSign..."
@@ -79,16 +80,16 @@ printf \
     "recipients": {
         "carbonCopies": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "Charles Copy",
+                "email": "'"${CC_EMAIL}"'",
+                "name": "'"${CC_NAME}"'",
                 "recipientId": "2",
                 "routingOrder": "2"
             }
         ],
         "signers": [
             {
-                "email": "{USER_EMAIL}",
-                "name": "{USER_FULLNAME}",
+                "email": "'"${SIGNER_EMAIL}"'",
+                "name": "'"${SIGNER_EMAIL}"'",
                 "recipientId": "1",
                 "routingOrder": "1",
                 "tabs": {
@@ -120,13 +121,16 @@ curl --header "Authorization: Bearer ${access_token}" \
      --output $response
 
 echo ""
+echo "Response:"
 cat $response
+echo ""
 
 # pull out the envelopeId
-envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",.*//'`
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 # ***DS.snippet.0.end
 # Save the envelope id for use by other scripts
-echo ${envelope_id} > ../ENVELOPE_ID
+echo "EnvelopeId: ${envelope_id}"
+echo ${envelope_id} > config/ENVELOPE_ID
 
 # cleanup
 rm "$request_data"

@@ -1,23 +1,32 @@
 # Send an envelope including an order form with payment by credit card
 #
-
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from 
-#    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 3. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
-# 4. Use the Admin Tool / Payments screens to add a payment gateway to your account
-payment_gateway_id='{PAYMENT_GATEWAY_ID}'
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+
+
+# Configuration
+# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
+#    They occur and re-occur multiple times below.
+# 2. Obtain an OAuth access token from
+#    https://developers.docusign.com/oauth-token-generator
+access_token=$(cat config/ds_access_token.txt)
+# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
+
+# 4. Log in to DocuSign Admin and from the top 
+#    navigation, select Admin. From there look 
+#    to the left under INTEGRATIONS and select 
+#    Payments to retrieve your Gateway account ID. 
+
+echo "Find your Stripe payment gateway id on: https://admindemo.docusign.com/payments"
+read -p "Please enter your Stripe Payment Gateway ID " PAYMENT_GATEWAY_ID
+export PAYMENT_GATEWAY_ID
+
 base_path="https://demo.docusign.net/restapi"
 
 # temp files:
@@ -27,7 +36,7 @@ doc1_base64=$(mktemp /tmp/eg-014-doc1.XXXXXX)
 
 # ***DS.snippet.0.start
 # Fetch doc and encode
-cat ../demo_documents/order_form.html | base64 > $doc1_base64
+cat demo_documents/order_form.html | base64 > $doc1_base64
 
 echo ""
 echo "Sending the envelope request to DocuSign..."
@@ -48,13 +57,13 @@ printf \
     "recipients": {
         "carbonCopies": [
             {
-                "email": "{USER_EMAIL}", "name": "Charles Copy",
+                "email": "'${CC_EMAIL}'", "name": "'"${CC_NAME}"'",
                 "recipientId": "2", "routingOrder": "2"
             }
         ],
         "signers": [
             {
-                "email": "{USER_EMAIL}", "name": "{USER_FULLNAME}",
+                "email": "'${SIGNER_EMAIL}'", "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1", "routingOrder": "1",
                 "tabs": {
                     "formulaTabs": [
@@ -90,7 +99,7 @@ printf \
                             "paymentDetails": {
                                 "currencyCode": "USD",
                                 "gatewayAccountId": "' >> $request_data
-                                printf "${payment_gateway_id}" >> $request_data
+                                printf "${PAYMENT_GATEWAY_ID}" >> $request_data
                                 printf '",
                                 "gatewayDisplayName": "Stripe",
                                 "gatewayName": "stripe",

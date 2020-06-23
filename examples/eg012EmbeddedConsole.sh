@@ -1,28 +1,31 @@
 # Redirect to the DocuSign console web tool
 
-# Configuration
-# 1. Obtain an OAuth access token from 
-#    https://developers.docusign.com/oauth-token-generator
-access_token='{ACCESS_TOKEN}'
-# 2. Obtain your accountId from demo.docusign.com -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or 
-#    the default picture. 
-account_id='{ACCOUNT_ID}'
-
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
+
+
+
+# Configuration
+# 1. Obtain an OAuth access token from
+#    https://developers.docusign.com/oauth-token-generator
+access_token=$(cat config/ds_access_token.txt)
+# 2. Obtain your accountId from demo.docusign.net -- the account id is shown in
+#    the drop down on the upper right corner of the screen by your picture or
+#    the default picture.
+account_id=$API_ACCOUNT_ID
+
 base_path="https://demo.docusign.net/restapi"
 
 # Check that we have an envelope id
-if [ ! -f ../ENVELOPE_ID ]; then
+if [ ! -f config/ENVELOPE_ID ]; then
     echo ""
     echo "PROBLEM: An envelope id is needed. Fix: execute script eg002SigningViaEmail.sh"
     echo ""
     exit -1
 fi
-envelope_id=`cat ../ENVELOPE_ID`
+envelope_id=`cat config/ENVELOPE_ID`
 
 # The returnUrl is normally your own web app. DocuSign will redirect
 # the signer to returnUrl when the signing ceremony completes.
