@@ -79,6 +79,39 @@ This repo includes a bash command line application that use curl to demonstrate:
 1. **Send an envelope with a remote (email) signer using Identity Verification.**
    [Source.](./examples/eg023SigningViaEmailWithIDVAuthentication.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via a government issued ID.
+1. **Creating a permission profile**
+   [Source.](./examples/eg024CreatingPermissionProfiles.sh)
+   This code example demonstrates how to create a permission profile using the [Create Permission Profile](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/create) method.
+1. **Setting a permission profile**
+   [Source.](./examples/eg025SettingPermissionProfiles.sh)
+   This code example demonstrates how to set a user group’s permission profile using the [Update Group](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/update) method. 
+   You must have already created the permissions profile and the group of users.
+1. **Updating individual permission settings**
+   [Source.](./examples/eg026UpdatingIndividualPermission.sh)
+   This code example demonstrates how to edit individual permission settings on a permissions profile using the [Update Permission Profile](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/update) method.
+1. **Deleting a permission profile**
+   [Source.](./examples/eg027DeletingPermissions.sh)
+   This code example demonstrates how to delete a permission profile using the [Delete Permission Profile](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/create) method.
+1. **Creating a brand**
+   [Source.](./examples/eg028CreatingABrand.sh)
+   This example creates brand profile for an account using the [Create Brand](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/create) method.
+1. **Applying a brand to an envelope**
+   [Source.](./examples/eg029ApplyingBrandEnvelope.sh)
+   This code example demonstrates how to apply a brand you've created to an envelope using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
+   First, creates the envelope and then applies the brand to it.
+   Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
+1. **Applying a brand to a template**
+   [Source.](./examples/eg030ApplyingBrandTemplate.sh)
+   This code example demonstrates how to apply a brand you've created to a template using using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
+   You must have already created the template and the brand.
+   Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
+1. **Bulk sending envelopes to multiple recipients**
+   [Source.](./examples/eg031BulkSending.sh)
+   This code example demonstrates how to send envelopes in bulk to multiple recipients using these methods:
+   [Create Bulk Send List](https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkSend/createBulkSendList), 
+   [Create Bulk Send Request](https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkSend/createBulkSendRequest).
+   Firstly, creates a bulk send recipients list, and then creates an envelope. 
+   After that, initiates bulk envelope sending.
 
 ## Installation
 
