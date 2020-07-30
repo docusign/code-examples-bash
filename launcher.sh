@@ -288,9 +288,9 @@ CFG="config/acg.txt"
 rm -rf $CFG
 touch $CFG
 
-echo API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
-echo INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
+echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+echo export INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
+echo export INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
 
 echo "Authorization Code Grant configuration saved"
 echo ""
@@ -317,9 +317,9 @@ CFG="config/jwt.txt"
 rm -rf $CFG
 touch $CFG
 
-echo API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
-echo JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
+echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+echo export IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
+echo export JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
 
 
 echo "JWT configuration saved."
@@ -350,18 +350,18 @@ CFG="config/acg.txt"
 rm -rf $CFG
 touch $CFG
 
-echo API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
-echo INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
+echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+echo export INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
+echo export INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
 
 
 CFG="config/jwt.txt"
 rm -rf $CFG
 touch $CFG
 
-echo API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
-echo JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
+echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+echo export IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
+echo export JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
 
 
 

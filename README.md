@@ -1,6 +1,6 @@
 # DocuSign eSignature Bash Code Examples
 
-### Github repo: [code-examples-bash](./)
+### Github repo: code-examples-bash
 ## Introduction
 This repo includes a bash command line application that use curl to demonstrate:
 
@@ -138,7 +138,7 @@ Download or clone this repository to your workstation
 
 ## OAuth Details
 
-This launcher is a collection of bash scripts, however the OAuth mechanisms are PHP scripts that setup a small http listener on **port 8080** in order to receive the redirect callback from successful authorization with DocuSign servers that include the Authorization code or an access token in the response payload.  
+This launcher is a collection of bash scripts, however the OAuth mechanisms are PHP scripts that setup a small http listener on **port 8080** in order to receive the redirect callback from successful authorization with DocuSign servers that include the Authorization code or an access token in the response payload. Please ensure that any other webserver using 8080 are off so that the OAuth mechanism functions properly.  
 
 These php scripts are integrated into the launcher and hardcode the location for the RSA private key in the case of the JWT php scripts.  
 
