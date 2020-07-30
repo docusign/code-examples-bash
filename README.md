@@ -124,7 +124,7 @@ Download or clone this repository to your workstation
 * Add in the following **redirect uri** `http://localhost:8080/authorization-code/callback`
 * Find your **API Account Id:** on the same page you used to setup your [**integration key**](https://admindemo.docusign.com/api-integrator-key). 
 
-   ![Figure](https://raw.githubusercontent.com/docusign/code examples-bash/master/documentation/account_id.png)
+   ![Figure](https://raw.githubusercontent.com/docusign/code-examples-bash/master/documentation/account_id.png)
  * **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
    email client.
 

@@ -65,7 +65,7 @@ echo "Sending the template create request to DocuSign..."
 echo ""
 
 # Fetch document and encode
-cat ../demo_documents/World_Wide_Corp_fields.pdf | base64 > $doc1_base64
+cat demo_documents/World_Wide_Corp_fields.pdf | base64 > $doc1_base64
 
 # Concatenate the different parts of the request
 printf \

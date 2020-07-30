@@ -35,9 +35,9 @@ base_path="https://demo.docusign.net/restapi"
 request_data=$(mktemp /tmp/request-eg-010.XXXXXX)
 response=$(mktemp /tmp/response-eg-010.XXXXXX)
 
-doc1_path="../demo_documents/doc_1.html"
-doc2_path="../demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx"
-doc3_path="../demo_documents/World_Wide_Corp_lorem.pdf"
+doc1_path="demo_documents/doc_1.html"
+doc2_path="demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx"
+doc3_path="demo_documents/World_Wide_Corp_lorem.pdf"
 
 echo ""
 echo "Sending the envelope request to DocuSign..."

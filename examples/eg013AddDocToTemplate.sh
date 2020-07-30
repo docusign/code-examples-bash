@@ -36,7 +36,7 @@ doc1_base64=$(mktemp /tmp/eg-013-doc1.XXXXXX)
 
 # ***DS.snippet.0.start
 # Fetch docs and encode
-cat ../demo_documents/added_document.html | base64 > $doc1_base64
+cat demo_documents/added_document.html | base64 > $doc1_base64
 
 echo ""
 echo "Sending the envelope request to DocuSign..."
