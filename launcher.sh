@@ -375,7 +375,7 @@ resetToken
 
 rm -rf config/acg.txt
 rm -rf config/jwt.txt
-cat '' > config/private.key
+echo '' > config/private.key
 
 echo "All Oauth settings have been deleted"
 echo ""
