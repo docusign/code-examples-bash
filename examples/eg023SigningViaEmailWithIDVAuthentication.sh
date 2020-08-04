@@ -55,14 +55,16 @@ rm "$response"
 
 # Step 4: Construct the JSON body for your envelope
 # Note: If you did not successfully obtain your workflow ID, step 4 will fail.
-doc_base64=$(mktemp /tmp/eg-019-doc1.XXXXXX)
+doc_base64=$(mktemp /tmp/base64doc-idv.XXXXXX)
 cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc_base64
 request_data=$(mktemp /tmp/request-idv.XXXXXX)
 
 printf \
 '{
 	"documents": [{
-		"documentBase64": "'"${doc_base64}"'"
+		 "documentBase64": "' > $request_data
+            cat $doc_base64 >> $request_data
+            printf '",
 		"documentId": "1",
 		"fileExtension": "txt",
 		"name": "NDA"
@@ -83,7 +85,7 @@ printf \
 					"documentId": "1",
 					"name": "SignHereTab",
 					"pageNumber": "1",
-					"recipientId": "1", #This value represents your {RECIPIENT_ID}
+					"recipientId": "1", 
 					"tabLabel": "SignHereTab",
 					"xPosition": "0",
 					"yPosition": "1"
@@ -91,7 +93,7 @@ printf \
 			},
 		"templateAccessCodeRequired": null,
 		"deliveryMethod": "email",
-		"recipientId": "1", #This value represents your {RECIPIENT_ID}
+		"recipientId": "1",
 		"identityVerification": {
 			"workflowId": "'"${workflowId}"'",
 			"steps": null
@@ -106,10 +108,6 @@ printf \
 					
 # Step 5: a) Make a POST call to the createEnvelopes endpoint to create a new envelope.
 #         b) Display the JSON structure of the created envelope
-echo ""
-echo "Request:"
-echo ""
-cat $request_data
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-idv.XXXXXX)
 curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes" \
