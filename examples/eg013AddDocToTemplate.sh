@@ -143,8 +143,8 @@ echo ""
 cat $response
 
 # pull out the envelopeId
-envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",.*//'`
-
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
+echo "EnvelopeId: ${envelope_id}"
 # Step 2. Create a recipient view (a signing ceremony view)
 #         that the signer will directly open in their browser to sign.
 #
@@ -173,7 +173,7 @@ echo "Response:"
 cat $response
 echo ""
 
-signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
+signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 # ***DS.snippet.0.end
 echo ""
 printf "The signing ceremony URL is ${signing_ceremony_url}\n"
