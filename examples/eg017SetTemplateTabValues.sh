@@ -50,8 +50,8 @@ printf \
     "templateId": "'${template_id}'",
     "templateRoles": [{
         "clientUserId": "1000",
-        "email": "'${SIGNER_EMAIL}'",
-        "name": "'${SIGNER_NAME}'",
+        "email": "'"${SIGNER_EMAIL}"'",
+        "name": "'"${SIGNER_NAME}"'",
         "roleName": "signer",
         "tabs": {
             "checkboxTabs": [{
