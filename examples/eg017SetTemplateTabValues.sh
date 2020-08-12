@@ -47,7 +47,7 @@ printf \
         }]
     },
     "status": "Sent",
-    "templateId": "'${template_id}'",
+    "templateId": "'"${template_id}"'",
     "templateRoles": [{
         "clientUserId": "1000",
         "email": "'"${SIGNER_EMAIL}"'",
