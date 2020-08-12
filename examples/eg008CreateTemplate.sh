@@ -40,7 +40,7 @@ if [ "${TEMPLATE_ID}" != "" ]; then
     echo ""
     echo "Your account already includes the '${template_name}' template."
     # Save the template id for use by other scripts
-    echo "${TEMPLATE_ID}" > ../TEMPLATE_ID
+    echo "${TEMPLATE_ID}" > config/TEMPLATE_ID
     rm "$response"
     echo ""
     echo "Done."
@@ -200,7 +200,7 @@ TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | 
 echo ""
 echo "Template '${template_name}' was created! Template ID ${TEMPLATE_ID}."
 # Save the template id for use by other scripts
-echo ${TEMPLATE_ID} > ../TEMPLATE_ID
+echo ${TEMPLATE_ID} > config/TEMPLATE_ID
 
 # cleanup
 rm "$request_data"
