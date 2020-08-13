@@ -25,7 +25,7 @@ if [ ! -f ../TEMPLATE_ID ]; then
     echo ""
     exit -1
 fi
-template_id=`cat ../TEMPLATE_ID`
+template_id=`cat config/TEMPLATE_ID`
 
 base_path="https://demo.docusign.net/restapi"
 

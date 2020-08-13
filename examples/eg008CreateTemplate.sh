@@ -33,6 +33,7 @@ curl --header "Authorization: Bearer ${access_token}" \
      --request GET ${base_path}/v2.1/accounts/${account_id}/templates \
      --output $response
 
+cat "Did we find any templateIds?: " $response
 # pull out the templateId if it was returned
 TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\":\"//' | sed 's/\",.*//'`
 
@@ -195,7 +196,7 @@ echo "Results:"
 cat $response
 
 # pull out the template id
-TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\": \"//' | sed 's/\",.*//'`
+TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\":\"//' | sed 's/\",.*//'`
 # ***DS.snippet.0.end
 echo ""
 echo "Template '${template_name}' was created! Template ID ${TEMPLATE_ID}."
