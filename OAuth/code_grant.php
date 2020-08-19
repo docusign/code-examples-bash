@@ -13,17 +13,17 @@ $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
 echo "\nOpen the following URL in a browser to continue:\n" . $authorizationURL . "\n";
 
 
-// on windows I cannot seem to escape the Ampersand so it throws the additional get parametrs as commads and errors the php script
-// if(stripos(PHP_OS, 'WIN') === 0){
+// Windows fix: https://stackoverflow.com/a/1327444/2226328
+if(stripos(PHP_OS, 'WIN') === 0){
 
-//   shell_exec("start $authorizationURL");
+  shell_exec('start "" "'.$authorizationURL.'"');
 
-// }
+}
 
-// else {
+else {
 
-//   shell_exec("xdg-open $authorizationURL");
-// }
+  shell_exec("xdg-open " . $authorizationURL);
+}
 
 
 
@@ -55,4 +55,11 @@ $accessToken = $response->access_token;
 file_put_contents($outputFile, $accessToken);
 echo "\nAccess token has been written to " . $outputFile . "\n\n";
 
+$userInfo = http($authorizationEndpoint . 'userinfo', false, [
+  'Authorization: Bearer ' . $accessToken
+]);
+  // impersonation user guid
+  // var_dump($userInfo->sub);
+  $APIAccountId = $userInfo->accounts[0]->account_id;
+  file_put_contents('config/API_ACCOUNT_ID', $APIAccountId);
 ?>

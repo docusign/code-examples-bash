@@ -4,7 +4,7 @@ require 'utils.php';
 
 
 $timestamp = date_timestamp_get(date_create());
-$userID    = $JWT_IMPERSONATION_GUID;
+$userID    = $IMPERSONATION_USER_GUID;
 $signature = '';
 
 $header = encodeBase64URL(
@@ -16,10 +16,10 @@ $header = encodeBase64URL(
 
 $body = encodeBase64URL(
   json_encode([
-    'iss'   => $JWT_INTEGRATION_KEY,
+    'iss'   => $INTEGRATION_KEY_JWT,
     'sub'   => $userID,
     'iat'   => $timestamp,
-    'exp'   => $timestamp + 3000,
+    'exp'   => $timestamp + 3600,
     'aud'   => 'account-d.docusign.com',
     'scope' => 'signature impersonation'
   ])
@@ -41,7 +41,7 @@ $response = http($authorizationEndpoint . 'token', [
 
 //TODO This SHOULD be presented on requires_consent for first time validation or if consent has been revoked
 
-
+if(isset($response->error)){
 if($response->error == "consent_required"){
 
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
@@ -53,6 +53,17 @@ $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
 ]);
 
 echo "\nOpen the following URL in a browser to continue:\n" . $authorizationURL . "\n";
+// Windows fix: https://stackoverflow.com/a/1327444/2226328
+if(stripos(PHP_OS, 'WIN') === 0){
+
+  shell_exec('start "" "'.$authorizationURL.'"');
+
+}
+
+else {
+
+  shell_exec("xdg-open " . $authorizationURL);
+}
 
 
 $auth = startHttpServer($socket);
@@ -86,15 +97,11 @@ if (!isset($response->access_token)) {
 }
 
 $accessToken = $response->access_token;
-// echo "\nGetting user info...\n";
 
-// $userInfo = http($authorizationEndpoint . 'userinfo', false, [
-//   'Authorization: Bearer ' . $accessToken
-// ]);
 
 }
 
-
+}
 
 if(!$response->access_token){
   var_dump($response);
@@ -104,5 +111,14 @@ if(!$response->access_token){
 $accessToken = $response->access_token;
 file_put_contents($outputFile, $accessToken);
 echo "\nAccess token has been written to " . $outputFile . "\n\n";
+
+// Retrieve the API Account ID for subsequent API calls
+$userInfo = http($authorizationEndpoint . 'userinfo', false, [
+  'Authorization: Bearer ' . $accessToken
+]);
+
+
+$APIAccountId = $userInfo->accounts[0]->account_id;
+file_put_contents('config/API_ACCOUNT_ID', $APIAccountId);
 
 ?>

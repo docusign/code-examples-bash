@@ -6,11 +6,11 @@ $IP                    = 'localhost';
 $outputFile            = 'config/ds_access_token.txt';
 $state                 = bin2hex(random_bytes(5));
 
-$clientID              = getenv("INTEGRATION_KEY");
-$clientSecret          = getenv("INTEGRATION_SECRET");
+$clientID              = getenv("INTEGRATION_KEY_AUTH_CODE");
+$clientSecret          = getenv("SECRET_KEY");
 
-$JWT_INTEGRATION_KEY = getenv("JWT_INTEGRATION_KEY");
-$JWT_IMPERSONATION_GUID = getenv("IMPERSONATION_USER_GUID");
+$INTEGRATION_KEY_JWT = getenv("INTEGRATION_KEY_JWT");
+$IMPERSONATION_USER_GUID = getenv("IMPERSONATION_USER_GUID");
 
 $authorizationEndpoint = 'https://account-d.docusign.com/oauth/';
 
