@@ -19,8 +19,21 @@ $redirectURI           = 'http://' . $IP . ':' . $PORT . '/authorization-code/ca
 
 function startHttpServer ($socket) {
   $responseOk = "HTTP/1.0 200 OK\r\n"
-    . "Content-Type: text/plain\r\n\r\n"
-    . "Ok. You may close this tab and return to the shell.\r\n";
+    . "Content-Type: text/html\r\n\r\n"
+    .'<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+
+<body>
+Ok. You may close this tab and return to the shell. This window closes automatically in five seconds.
+
+</body>
+<script>setTimeout(function () { window.close();}, 5000);</script>
+</html>';
+
 
   $responseErr = "HTTP/1.0 400 Bad Request\r\n"
     . "Content-Type: text/plain\r\n\r\n"

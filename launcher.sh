@@ -33,7 +33,9 @@ echo "Welcome to the DocuSign eSignature Bash Launcher"
 echo "using Authorization Code grant and JWT grant authentication."
 echo ""
 
-PS3=' '
+PS3='Choose an OAuth Strategy:
+
+'
 select METHOD in \
 "Use_Authorization_Code_Grant" \
 "Use_JSON_Web_Token" \
