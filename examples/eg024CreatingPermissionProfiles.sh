@@ -16,7 +16,7 @@ export PROFILE_NAME
 # Note: Substitute these values with your own
 # Set up variables for full code example
 access_token=$(cat config/ds_access_token.txt)
-account_id=$API_ACCOUNT_ID
+account_id=$(cat config/API_ACCOUNT_ID)
 
 # Step 2: Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
