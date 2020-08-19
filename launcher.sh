@@ -1,20 +1,23 @@
 set -e
 
+
+if [ ! -f "config/settings.txt" ]; then
+    echo "Error: "
+    echo "First copy the file 'config/settings.example.txt' to 'config/settings.txt'."
+    echo "Next, fill in your API credentials, Signer name and email to continue."
+    echo ""
+
+    exit 1
+fi
+
+
+
 if [ -f "config/settings.txt" ]; then
     . config/settings.txt
 fi
 
-if [ -f "config/acg.txt" ]; then
-    . config/acg.txt
-fi
 
-if [ -f "config/jwt.txt" ]; then
-    . config/jwt.txt
-fi
 
-if [ -f "config/stripeGateway.txt" ]; then
-    . config/stripeGateway.txt
-fi
 
 
 function resetToken {
@@ -26,15 +29,15 @@ rm -f config/ds_access_token* || true
 
 function login {
 echo ""
+echo "Welcome to the DocuSign eSignature Bash Launcher"
+echo "using Authorization Code grant and JWT grant authentication."
 echo ""
-
 
 PS3='Select an OAuth method to Authenticate with your DocuSign account: '
 select METHOD in \
 "Use_Authorization_Code_Grant" \
 "Use_JSON_Web_Token" \
 "Return" \
-# "Use_JSON_Web_Token_wo_Code_Grant_autorization" \
 
 
 do
@@ -57,7 +60,7 @@ continu
 # ;;
 
 Return)
-oauthSettings
+choices
 ;;
 
 esac
@@ -115,7 +118,7 @@ do
 case "$CHOICE" in
 
 Home) 
-oauthSettings
+login
 ;;
 Embedded_Signing) bash examples/eg001EmbeddedSigning.sh 
 continu
@@ -219,223 +222,224 @@ done
 
 }
 
-function oauthSettings {
+# function oauthSettings {
 
-echo ""
-echo "Welcome to the DocuSign eSignature Bash Launcher"
-echo "using Authorization Code grant and JWT grant authentication."
-echo ""
+# echo ""
+# echo "Welcome to the DocuSign eSignature Bash Launcher"
+# echo "using Authorization Code grant and JWT grant authentication."
+# echo ""
 
-if [ -f "config/settings.txt" ]; then
-    . config/settings.txt
-fi
+# if [ -f "config/settings.txt" ]; then
+#     . config/settings.txt
+# fi
 
-if [ -f "config/acg.txt" ]; then
-    . config/acg.txt
-fi
+# if [ -f "config/acg.txt" ]; then
+#     . config/acg.txt
+# fi
 
-if [ -f "config/jwt.txt" ]; then
-    . config/jwt.txt
-fi
+# if [ -f "config/jwt.txt" ]; then
+#     . config/jwt.txt
+# fi
 
-if [ -f "config/stripeGateway.txt" ]; then
-    . config/stripeGateway.txt
-fi
+# if [ -f "config/stripeGateway.txt" ]; then
+#     . config/stripeGateway.txt
+# fi
 
 
 
-PS3='Select one: '
-select METHOD in \
-"View_Examples" \
-"Use_OAuth_To_Login" \
-"Configure_Authorization_Code_Grant" \
-"Configure_JSON_Web_Token_Grant" \
-"Configure_Both_JWT_And_ACG" \
-"Configure_Signer_Form_Data" \
-"Delete_OAuth_Config_Data" \
-"Delete_cache_and_form_data" \
+# PS3='Select one: '
+# select METHOD in \
+# "View_Examples" \
+# "Use_OAuth_To_Login" \
+# "Configure_Authorization_Code_Grant" \
+# "Configure_JSON_Web_Token_Grant" \
+# "Configure_Both_JWT_And_ACG" \
+# "Configure_Signer_Form_Data" \
+# "Delete_OAuth_Config_Data" \
+# "Delete_cache_and_form_data" \
 "Exit" \
 
 do
 case "$METHOD" in 
 
-Delete_cache_and_form_data)
-rm -rf config/PROFILE_NAME
-rm -rf config/*ID
-rm -rf config/settings.txt
+
+# Delete_cache_and_form_data)
+# rm -rf config/PROFILE_NAME
+# rm -rf config/*ID
+# rm -rf config/settings.txt
 
 
-echo ""
-echo "Form cache and data deleted successfully."
-echo ""
-;;
+# echo ""
+# echo "Form cache and data deleted successfully."
+# echo ""
+# ;;
 
 
-Configure_Authorization_Code_Grant)
-resetToken
+# Configure_Authorization_Code_Grant)
+# resetToken
 
-read -p "Please enter your API Account ID: " API_ACCOUNT_ID
-export API_ACCOUNT_ID
-
-
-read -p "Please enter your Integration Key for ACG: " INTEGRATION_KEY
-export INTEGRATION_KEY
-
-read -p "Please enter your Integration Secret for ACG: " INTEGRATION_SECRET
-export INTEGRATION_SECRET
-
-CFG="config/acg.txt" 
-rm -rf $CFG
-touch $CFG
-
-echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo export INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
-echo export INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
-
-echo "Authorization Code Grant configuration saved"
-echo ""
-
-oauthSettings
-;;
-
-Configure_JSON_Web_Token_Grant)
-
-resetToken
+# read -p "Please enter your API Account ID: " API_ACCOUNT_ID
+# export API_ACCOUNT_ID
 
 
-read -p "Please enter your API Account ID: " API_ACCOUNT_ID
-export API_ACCOUNT_ID
+# read -p "Please enter your Integration Key for ACG: " INTEGRATION_KEY
+# export INTEGRATION_KEY
 
-read -p "Please enter your Impersonating user GUID  " IMPERSONATION_USER_GUID
-export IMPERSONATION_USER_GUID
+# read -p "Please enter your Integration Secret for ACG: " INTEGRATION_SECRET
+# export INTEGRATION_SECRET
 
-read -p "Please enter your Integration Key for JWT: " JWT_INTEGRATION_KEY
-export JWT_INTEGRATION_KEY
+# CFG="config/acg.txt" 
+# rm -rf $CFG
+# touch $CFG
 
+# echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+# echo export INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
+# echo export INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
 
-CFG="config/jwt.txt"
-rm -rf $CFG
-touch $CFG
+# echo "Authorization Code Grant configuration saved"
+# echo ""
 
-echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo export IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
-echo export JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
+# oauthSettings
+# ;;
 
+# Configure_JSON_Web_Token_Grant)
 
-echo "JWT configuration saved."
-echo ""
-oauthSettings
-;;
-
-Configure_Both_JWT_And_ACG)
-resetToken
+# resetToken
 
 
-read -p "Please enter your API Account ID: " API_ACCOUNT_ID
-export API_ACCOUNT_ID
+# read -p "Please enter your API Account ID: " API_ACCOUNT_ID
+# export API_ACCOUNT_ID
 
-read -p "Please enter your Integration Key for ACG: " INTEGRATION_KEY
-export INTEGRATION_KEY
-read -p "Please enter your Integration Secret for ACG: " INTEGRATION_SECRET
-export INTEGRATION_SECRET
+# read -p "Please enter your Impersonating user GUID  " IMPERSONATION_USER_GUID
+# export IMPERSONATION_USER_GUID
 
-read -p "Please enter your an Impersonating user GUID  " IMPERSONATION_USER_GUID
-export IMPERSONATION_USER_GUID
-
-read -p "Please enter your Integration Key for JWT: " JWT_INTEGRATION_KEY
-export JWT_INTEGRATION_KEY
+# read -p "Please enter your Integration Key for JWT: " JWT_INTEGRATION_KEY
+# export JWT_INTEGRATION_KEY
 
 
-CFG="config/acg.txt" 
-rm -rf $CFG
-touch $CFG
+# CFG="config/jwt.txt"
+# rm -rf $CFG
+# touch $CFG
 
-echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo export INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
-echo export INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
-
-
-CFG="config/jwt.txt"
-rm -rf $CFG
-touch $CFG
-
-echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
-echo export IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
-echo export JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
+# echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+# echo export IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
+# echo export JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
 
 
+# echo "JWT configuration saved."
+# echo ""
+# oauthSettings
+# ;;
 
-echo "Both configurations saved"
-oauthSettings
-;;
-
-Delete_OAuth_Config_Data)
-resetToken
-
-
-rm -rf config/acg.txt
-rm -rf config/jwt.txt
-echo '' > config/private.key
-
-echo "All Oauth settings have been deleted"
-echo ""
-echo ""
-oauthSettings
-;;
-
-Use_OAuth_To_Login)
-login
-;;
-
-View_Examples)
-choices
-;;
-
-Configure_Signer_Form_Data)
-read -p "Please enter the signer email [example@domain.com]: " SIGNER_EMAIL
-SIGNER_EMAIL=${SIGNER_EMAIL:-"example@domain.com"}
-export SIGNER_EMAIL
-
-read -p "Please enter the signer name [Bash Signer]: " SIGNER_NAME
-SIGNER_NAME=${SIGNER_NAME:-"Bash Signer"}
-export SIGNER_NAME
-
-read -p "Please enter the CC email [bashcarboncopy@example.com]: " CC_EMAIL
-CC_EMAIL=${CC_EMAIL:-"bashcarboncopy@example.com"}
-export CC_EMAIL
+# Configure_Both_JWT_And_ACG)
+# resetToken
 
 
-read -p "Please enter the CC name [bash carboncopied]: " CC_NAME
-CC_NAME=${CC_NAME:-"bob carboncopied"}
-export CC_NAME
+# read -p "Please enter your API Account ID: " API_ACCOUNT_ID
+# export API_ACCOUNT_ID
 
-CFG="config/settings.txt"
-rm -rf $CFG
-touch $CFG
-echo export SIGNER_EMAIL='"'$SIGNER_EMAIL'"' >> $CFG
-echo export SIGNER_NAME='"'$SIGNER_NAME'"' >> $CFG
-echo export CC_EMAIL='"'$CC_EMAIL'"' >> $CFG
-echo export CC_NAME='"'$CC_NAME'"' >> $CFG
+# read -p "Please enter your Integration Key for ACG: " INTEGRATION_KEY
+# export INTEGRATION_KEY
+# read -p "Please enter your Integration Secret for ACG: " INTEGRATION_SECRET
+# export INTEGRATION_SECRET
 
-echo "Form settings have been saved."
-echo ""
+# read -p "Please enter your an Impersonating user GUID  " IMPERSONATION_USER_GUID
+# export IMPERSONATION_USER_GUID
 
-login
-;;
-
-Set_OAuth_Keys)
-oauthSettings
-;;
+# read -p "Please enter your Integration Key for JWT: " JWT_INTEGRATION_KEY
+# export JWT_INTEGRATION_KEY
 
 
-Exit)
-exit 0
-;;
+# CFG="config/acg.txt" 
+# rm -rf $CFG
+# touch $CFG
 
-esac
-done
+# echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+# echo export INTEGRATION_KEY='"'$INTEGRATION_KEY'"' >> $CFG
+# echo export INTEGRATION_SECRET='"'$INTEGRATION_SECRET'"' >> $CFG
 
-}
+
+# CFG="config/jwt.txt"
+# rm -rf $CFG
+# touch $CFG
+
+# echo export API_ACCOUNT_ID='"'$API_ACCOUNT_ID'"' >> $CFG
+# echo export IMPERSONATION_USER_GUID='"'$IMPERSONATION_USER_GUID'"' >> $CFG
+# echo export JWT_INTEGRATION_KEY='"'$JWT_INTEGRATION_KEY'"' >> $CFG
+
+
+
+# echo "Both configurations saved"
+# oauthSettings
+# ;;
+
+# Delete_OAuth_Config_Data)
+# resetToken
+
+
+# rm -rf config/acg.txt
+# rm -rf config/jwt.txt
+# echo '' > config/private.key
+
+# echo "All Oauth settings have been deleted"
+# echo ""
+# echo ""
+# oauthSettings
+# ;;
+
+# Use_OAuth_To_Login)
+# login
+# ;;
+
+# View_Examples)
+# choices
+# ;;
+
+# Configure_Signer_Form_Data)
+# read -p "Please enter the signer email [example@domain.com]: " SIGNER_EMAIL
+# SIGNER_EMAIL=${SIGNER_EMAIL:-"example@domain.com"}
+# export SIGNER_EMAIL
+
+# read -p "Please enter the signer name [Bash Signer]: " SIGNER_NAME
+# SIGNER_NAME=${SIGNER_NAME:-"Bash Signer"}
+# export SIGNER_NAME
+
+# read -p "Please enter the CC email [bashcarboncopy@example.com]: " CC_EMAIL
+# CC_EMAIL=${CC_EMAIL:-"bashcarboncopy@example.com"}
+# export CC_EMAIL
+
+
+# read -p "Please enter the CC name [bash carboncopied]: " CC_NAME
+# CC_NAME=${CC_NAME:-"bob carboncopied"}
+# export CC_NAME
+
+# CFG="config/settings.txt"
+# rm -rf $CFG
+# touch $CFG
+# echo export SIGNER_EMAIL='"'$SIGNER_EMAIL'"' >> $CFG
+# echo export SIGNER_NAME='"'$SIGNER_NAME'"' >> $CFG
+# echo export CC_EMAIL='"'$CC_EMAIL'"' >> $CFG
+# echo export CC_NAME='"'$CC_NAME'"' >> $CFG
+
+# echo "Form settings have been saved."
+# echo ""
+
+# login
+# ;;
+
+# Set_OAuth_Keys)
+# oauthSettings
+# ;;
+
+
+# Exit)
+# exit 0
+# ;;
+
+# esac
+# done
+
+# }
 
 function continu {
 echo "press the 'any' key to continue"
@@ -443,4 +447,4 @@ read nothin
 choices
 }
 
-oauthSettings
+login
