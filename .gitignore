@@ -3,6 +3,6 @@
 *.pem
 ENVELOPE_ID
 TEMPLATE_ID
+settings.txt
 config/
-
 debug.log
