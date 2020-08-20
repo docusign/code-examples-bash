@@ -29,8 +29,8 @@ rm -f config/ds_access_token* || true
 
 function login {
 echo ""
-echo "Welcome to the DocuSign eSignature Bash Launcher"
-echo "using Authorization Code grant and JWT grant authentication."
+echo "Welcome to the DocuSign Bash Launcher"
+echo "using Authorization Code grant or JWT grant authentication."
 echo ""
 
 PS3='Choose an OAuth Strategy:
@@ -66,7 +66,6 @@ done
 
 mv ds_access_token.txt $token_file_name
 
-# TODO: put an api call to retrieve userinfo on the auth scripts to pull the api account id
 account_id=$(cat config/API_ACCOUNT_ID)
 ACCESS_TOKEN=$(cat $token_file_name)
 
