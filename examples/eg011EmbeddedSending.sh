@@ -18,7 +18,8 @@ access_token=$(cat config/ds_access_token.txt)
 # 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
 #    the drop down on the upper right corner of the screen by your picture or
 #    the default picture.
-account_id=$API_ACCOUNT_ID
+
+account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 
@@ -139,9 +140,8 @@ curl --header "Authorization: Bearer ${access_token}" \
 
 echo ""
 cat $response
-
 # pull out the envelopeId
-envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\": \"//' | sed 's/\",.*//'`
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 
 echo ""
 echo "Requesting the sender view url"
@@ -158,7 +158,7 @@ curl --header "Authorization: Bearer ${access_token}" \
 
 echo ""
 cat $response
-sending_ceremony_url=`cat $response | grep url | sed 's/.*\"url\": \"//' | sed 's/\".*//'`
+sending_ceremony_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 # Next, we update the returned url if we want to start with the Recipient
 # and Documents view
 if [ "$starting_view" = "recipient" ]; then

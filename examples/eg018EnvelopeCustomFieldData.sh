@@ -16,7 +16,7 @@ access_token=$(cat config/ds_access_token.txt)
 
 #Set up variables for full code example
 # Note: Substitute these values with your own
-account_id=$API_ACCOUNT_ID
+account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 

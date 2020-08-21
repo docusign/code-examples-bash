@@ -6,11 +6,11 @@ $IP                    = 'localhost';
 $outputFile            = 'config/ds_access_token.txt';
 $state                 = bin2hex(random_bytes(5));
 
-$clientID              = getenv("INTEGRATION_KEY");
-$clientSecret          = getenv("INTEGRATION_SECRET");
+$clientID              = getenv("INTEGRATION_KEY_AUTH_CODE");
+$clientSecret          = getenv("SECRET_KEY");
 
-$JWT_INTEGRATION_KEY = getenv("JWT_INTEGRATION_KEY");
-$JWT_IMPERSONATION_GUID = getenv("IMPERSONATION_USER_GUID");
+$INTEGRATION_KEY_JWT = getenv("INTEGRATION_KEY_JWT");
+$IMPERSONATION_USER_GUID = getenv("IMPERSONATION_USER_GUID");
 
 $authorizationEndpoint = 'https://account-d.docusign.com/oauth/';
 
@@ -19,8 +19,21 @@ $redirectURI           = 'http://' . $IP . ':' . $PORT . '/authorization-code/ca
 
 function startHttpServer ($socket) {
   $responseOk = "HTTP/1.0 200 OK\r\n"
-    . "Content-Type: text/plain\r\n\r\n"
-    . "Ok. You may close this tab and return to the shell.\r\n";
+    . "Content-Type: text/html\r\n\r\n"
+    .'<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+
+<body>
+Ok. You may close this tab and return to the shell. This window closes automatically in five seconds.
+
+</body>
+<script>setTimeout(function () { window.close();}, 5000);</script>
+</html>';
+
 
   $responseErr = "HTTP/1.0 400 Bad Request\r\n"
     . "Content-Type: text/plain\r\n\r\n"

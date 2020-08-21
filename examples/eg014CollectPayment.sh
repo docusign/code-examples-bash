@@ -16,16 +16,12 @@ access_token=$(cat config/ds_access_token.txt)
 # 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
 #    the drop down on the upper right corner of the screen by your picture or
 #    the default picture.
-account_id=$API_ACCOUNT_ID
+account_id=$(cat config/API_ACCOUNT_ID)
 
 # 4. Log in to DocuSign Admin and from the top 
 #    navigation, select Admin. From there look 
 #    to the left under INTEGRATIONS and select 
 #    Payments to retrieve your Gateway account ID. 
-
-echo "Find your Stripe payment gateway id on: https://admindemo.docusign.com/payments"
-read -p "Please enter your Stripe Payment Gateway ID " PAYMENT_GATEWAY_ID
-export PAYMENT_GATEWAY_ID
 
 base_path="https://demo.docusign.net/restapi"
 
@@ -99,7 +95,7 @@ printf \
                             "paymentDetails": {
                                 "currencyCode": "USD",
                                 "gatewayAccountId": "' >> $request_data
-                                printf "${PAYMENT_GATEWAY_ID}" >> $request_data
+                                printf "${GATEWAY_ACCOUNT_ID}" >> $request_data
                                 printf '",
                                 "gatewayDisplayName": "Stripe",
                                 "gatewayName": "stripe",

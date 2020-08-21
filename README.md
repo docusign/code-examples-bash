@@ -115,25 +115,19 @@ This repo includes a bash command line application that use curl to demonstrate:
 
 ## Installation
 
-Download or clone this repository to your workstation
-
-## Collect your Integration information
-
-* Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so.
-* Once you have a Docusign account created, make a new [**integration key**](https://admindemo.docusign.com/api-integrator-key). 
+* Download or clone this repository to your workstation `git clone https://github.com/docusign/code-examples-bash`
+* Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so
+* Once you have a Docusign account created, make a new [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey)
 * Add in the following **redirect uri** `http://localhost:8080/authorization-code/callback`
-* Find your **API Account Id:** on the same page you used to setup your [**integration key**](https://admindemo.docusign.com/api-integrator-key). 
-
    ![Figure](https://raw.githubusercontent.com/docusign/code-examples-bash/master/documentation/account_id.png)
- * **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
-   email client.
+* **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
+   email client
+* **Carbon Copy name and email:** Do not use the same email address for the CC and the Signer
+* [JWT - OPTIONAL] create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
+* [JWT - CONTINUED] If you intend to use JWT grant authentication, set **IMPERSONATION_USER_GUID** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey). 
+* Copy the file 'config/settings.example.txt' to 'config/settings.txt'
+* Fill in your API credentials, Signer name/email and CC name/email using the requirements listed above into 'config/settings.txt'
 
-
-
-## JWT Authentication
-
-* create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
-* OPTIONAL: If you intend to use JWT grant authentication, set **Impersonation_user_guid** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/api-integrator-key). 
 
 
 ## OAuth Details
@@ -144,14 +138,11 @@ These php scripts are integrated into the launcher and hardcode the location for
 
 Do not delete or change the name of the private.key file located in the config directory as this will cause problems with jwt authentication. 
 
+
 ## Running the examples
-You can see each of the various examples in action by running `bash launcher.sh` and pressing the number six to get to the option to edit your form data. 
+You can see each of the various examples in action by running `bash launcher.sh` and pressing numbers 1 or 2 to login using OAUTH and store an access token. (JWT tokens are good for 1 hour, Authorization Code grant tokens are good for 8 hours.) 
 
-Log in to your DocuSign account using either Authorization Code Grant or using JWT to gain an OAuth token. From there, you can pick the number that corresponds to a setting or feature you wish to try out. 
-
-If you make a mistake, simply run the settings option again. Each code example is a standalone file, but can be reached using the launcher.sh file.
-
-Use the bash shell to run the examples. 
+On successful login, you will be presented with a menu to run the various examples available.  For example: Press "2", to try eg002SigningViaEmail.
 
 The examples have been tested on Windows using the **Git-Bash** software included with the [git for Windows](https://gitforwindows.org/) open source application.
 
@@ -159,6 +150,8 @@ The scripts can also be used with MacOS and Linux systems.
 
 The source files for each example are located in the `/examples` directory.
 
+
+**Note:** If your DocuSign account has more than one user associated with it, the first user is selected for subsequent API calls. 
 
 ### Payments code example
 To use the payments code example, first create a test payments gateway in your account.

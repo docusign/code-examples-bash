@@ -17,7 +17,7 @@ fi
 # Set up variables for full code example
 # Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
-account_id=$API_ACCOUNT_ID
+account_id=$(cat config/API_ACCOUNT_ID)
 
 profile_id=`cat config/PROFILE_ID`
 #TODO: Set the group id by using an api call and a select chain to pick the groupID
