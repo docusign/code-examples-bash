@@ -151,6 +151,8 @@ The scripts can also be used with MacOS and Linux systems.
 The source files for each example are located in the `/examples` directory.
 
 
+**Note:** If your DocuSign account has more than one user associated with it, the first user is selected for subsequent API calls. 
+
 ### Payments code example
 To use the payments code example, first create a test payments gateway in your account.
 Follow the instructions in the
