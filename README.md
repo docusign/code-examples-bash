@@ -17,12 +17,12 @@ This repo includes a bash command line application that use curl to demonstrate:
 1. **Get an envelope's basic information.**
    [Source.](./examples/eg004EnvelopeInfo.sh)
    The example lists the basic information about an envelope, including its overall status.
-1. **List an envelope's recipients** 
+1. **List an envelope's recipients**
    [Source.](./examples/eg005EnvelopeRecipients.sh)
    Includes current recipient status.
 1. **List an envelope's documents.**
    [Source.](./examples/eg006EnvelopeDocs.sh)
-1. **Download an envelope's documents.** 
+1. **Download an envelope's documents.**
    [Source.](./examples/eg007EnvelopeGetDoc.sh)
    The example can download individual
    documents, the documents concatenated together, or a zip file of the documents.
@@ -35,7 +35,7 @@ This repo includes a bash command line application that use curl to demonstrate:
    Binary transfer is 33% more efficient than using Base64 encoding.
 1. **Embedded sending.**
    [Source.](./examples/eg011EmbeddedSending.sh)
-   Embeds the DocuSign web tool (NDSE) in your web app to finalize or update 
+   Embeds the DocuSign web tool (NDSE) in your web app to finalize or update
    the envelope and documents before they are sent.
 1. **Embedded DocuSign web tool (NDSE).**
    [Source.](./examples/eg012EmbeddedConsole.sh)
@@ -64,7 +64,7 @@ This repo includes a bash command line application that use curl to demonstrate:
 1. **Get the envelope custom field data (metadata).**
    The example retrieves the custom metadata (custom data fields) stored with the envelope.
    [Source.](./examples/eg018EnvelopeCustomFieldData.sh)
-1. **Requiring an Access Code for a Recipient**   
+1. **Requiring an Access Code for a Recipient**
    [Source.](./examples/eg019SigningViaEmailWithAccessCode.sh)
    This example sends an envelope using remote (email) signing requiring the recipient to enter an access code.
 1. **Send an envelope with a remote (email) signer using SMS authentication.**
@@ -78,13 +78,13 @@ This repo includes a bash command line application that use curl to demonstrate:
    This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via Knowledge-Based authentication.
 1. **Send an envelope with a remote (email) signer using Identity Verification.**
    [Source.](./examples/eg023SigningViaEmailWithIDVAuthentication.sh)
-   This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via a government issued ID.
+   This example sends an envelope using remote (email) signing requiring the recipient to validate their identity via a government-issued ID.
 1. **Creating a permission profile**
    [Source.](./examples/eg024CreatingPermissionProfiles.sh)
    This code example demonstrates how to create a permission profile using the [Create Permission Profile](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/create) method.
 1. **Setting a permission profile**
    [Source.](./examples/eg025SettingPermissionProfiles.sh)
-   This code example demonstrates how to set a user group’s permission profile using the [Update Group](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/update) method. 
+   This code example demonstrates how to set a user group’s permission profile using the [Update Group](https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/update) method.
    You must have already created the permissions profile and the group of users.
 1. **Updating individual permission settings**
    [Source.](./examples/eg026UpdatingIndividualPermission.sh)
@@ -97,20 +97,20 @@ This repo includes a bash command line application that use curl to demonstrate:
    This example creates brand profile for an account using the [Create Brand](https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/create) method.
 1. **Applying a brand to an envelope**
    [Source.](./examples/eg029ApplyingBrandEnvelope.sh)
-   This code example demonstrates how to apply a brand you've created to an envelope using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
+   This code example demonstrates how to apply a brand you've created to an envelope using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method.
    First, creates the envelope and then applies the brand to it.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
 1. **Applying a brand to a template**
    [Source.](./examples/eg030ApplyingBrandTemplate.sh)
-   This code example demonstrates how to apply a brand you've created to a template using using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method. 
+   This code example demonstrates how to apply a brand you've created to a template using the [Create Envelope](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method.
    You must have already created the template and the brand.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
 1. **Bulk sending envelopes to multiple recipients**
    [Source.](./examples/eg031BulkSending.sh)
    This code example demonstrates how to send envelopes in bulk to multiple recipients using these methods:
-   [Create Bulk Send List](https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkSend/createBulkSendList), 
+   [Create Bulk Send List](https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkSend/createBulkSendList),
    [Create Bulk Send Request](https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkSend/createBulkSendRequest).
-   Firstly, creates a bulk send recipients list, and then creates an envelope. 
+   Firstly, creates a bulk send recipients list, and then creates an envelope.
    After that, initiates bulk envelope sending.
 
 ## Installation
@@ -124,7 +124,7 @@ This repo includes a bash command line application that use curl to demonstrate:
    email client
 * **Carbon Copy name and email:** Do not use the same email address for the CC and the Signer
 * [JWT - OPTIONAL] create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
-* [JWT - CONTINUED] If you intend to use JWT grant authentication, set **IMPERSONATION_USER_GUID** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey). 
+* [JWT - CONTINUED] If you intend to use JWT grant authentication, set **IMPERSONATION_USER_GUID** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey).
 * Copy the file 'config/settings.example.txt' to 'config/settings.txt'
 * Fill in your API credentials, Signer name/email and CC name/email using the requirements listed above into 'config/settings.txt'
 
@@ -132,15 +132,15 @@ This repo includes a bash command line application that use curl to demonstrate:
 
 ## OAuth Details
 
-This launcher is a collection of bash scripts, however the OAuth mechanisms are PHP scripts that setup a small http listener on **port 8080** in order to receive the redirect callback from successful authorization with DocuSign servers that include the Authorization code or an access token in the response payload. Please ensure that any other webserver using 8080 are off so that the OAuth mechanism functions properly.  
+This launcher is a collection of bash scripts, however the OAuth mechanisms are PHP scripts that setup a small HTTP listener on **port 8080** in order to receive the redirect callback from successful authorization with DocuSign servers that include the Authorization code or an access token in the response payload. Please ensure that any other webserver using 8080 are off so that the OAuth mechanism functions properly.
 
-These php scripts are integrated into the launcher and hardcode the location for the RSA private key in the case of the JWT php scripts.  
+These PHP scripts are integrated into the launcher and hardcode the location for the RSA private key in the case of the JWT PHP scripts.
 
-Do not delete or change the name of the private.key file located in the config directory as this will cause problems with jwt authentication. 
+Do not delete or change the name of the private.key file located in the config directory as this will cause problems with jwt authentication.
 
 
 ## Running the examples
-You can see each of the various examples in action by running `bash launcher.sh` and pressing numbers 1 or 2 to login using OAUTH and store an access token. (JWT tokens are good for 1 hour, Authorization Code grant tokens are good for 8 hours.) 
+You can see each of the various examples in action by running `bash launcher.sh` and pressing numbers 1 or 2 to login using OAUTH and store an access token. (JWT tokens are good for 1 hour, Authorization Code grant tokens are good for 8 hours.)
 
 On successful login, you will be presented with a menu to run the various examples available.  For example: Press "2", to try eg002SigningViaEmail.
 
@@ -151,7 +151,7 @@ The scripts can also be used with MacOS and Linux systems.
 The source files for each example are located in the `/examples` directory.
 
 
-**Note:** If your DocuSign account has more than one user associated with it, the first user is selected for subsequent API calls. 
+**Note:** If your DocuSign account has more than one user associated with it, the first user is selected for subsequent API calls.
 
 ### Payments code example
 To use the payments code example, first create a test payments gateway in your account.
