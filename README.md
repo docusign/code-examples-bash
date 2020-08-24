@@ -119,8 +119,7 @@ This repo includes a bash command line application that use curl to demonstrate:
 * Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so
 * Once you have a Docusign account created, make a new [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey)
 * Add in the following **redirect uri** `http://localhost:8080/authorization-code/callback`
-   ![Figure](https://raw.githubusercontent.com/docusign/code-examples-bash/master/documentation/account_id.png)
-* **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
+ * **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
    email client
 * **Carbon Copy name and email:** Do not use the same email address for the CC and the Signer
 * [JWT - OPTIONAL] create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
