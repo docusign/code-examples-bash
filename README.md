@@ -5,7 +5,7 @@
 This repo includes a bash command line application that use curl to demonstrate:
 
 1. **Embedded Signing Ceremony.**
-   [Source.](./examples/eSignature/eg001EmbeddedSigning.sh)
+   [Source.](./eg001EmbeddedSigning.sh)
    This example sends an envelope, and then uses an embedded signing ceremony for the first signer.
    With embedded signing, the DocuSign signing ceremony is initiated from your website.
 1. **Send an envelope with a remote (email) signer and cc recipient.**
