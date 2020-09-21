@@ -1,4 +1,4 @@
-# DocuSign eSignature Bash Code Examples
+﻿# DocuSign eSignature Bash Code Examples
 
 ### Github repo: code-examples-bash
 ## Introduction
@@ -114,6 +114,7 @@ This repo includes a bash command line application that use curl to demonstrate:
    After that, initiates bulk envelope sending.
 
 ## Installation
+**Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, these steps were done for you and can be skipped.
 
 * Download or clone this repository to your workstation `git clone https://github.com/docusign/code-examples-bash`
 * Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so
