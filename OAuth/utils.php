@@ -1,6 +1,6 @@
 <?php
 
-$PORT                  = '8008';
+$PORT                  = '8080';
 $IP                    = 'localhost';
 
 $outputFile            = 'config/ds_access_token.txt';
