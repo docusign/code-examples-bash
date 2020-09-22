@@ -44,8 +44,8 @@ printf \
 	"envelopeIdStamping": "true",
 	"recipients": {
 	"signers": [{
-		"name": "'"${SIGNER_NAME}"'",
-		"email": "'"${SIGNER_EMAIL}"'",
+		"name": "{SIGNER_NAME}",
+		"email": "{SIGNER_EMAIL}",
 		"roleName": "signer",
 		"note": "",
 		"routingOrder": 1,
@@ -63,8 +63,8 @@ printf \
 			},
 		"deliveryMethod": "email",
 		"recipientId": "1",
-        "brandId": "'"$brand_id"'"
-	}]
+	}],
+	"brandId": "{BRAND_ID}"
 	},
 	"status": "Sent"
 }' >> $request_data
