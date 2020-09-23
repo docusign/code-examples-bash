@@ -63,9 +63,9 @@ printf \
 			},
 		"deliveryMethod": "email",
 		"recipientId": "1",
-        "brandId": "'"$brand_id"'"
-	}]
+	}],
 	},
+	"brandId": "'$brand_id'",
 	"status": "Sent"
 }' >> $request_data
 
@@ -73,7 +73,7 @@ printf \
 #         b) Display the JSON response
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-brand.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request POST ${BASE_PATH}/v2.1/accounts/${account_id}/envelopes \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
