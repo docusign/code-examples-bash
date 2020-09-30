@@ -39,6 +39,7 @@ PS3='Choose an OAuth Strategy:
 select METHOD in \
 "Use_Authorization_Code_Grant" \
 "Use_JSON_Web_Token" \
+"Skip_To_Examples" \
 "Exit" \
 
 
@@ -56,6 +57,9 @@ php ./OAuth/jwt.php
 continu
 ;;
 
+Skip_To_Examples)
+choices
+;;
 
 Exit)
 exit 0
