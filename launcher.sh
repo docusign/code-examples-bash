@@ -72,7 +72,7 @@ function choices() {
             ;;
 
         Rooms)
-            startRoms
+            startRooms
             choices
             ;;
 
@@ -125,7 +125,7 @@ function startSignature() {
         case "$CHOICE" in
 
         Home)
-            login
+            choices
             ;;
         Embedded_Signing)
             bash eg001EmbeddedSigning.sh
@@ -259,10 +259,58 @@ function startSignature() {
     done
 }
 
-function startRoms() {
+function startRooms() {
     echo ""
-    echo "This is Start Rooms functions"
-    choices
+    PS3='Select the action : '
+    select CHOICE in \
+        "Create_Room_With_Data_Controller" \
+        "Create_Room_With_Template_Controller" \
+        "Export_Data_From_Room_Controller" \
+        "Add_Forms_To_Room_Controller" \
+        "Get_Rooms_With_Filters_Controller" \
+        "Create_An_External_Form_Fill_Session_Controller" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Create_Room_With_Data_Controller)
+            # bash examples/Rooms/eg001CreateRoomWithDataController.sh
+            echo "Create_Room_With_Data_Controller is under construction..."
+            startRooms
+            ;;
+        Create_Room_With_Template_Controller)
+            # bash examples/Rooms/eg002CreateRoomWithTemplateController.sh
+            echo "Create_Room_With_Template_Controller is under construction..."
+            startRooms
+            ;;
+        Export_Data_From_Room_Controller)
+            # bash examples/Rooms/eg003ExportDataFromRoomController.sh
+            echo "Export_Data_From_Room_Controller is under construction..."
+            startRooms
+            ;;
+        Add_Forms_To_Room_Controller)
+            # bash examples/Rooms/eg004AddFormsToRoomController.sh
+            echo "Add_Forms_To_Room_Controller is under construction..."
+            startRooms
+            ;;
+        Get_Rooms_With_Filters_Controller)
+            # bash examples/Rooms/eg005GetRoomsWithFiltersController.sh
+            echo "Get_Rooms_With_Filters_Controller is under construction..."
+            startRooms
+            ;;
+        Create_An_External_Form_Fill_Session_Controller)
+            # bash examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh
+            echo "Create_An_External_Form_Fill_Session_Controller is under construction..."
+            startRooms
+            ;;
+        *)
+            echo "Default action..."
+            startRooms
+            ;;
+        esac
+    done
 }
 
 function continu() {
