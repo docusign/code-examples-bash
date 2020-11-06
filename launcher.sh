@@ -276,33 +276,27 @@ function startRooms() {
             choices
             ;;
         Create_Room_With_Data_Controller)
-            # bash examples/Rooms/eg001CreateRoomWithDataController.sh
-            echo "Create_Room_With_Data_Controller is under construction..."
+            bash examples/Rooms/eg001CreateRoomWithDataController.sh
             startRooms
             ;;
         Create_Room_With_Template_Controller)
-            # bash examples/Rooms/eg002CreateRoomWithTemplateController.sh
-            echo "Create_Room_With_Template_Controller is under construction..."
+            bash examples/Rooms/eg002CreateRoomWithTemplateController.sh
             startRooms
             ;;
         Export_Data_From_Room_Controller)
-            # bash examples/Rooms/eg003ExportDataFromRoomController.sh
-            echo "Export_Data_From_Room_Controller is under construction..."
+            bash examples/Rooms/eg003ExportDataFromRoomController.sh
             startRooms
             ;;
         Add_Forms_To_Room_Controller)
-            # bash examples/Rooms/eg004AddFormsToRoomController.sh
-            echo "Add_Forms_To_Room_Controller is under construction..."
+            bash examples/Rooms/eg004AddFormsToRoomController.sh
             startRooms
             ;;
         Get_Rooms_With_Filters_Controller)
-            # bash examples/Rooms/eg005GetRoomsWithFiltersController.sh
-            echo "Get_Rooms_With_Filters_Controller is under construction..."
+            bash examples/Rooms/eg005GetRoomsWithFiltersController.sh
             startRooms
             ;;
         Create_An_External_Form_Fill_Session_Controller)
-            # bash examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh
-            echo "Create_An_External_Form_Fill_Session_Controller is under construction..."
+            bash examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh
             startRooms
             ;;
         *)

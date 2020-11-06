@@ -4,7 +4,7 @@ require 'utils.php';
 
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
   'redirect_uri'  => $redirectURI,
-  'scope'         => 'signature',
+  'scope'         => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms',
   'client_id'     => $clientID,
   'state'         => $state,
   'response_type' => 'code'
