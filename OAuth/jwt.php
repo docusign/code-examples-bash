@@ -45,9 +45,9 @@ if(isset($response->error)){
 if($response->error == "consent_required"){
 
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
-  'scope'         => 'signature impersonation',
+  'scope'         => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms',
   'redirect_uri'  => $redirectURI,
-  'client_id'     => $JWT_INTEGRATION_KEY,
+  'client_id'     => $INTEGRATION_KEY_JWT,
   'state'         => $state,
   'response_type' => 'code'
 ]);
