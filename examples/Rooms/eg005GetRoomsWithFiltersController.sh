@@ -1,3 +1,4 @@
+#!/bin/bash
 # https://developers.docusign.com/docs/rooms-api/how-to/get-room-with-filters/
 # How to get a room with filters
 #

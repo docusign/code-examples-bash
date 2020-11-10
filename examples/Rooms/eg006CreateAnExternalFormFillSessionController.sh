@@ -1,3 +1,4 @@
+#!/bin/bash
 # https://developers.docusign.com/docs/rooms-api/how-to/external-form-fill
 # How to create an external form fillable session
 #

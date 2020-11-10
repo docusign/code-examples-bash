@@ -1,3 +1,4 @@
+#!/bin/bash
 # https://developers.docusign.com/docs/rooms-api/how-to/add-form-to-room
 # How to add forms to a room
 #

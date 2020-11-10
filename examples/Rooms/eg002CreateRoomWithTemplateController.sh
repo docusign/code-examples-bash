@@ -1,3 +1,4 @@
+#!/bin/bash
 # https://developers.docusign.com/docs/rooms-api/how-to/create-room-with-template/
 # How to create a room with a template
 #
@@ -155,6 +156,10 @@ if [[ "$Status" -gt "201" ]]; then
     cat $response
     exit 1
 fi
+
+echo ""
+echo "roleID: $roleId"
+echo "TemplateID: $roomTemplateId"
 
 echo ""
 echo "Response:"

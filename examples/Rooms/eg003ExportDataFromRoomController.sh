@@ -1,3 +1,4 @@
+#!/bin/bash
 # https://developers.docusign.com/docs/rooms-api/how-to/export-room-data
 # How to export data from a room
 #
