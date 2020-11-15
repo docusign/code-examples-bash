@@ -6,12 +6,20 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+# Check that we have an Envelope ID
+if [ ! -f config/ENVELOPE_ID ]; then
+    echo ""
+    echo "PROBLEM: Envelope Id is needed. To fix: execute script eg032PauseSignatureWorkflow.sh"
+    echo ""
+    exit -1
+fi
+envelope_id=$(cat config/ENVELOPE_ID)
+
 # Step 1: Create your API Headers
 # Note: These values are not valid, but are shown for example purposes only!
 access_token=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
-envelope_id=$(cat config/ENVELOPE_ID)
 
 # Step 2: Construct your API headers
 # Construct your API headers
