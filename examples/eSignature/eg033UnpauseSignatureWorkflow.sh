@@ -40,10 +40,16 @@ Status=$(curl --request PUT "${base_path}/v2.1/accounts/${account_id}/envelopes/
     --output ${response})
 
 if [[ "$Status" -gt "201" ]]; then
-  echo ""
-  echo "The call of the eSignature API has failed"
-  echo ""
-  cat $response
-  exit 1
+    echo ""
+    echo "The call of the eSignature API has failed"
+    echo ""
+    cat $response
+    exit 1
 fi
 
+echo ""
+echo "Request:"
+cat $request_data
+echo ""
+
+echo $(cat $response)
