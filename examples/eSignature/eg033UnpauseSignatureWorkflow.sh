@@ -19,6 +19,10 @@ declare -a Headers=('--header' "Authorization: Bearer $access_token"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
 
+# Create a temporary files to store the JSON body and response
+request_data=$(mktemp /tmp/request-bs.XXXXXX)
+response=$(mktemp /tmp/response-bs.XXXXXX)
+
 # Step 3.Construct the JSON body for your envelope
 printf \
     '{
@@ -29,11 +33,6 @@ printf \
 }' >>$request_data
 
 # Step 4. Call the eSignature API
-
-# Create a temporary files to store the JSON body and response
-request_data=$(mktemp /tmp/request-bs.XXXXXX)
-response=$(mktemp /tmp/response-bs.XXXXXX)
-
 Status=$(curl --request PUT "${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}?resend_envelope=true" \
     "${Headers[@]}" \
     --data-binary @${request_data} \
@@ -52,4 +51,11 @@ echo "Request:"
 cat $request_data
 echo ""
 
+# Check the response
+echo ""
 echo $(cat $response)
+echo ""
+
+# Remove the temporary files
+rm "$response"
+rm "$request_data"

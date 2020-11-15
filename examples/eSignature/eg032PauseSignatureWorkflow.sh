@@ -119,3 +119,7 @@ echo ""
 
 # Store the envelope_id into the config file
 echo $envelope_id >config/ENVELOPE_ID
+
+# Remove the temporary files
+rm "$response"
+rm "$request_data"
