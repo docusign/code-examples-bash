@@ -113,6 +113,9 @@ select CHOICE in  \
 "Applying_Brand_Envelope" \
 "Applying_Brand_Template" \
 "Bulk_Sending" \
+"Pause_Signature_Workflow" \
+"Unpause_Signature_Workflow" \
+"Use_Conditional_Recipients" \
 "Home" \
 
 do
@@ -212,6 +215,15 @@ Applying_Brand_Template) bash examples/eSignature/eg030ApplyingBrandTemplate.sh
 continu
 ;;
 Bulk_Sending) bash examples/eSignature/eg031BulkSending.sh 
+continu
+;;
+Pause_Signature_Workflow) bash examples/eSignature/eg032PauseSignatureWorkflow.sh
+continu
+;;
+Unpause_Signature_Workflow) bash examples/eSignature/eg033UnpauseSignatureWorkflow.sh
+continu
+;;
+Use_Conditional_Recipients) bash examples/eSignature/eg034UseConditionalRecipients.sh
 continu
 ;;
 *) echo "Default action..."
