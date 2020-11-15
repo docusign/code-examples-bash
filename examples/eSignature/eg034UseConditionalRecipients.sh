@@ -6,12 +6,12 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# SIGNER_NOT_CHECKED_NAME
-# SIGNER_NOT_CHECKED_EMAIL
-# SIGNER_WHEN_CHECKED_NAME
-# SIGNER_WHEN_CHECKED_EMAIL
-# SIGNER1_NAME
-# SIGNER1_EMAIL
+SIGNER_NOT_CHECKED_NAME="Test User"
+SIGNER_NOT_CHECKED_EMAIL="test@gmail.com"
+SIGNER_WHEN_CHECKED_NAME=$CC_NAME
+SIGNER_WHEN_CHECKED_EMAIL=$CC_EMAIL
+SIGNER1_NAME=$SIGNER_NAME
+SIGNER1_EMAIL=$SIGNER_EMAIL
 
 # Step 1: Create your API Headers
 # Note: These values are not valid, but are shown for example purposes only!
