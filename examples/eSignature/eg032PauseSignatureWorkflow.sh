@@ -94,11 +94,28 @@ printf \
 ' >>$request_data
 
 # Step 4. Call the eSignature API
-curl --request POST "${base_path}/v2.1/accounts/${account_id}/envelopes" \
+Status=$(curl --request POST "${base_path}/v2.1/accounts/${account_id}/envelopes" \
   "${Headers[@]}" \
   --data-binary @${request_data} \
-  --output ${response}
+  --output ${response})
 
-# Remove the temporary files
-rm "$request_data"
-rm "$response"
+if [[ "$Status" -gt "201" ]]; then
+  echo ""
+  echo "The call of the eSignature API has failed"
+  echo ""
+  cat $response
+  exit 1
+fi
+
+echo ""
+echo "Request:"
+cat $request_data
+echo ""
+
+# Obtain the Envelope ID from the JSON response
+envelope_id=$(cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//')
+echo "Envelope Id: $envelope_id"
+echo ""
+
+# Store the envelope_id into the config file
+echo $envelope_id >config/ENVELOPE_ID
