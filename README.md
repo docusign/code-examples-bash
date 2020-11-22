@@ -4,6 +4,7 @@
 ## Introduction
 This repo includes a bash command line application that use curl to demonstrate:
 
+### eSignature API:
 1. **Embedded Signing Ceremony.**
    [Source.](./eg001EmbeddedSigning.sh)
    This example sends an envelope, and then uses an embedded signing ceremony for the first signer.
@@ -112,6 +113,25 @@ This repo includes a bash command line application that use curl to demonstrate:
    [Create Bulk Send Request](https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkSend/createBulkSendRequest).
    Firstly, creates a bulk send recipients list, and then creates an envelope.
    After that, initiates bulk envelope sending.
+
+### Rooms API:
+**Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**
+1. **Create a room with data.**
+   [Source.](./examples/Rooms/eg001CreateRoomWithDataController.sh)
+   This example creates a new room in your DocuSign Rooms account to be used for a transaction.
+1. **Create a room from a template.**
+   [Source.](./examples/Rooms/eg002CreateRoomWithTemplateController.sh)
+   This example creates a new room using a template.
+1. **Create a room with Data.**
+   [Source.](./examples/Rooms/eg003ExportDataFromRoomController.sh)
+   This example exports all the available data from a specific room in your DocuSign Rooms account.
+1. **Add forms to a room.**
+   [Source.](./examples/Rooms/eg004AddFormsToRoomController.sh)
+   This example adds a standard real estate related form to a specific room in your DocuSign Rooms account.
+1. **How to search for rooms with filters.**
+   [Source.](./examples/Rooms/eg005GetRoomsWithFiltersController.sh)
+1. **Create an external form fillable session.**
+   [Source.](./examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh)
 
 ## Installation
 **Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, these steps were done for you and can be skipped.**
