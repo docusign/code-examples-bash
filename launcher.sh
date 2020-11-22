@@ -1,4 +1,7 @@
+#!/bin/bash
 set -e
+
+api_version=""
 
 if [ ! -f "config/settings.txt" ]; then
     echo "Error: "
@@ -16,8 +19,10 @@ function resetToken() {
     rm -f config/ds_access_token* || true
 }
 
+# Choose an OAuth Strategy
 function login() {
     echo ""
+    api_version=$1
     PS3='Choose an OAuth Strategy: '
     select METHOD in \
         "Use_Authorization_Code_Grant" \
@@ -28,13 +33,13 @@ function login() {
 
         \
             Use_Authorization_Code_Grant)
-            php ./OAuth/code_grant.php
-            continu
+            php ./OAuth/code_grant.php "$api_version"
+            continu $api_version
             ;;
 
         Use_JSON_Web_Token)
-            php ./OAuth/jwt.php
-            continu
+            php ./OAuth/jwt.php "$api_version"
+            continu $api_version
             ;;
 
         Skip_To_APIs)
@@ -56,28 +61,27 @@ function login() {
     export ACCESS_TOKEN
 }
 
+# Choose an API
 function choices() {
     echo ""
     PS3='Choose an API: '
     select METHOD in \
         "eSignature" \
         "Rooms" \
-        "Home" \
         "Exit"; do
         case "$METHOD" in
 
         eSignature)
+            api_version="eSignature"
+            login $api_version
             startSignature
-            choices
             ;;
 
         Rooms)
+            api_version="Rooms"
+            login $api_version
             startRooms
-            choices
-            ;;
 
-        Home)
-            login
             ;;
         Exit)
             exit 0
@@ -86,6 +90,7 @@ function choices() {
     done
 }
 
+# Select the action
 function startSignature() {
     echo ""
     PS3='Select the action : '
@@ -259,6 +264,7 @@ function startSignature() {
     done
 }
 
+# Select the action
 function startRooms() {
     echo ""
     PS3='Select the action : '
@@ -310,11 +316,18 @@ function startRooms() {
 function continu() {
     echo "press the 'any' key to continue"
     read nothin
-    choices
+    api_version=$1
+    if [[ $api_version == "eSignature" ]]
+    then
+      startSignature
+    elif [[ $api_version == "Rooms" ]]
+    then
+      startRooms
+    fi
 }
 
 echo ""
 echo "Welcome to the DocuSign Bash Launcher"
 echo "using Authorization Code grant or JWT grant authentication."
 
-login
+choices

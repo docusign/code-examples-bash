@@ -2,6 +2,7 @@
 
 require 'utils.php';
 
+$api_version = "$argv[1]";
 
 $timestamp = date_timestamp_get(date_create());
 $userID    = $IMPERSONATION_USER_GUID;
@@ -13,6 +14,30 @@ $header = encodeBase64URL(
     'alg' => 'RS256'
   ])
 );
+
+if($api_version == "eSignature"):
+  $body = encodeBase64URL(
+    json_encode([
+      'iss'   => $INTEGRATION_KEY_JWT,
+      'sub'   => $userID,
+      'iat'   => $timestamp,
+      'exp'   => $timestamp + 3600,
+      'aud'   => 'account-d.docusign.com',
+      'scope' => 'signature impersonation'
+    ])
+  );
+elseif($api_version == "Rooms"):
+  $body = encodeBase64URL(
+    json_encode([
+      'iss'   => $INTEGRATION_KEY_JWT,
+      'sub'   => $userID,
+      'iat'   => $timestamp,
+      'exp'   => $timestamp + 3600,
+      'aud'   => 'account-d.docusign.com',
+      'scope' => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
+    ])
+  );
+endif;
 
 $body = encodeBase64URL(
   json_encode([
