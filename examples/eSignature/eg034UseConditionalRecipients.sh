@@ -3,7 +3,7 @@
 
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
-    echo "PROBLEM: Run these scripts from within the bash shell."
+  echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
 SIGNER_NOT_CHECKED_NAME=$SIGNER_NOT_CHECKED_NAME
@@ -22,8 +22,8 @@ base_path="https://demo.docusign.net/restapi"
 # Step 2. Construct your API headers
 # Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer $access_token"
-    '--header' "Accept: application/json"
-    '--header' "Content-Type: application/json")
+  '--header' "Accept: application/json"
+  '--header' "Content-Type: application/json")
 
 # Step 3. Construct the request body
 
@@ -32,7 +32,7 @@ request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
 printf \
-    '{
+  '{
   "documents": 
   [
     {
@@ -189,16 +189,16 @@ printf \
 
 # Step 4. Call the eSignature API
 Status=$(curl --request POST "${base_path}/v2.1/accounts/${account_id}/envelopes" \
-    "${Headers[@]}" \
-    --data-binary @${request_data} \
-    --output ${response})
+  "${Headers[@]}" \
+  --data-binary @${request_data} \
+  --output ${response})
 
 if [[ "$Status" -gt "201" ]]; then
-    echo ""
-    echo "The call of the eSignature API has failed"
-    echo ""
-    cat $response
-    exit 1
+  echo ""
+  echo "The call of the eSignature API has failed"
+  echo ""
+  cat $response
+  exit 1
 fi
 
 echo ""
@@ -207,7 +207,7 @@ cat $request_data
 echo ""
 
 # Check the response
-if [[ $(grep WORKFLOW_UPDATE_RECIPIENTROUTING_NOT_ALLOWED $response) ]];then
+if [[ $(grep WORKFLOW_UPDATE_RECIPIENTROUTING_NOT_ALLOWED $response) ]]; then
   echo "Update to the workflow with recipient routing is not allowed for your account!"
   echo "Please contact with our support team to resolve this issue."
 fi
@@ -217,5 +217,5 @@ echo $(cat $response)
 echo ""
 
 # Remove the temporary files
-# rm "$response"
-# rm "$request_data"
+rm "$response"
+rm "$request_data"
