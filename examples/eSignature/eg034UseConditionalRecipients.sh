@@ -6,8 +6,8 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-SIGNER_NOT_CHECKED_NAME="Test User"
-SIGNER_NOT_CHECKED_EMAIL="test@gmail.com"
+SIGNER_NOT_CHECKED_NAME=$SIGNER_NOT_CHECKED_NAME
+SIGNER_NOT_CHECKED_EMAIL=$SIGNER_NOT_CHECKED_EMAIL
 SIGNER_WHEN_CHECKED_NAME=$CC_NAME
 SIGNER_WHEN_CHECKED_EMAIL=$CC_EMAIL
 SIGNER1_NAME=$SIGNER_NAME
@@ -207,10 +207,15 @@ cat $request_data
 echo ""
 
 # Check the response
+if [[ $(grep WORKFLOW_UPDATE_RECIPIENTROUTING_NOT_ALLOWED $response) ]];then
+  echo "Update to the workflow with recipient routing is not allowed for your account!"
+  echo "Please contact with our support team to resolve this issue."
+fi
+
 echo ""
 echo $(cat $response)
 echo ""
 
 # Remove the temporary files
-rm "$response"
-rm "$request_data"
+# rm "$response"
+# rm "$request_data"
