@@ -39,17 +39,6 @@ elseif($api_version == "Rooms"):
   );
 endif;
 
-$body = encodeBase64URL(
-  json_encode([
-    'iss'   => $INTEGRATION_KEY_JWT,
-    'sub'   => $userID,
-    'iat'   => $timestamp,
-    'exp'   => $timestamp + 3600,
-    'aud'   => 'account-d.docusign.com',
-    'scope' => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
-  ])
-);
-
 $privateKey = file_get_contents("config/private.key");
 openssl_sign($header . '.' . $body, $signature, $privateKey, 'sha256');
 echo "\nGetting a JWT access token...\n";
