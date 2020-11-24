@@ -1,4 +1,4 @@
-# Embedded Sending:
+# Use embedded sending:
 # 1. create a draft envelope with three documents
 # 2. Open the sending view of the DocuSign web tool
 #
@@ -147,7 +147,7 @@ echo ""
 echo "Requesting the sender view url"
 
 # The returnUrl is normally your own web app. DocuSign will redirect
-# the signer to returnUrl when the sending ceremony completes.
+# the signer to returnUrl when the embedded sending completes.
 # For this example, we'll use http://httpbin.org/get to show the 
 # query parameters passed back from DocuSign
 curl --header "Authorization: Bearer ${access_token}" \
@@ -158,23 +158,23 @@ curl --header "Authorization: Bearer ${access_token}" \
 
 echo ""
 cat $response
-sending_ceremony_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
+sending_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 # Next, we update the returned url if we want to start with the Recipient
 # and Documents view
 if [ "$starting_view" = "recipient" ]; then
-   sending_ceremony_url=`printf "${sending_ceremony_url/send=1/send=0}"`
+   sending_url=`printf "${sending_url/send=1/send=0}"`
 fi
 # ***DS.snippet.0.end
 
 echo ""
-printf "The sending ceremony URL is ${sending_ceremony_url}\n"
+printf "The embedded sending URL is ${sending_url}\n"
 printf "It is only valid for five minutes. Attempting to automatically open your browser...\n"
 if which xdg-open &> /dev/null  ; then
-  xdg-open "$sending_ceremony_url"
+  xdg-open "$sending_url"
 elif which open &> /dev/null    ; then
-  open "$sending_ceremony_url"
+  open "$sending_url"
 elif which start &> /dev/null   ; then
-  start "$sending_ceremony_url"
+  start "$sending_url"
 fi
 
 # cleanup

@@ -4,10 +4,10 @@
 ## Introduction
 This repo includes a bash command line application that use curl to demonstrate:
 
-1. **Embedded Signing Ceremony.**
+1. **Use embedded signing.**
    [Source.](./eg001EmbeddedSigning.sh)
-   This example sends an envelope, and then uses an embedded signing ceremony for the first signer.
-   With embedded signing, the DocuSign signing ceremony is initiated from your website.
+   This example sends an envelope, and then uses embedded signing for the first signer.
+   With embedded signing, the DocuSign signing is initiated from your website.
 1. **Send an envelope with a remote (email) signer and cc recipient.**
    [Source.](./examples/eSignature/eg002SigningViaEmail.sh)
    The envelope includes a pdf, Word, and HTML document.
@@ -33,13 +33,13 @@ This repo includes a bash command line application that use curl to demonstrate:
 1. **Send an envelope and upload its documents with multipart binary transfer.**
    [Source.](./examples/eSignature/eg010SendBinaryDocs.sh)
    Binary transfer is 33% more efficient than using Base64 encoding.
-1. **Embedded sending.**
+1. **Use embedded sending.**
    [Source.](./examples/eSignature/eg011EmbeddedSending.sh)
    Embeds the DocuSign web tool (NDSE) in your web app to finalize or update
    the envelope and documents before they are sent.
 1. **Embedded DocuSign web tool (NDSE).**
    [Source.](./examples/eSignature/eg012EmbeddedConsole.sh)
-1. **Embedded Signing Ceremony from a template with an added document.**
+1. **Use embedded signing from a template with an added document.**
    [Source.](./examples/eSignature/eg013AddDocToTemplate.sh)
    This example sends an envelope based on a template.
    In addition to the template's document(s), the example adds an
@@ -120,7 +120,7 @@ This repo includes a bash command line application that use curl to demonstrate:
 * Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so
 * Once you have a Docusign account created, make a new [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey)
 * Add in the following **redirect uri** `http://localhost:8080/authorization-code/callback`
-* **Signer name and email:** Remember to try the DocuSign signing ceremony using both a mobile phone and a regular
+* **Signer name and email:** Remember to try the DocuSign signing using both a mobile phone and a regular
    email client
 * **Carbon Copy name and email:** Do not use the same email address for the CC and the Signer
 * [JWT - OPTIONAL] create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
