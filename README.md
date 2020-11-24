@@ -115,7 +115,7 @@ This repo includes a bash command line application that use curl to demonstrate:
    After that, initiates bulk envelope sending.
 
 ### Rooms API:
-**Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**
+**Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account. These examples do not currently work when run from the Quickstart launcher.**
 1. **Create a room with data.**
    [Source.](./examples/Rooms/eg001CreateRoomWithDataController.sh)
    This example creates a new room in your DocuSign Rooms account to be used for a transaction.
@@ -146,8 +146,12 @@ This repo includes a bash command line application that use curl to demonstrate:
 * [JWT - OPTIONAL] create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
 * [JWT - CONTINUED] If you intend to use JWT grant authentication, set **IMPERSONATION_USER_GUID** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey).
 * Copy the file 'config/settings.example.txt' to 'config/settings.txt'
-* Fill in your API credentials, Signer name/email and CC name/email using the requirements listed above into 'config/settings.txt'
-
+* Fill in your API credentials into 'config/settings.txt'
+  * IMPERSONATION_USER_GUID = API Account ID
+  * INTEGRATION_KEY_JWT = Integration Key  
+  * INTEGRATION_KEY_AUTH_CODE = Integration Key
+  * SECRET_KEY = Secret Key
+  * GATEWAY_ACCOUNT_ID = Account ID
 
 
 ## OAuth Details
@@ -168,7 +172,7 @@ The examples have been tested on Windows using the **Git-Bash** software include
 
 The scripts can also be used with MacOS and Linux systems.
 
-The source files for each example are located in the `/examples` directory.
+The source files for each example are located in subdirectories under the `/examples` directory.
 
 
 **Note:** If your DocuSign account has more than one user associated with it, the first user is selected for subsequent API calls.
