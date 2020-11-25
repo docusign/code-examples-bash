@@ -21,4 +21,3 @@ gateway service.
 See the 
 [Managing Payment Gateways](https://support.docusign.com/en/guides/managing-payment-gateways)
 documentation. 
-   

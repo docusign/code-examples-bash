@@ -2,6 +2,7 @@
 
 require 'utils.php';
 
+$api_version = "$argv[1]";
 
 $timestamp = date_timestamp_get(date_create());
 $userID    = $IMPERSONATION_USER_GUID;
@@ -14,16 +15,29 @@ $header = encodeBase64URL(
   ])
 );
 
-$body = encodeBase64URL(
-  json_encode([
-    'iss'   => $INTEGRATION_KEY_JWT,
-    'sub'   => $userID,
-    'iat'   => $timestamp,
-    'exp'   => $timestamp + 3600,
-    'aud'   => 'account-d.docusign.com',
-    'scope' => 'signature impersonation'
-  ])
-);
+if($api_version == "eSignature"):
+  $body = encodeBase64URL(
+    json_encode([
+      'iss'   => $INTEGRATION_KEY_JWT,
+      'sub'   => $userID,
+      'iat'   => $timestamp,
+      'exp'   => $timestamp + 3600,
+      'aud'   => 'account-d.docusign.com',
+      'scope' => 'signature impersonation'
+    ])
+  );
+elseif($api_version == "Rooms"):
+  $body = encodeBase64URL(
+    json_encode([
+      'iss'   => $INTEGRATION_KEY_JWT,
+      'sub'   => $userID,
+      'iat'   => $timestamp,
+      'exp'   => $timestamp + 3600,
+      'aud'   => 'account-d.docusign.com',
+      'scope' => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
+    ])
+  );
+endif;
 
 $privateKey = file_get_contents("config/private.key");
 openssl_sign($header . '.' . $body, $signature, $privateKey, 'sha256');
@@ -44,13 +58,23 @@ $response = http($authorizationEndpoint . 'token', [
 if(isset($response->error)){
 if($response->error == "consent_required"){
 
-$authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
-  'scope'         => 'signature impersonation',
-  'redirect_uri'  => $redirectURI,
-  'client_id'     => $JWT_INTEGRATION_KEY,
-  'state'         => $state,
-  'response_type' => 'code'
-]);
+if($api_version == "eSignature"):
+  $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
+    'scope'         => 'signature impersonation',
+    'redirect_uri'  => $redirectURI,
+    'client_id'     => $INTEGRATION_KEY_JWT,
+    'state'         => $state,
+    'response_type' => 'code'
+  ]);
+elseif($api_version == "Rooms"):
+  $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
+    'scope'         => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms',
+    'redirect_uri'  => $redirectURI,
+    'client_id'     => $INTEGRATION_KEY_JWT,
+    'state'         => $state,
+    'response_type' => 'code'
+  ]);
+endif;
 
 echo "\nOpen the following URL in a browser to continue:\n" . $authorizationURL . "\n";
 // Windows fix: https://stackoverflow.com/a/1327444/2226328

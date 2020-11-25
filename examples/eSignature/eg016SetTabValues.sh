@@ -132,16 +132,16 @@ echo "EnvelopeId: ${envelope_id}"
 echo ${envelope_id} > config/ENVELOPE_ID
 
 
-# Step 4. Create a recipient view (a signing ceremony view)
+# Step 4. Create a recipient view (an embedded signing view)
 #         that the signer will directly open in their browser to sign
 #
 # The return URL is normally your own web app. DocuSign will redirect
-# the signer to the return URL when the signing ceremony completes.
+# the signer to the return URL when the DocuSign signing completes.
 # For this example, we'll use http://httpbin.org/get to show the 
 # query parameters passed back from DocuSign
 
 echo ""
-echo "Requesting the url for the signing ceremony..."
+echo "Requesting the url for the embedded signing..."
 curl --header "Authorization: Bearer ${access_token}" \
      --header "Content-Type: application/json" \
      --data-binary '
@@ -160,18 +160,18 @@ echo "Response:"
 cat $response
 echo ""
 
-signing_ceremony_url=`cat $response | grep url | sed 's/.*\"url\":\"//'# | sed 's/\".*//'`
+signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//'# | sed 's/\".*//'`
 
 
 echo ""
-printf "The signing ceremony URL is ${signing_ceremony_url}\n"
+printf "The embedded signing URL is ${signing_url}\n"
 printf "It is only valid for five minutes. Attempting to automatically open your browser...\n"
 if which xdg-open &> /dev/null  ; then
-  xdg-open "$signing_ceremony_url"
+  xdg-open "$signing_url"
 elif which open &> /dev/null    ; then
-  open "$signing_ceremony_url"
+  open "$signing_url"
 elif which start &> /dev/null   ; then
-  start "$signing_ceremony_url"
+  start "$signing_url"
 fi
 
 # cleanup
