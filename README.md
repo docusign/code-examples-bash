@@ -1,10 +1,7 @@
-﻿# DocuSign eSignature Bash Code Examples
-
-### Github repo: code-examples-bash
-## Introduction
-This repo includes a bash command line application that use curl to demonstrate:
+### eSignature API:
 
 1. **Use embedded signing.**
+
    [Source.](./eg001EmbeddedSigning.sh)
    This example sends an envelope, and then uses embedded signing for the first signer.
    With embedded signing, the DocuSign signing is initiated from your website.
@@ -113,6 +110,25 @@ This repo includes a bash command line application that use curl to demonstrate:
    Firstly, creates a bulk send recipients list, and then creates an envelope.
    After that, initiates bulk envelope sending.
 
+### Rooms API:
+**Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**
+1. **Create a room with data.**
+   [Source.](./examples/Rooms/eg001CreateRoomWithDataController.sh)
+   This example creates a new room in your DocuSign Rooms account to be used for a transaction.
+1. **Create a room from a template.**
+   [Source.](./examples/Rooms/eg002CreateRoomWithTemplateController.sh)
+   This example creates a new room using a template.
+1. **Create a room with Data.**
+   [Source.](./examples/Rooms/eg003ExportDataFromRoomController.sh)
+   This example exports all the available data from a specific room in your DocuSign Rooms account.
+1. **Add forms to a room.**
+   [Source.](./examples/Rooms/eg004AddFormsToRoomController.sh)
+   This example adds a standard real estate related form to a specific room in your DocuSign Rooms account.
+1. **How to search for rooms with filters.**
+   [Source.](./examples/Rooms/eg005GetRoomsWithFiltersController.sh)
+1. **Create an external form fillable session.**
+   [Source.](./examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh)
+
 ## Installation
 **Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, these steps were done for you and can be skipped.**
 
@@ -120,15 +136,18 @@ This repo includes a bash command line application that use curl to demonstrate:
 * Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so
 * Once you have a Docusign account created, make a new [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey)
 * Add in the following **redirect uri** `http://localhost:8080/authorization-code/callback`
-* **Signer name and email:** Remember to try the DocuSign signing using both a mobile phone and a regular
+* **Signer name and email:** Remember to try the DocuSign signing example using both a mobile phone and a regular
    email client
 * **Carbon Copy name and email:** Do not use the same email address for the CC and the Signer
 * [JWT - OPTIONAL] create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
 * [JWT - CONTINUED] If you intend to use JWT grant authentication, set **IMPERSONATION_USER_GUID** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey).
 * Copy the file 'config/settings.example.txt' to 'config/settings.txt'
-* Fill in your API credentials, Signer name/email and CC name/email using the requirements listed above into 'config/settings.txt'
-
-
+* Fill in your API credentials into 'config/settings.txt'
+  * IMPERSONATION_USER_GUID = API Account ID
+  * INTEGRATION_KEY_JWT = Integration Key  
+  * INTEGRATION_KEY_AUTH_CODE = Integration Key
+  * SECRET_KEY = Secret Key
+  * GATEWAY_ACCOUNT_ID = Account ID
 
 ## OAuth Details
 
