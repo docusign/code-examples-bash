@@ -109,6 +109,15 @@
    [Create Bulk Send Request](https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkSend/createBulkSendRequest).
    Firstly, creates a bulk send recipients list, and then creates an envelope.
    After that, initiates bulk envelope sending.
+1. **Pausing a signature workflow Source.**
+   [Source.](./examples/eSignature/eg032PauseSignatureWorkflow.sh)
+   This code example demonstrates how to create an envelope where the workflow is paused before the envelope is sent to a second recipient.
+1. **Unpausing a signature workflow**
+   [Source.](./examples/eSignature/eg033UnpauseSignatureWorkflow.sh)
+   This code example demonstrates how to resume an envelope workflow that has been paused
+1. **Using conditional recipients**
+   [Source.](./examples/eSignature/eg034UseConditionalRecipients.sh)
+   This code example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
 
 ### Rooms API:
 **Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**

@@ -126,6 +126,9 @@ function startSignature() {
         "Applying_Brand_Envelope" \
         "Applying_Brand_Template" \
         "Bulk_Sending" \
+        "Pause_Signature_Workflow" \
+        "Unpause_Signature_Workflow" \
+        "Use_Conditional_Recipients" \
         "Home"; do
         case "$CHOICE" in
 
@@ -254,6 +257,18 @@ function startSignature() {
             ;;
         Bulk_Sending)
             bash examples/eSignature/eg031BulkSending.sh
+            startSignature
+            ;;
+        Pause_Signature_Workflow) 
+            bash examples/eSignature/eg032PauseSignatureWorkflow.sh
+            startSignature
+            ;;
+        Unpause_Signature_Workflow)
+            bash examples/eSignature/eg033UnpauseSignatureWorkflow.sh
+            startSignature
+            ;;
+        Use_Conditional_Recipients)
+            bash examples/eSignature/eg034UseConditionalRecipients.sh
             startSignature
             ;;
         *)
