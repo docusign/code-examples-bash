@@ -31,12 +31,12 @@ else
     exit 0
 fi
 
-# - Construct your API headers
+# Step 2. Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \ 
     '--header' "Accept: application/json" \ 
     '--header' "Content-Type: application/json")
 
-# - Construct your clickwrap JSON body
+# Construct your clickwrap JSON body
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
 printf \
