@@ -49,7 +49,7 @@ printf \
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
 
-curl --header "Authorization: Bearer ${oAuthAccessToken}" \
+curl --header "Authorization: Bearer ${access_token}" \
     --header "Content-Type: application/json" \
     --data-binary @${request_data} \
     --request PUT https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/versions/${VersionNumber} \
