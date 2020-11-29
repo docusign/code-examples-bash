@@ -37,6 +37,17 @@ elseif($api_version == "Rooms"):
       'scope' => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
     ])
   );
+  elseif($api_version == "Click"):
+    $body = encodeBase64URL(
+      json_encode([
+        'iss'   => $INTEGRATION_KEY_JWT,
+        'sub'   => $userID,
+        'iat'   => $timestamp,
+        'exp'   => $timestamp + 3600,
+        'aud'   => 'account-d.docusign.com',
+        'scope' => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
+      ])
+    );
 endif;
 
 $privateKey = file_get_contents("config/private.key");
@@ -74,6 +85,14 @@ elseif($api_version == "Rooms"):
     'state'         => $state,
     'response_type' => 'code'
   ]);
+  elseif($api_version == "Click"):
+    $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
+      'scope'         => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms',
+      'redirect_uri'  => $redirectURI,
+      'client_id'     => $INTEGRATION_KEY_JWT,
+      'state'         => $state,
+      'response_type' => 'code'
+    ]);
 endif;
 
 echo "\nOpen the following URL in a browser to continue:\n" . $authorizationURL . "\n";

@@ -399,6 +399,7 @@ function continu() {
     then
       startRooms
     elif [[ $api_version == "Click" ]]
+    then
       startClick
     fi
 }
