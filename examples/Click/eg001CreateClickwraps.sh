@@ -19,8 +19,6 @@ access_token=$(cat config/ds_access_token.txt)
 #    the default picture.
 account_id=$(cat config/API_ACCOUNT_ID)
 
-base_path="https://demo.docusign.net/restapi"
-
 # Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${access_token}"
     '--header' "Accept: application/json"
@@ -28,8 +26,6 @@ declare -a Headers=('--header' "Authorization: Bearer ${access_token}"
 
 # Step 3. Construct the request body
 # Create a temporary file to store the JSON body
-request_data=$(mktemp /tmp/request-rmtmp.XXXXXX)
-
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 printf \
     '{
@@ -63,10 +59,22 @@ printf \
 # b) Display the JSON structure of the created clickwrap
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
-curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps \
+set -x
+Status=$(curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps \
     "${Headers[@]}" \
     --data-binary @${request_data} \
-    --output ${response}
+    --output ${response})
+
+echo $Status
+
+# If the status code returned is greater than 201 (OK / Accepted), display an error message with the API response.
+if [[ "$Status" -gt "201" ]]; then
+    echo ""
+    echo "The call of the Click API has failed"
+    echo ""
+    cat $response
+    exit 1
+fi
 
 echo ""
 echo "Response:"
@@ -74,5 +82,5 @@ cat $response
 echo ""
 
 # Remove the temporary files
-rm "$request_data"
-rm "$response"
+# rm "$request_data"
+# rm "$response"
