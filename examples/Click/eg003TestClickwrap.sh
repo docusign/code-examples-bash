@@ -32,11 +32,11 @@ environment="demo"
 test_url="https://developers.docusign.com/click-api/test-clickwrap?a=${account_id}&cw=${clickwrap_id}&eh=${environment}"
 
 printf "The clickwrap tester URL is ${test_url}\n"
-printf "Opening clickwrap tester directly in your browser...\n"
-if which xdg-open &> /dev/null  ; then
-  xdg-open "$test_url"
-elif which open &> /dev/null    ; then
-  open "$test_url"
-elif which start &> /dev/null   ; then
-  start "$test_url"
+printf "Opening the clickwrap tester URL directly in your browser...\n"
+if which xdg-open &>/dev/null; then
+    xdg-open "$test_url"
+elif which open &>/dev/null; then
+    open "$test_url"
+elif which start &>/dev/null; then
+    start "$test_url"
 fi
