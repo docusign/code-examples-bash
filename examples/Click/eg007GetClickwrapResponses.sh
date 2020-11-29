@@ -37,6 +37,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${access_token}"
 # b) Display the returned JSON structure of the responses
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
+
 curl --request GET https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/users \
     "${Headers[@]}" \
     --output ${response}
