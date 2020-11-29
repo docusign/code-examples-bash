@@ -19,7 +19,7 @@ access_token=$(cat config/ds_access_token.txt)
 #    the default picture.
 account_id=$(cat config/API_ACCOUNT_ID)
 
-# Construct your API headers
+# Step 2. Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${access_token}"
     '--header' "Accept: application/json")
 
