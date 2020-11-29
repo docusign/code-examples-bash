@@ -45,7 +45,7 @@ elseif($api_version == "Rooms"):
         'iat'   => $timestamp,
         'exp'   => $timestamp + 3600,
         'aud'   => 'account-d.docusign.com',
-        'scope' => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms'
+        'scope' => 'signature click.manage'
       ])
     );
 endif;
@@ -87,7 +87,7 @@ elseif($api_version == "Rooms"):
   ]);
   elseif($api_version == "Click"):
     $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
-      'scope'         => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms',
+      'scope'         => 'signature click.manage',
       'redirect_uri'  => $redirectURI,
       'client_id'     => $INTEGRATION_KEY_JWT,
       'state'         => $state,
