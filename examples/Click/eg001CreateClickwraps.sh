@@ -59,7 +59,6 @@ printf \
 # b) Display the JSON structure of the created clickwrap
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
-set -x
 Status=$(curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps \
     "${Headers[@]}" \
     --data-binary @${request_data} \
@@ -76,11 +75,17 @@ if [[ "$Status" -gt "201" ]]; then
     exit 1
 fi
 
+# Obtain the Clickwrap ID from the JSON response
+clickwrap_id=$(cat $response | grep clickwrapId | sed 's/ //g' | sed 's/.*\"clickwrapId\":\"//' | sed 's/\",.*//')
+
+# Store the envelope_id into the config file
+echo $clickwrap_id >config/CLICKWRAP_ID
+
 echo ""
 echo "Response:"
 cat $response
 echo ""
 
 # Remove the temporary files
-# rm "$request_data"
-# rm "$response"
+rm "$request_data"
+rm "$response"
