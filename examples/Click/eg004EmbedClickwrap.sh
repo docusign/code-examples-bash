@@ -28,7 +28,8 @@ else
     exit 0
 fi
 
-echo "Write the code you need to embed your clickwrap in JavaScript. It should include the following HTML tags:"
+echo ""
+echo "To embed this clickwrap in your website or application, share this code with your developer:"
 echo "
 <div id=\"ds-clickwrap\"></div>
 <script src=\"https://demo.docusign.net/clickapi/sdk/latest/docusign-click.js\"></script>
