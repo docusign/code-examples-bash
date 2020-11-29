@@ -24,13 +24,13 @@ declare -a Headers=('--header' "Authorization: Bearer ${access_token}"
     '--header' "Accept: application/json")
 
 # Step 3. Call the Click API
-# a) Make a GET call to the clickwraps endpoint to retrieve all clickwraps for an account 
+# a) Make a GET call to the clickwraps endpoint to retrieve all clickwraps for an account
 # b) Display the JSON structure of the returned clickwraps
 #Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
 curl --request GET https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps \
-     "${Headers[@]}" \
-     --output ${response}
+    "${Headers[@]}" \
+    --output ${response}
 
 echo ""
 echo "Response:"
