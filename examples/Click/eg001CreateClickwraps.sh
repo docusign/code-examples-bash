@@ -64,17 +64,6 @@ Status=$(curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${ac
     --data-binary @${request_data} \
     --output ${response})
 
-echo $Status
-
-# If the status code returned is greater than 201 (OK / Accepted), display an error message with the API response.
-if [[ "$Status" -gt "201" ]]; then
-    echo ""
-    echo "The call of the Click API has failed"
-    echo ""
-    cat $response
-    exit 1
-fi
-
 # Obtain the Clickwrap ID from the JSON response
 clickwrap_id=$(cat $response | grep clickwrapId | sed 's/ //g' | sed 's/.*\"clickwrapId\":\"//' | sed 's/\",.*//')
 
