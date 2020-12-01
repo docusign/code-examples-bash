@@ -138,6 +138,32 @@
 1. **Create an external form fillable session.**
    [Source.](./examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh)
 
+### Click API:
+1. **Create a clickwrap.**
+   [Source.](./examples/Click/eg001CreateClickwraps.sh)
+   This example demonstrates how to use DocuSign Click to create a clickwrap that you can embed in your website or app.
+1. **Activate a clickwrap.**
+   [Source.](./examples/Click/eg002ActivateClickwrap.sh)
+   This example demonstrates how to use DocuSign Click to activate a new clickwrap that you have already created.
+   By default, new clickwraps are inactive. You must activate your clickwrap before you can use it.
+1. **Test a clickwrap.**
+   [Source.](./examples/Click/eg003TestClickwrap.sh)
+   Before you embed a clickwrap in your website or app, you should preview it to make sure it appears and behaves the way you want.
+   However, the web page in which you test your clickwrap cannot be a local file that you open in a browser. The page must be hosted on a web server. The DocuSign Clickwrap Tester takes care of this for you, making it easy to preview the behavior and appearance of your clickwrap.
+   **Note: To follow this step, you must have an active clickwrap.**
+1. **Embed a clickwrap.**
+   [Source.](./examples/Click/eg004EmbedClickwrap.sh)
+   This example demonstrates how to use DocuSign Click to embed an existing clickwrap in your website.
+1. **Create a new clickwrap version.**
+   [Source.](./examples/Click/eg005CreateNewClickwrapVersion.sh)
+   This example demonstrates how to use the Click API to create a new version of a clickwrap.
+1. **Get a list of clickwraps.**
+   [Source.](./examples/Click/eg006GetListOfClickwraps.sh)
+   This example demonstrates how to use the Click API to get a list of clickwraps associated with a specific DocuSign user.
+1. **Get clickwrap responses.**
+   [Source.](./examples/Click/eg007GetClickwrapResponses.sh)
+   This example demonstrates how to use the Click API to get user responses to your clickwrap agreements.
+
 ## Installation
 **Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, these steps were done for you and can be skipped.**
 
