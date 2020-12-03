@@ -5,22 +5,56 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Check that we have a profile id
-if [ ! -f config/PROFILE_ID ]; then
-    echo ""
-    echo "PROBLEM: Permission profile Id is needed. To fix: execute script eg024CreateingPermissionProfiles.sh"
-    echo ""
-    exit -1
-fi
-
 # Step 1: Obtain your OAuth token
 # Set up variables for full code example
 # Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
+# List profile Ids. See https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/
+ProfileIds="10096952 10096953 10096954"
+arrProfileId=($ProfileIds)
+
+# Select a profile id
+
+# Throw UI offering Viewer, Sender, or Administrator
+echo ""
+PS3='Select a profile Id:'
+select ID_TYPE in \
+    "Administrator" \
+    "Viewer" \
+    "Sender" \
+    "Use_Saved" \
+    "Delete_Saved"; do
+    case "$ID_TYPE" in 
+
+    Administrator)
+        echo ${arrProfileId[0]} > config/PROFILE_ID
+        break
+        ;;
+    Viewer)
+        echo ${arrProfileId[1]} > config/PROFILE_ID
+        break
+        ;;
+    Sender)
+        echo ${arrProfileId[2]} > config/PROFILE_ID
+        break
+        ;;
+    Use_Saved)
+        if [ -f config/PROFILE_ID ]; then
+        break
+        fi
+        echo "No Profile Id found"
+        ;;
+    Delete_Saved)
+        rm config/PROFILE_ID
+        ;;
+    esac
+done
+
 profile_id=`cat config/PROFILE_ID`
-#TODO: Set the group id by using an api call and a select chain to pick the groupID
+
+# Select User Group Id
 read -p "Please enter the permissions group ID you wish to set a profile on: " group_id
 export group_id
 
@@ -44,7 +78,7 @@ printf \
             "permissionProfileId": "'"${profile_id}"'" 
         }
             ]
-}}' >> $request_data
+}' >> $request_data
 
 # Step 4: a) Call the eSignature API
 #         b) Display the JSON response    
