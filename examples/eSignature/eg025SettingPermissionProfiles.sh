@@ -12,12 +12,49 @@ access_token=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # List profile Ids. See https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/
-ProfileIds="10096952 10096953 10096954"
-arrProfileId=($ProfileIds)
+#ProfileIds="10096952 10096953 10096954"
+#arrProfileId=($ProfileIds)
 
-# Select a profile id
+# The following code shows how to get a list of account profile Ids
+# Returns an array of permission profiles
+# see https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/
+# base_path="https://demo.docusign.net/restapi"
+# GET endpoint: /v2.1/accounts/{account_id}/permission_profiles
 
-# Throw UI offering Viewer, Sender, or Administrator
+base_path="https://demo.docusign.net/restapi"
+
+#Construct API headers
+declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
+'--header' "Accept: application/json" \
+'--header' "Content-Type: application/json" )
+
+# Create a temporary file to store the response
+response=$(mktemp /tmp/response-bs.XXXXXX)
+
+# Retrieve recipient data
+ Status=$(curl -w '%{http_code}' -i --request GET "${base_path}/v2.1/accounts/${account_id}/permission_profiles" \
+"${Headers[@]}" \
+--output ${response})
+
+#If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
+if [[ "$Status" -gt "201" ]] ; then
+echo ""
+echo "Unable to retrieve your account's profiles."
+echo ""
+cat $response
+exit 1
+fi
+
+cat $response
+
+# Extract the account profile IDs from the profile data list
+ProfileIds=`cat $response | grep -o -P '(?<=permissionProfileId\":\").*?(?=\")'`
+echo ""
+arrProfileID=($ProfileIds)
+
+# Select a profile Id
+echo ""
+echo "Select a profile Id:"
 echo ""
 PS3='Select a profile Id:'
 select ID_TYPE in \
@@ -54,12 +91,56 @@ done
 
 profile_id=`cat config/PROFILE_ID`
 
+# List user group Ids. See https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/
+
+GroupIds="7101033 7537224 7101034"
+arrGroupId=($GroupIds)
+
 # Select User Group Id
-read -p "Please enter the permissions group ID you wish to set a profile on: " group_id
+echo ""
+echo "Select a group Id"
+echo ""
+PS3='Select a group Id:'
+select ID_TYPE in \
+    "Administrators" \
+    "Conditional_Group" \
+    "Everyone" \
+    "Use_Saved" \
+    "Delete_Saved"; do
+    case "$ID_TYPE" in 
+
+    Administrator)
+        echo ${arrGroupId[0]} > config/GROUP_ID
+        group_id=${arrGroupId[0]}
+        break
+        ;;
+    Conditional_Group)
+        echo ${arrGroupId[1]} > config/GROUP_ID
+        group_id=${arrGroupId[1]}
+        break
+        ;;
+    Everyone)
+        echo ${arrGroupId[2]} > config/GROUP_ID
+        group_id=${arrGroupId[2]}
+        break
+        ;;
+    Use_Saved)
+        if [ -f config/GROUP_ID ]; then
+        group_id=$(cat config/GROUP_ID)
+        break
+        fi
+        echo "No Group Id found"
+        ;;
+    Delete_Saved)
+        rm config/GROUP_ID
+        ;;
+    esac
+done
 export group_id
+echo ""
+echo $group_id
+echo ""
 
-
-group_id=${group_id}
 base_path="https://demo.docusign.net/restapi"
 
 # Step 2: Construct your API headers
