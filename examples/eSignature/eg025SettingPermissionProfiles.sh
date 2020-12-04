@@ -31,7 +31,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
-# Retrieve recipient data
+# Retrieve permission profile ids
  Status=$(curl -w '%{http_code}' -i --request GET "${base_path}/v2.1/accounts/${account_id}/permission_profiles" \
 "${Headers[@]}" \
 --output ${response})
@@ -49,7 +49,6 @@ cat $response
 
 # Extract the account profile IDs from the profile data list
 ProfileIds=`cat $response | grep -o -P '(?<=permissionProfileId\":\").*?(?=\")'`
-echo ""
 arrProfileID=($ProfileIds)
 
 # Select a profile Id
@@ -91,9 +90,40 @@ done
 
 profile_id=`cat config/PROFILE_ID`
 
-# List user group Ids. See https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/
+# The following code shows how to get a list of user groups
+# Returns an array of user groups
+# see https://developers.docusign.com/docs/esign-rest-api/reference/usergroups/groups/
+# base_path="https://demo.docusign.net/restapi"
+# GET endpoint: /v2.1/accounts/{account_id}/permission_profiles
 
-GroupIds="7101033 7537224 7101034"
+base_path="https://demo.docusign.net/restapi"
+
+#Construct API headers
+declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
+'--header' "Accept: application/json" \
+'--header' "Content-Type: application/json" )
+
+# Create a temporary file to store the response
+response=$(mktemp /tmp/response-bs.XXXXXX)
+
+# Retrieve group ids
+ Status=$(curl -w '%{http_code}' -i --request GET "${base_path}/v2.1/accounts/${account_id}/groups" \
+"${Headers[@]}" \
+--output ${response})
+
+#If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
+if [[ "$Status" -gt "201" ]] ; then
+echo ""
+echo "Unable to retrieve your account's profiles."
+echo ""
+cat $response
+exit 1
+fi
+
+cat $response
+
+# Extract the user group IDs from the profile data list
+GroupIds=`cat $response | grep -o -P '(?<=groupId\":\").*?(?=\")'`
 arrGroupId=($GroupIds)
 
 # Select User Group Id
@@ -109,7 +139,7 @@ select ID_TYPE in \
     "Delete_Saved"; do
     case "$ID_TYPE" in 
 
-    Administrator)
+    Administrators)
         echo ${arrGroupId[0]} > config/GROUP_ID
         group_id=${arrGroupId[0]}
         break
@@ -136,9 +166,8 @@ select ID_TYPE in \
         ;;
     esac
 done
+
 export group_id
-echo ""
-echo $group_id
 echo ""
 
 base_path="https://demo.docusign.net/restapi"
