@@ -11,10 +11,6 @@ fi
 access_token=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
-# List profile Ids. See https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/
-#ProfileIds="10096952 10096953 10096954"
-#arrProfileId=($ProfileIds)
-
 # The following code shows how to get a list of account profile Ids
 # Returns an array of permission profiles
 # see https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/
