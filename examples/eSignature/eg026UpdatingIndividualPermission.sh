@@ -80,7 +80,7 @@ if [[ "$Status" -gt "399" ]] ; then
 	echo "Updating Individual Permission Settings failed."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""

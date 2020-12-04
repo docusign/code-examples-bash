@@ -79,7 +79,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Posting the new room has failed."
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 
 echo ""

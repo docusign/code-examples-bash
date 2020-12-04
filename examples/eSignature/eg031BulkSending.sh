@@ -81,7 +81,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Posting of the Bulk List has failed"
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""
@@ -134,7 +134,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Creation of the draft envelope has failed"
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""
@@ -179,7 +179,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Addition of the listId to the envelope has failed"
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""
@@ -243,7 +243,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Addition of the placeholder recipients has failed"
     echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""
@@ -280,7 +280,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Initiating the Bulk Send has failed"
     echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""
@@ -313,7 +313,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Initiating the Bulk Send has failed"
     echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""
