@@ -1,5 +1,7 @@
 ### eSignature API:
 
+For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth)
+
 1. **Use embedded signing.**
 
    [Source.](./eg001EmbeddedSigning.sh)
@@ -120,6 +122,9 @@
    This code example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
 
 ### Rooms API:
+
+For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/)
+
 **Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**
 1. **Create a room with data.**
    [Source.](./examples/Rooms/eg001CreateRoomWithDataController.sh)
@@ -165,6 +170,8 @@ This launcher is a collection of bash scripts, however the OAuth mechanisms are 
 These PHP scripts are integrated into the launcher and hardcode the location for the RSA private key in the case of the JWT PHP scripts.
 
 Do not delete or change the name of the private.key file located in the config directory as this will cause problems with jwt authentication.
+
+**Note:** Before you can make any API calls using JWT Grant, you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
 
 
 ## Running the examples
