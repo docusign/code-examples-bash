@@ -5,30 +5,20 @@ require 'utils.php';
 $api_version = "$argv[1]";
 
 if($api_version == "eSignature"):
-  $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
-    'redirect_uri'  => $redirectURI,
-    'scope'         => 'signature impersonation',
-    'client_id'     => $clientID,
-    'state'         => $state,
-    'response_type' => 'code'
-  ]);
+  $scope = 'signature impersonation';
 elseif($api_version == "Rooms"):
-  $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
-    'redirect_uri'  => $redirectURI,
-    'scope'         => 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms',
-    'client_id'     => $clientID,
-    'state'         => $state,
-    'response_type' => 'code'
-  ]);
-  elseif($api_version == "Click"):
-    $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
-      'redirect_uri'  => $redirectURI,
-      'scope'         => 'signature click.manage',
-      'client_id'     => $clientID,
-      'state'         => $state,
-      'response_type' => 'code'
-    ]);
+  $scope = 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms';
+elseif($api_version == "Click"):
+  $scope = 'signature click.manage';
 endif;
+
+$authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
+  'redirect_uri'  => $redirectURI,
+  'scope'         => $scope,
+  'client_id'     => $clientID,
+  'state'         => $state,
+  'response_type' => 'code'
+]);
 
 echo "\nOpen the following URL in a browser to continue:\n" . $authorizationURL . "\n";
 
