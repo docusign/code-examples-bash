@@ -22,7 +22,7 @@ if [ ! -f config/ENVELOPE_ID ]; then
     echo ""
     echo "PROBLEM: An envelope id is needed. Fix: execute script eg001EmbeddedSigning.sh"
     echo ""
-    exit -1
+    exit 0
 fi
 envelope_id=`cat config/ENVELOPE_ID`
 
@@ -46,7 +46,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Retrieving envelope form data has failed."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""

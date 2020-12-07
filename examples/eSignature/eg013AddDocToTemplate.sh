@@ -25,7 +25,7 @@ if [ ! -f ../TEMPLATE_ID ]; then
     echo ""
     echo "PROBLEM: An template id is needed. Fix: execute script eg008CreateTemplate.sh"
     echo ""
-    exit -1
+    exit 0
 fi
 template_id=`cat ../TEMPLATE_ID`
 

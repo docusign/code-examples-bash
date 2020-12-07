@@ -48,7 +48,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Unable to retreive field_set on roomId: $room_id"
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 
 echo ""

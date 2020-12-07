@@ -75,7 +75,7 @@ if [[ "$Status" -gt "399" ]] ; then
 	echo "Unable to create a new permissions profile."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""

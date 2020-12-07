@@ -83,7 +83,7 @@ if [[ "$Status" -gt "399" ]] ; then
 	echo "Creating a new envelope has failed."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 echo ""
 echo "Response:"

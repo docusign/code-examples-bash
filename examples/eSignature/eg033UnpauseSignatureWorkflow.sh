@@ -11,7 +11,7 @@ if [ ! -f config/ENVELOPE_ID ]; then
     echo ""
     echo "PROBLEM: Envelope Id is needed. To fix: execute script eg032PauseSignatureWorkflow.sh"
     echo ""
-    exit -1
+    exit 0
 fi
 envelope_id=$(cat config/ENVELOPE_ID)
 
@@ -51,7 +51,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "The call of the eSignature API has failed"
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 
 echo ""
