@@ -44,7 +44,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Unable to retrieve your account's role settings"
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 echo ""
 echo "Response:"
@@ -73,7 +73,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Unable to retrieve your account's office ids"
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 echo ""
 echo "Response:"
@@ -102,7 +102,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Unable to retrieve your account's room templates"
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 echo ""
 echo "Response:"
@@ -154,7 +154,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Posting the new room has failed."
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 
 echo ""

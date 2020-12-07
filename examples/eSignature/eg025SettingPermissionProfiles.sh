@@ -38,7 +38,7 @@ echo ""
 echo "Unable to retrieve your account's profiles."
 echo ""
 cat $response
-exit 1
+exit 0
 fi
 
 cat $response
@@ -113,7 +113,7 @@ echo ""
 echo "Unable to retrieve your account's profiles."
 echo ""
 cat $response
-exit 1
+exit 0
 fi
 
 cat $response
@@ -202,7 +202,7 @@ if [[ "$Status" -gt "399" ]] ; then
 	echo "Unable to set group permissions profile."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""

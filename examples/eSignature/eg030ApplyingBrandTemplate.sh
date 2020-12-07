@@ -10,7 +10,7 @@ if [ ! -f config/TEMPLATE_ID ]; then
     echo ""
     echo "PROBLEM: Template Id needed. To fix: execute script eg008CreateTemplate.sh"
     echo ""
-    exit -1
+    exit 0
 fi
 template_id=`cat config/TEMPLATE_ID`
 
@@ -19,7 +19,7 @@ if [ ! -f config/BRAND_ID ]; then
     echo ""
     echo "PROBLEM: Brand Id is needed. To fix: execute script eg028CreateingABrand.sh"
     echo ""
-    exit -1
+    exit 0
 fi
 brand_id=`cat config/BRAND_ID`
 
@@ -75,7 +75,7 @@ if [[ "$Status" -gt "399" ]] ; then
 	echo "Creating a new envelope has failed."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 echo ""
 echo "Response:"

@@ -104,7 +104,7 @@ if [[ "$Status" -gt "201" ]]; then
   echo "The call of the eSignature API has failed"
   echo ""
   cat $response
-  exit 1
+  exit 0
 fi
 
 echo ""

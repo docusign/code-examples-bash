@@ -43,7 +43,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Unable to retrieve your account's role settings"
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 echo ""
 roleId=$(cat $response | grep roleId | sed 's/.*\"roleId\"://' | sed 's/,.*//')
@@ -71,7 +71,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Unable to retrieve your account's office ids"
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 echo ""
 officeId=$(cat $response | grep officeId | sed 's/.*\"officeId\"://' | sed 's/,.*//')
@@ -121,7 +121,7 @@ if [[ "$Status" -gt "201" ]]; then
     echo "Posting the new room has failed."
     echo ""
     cat $response
-    exit 1
+    exit 0
 fi
 
 echo ""

@@ -42,7 +42,7 @@ if [[ "$Status" -gt "399" ]] ; then
 	echo "Unable to delete the permission profile."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""

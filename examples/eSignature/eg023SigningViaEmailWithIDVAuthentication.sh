@@ -39,7 +39,7 @@ if [[ "$Status" -gt "201" ]] ; then
 	echo "Unable to retrieve your account's workflow ID."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 echo ""

@@ -50,7 +50,7 @@ if [[ "$Status" -gt "399" ]] ; then
 	echo "Creating a new brand has failed."
 	echo ""
 	cat $response
-	exit 1
+	exit 0
 fi
 
 
