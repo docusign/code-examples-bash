@@ -5,16 +5,15 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from
-#    https://developers.docusign.com/oauth-token-generator
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
-# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or
-#    the default picture.
+
+# Set up variables for full code example
+# Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
+
+base_path="https://demo.docusign.net/restapi"
 
 # ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
@@ -26,8 +25,6 @@ account_id=$(cat config/API_ACCOUNT_ID)
 #  recipient 2 - cc
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
-
-base_path="https://demo.docusign.net/restapi"
 
 # temp files:
 request_data=$(mktemp /tmp/request-eg-002.XXXXXX)
@@ -89,7 +86,7 @@ printf \
         "signers": [
             {
                 "email": "'"${SIGNER_EMAIL}"'",
-                "name": "'"${SIGNER_EMAIL}"'",
+                "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1",
                 "routingOrder": "1",
                 "tabs": {
