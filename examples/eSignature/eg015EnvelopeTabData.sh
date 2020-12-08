@@ -5,8 +5,6 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-
-
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)

@@ -1,27 +1,17 @@
 # Send an envelope including an order form with payment by credit card
-#
+
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-
-
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from
-#    https://developers.docusign.com/oauth-token-generator
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
-# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or
-#    the default picture.
-account_id=$(cat config/API_ACCOUNT_ID)
 
-# 4. Log in to DocuSign Admin and from the top 
-#    navigation, select Admin. From there look 
-#    to the left under INTEGRATIONS and select 
-#    Payments to retrieve your Gateway account ID. 
+# Set up variables for full code example
+# Note: Substitute these values with your own
+account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 

@@ -1,24 +1,22 @@
 # Download a document from an envelope
-# This script uses the envelope_id stored in ../envelope_id.
-# The envelope_id file is created by example eg002SigningViaEmail.sh or
-# can be manually created.
+#
+# This script uses the envelope id stored in config/ENVELOPE_ID.
+# config/ENVELOPE_ID will be populated by running example eg002SigningViaEmail.sh
+# or can be entered manually.
 
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-
-
-# Configuration
-# 1. Obtain an OAuth access token from
-#    https://developers.docusign.com/oauth-token-generator
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
-# 2. Obtain your accountId from demo.docusign.net -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or
-#    the default picture.
+
+# Set up variables for full code example
+# Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
-#
+
 output_file="envelope_document."
 
 base_path="https://demo.docusign.net/restapi"
