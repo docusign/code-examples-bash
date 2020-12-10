@@ -5,10 +5,23 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+# Check for a valid cc email address
+while [[ $CC_EMAIL != *"@"* ]]; do
+    echo ""
+    echo "Current cc email address is " $CC_EMAIL
+    read -p "Enter an email address for the cc recipient different from the signer: " CC_EMAIL
+    if [[ $CC_NAME == *"{"* || CC_NAME == "" ]] ; then
+        echo ""
+        echo "Current cc name is " $CC_NAME
+        read -p "Enter a name for the CC Recipient: " CC_NAME
+    fi
+    echo ""
+    echo "CC_EMAIL is " $CC_EMAIL
+    echo "CC_NAME is " $CC_NAME
+done
 
-
-# Step 1: Create your API Headers
-# Note: These values are not valid, but are shown for example purposes only!
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
