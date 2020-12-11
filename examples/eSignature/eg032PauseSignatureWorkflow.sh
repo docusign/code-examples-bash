@@ -6,8 +6,13 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Create your API Headers
-# Note: These values are not valid, but are shown for example purposes only!
+# Check for a valid cc email and prompt the user if 
+#CC_EMAIL and CC_NAME haven't been set in the config file.
+source ./examples/eSignature/lib/utils.sh
+CheckForValidCCEmail
+
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
