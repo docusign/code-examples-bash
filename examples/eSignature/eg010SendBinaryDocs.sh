@@ -5,20 +5,10 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Check for a valid cc email address
-while [[ $CC_EMAIL != *"@"* ]]; do
-    echo ""
-    echo "Current cc email address is " $CC_EMAIL
-    read -p "Enter an email address for the cc recipient different from the signer: " CC_EMAIL
-    if [[ $CC_NAME == *"{"* || CC_NAME == "" ]] ; then
-        echo ""
-        echo "Current cc name is " $CC_NAME
-        read -p "Enter a name for the CC Recipient: " CC_NAME
-    fi
-    echo ""
-    echo "CC_EMAIL is " $CC_EMAIL
-    echo "CC_NAME is " $CC_NAME
-done
+# Check for a valid cc email and prompt the user if 
+#CC_EMAIL and CC_NAME haven't been set in the config file.
+source ./examples/eSignature/lib/utils.sh
+CheckForValidCCEmail
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own

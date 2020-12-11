@@ -6,36 +6,16 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Check for a valid cc email address
-while [[ $CC_EMAIL != *"@"* ]]; do
-    echo ""
-    echo "Current cc email address is " $CC_EMAIL
-    read -p "Enter an email address to route to when the checkbox is checked: " CC_EMAIL
-    if [[ $CC_NAME == *"{"* || CC_NAME == "" ]] ; then
-        echo ""
-        echo "Current cc name is " $CC_NAME
-        read -p "Enter a name for the CC Recipient: " CC_NAME
-    fi
-    echo ""
-    echo "CC_EMAIL is " $CC_EMAIL
-    echo "CC_NAME is " $CC_NAME
-done
+# Check for a valid cc email and prompt the user if 
+#CC_EMAIL and CC_NAME haven't been set in the config file.
+source ./examples/eSignature/lib/utils.sh
+CheckForValidCCEmail
 
-# Check for a valid SIGNER_NOT_CHECKED_EMAIL email address
-while [[ $SIGNER_NOT_CHECKED_EMAIL != *"@"* ]]; do
-    echo ""
-    echo "Current signer not checked email address is " $SIGNER_NOT_CHECKED_EMAIL
-    read -p "Enter an email address to route to when the checkbox is not checked: " SIGNER_NOT_CHECKED_EMAIL
-    if [[ $SIGNER_NOT_CHECKED_NAME == *"{"* || SIGNER_NOT_CHECKED_NAME == "" ]] ; then
-        echo ""
-        echo "Current cc name is " $SIGNER_NOT_CHECKED_NAME
-        read -p "Enter a name for the CC Recipient: " SIGNER_NOT_CHECKED_NAME
-    fi
-    echo ""
-    echo "CC_EMAIL is " $SIGNER_NOT_CHECKED_EMAIL
-    echo "CC_NAME is " $SIGNER_NOT_CHECKED_NAME
-done
+# Check for a valid SIGNER_NOT_CHECKED_EMAIL email address and prompt the user if
+# SIGNER_NOT_CHECKED_EMAIL and SIGNER_NOT_CHECKED_NAME haven't been set in the config file.
+CheckForValidNotCheckedEmail
 
+# Get values form the settings.txt config file
 SIGNER_NOT_CHECKED_NAME=$SIGNER_NOT_CHECKED_NAME
 SIGNER_NOT_CHECKED_EMAIL=$SIGNER_NOT_CHECKED_EMAIL
 SIGNER_WHEN_CHECKED_NAME=$CC_NAME
@@ -43,8 +23,8 @@ SIGNER_WHEN_CHECKED_EMAIL=$CC_EMAIL
 SIGNER1_NAME=$SIGNER_NAME
 SIGNER1_EMAIL=$SIGNER_EMAIL
 
-# Step 1: Create your API Headers
-# Note: These values are not valid, but are shown for example purposes only!
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
 access_token=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
