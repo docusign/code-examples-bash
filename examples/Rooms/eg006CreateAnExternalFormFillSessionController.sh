@@ -9,7 +9,7 @@ fi
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
-access_token=$(cat config/ds_access_token.txt)
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
 # Note: Substitute these values with your own
@@ -21,7 +21,7 @@ account_id=$(cat config/API_ACCOUNT_ID)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # Construct your API headers
-declare -a Headers=('--header' "Authorization: Bearer ${access_token}"
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
 

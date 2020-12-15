@@ -8,7 +8,7 @@ fi
 # Step 1: Obtain your OAuth token
 # Set up variables for full code example
 # Note: Substitute these values with your own
-access_token=$(cat config/ds_access_token.txt)
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # The following code shows how to get a list of account profile Ids
@@ -20,7 +20,7 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 #Construct API headers
-declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 '--header' "Accept: application/json" \
 '--header' "Content-Type: application/json" )
 
@@ -95,7 +95,7 @@ profile_id=`cat config/PROFILE_ID`
 base_path="https://demo.docusign.net/restapi"
 
 #Construct API headers
-declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 '--header' "Accept: application/json" \
 '--header' "Content-Type: application/json" )
 
@@ -169,7 +169,7 @@ echo ""
 base_path="https://demo.docusign.net/restapi"
 
 # Step 2: Construct your API headers
-declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
 
