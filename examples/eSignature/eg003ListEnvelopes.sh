@@ -8,7 +8,7 @@ fi
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
-access_token=$(cat config/ds_access_token.txt)
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
 # Note: Substitute these values with your own
@@ -35,7 +35,7 @@ else
     from_date=`date --date='-10 days' '+%Y-%m-%dT%H:%M:%S%z'`
 fi
 
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "from_date=${from_date}" \
