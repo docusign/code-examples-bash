@@ -7,11 +7,9 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-
-
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
-access_token=$(cat config/ds_access_token.txt)
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
 # Note: Substitute these values with your own
@@ -26,7 +24,7 @@ echo "Checking to see if the template already exists in your account..."
 echo ""
 template_name="Example Signer and CC template"
 response=$(mktemp /tmp/response-eg-008.XXXXXX)
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --get \
      --data-urlencode "search_text=${template_name}" \
@@ -185,7 +183,7 @@ printf \
     "status": "created"
 }' >> $request_data
 
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/templates \

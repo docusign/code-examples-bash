@@ -9,7 +9,7 @@ fi
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
-access_token=$(cat config/ds_access_token.txt)
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
 # Note: Substitute these values with your own
@@ -111,7 +111,7 @@ printf \
 # Step 3: a) Create your authorization headers
 #         b) Send a POST request to the Envelopes endpoint
 
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
@@ -142,7 +142,7 @@ echo ${envelope_id} > config/ENVELOPE_ID
 
 echo ""
 echo "Requesting the url for the embedded signing..."
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary '
 {

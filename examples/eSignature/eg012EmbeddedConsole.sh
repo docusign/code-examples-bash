@@ -5,15 +5,12 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
-
-# Configuration
-# 1. Obtain an OAuth access token from
-#    https://developers.docusign.com/oauth-token-generator
-access_token=$(cat config/ds_access_token.txt)
-# 2. Obtain your accountId from demo.docusign.net -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or
-#    the default picture.
+# Set up variables for full code example
+# Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
@@ -57,7 +54,7 @@ echo ""
 
 response=$(mktemp /tmp/response-eg-012.XXXXXX)
 # ***DS.snippet.0.start
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary "${json}" \
      --request POST ${base_path}/v2.1/accounts/${account_id}/views/console \

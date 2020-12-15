@@ -5,6 +5,11 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+# Check for a valid cc email and prompt the user if 
+#CC_EMAIL and CC_NAME haven't been set in the config file.
+source ./examples/eSignature/lib/utils.sh
+CheckForValidCCEmail
+
 # Check that we have a template id
 if [ ! -f config/TEMPLATE_ID ]; then
     echo ""
@@ -28,14 +33,14 @@ brand_id=`cat config/BRAND_ID`
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 # Set up variables for full code example
-access_token=$(cat config/ds_access_token.txt)
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 brand_id=$brand_id
 template_id=$template_id
 base_path="https://demo.docusign.net/restapi"
 
 #Step 2: Construct your API headers
-declare -a Headers=('--header' "Authorization: Bearer $access_token" \
+declare -a Headers=('--header' "Authorization: Bearer $ACCESS_TOKEN" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
 

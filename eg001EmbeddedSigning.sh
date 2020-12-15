@@ -5,15 +5,12 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from
-#    https://developers.docusign.com/oauth-token-generator
-access_token=$(cat config/ds_access_token.txt)
-# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or
-#    the default picture.
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
+
+# Set up variables for full code example
+# Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # ***DS.snippet.0.start
@@ -40,7 +37,6 @@ cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
-
 # Concatenate the different parts of the request
 printf \
 '{
@@ -56,14 +52,6 @@ printf \
         }
     ],
     "recipients": {
-        "carbonCopies": [
-            {
-                "email": "'"${CC_EMAIL}"'",
-                "name": "'"${CC_NAME}"'",
-                "recipientId": "2",
-                "routingOrder": "2"
-            }
-        ],
         "signers": [
             {
                 "email": "'"${SIGNER_EMAIL}"'",
@@ -87,15 +75,14 @@ printf \
     "status": "sent"
 }' >> $request_data
 
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output ${response}
 
 echo ""
-echo "Response:"
-cat $response
+echo "Response:" `cat $response`
 echo ""
 
 # pull out the envelopeId
@@ -112,7 +99,8 @@ echo "EnvelopeId: ${envelope_id}"
 
 echo ""
 echo "Requesting the url for the embedded signing..."
-curl --header "Authorization: Bearer ${access_token}" \
+echo ""
+Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary '
 {
@@ -123,18 +111,23 @@ curl --header "Authorization: Bearer ${access_token}" \
     "clientUserId": 1000,
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
-     --output ${response}
+     --output ${response})
 
-echo ""
-echo "Response:"
-cat $response
-echo ""
+if [[ "$Status" -gt "201" ]] ; then
+    echo ""
+	echo "Signing request failed."
+	echo ""
+	cat $response
+	exit 0
+fi
 
 signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 # ***DS.snippet.0.end
 echo ""
-printf "The embedded signing URL is ${signing_url}\n"
-printf "It is only valid for five minutes. Attempting to automatically open your browser...\n"
+echo "The embedded signing URL is ${signing_url}"
+echo ""
+echo "It is only valid for five minutes. Attempting to automatically open your browser..."
+
 if which xdg-open &> /dev/null  ; then
   xdg-open "$signing_url"
 elif which open &> /dev/null    ; then
@@ -149,6 +142,4 @@ rm "$response"
 rm "$doc1_base64"
 
 echo ""
-echo ""
 echo "Done."
-echo ""
