@@ -1,10 +1,6 @@
 #!/bin/bash
 # https://developers.docusign.com/docs/click-api/how-to/retrieve-clickwraps
-<<<<<<< HEAD
-# How to get a list of clickwraps
-=======
 # How to get a list of Clickwraps
->>>>>>> add-click-api
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -24,13 +20,8 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json")
 
 # Step 3. Call the Click API
-<<<<<<< HEAD
-# a) Make a GET call to the clickwraps endpoint to retrieve all clickwraps for an account
-# b) Display the JSON structure of the returned clickwraps
-=======
 # a) Make a GET call to the Clickwraps endpoint to retrieve all Clickwraps for an account
 # b) Display the JSON structure of the returned Clickwraps
->>>>>>> add-click-api
 #Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
 curl --request GET https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps \
