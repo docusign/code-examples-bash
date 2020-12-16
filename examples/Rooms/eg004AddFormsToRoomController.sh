@@ -28,7 +28,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 if [ -f "config/ROOM_ID" ]; then
     room_id=$(cat config/ROOM_ID)
 else
-    echo "" Room ID is neded. Please run step 1 or 2...
+    echo "" Room ID is needed. Please run step 1 or 2...
     exit 0
 fi
 

@@ -18,11 +18,7 @@ account_id=$(cat config/API_ACCOUNT_ID)
 #         The signer recipient includes a clientUserId setting
 #
 #  document 1 (pdf) has tag /sn1/
-#  The envelope has two recipients.
-#  recipient 1 - signer
-#  recipient 2 - cc
-#  The envelope will be sent first to the signer.
-#  After it is signed, a copy is sent to the cc person.
+#  The envelope will be sent to the signer.
 
 base_path="https://demo.docusign.net/restapi"
 
