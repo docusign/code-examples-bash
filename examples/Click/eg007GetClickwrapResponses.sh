@@ -20,7 +20,7 @@ if [ -f "config/CLICKWRAP_ID" ]; then
     clickwrap_id=$(cat config/CLICKWRAP_ID)
 else
     echo ""
-    echo "ClickWrap ID is neded. Please run step 1 - Create ClickWrap..."
+    echo "ClickWrap ID is needed. Please run step 1 - Create ClickWrap..."
     exit 0
 fi
 
