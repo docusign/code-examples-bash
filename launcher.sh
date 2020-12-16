@@ -68,6 +68,7 @@ function choices() {
     select METHOD in \
         "eSignature" \
         "Rooms" \
+        "Click" \
         "Exit"; do
         case "$METHOD" in
 
@@ -81,8 +82,14 @@ function choices() {
             api_version="Rooms"
             login $api_version
             startRooms
-
             ;;
+        
+        Click)
+            api_version="Click"
+            login $api_version
+            startRooms
+            ;;
+        
         Exit)
             exit 0
             ;;
@@ -328,6 +335,59 @@ function startRooms() {
     done
 }
 
+function startClick() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Create_Clickwraps" \
+        "Activate_Clickwrap" \
+        "Test_Clickwrap" \
+        "Embed_Clickwrap" \
+        "Create_New_Clickwrap_Version" \
+        "Get_List_Of_Clickwraps" \
+        "Get_Clickwrap_Responses" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Create_Clickwraps)
+            bash examples/Click/eg001CreateClickwraps.sh
+            startClick
+            ;;
+        Activate_Clickwrap)
+            bash examples/Click/eg002ActivateClickwrap.sh
+            startClick
+            ;;
+        Test_Clickwrap)
+            bash examples/Click/eg003TestClickwrap.sh
+            startClick
+            ;;
+        Embed_Clickwrap)
+            bash examples/Click/eg004EmbedClickwrap.sh
+            startClick
+            ;;
+        Create_New_Clickwrap_Version)
+            bash examples/Click/eg005CreateNewClickwrapVersion.sh
+            startClick
+            ;;
+        Get_List_Of_Clickwraps)
+            bash examples/Click/eg006GetListOfClickwraps.sh
+            startClick
+            ;;
+        Get_Clickwrap_Responses)
+            bash examples/Click/eg007GetClickwrapResponses.sh
+            startClick
+            ;;
+        *)
+            echo "Default action..."
+            startClick
+            ;;
+        esac
+    done
+}
+
 function continu() {
     echo "press the 'any' key to continue"
     read nothin
@@ -338,6 +398,9 @@ function continu() {
     elif [[ $api_version == "Rooms" ]]
     then
       startRooms
+    elif [[ $api_version == "Click" ]]
+    then
+      startClick
     fi
 }
 
