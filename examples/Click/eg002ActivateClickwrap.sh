@@ -7,16 +7,12 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Configuration
-# 1. Search for and update '{USER_EMAIL}' and '{USER_FULLNAME}'.
-#    They occur and re-occur multiple times below.
-# 2. Obtain an OAuth access token from
-#    https://developers.docusign.com/oauth-token-generator
-access_token=$(cat config/ds_access_token.txt)
+# Step 1: Obtain your OAuth token
+# Note: Substitute these values with your own
+ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
-# 3. Obtain your accountId from demo.docusign.net -- the account id is shown in
-#    the drop down on the upper right corner of the screen by your picture or
-#    the default picture.
+# Set up variables for full code example
+# Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # Setup variables for full code example
@@ -30,11 +26,6 @@ else
     echo "ClickWrap ID is neded. Please run step 1 - Create ClickWrap..."
     exit 0
 fi
-
-# Step 2. Construct your API headers
-declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \ 
-    '--header' "Accept: application/json" \ 
-    '--header' "Content-Type: application/json")
 
 # Construct your clickwrap JSON body
 # Create a temporary file to store the JSON body
@@ -50,7 +41,7 @@ printf \
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
 
-curl --header "Authorization: Bearer ${access_token}" \
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
     --header "Content-Type: application/json" \
     --data-binary @${request_data} \
     --request PUT https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/versions/${VersionNumber} \
