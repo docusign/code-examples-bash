@@ -15,12 +15,12 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
-# Get a ClickWrap ID
+# Get a Clickwrap ID
 if [ -f "config/CLICKWRAP_ID" ]; then
     clickwrap_id=$(cat config/CLICKWRAP_ID)
 else
     echo ""
-    echo "ClickWrap ID is neded. Please run step 1 and 2 - Create and Activate ClickWrap..."
+    echo "Clickwrap ID is needed. Please run step 1 and 2 - Create and Activate Clickwrap..."
     exit 0
 fi
 
@@ -40,7 +40,7 @@ clickwrap_status=$(cat $response | grep status | sed 's/ //g' | sed 's/.*\"statu
 
 if [ $clickwrap_status != "active" ]; then
     echo ""
-    echo "ClickWrap ID is not activated. Please run step 2 - Activate ClickWrap..."
+    echo "Clickwrap ID is not activated. Please run step 2 - Activate Clickwrap..."
     exit 0
 fi
 

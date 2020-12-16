@@ -11,12 +11,12 @@ fi
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
-# Get a ClickWrap ID
+# Get a Clickwrap ID
 if [ -f "config/CLICKWRAP_ID" ]; then
     clickwrap_id=$(cat config/CLICKWRAP_ID)
 else
     echo ""
-    echo "ClickWrap ID is needed. Please run step 1 and 2 - Create and Activate ClickWrap..."
+    echo "Clickwrap ID is needed. Please run step 1 and 2 - Create and Activate Clickwrap..."
     exit 0
 fi
 
