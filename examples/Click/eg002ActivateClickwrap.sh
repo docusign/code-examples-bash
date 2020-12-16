@@ -1,10 +1,6 @@
 #!/bin/bash
 # https://developers.docusign.com/docs/click-api/how-to/activate-clickwrap
-<<<<<<< HEAD
-# How to activate a clickwrap
-=======
 # How to activate a Clickwrap
->>>>>>> add-click-api
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -31,11 +27,7 @@ else
     exit 0
 fi
 
-<<<<<<< HEAD
-# Construct your clickwrap JSON body
-=======
 # Construct your Clickwrap JSON body
->>>>>>> add-click-api
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
 printf \
@@ -43,13 +35,8 @@ printf \
         "status" : "active" 
     }' >$request_data
 
-<<<<<<< HEAD
-# a) Make a POST call to the clickwraps endpoint to activate the clickwrap for an account
-# b) Display the JSON structure of the created clickwrap
-=======
 # a) Make a POST call to the Clickwraps endpoint to activate the Clickwrap for an account
 # b) Display the JSON structure of the created Clickwrap
->>>>>>> add-click-api
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)

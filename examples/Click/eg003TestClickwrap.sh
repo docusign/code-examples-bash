@@ -1,10 +1,6 @@
 #!/bin/bash
 # https://developers.docusign.com/docs/click-api/how-to/test-clickwrap
-<<<<<<< HEAD
-# How to test a clickwrap
-=======
 # How to test a Clickwrap
->>>>>>> add-click-api
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
