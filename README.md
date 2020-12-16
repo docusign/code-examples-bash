@@ -146,7 +146,7 @@ For more information about the scopes used for obtaining authorization to use th
 ### Click API:
 1. **Create a Clickwrap.**
    [Source.](./examples/Click/eg001CreateClickwraps.sh)
-   Demonstrates how to create a clickwrap that you can embed in your website or app.
+   Demonstrates how to create a Clickwrap that you can embed in your website or app.
 1. **Activate a Clickwrap.**
    [Source.](./examples/Click/eg002ActivateClickwrap.sh)
    Demonstrates how to activate a new Clickwrap. By default, new Clickwraps are inactive. You must activate your Clickwrap before you can use it.
@@ -154,7 +154,7 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](./examples/Click/eg003TestClickwrap.sh)
    Before you embed a Clickwrap in your website or app, you should preview it to make sure it appears and behaves the way you want.
    However, the web page in which you test your Clickwrap cannot be a local file that you open in a browser. The page must be hosted on a web server. The DocuSign Clickwrap Tester takes care of this for you, making it easy to preview the behavior and appearance of your Clickwrap.
-   **Note: To follow this step, you must have an active clickwrap.**
+   **Note: To follow this step, you must have an active Clickwrap.**
 1. **Embed a Clickwrap.**
    [Source.](./examples/Click/eg004EmbedClickwrap.sh)
    Demonstrates how to embed an existing Clickwrap in your website.

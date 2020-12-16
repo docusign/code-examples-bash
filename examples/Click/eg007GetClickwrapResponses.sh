@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://developers.docusign.com/docs/click-api/how-to/get-clickwrap-responses
-# How to get clickwrap responses
+# How to get Clickwrap responses
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -29,7 +29,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json")
 
 # Step 3. Call the Click API
-# a) Make a GET call to the users endpoint to retrieve responses (acceptance) of a specific clickwrap for an account
+# a) Make a GET call to the users endpoint to retrieve responses (acceptance) of a specific Clickwrap for an account
 # b) Display the returned JSON structure of the responses
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)

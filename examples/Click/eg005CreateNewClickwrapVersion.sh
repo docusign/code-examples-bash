@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://developers.docusign.com/docs/click-api/how-to/clickwrap-versioning
-# How to create a new clickwrap version
+# How to create a new Clickwrap version
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -30,7 +30,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Content-Type: application/json")
 
 # Step 3. Construct the request body
-# Construct your clickwrap JSON body
+# Construct your Clickwrap JSON body
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
 printf \
@@ -61,8 +61,8 @@ printf \
 }' >$request_data
 
 # Step 4. Call the Click API
-# a) Make a POST call to the clickwraps endpoint to create a clickwrap for an account
-# b) Display the JSON structure of the created clickwrap
+# a) Make a POST call to the Clickwraps endpoint to create a Clickwrap for an account
+# b) Display the JSON structure of the created Clickwrap
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
 curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/versions \

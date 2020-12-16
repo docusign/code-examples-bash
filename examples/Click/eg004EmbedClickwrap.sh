@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://developers.docusign.com/docs/click-api/how-to/embed-clickwraps
-# How to embed a clickwrap
+# How to embed a Clickwrap
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -21,7 +21,7 @@ else
 fi
 
 echo ""
-echo "To embed this clickwrap in your website or application, share this code with your developer:"
+echo "To embed this Clickwrap in your website or application, share this code with your developer:"
 echo "
 <div id=\"ds-clickwrap\"></div>
 <script src=\"https://demo.docusign.net/clickapi/sdk/latest/docusign-click.js\"></script>
