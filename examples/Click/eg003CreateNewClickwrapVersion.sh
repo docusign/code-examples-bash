@@ -1,6 +1,10 @@
 #!/bin/bash
 # https://developers.docusign.com/docs/click-api/how-to/clickwrap-versioning
+<<<<<<< HEAD
+# How to create a new clickwrap version
+=======
 # How to create a new Clickwrap version
+>>>>>>> add-click-api
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
