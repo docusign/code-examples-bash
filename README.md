@@ -150,22 +150,14 @@ For more information about the scopes used for obtaining authorization to use th
 1. **Activate a Clickwrap.**
    [Source.](./examples/Click/eg002ActivateClickwrap.sh)
    Demonstrates how to activate a new Clickwrap. By default, new Clickwraps are inactive. You must activate your Clickwrap before you can use it.
-1. **Test a Clickwrap.**
-   [Source.](./examples/Click/eg003TestClickwrap.sh)
-   Before you embed a Clickwrap in your website or app, you should preview it to make sure it appears and behaves the way you want.
-   However, the web page in which you test your Clickwrap cannot be a local file that you open in a browser. The page must be hosted on a web server. The DocuSign Clickwrap Tester takes care of this for you, making it easy to preview the behavior and appearance of your Clickwrap.
-   **Note: To follow this step, you must have an active Clickwrap.**
-1. **Embed a Clickwrap.**
-   [Source.](./examples/Click/eg004EmbedClickwrap.sh)
-   Demonstrates how to embed an existing Clickwrap in your website.
 1. **Create a new Clickwrap version.**
-   [Source.](./examples/Click/eg005CreateNewClickwrapVersion.sh)
+   [Source.](./examples/Click/eg003CreateNewClickwrapVersion.sh)
    Demonstrates how to use the Click API to create a new version of a Clickwrap.
 1. **Get a list of Clickwraps.**
-   [Source.](./examples/Click/eg006GetListOfClickwraps.sh)
+   [Source.](./examples/Click/eg004GetListOfClickwraps.sh)
    Demonstrates how to get a list of Clickwraps associated with a specific DocuSign user.
 1. **Get Clickwrap responses.**
-   [Source.](./examples/Click/eg007GetClickwrapResponses.sh)
+   [Source.](./examples/Click/eg005GetClickwrapResponses.sh)
    Demonstrates how to get user responses to your Clickwrap agreements.
 
 ## Installation
