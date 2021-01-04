@@ -341,8 +341,6 @@ function startClick() {
     select CHOICE in \
         "Create_Clickwraps" \
         "Activate_Clickwrap" \
-        "Test_Clickwrap" \
-        "Embed_Clickwrap" \
         "Create_New_Clickwrap_Version" \
         "Get_List_Of_Clickwraps" \
         "Get_Clickwrap_Responses" \
@@ -360,24 +358,16 @@ function startClick() {
             bash examples/Click/eg002ActivateClickwrap.sh
             startClick
             ;;
-        Test_Clickwrap)
-            bash examples/Click/eg003TestClickwrap.sh
-            startClick
-            ;;
-        Embed_Clickwrap)
-            bash examples/Click/eg004EmbedClickwrap.sh
-            startClick
-            ;;
         Create_New_Clickwrap_Version)
-            bash examples/Click/eg005CreateNewClickwrapVersion.sh
+            bash examples/Click/eg003CreateNewClickwrapVersion.sh
             startClick
             ;;
         Get_List_Of_Clickwraps)
-            bash examples/Click/eg006GetListOfClickwraps.sh
+            bash examples/Click/eg004GetListOfClickwraps.sh
             startClick
             ;;
         Get_Clickwrap_Responses)
-            bash examples/Click/eg007GetClickwrapResponses.sh
+            bash examples/Click/eg005GetClickwrapResponses.sh
             startClick
             ;;
         *)
