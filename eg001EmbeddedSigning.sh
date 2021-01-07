@@ -108,7 +108,7 @@ printf \
     "clientUserId": 1000,
 }' >> $request_data
 
-# Step 5. Create the recipient view and begin the signing ceremony
+# Step 5. Create the recipient view and call the API to initiate the signing
 
 echo ""
 echo "Requesting the url for the embedded signing..."
