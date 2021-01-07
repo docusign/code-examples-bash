@@ -14,7 +14,7 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # ***DS.snippet.0.start
-# Step 1. Create the envelope.
+# Step 2. Create the envelope.
 #         The signer recipient includes a clientUserId setting
 #
 #  document 1 (pdf) has tag /sn1/
@@ -71,6 +71,8 @@ printf \
     "status": "sent"
 }' >> $request_data
 
+# Step 3. Call DocuSign to create the envelope
+
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
@@ -85,7 +87,7 @@ echo ""
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 echo "EnvelopeId: ${envelope_id}"
 
-# Step 2. Create a recipient view (an embedded signing view)
+# Step 4. Create a recipient view (an embedded signing view)
 #         that the signer will directly open in their browser to sign.
 #
 # The returnUrl is normally your own web app. DocuSign will redirect
@@ -93,19 +95,27 @@ echo "EnvelopeId: ${envelope_id}"
 # For this example, we'll use http://httpbin.org/get to show the
 # query parameters passed back from DocuSign
 
-echo ""
-echo "Requesting the url for the embedded signing..."
-echo ""
-Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --data-binary '
-{
+# temp files:
+request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
+response=$(mktemp /tmp/response-eg-001.XXXXXX)
+
+printf \
+'{
     "returnUrl": "http://httpbin.org/get",
     "authenticationMethod": "none",
     "email": "'"${SIGNER_EMAIL}"'",
     "userName": "'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
-}' \
+}' >> $request_data
+
+# Step 5. Create the recipient view and begin the signing ceremony
+
+echo ""
+echo "Requesting the url for the embedded signing..."
+echo ""
+Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
+     --header "Content-Type: application/json" \
+     --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
      --output ${response})
 
