@@ -31,9 +31,12 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --request GET ${base_path}/v2.1/accounts/${account_id}/templates \
      --output $response
 
-cat "Did we find any templateIds?: " $response
+ echo "Did we find any templateIds?: " 
+ cat $response
 # pull out the templateId if it was returned
 TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\":\"//' | sed 's/\",.*//'`
+
+echo $TEMPLATE_ID
 
 if [ "${TEMPLATE_ID}" != "" ]; then
     echo ""
@@ -69,6 +72,9 @@ cat demo_documents/World_Wide_Corp_fields.pdf | base64 > $doc1_base64
 # Concatenate the different parts of the request
 printf \
 '{
+    "description": "Example template created via the API",
+    "name": "Example Signer and CC template",
+    "shared": "false",
     "documents": [
         {
             "documentBase64": "' > $request_data
@@ -79,12 +85,7 @@ printf \
         }
     ],
     "emailSubject": "Please sign this document",
-    "envelopeTemplateDefinition": {
-        "description": "Example template created via the API",
-        "name": "Example Signer and CC template",
-        "shared": "false"
-    },
-    "recipients": {
+   "recipients": {
         "carbonCopies": [
             {"recipientId": "2", "roleName": "cc", "routingOrder": "2"}
         ],
