@@ -23,7 +23,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
 
-# Step 3: Construct the request body for your pemisison profile
+# Step 3: Construct the request body
 # Create a temporary file to store the request body
 base_path="https://demo.docusign.net/restapi"
 request_data=$(mktemp /tmp/request-perm-001.XXXXXX)
