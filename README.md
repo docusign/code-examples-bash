@@ -8,6 +8,7 @@ For more information about the scopes used for obtaining authorization to use th
    This example sends an envelope, and then uses embedded signing for the first signer.
    With embedded signing, the DocuSign signing is initiated from your website.
 1. **How to request a signature by email (Remote Signing).**
+
    [Source.](./examples/eSignature/eg002SigningViaEmail.sh)
    The envelope includes a pdf, Word, and HTML document.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
