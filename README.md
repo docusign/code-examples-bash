@@ -7,7 +7,8 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](./eg001EmbeddedSigning.sh)
    This example sends an envelope, and then uses embedded signing for the first signer.
    With embedded signing, the DocuSign signing is initiated from your website.
-1. **Send an envelope with a remote (email) signer and cc recipient.**
+1. **Request a signature by email (Remote Signing).**
+
    [Source.](./examples/eSignature/eg002SigningViaEmail.sh)
    The envelope includes a pdf, Word, and HTML document.
    Anchor text ([AutoPlace](https://support.docusign.com/en/guides/AutoPlace-New-DocuSign-Experience)) is used to position the signing fields in the documents.
@@ -27,7 +28,7 @@ For more information about the scopes used for obtaining authorization to use th
    documents, the documents concatenated together, or a zip file of the documents.
 1. **Programmatically create a template.**
    [Source.](./examples/eSignature/eg008CreateTemplate.sh)
-1. **Send an envelope using a template.**
+1. **Request a signature by email using a template.**
    [Source.](./examples/eSignature/eg009UseTemplate.sh)
 1. **Send an envelope and upload its documents with multipart binary transfer.**
    [Source.](./examples/eSignature/eg010SendBinaryDocs.sh)
