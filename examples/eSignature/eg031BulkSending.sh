@@ -306,7 +306,7 @@ echo ""
 sleep 10s
 
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/bulk_envelopes/${batchId} \
+Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/bulk_send_batch/${batchId} \
      "${Headers[@]}" \
      --output ${response})
 	 

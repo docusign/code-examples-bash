@@ -136,6 +136,7 @@ function startSignature() {
         "Pause_Signature_Workflow" \
         "Unpause_Signature_Workflow" \
         "Use_Conditional_Recipients" \
+        "Signing_Via_SMS" \
         "Home"; do
         case "$CHOICE" in
 
@@ -276,6 +277,10 @@ function startSignature() {
             ;;
         Use_Conditional_Recipients)
             bash examples/eSignature/eg034UseConditionalRecipients.sh
+            startSignature
+            ;;
+        Signing_Via_SMS)
+            bash examples/eSignature/eg035SigningViaSMS.sh
             startSignature
             ;;
         *)
