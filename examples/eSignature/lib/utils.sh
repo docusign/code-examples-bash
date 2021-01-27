@@ -32,5 +32,30 @@ while [[ $SIGNER_NOT_CHECKED_EMAIL != *"@"* ]]; do
 done
 }
 
+function GetCCPhoneNum()
+{
+    echo ""
+    read -p "Enter CC phone country code (U.S. is 1): " CC_PHONE_COUNTRY
+    read -p "Enter CC phone number: " CC_PHONE_NUMBER
+    CC_PHONE_NUMBER="${CC_PHONE_NUMBER//[!0-9]/}"
+    echo ""
+    echo "CC_PHONE_COUNTRY is " $CC_PHONE_COUNTRY
+    echo "CC_PHONE_NUMBER is " $CC_PHONE_NUMBER
+}
+
+function GetSignerPhoneNum()
+{
+    echo ""
+    read -p "Enter signer phone country code (U.S. is 1): " SIGNER_PHONE_COUNTRY
+    read -p "Enter signer phone number: " SIGNER_PHONE_NUMBER
+    SIGNER_PHONE_NUMBER="${SIGNER_PHONE_NUMBER//[!0-9]/}"
+    echo ""
+    echo "SIGNER_PHONE_COUNTRY is " $SIGNER_PHONE_COUNTRY
+    echo "SIGNER_PHONE_NUMBER is " $SIGNER_PHONE_NUMBER
+}
+
+
 export -f CheckForValidCCEmail
 export -f CheckForValidNotCheckedEmail
+export -f GetCCPhoneNum
+export -f GetSignerPhoneNum

@@ -114,15 +114,18 @@ For more information about the scopes used for obtaining authorization to use th
    After that, initiates bulk envelope sending.
 1. **Pausing a signature workflow Source.**
    [Source.](./examples/eSignature/eg032PauseSignatureWorkflow.sh)
-   This code example demonstrates how to create an envelope where the workflow is paused before the envelope is sent to a second recipient.
+   Demonstrates how to create an envelope where the workflow is paused before the envelope is sent to a second recipient.
 1. **Unpausing a signature workflow**
    [Source.](./examples/eSignature/eg033UnpauseSignatureWorkflow.sh)
-   This code example demonstrates how to resume an envelope workflow that has been paused
+   Demonstrates how to resume an envelope workflow that has been paused
 1. **Using conditional recipients**
    [Source.](./examples/eSignature/eg034UseConditionalRecipients.sh)
-   This code example demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
+   Demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
+1. **Request a signature via SMS**
+   [Source.](./examples/eSignature/eg035SigningViaSMS.sh)
+   Demonstrates how to send a signature request for a signer to read and sign via an SMS message.  
 
-### Rooms API:
+### Rooms API:  
 
 For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/)
 
