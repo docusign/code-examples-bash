@@ -10,7 +10,11 @@ fi
 source ./examples/eSignature/lib/utils.sh
 CheckForValidCCEmail
 
-# Prompt for a valid 
+# Get a country code and phone number for the CC recipient.
+GetCCPhoneNum
+
+# Get a country code and phone number for the signer
+GetSignerPhoneNum
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
