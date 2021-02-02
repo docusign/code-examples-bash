@@ -121,9 +121,9 @@ For more information about the scopes used for obtaining authorization to use th
 1. **Using conditional recipients**
    [Source.](./examples/eSignature/eg034UseConditionalRecipients.sh)
    Demonstrates how to create an envelope where the workflow is routed to different recipients based on the value of a transaction.
-1. **Request a signature via SMS**
+1. **Request a signature via SMS delivery**
    [Source.](./examples/eSignature/eg035SigningViaSMS.sh)
-   Demonstrates how to send a signature request for a signer to read and sign via an SMS message.  
+   Demonstrates how to send a signature request via an SMS message.  
 
 ### Rooms API:  
 
