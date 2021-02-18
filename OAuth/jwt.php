@@ -21,6 +21,8 @@ elseif($api_version == "Rooms"):
   $scope = 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms';
 elseif($api_version == "Click"):
   $scope = 'signature click.manage';
+elseif($api_version == "Monitor"):
+  $scope = "signature impersonation";
 endif;
 
 $body = encodeBase64URL(
@@ -34,6 +36,13 @@ $body = encodeBase64URL(
   ])
 );
 
+if(!file_exists("config/private.key")):
+    echo "Error: ";
+    echo "First create an RSA keypair on your integration key and copy the private_key into the file `config/private.key` and save it";
+    echo "";
+    echo "";
+    exit(2);
+endif;
 $privateKey = file_get_contents("config/private.key");
 openssl_sign($header . '.' . $body, $signature, $privateKey, 'sha256');
 echo "\nGetting a JWT access token...\n";

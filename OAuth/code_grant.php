@@ -10,6 +10,8 @@ elseif($api_version == "Rooms"):
   $scope = 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms';
 elseif($api_version == "Click"):
   $scope = 'signature click.manage';
+elseif($api_version == "Monitor"):
+  $scope = "signature impersonation";
 endif;
 
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([

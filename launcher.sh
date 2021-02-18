@@ -69,6 +69,7 @@ function choices() {
         "eSignature" \
         "Rooms" \
         "Click" \
+        "Monitor" \
         "Exit"; do
         case "$METHOD" in
 
@@ -83,13 +84,19 @@ function choices() {
             login $api_version
             startRooms
             ;;
-        
+
         Click)
             api_version="Click"
             login $api_version
-            startRooms
+            startClick
             ;;
-        
+
+        Monitor)
+            api_version="Monitor"
+            login $api_version
+            startMonitor
+            ;;
+
         Exit)
             exit 0
             ;;
@@ -383,6 +390,29 @@ function startClick() {
     done
 }
 
+function startMonitor() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Get_Monitoring_Data" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Get_Monitoring_Data)
+            bash examples/Monitor/eg001GetMonitoringData.sh
+            startMonitor
+            ;;
+        *)
+            echo "Default action..."
+            startMonitor
+            ;;
+        esac
+    done
+}
+
 function continu() {
     echo "press the 'any' key to continue"
     read nothin
@@ -396,6 +426,9 @@ function continu() {
     elif [[ $api_version == "Click" ]]
     then
       startClick
+    elif [[ $api_version == "Monitor" ]]
+    then
+      startMonitor
     fi
 }
 
