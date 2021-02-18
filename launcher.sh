@@ -85,11 +85,13 @@ function choices() {
             startRooms
             ;;
 
+
         Click)
             api_version="Click"
             login $api_version
             startClick
             ;;
+
 
         Monitor)
             api_version="Monitor"
