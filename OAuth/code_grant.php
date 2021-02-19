@@ -14,6 +14,7 @@ elseif($api_version == "Monitor"):
   $scope = "signature impersonation";
 endif;
 
+
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
   'redirect_uri'  => $redirectURI,
   'scope'         => $scope,

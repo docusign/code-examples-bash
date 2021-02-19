@@ -84,13 +84,13 @@ function choices() {
             login $api_version
             startRooms
             ;;
-
+        
         Click)
             api_version="Click"
             login $api_version
             startClick
             ;;
-
+        
         Monitor)
             api_version="Monitor"
             login $api_version
