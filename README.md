@@ -145,7 +145,14 @@ For more information about the scopes used for obtaining authorization to use th
 1. **How to search for rooms with filters.**
    [Source](./examples/Rooms/eg005GetRoomsWithFiltersController.sh)
 1. **Create an external form fillable session.**
-   [Source](./examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh)
+   [Source.](./examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh)
+1. **Create a form group.**
+   [Source.](./examples/Rooms/eg007CreateFormGroup.sh)
+1. **Grant office access to a form group.**
+   [Source.](./examples/Rooms/eg008AccessFormGroup.sh)
+1. **Assign a form to a form group.**
+   [Source.](./examples/Rooms/eg009AssignFormGroup.sh)
+
 
 ### Click API:
 1. **Create a Clickwrap.**

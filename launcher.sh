@@ -302,6 +302,9 @@ function startRooms() {
         "Add_Forms_To_Room_Controller" \
         "Get_Rooms_With_Filters_Controller" \
         "Create_An_External_Form_Fill_Session_Controller" \
+        "Create_Form_Group" \
+        "Grant_Office_Access_To_Form_Group" \
+        "Assign_Form_To_Form_Group" \
         "Home"; do
         case "$CHOICE" in
 
@@ -330,6 +333,18 @@ function startRooms() {
             ;;
         Create_An_External_Form_Fill_Session_Controller)
             bash examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh
+            startRooms
+            ;;
+        Create_Form_Group)
+            bash examples/Rooms/eg007CreateFormGroup.sh
+            startRooms
+            ;;
+        Grant_Office_Access_To_Form_Group)
+            bash examples/Rooms/eg008AccessFormGroup.sh
+            startRooms
+            ;;
+        Assign_Form_To_Form_Group)
+            bash examples/Rooms/eg009AssignFormGroup.sh
             startRooms
             ;;
         *)
