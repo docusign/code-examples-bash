@@ -53,12 +53,12 @@ echo ""
 request_data=$(mktemp /tmp/request-rooms-008.XXXXXX)
 #Step 3 End
 
-# Step 4 Start
 # Get a form group ID from the file ./config/FORM_GROUP_ID
-
+# Step 4 Start
 if [ -f "config/FORM_GROUP_ID" ]; then
     FORM_GROUP_ID=$(cat config/FORM_GROUP_ID)
 else
+# Step 4 End
 
 # response=$(mktemp /tmp/request-rooms-008step4req.XXXXXX)
 # Status=$(
@@ -72,9 +72,6 @@ else
     exit 0
 
 fi
-
-# Step 4 End
-
 
 
 response=$(mktemp /tmp/request-rooms-008step4req.XXXXXX)
