@@ -87,24 +87,25 @@ else
 fi
 
 
-# Step 5 Start
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-rooms-008.XXXXXX)
+
+# Step 5 Start
 printf \
     '
 {
   "formId": "'"${FORM_ID}"'",
 }' >>$request_data
-
 # Step 5 End
 
-# Step 6 Start
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rooms.XXXXXX)
+# Step 6 Start
 Status=$(curl -w '%{http_code}' --request POST ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups/${FORM_GROUP_ID}/assign_form \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
+# Step 6 End
 
 if [[ "$Status" -gt "204" ]]; then
     echo ""
@@ -114,7 +115,6 @@ if [[ "$Status" -gt "204" ]]; then
     exit 1
 fi
 
-# Step 6 End
 echo ""
 echo "Response: No JSON response body returned when saving a form to the form group"
 echo ""
