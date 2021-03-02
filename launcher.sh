@@ -27,7 +27,7 @@ function login() {
     select METHOD in \
         "Use_Authorization_Code_Grant" \
         "Use_JSON_Web_Token" \
-        "Skip_To_APIs" \
+        "Skip_To_Examples" \
         "Exit"; do
         case "$METHOD" in
 
@@ -42,8 +42,9 @@ function login() {
             continu $api_version
             ;;
 
-        Skip_To_APIs)
-            choices
+        Skip_To_Examples)
+            echo "Get a new token if you change API types"
+            continu $api_version
             ;;
 
         Exit)
@@ -87,7 +88,7 @@ function choices() {
         Click)
             api_version="Click"
             login $api_version
-            startRooms
+            startClick
             ;;
         
         Exit)
@@ -137,10 +138,9 @@ function startSignature() {
         "Unpause_Signature_Workflow" \
         "Use_Conditional_Recipients" \
         "Signing_Via_SMS" \
-        "Home"; do
+        "Pick_An_API"; do
         case "$CHOICE" in
-
-        Home)
+        Pick_An_API)
             choices
             ;;
         Embedded_Signing)
@@ -305,10 +305,10 @@ function startRooms() {
         "Create_Form_Group" \
         "Grant_Office_Access_To_Form_Group" \
         "Assign_Form_To_Form_Group" \
-        "Home"; do
+        "Pick_An_API"; do
         case "$CHOICE" in
 
-        Home)
+        Pick_An_API)
             choices
             ;;
         Create_Room_With_Data_Controller)
@@ -364,10 +364,10 @@ function startClick() {
         "Create_New_Clickwrap_Version" \
         "Get_List_Of_Clickwraps" \
         "Get_Clickwrap_Responses" \
-        "Home"; do
+        "Pick_An_API"; do
         case "$CHOICE" in
 
-        Home)
+        Pick_An_API)
             choices
             ;;
         Create_Clickwraps)

@@ -13,32 +13,38 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
 # Note: Substitute these values with your own
-account_id=$(cat config/API_ACCOUNT_ID)
+API_ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.rooms.docusign.com"
 
-# Step 2. Construct your API headers
+# Step 2 Start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+# Step 2 End
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rooms.XXXXXX)
 
-# Step 3. Construct the request body
+
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-rooms-007.XXXXXX)
+
+# Step 3 Start
 printf \
     '
 {
   "name": "Sample Room Form Group",
 }' >$request_data
+# Step 3 End
 
-# Step 4. Call the Rooms API
-Status=$(curl -w '%{http_code}' --request POST ${base_path}/restapi/v2/accounts/${account_id}/form_groups \
+
+# Step 4 Start
+Status=$(curl -w '%{http_code}' --request POST ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
+# Step 4 End
 
 FORM_GROUP_ID=$(cat $response | grep formGroupId | sed 's/.*formGroupId\":"//' | sed 's/\".*//')
 
