@@ -69,11 +69,12 @@ FORM_ID=$(cat $response | grep libraryFormId | sed 's/.*libraryFormId\":"//' | s
 # Step 3 End
 
 
-# Step 4 Start
 # Get a form group ID from the file ./config/FORM_GROUP_ID
+# Step 4 Start
 if [ -f "config/FORM_GROUP_ID" ]; then
     FORM_GROUP_ID=$(cat config/FORM_GROUP_ID)
 else
+# Step 4 End
 # response=$(mktemp /tmp/request-rooms-008step4req.XXXXXX)
 # Status=$(
 #     curl -w '%{http_code}' --request GET ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups/ \
@@ -85,7 +86,6 @@ else
     exit 0
 fi
 
-# Step 4 End
 
 # Step 5 Start
 # Create a temporary file to store the JSON body
