@@ -70,7 +70,6 @@ FORM_ID=$(cat $response | grep libraryFormId | sed 's/.*libraryFormId\":"//' | s
 
 
 # Get a form group ID from the file ./config/FORM_GROUP_ID
-# Step 4 Start
 if [ -f "config/FORM_GROUP_ID" ]; then
     FORM_GROUP_ID=$(cat config/FORM_GROUP_ID)
 else
