@@ -54,11 +54,9 @@ request_data=$(mktemp /tmp/request-rooms-008.XXXXXX)
 #Step 3 End
 
 # Get a form group ID from the file ./config/FORM_GROUP_ID
-# Step 4 Start
 if [ -f "config/FORM_GROUP_ID" ]; then
     FORM_GROUP_ID=$(cat config/FORM_GROUP_ID)
 else
-# Step 4 End
 
     echo " Form group ID is needed. Please run step 7 - Create a form group..."
     exit 0
