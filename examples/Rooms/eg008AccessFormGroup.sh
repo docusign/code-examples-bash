@@ -60,14 +60,6 @@ if [ -f "config/FORM_GROUP_ID" ]; then
 else
 # Step 4 End
 
-# response=$(mktemp /tmp/request-rooms-008step4req.XXXXXX)
-# Status=$(
-#     curl -w '%{http_code}' --request GET ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups/ \
-#     "${Headers[@]}" \
-#     --output ${response}
-# )
-# FORM_GROUP_ID=$(cat $response | grep formGroupId | sed 's/.*\"formGroupId\":"//' | sed 's/",".*//')
-
     echo " Form group ID is needed. Please run step 7 - Create a form group..."
     exit 0
 
