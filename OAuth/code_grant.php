@@ -11,6 +11,7 @@ elseif($api_version == "Rooms"):
 elseif($api_version == "Click"):
   $scope = 'signature click.manage';
 endif;
+  $scope = 'signature notary_read notary_write organization_read';
 
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
   'redirect_uri'  => $redirectURI,
