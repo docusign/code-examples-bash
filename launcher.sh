@@ -62,6 +62,43 @@ function login() {
     export ACCESS_TOKEN
 }
 
+# The Monitor API currently only supports JWT (JSON Web Token)
+function monitor-login() {
+    echo ""
+    api_version=$1
+    PS3='Authenticate using JWT: '
+    select METHOD in \
+        "Use_JSON_Web_Token" \
+        "Skip_To_Examples" \
+        "Exit"; do
+        case "$METHOD" in
+
+        \
+        Use_JSON_Web_Token)
+            php ./OAuth/jwt.php "$api_version"
+            continu $api_version
+            ;;
+
+        Skip_To_Examples)
+            echo "Get a new token if you change API types"
+            continu $api_version
+            ;;
+
+        Exit)
+            exit 0
+            ;;
+        esac
+    done
+
+    mv ds_access_token.txt $token_file_name
+
+    account_id=$(cat config/API_ACCOUNT_ID)
+    ACCESS_TOKEN=$(cat $token_file_name)
+
+    export ACCOUNT_ID
+    export ACCESS_TOKEN
+}
+
 # Choose an API
 function choices() {
     echo ""
@@ -70,6 +107,7 @@ function choices() {
         "eSignature" \
         "Rooms" \
         "Click" \
+        "Monitor" \
         "Exit"; do
         case "$METHOD" in
 
@@ -91,6 +129,12 @@ function choices() {
             startClick
             ;;
         
+        Monitor)
+            api_version="Monitor"
+            monitor-login $api_version
+            startMonitor
+            ;;
+
         Exit)
             exit 0
             ;;
@@ -398,6 +442,29 @@ function startClick() {
     done
 }
 
+function startMonitor() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Get_Monitoring_Data" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Get_Monitoring_Data)
+            bash examples/Monitor/eg001GetMonitoringData.sh
+            startMonitor
+            ;;
+        *)
+            echo "Default action..."
+            startMonitor
+            ;;
+        esac
+    done
+}
+
 function continu() {
     echo "press the 'any' key to continue"
     read nothin
@@ -411,6 +478,9 @@ function continu() {
     elif [[ $api_version == "Click" ]]
     then
       startClick
+    elif [[ $api_version == "Monitor" ]]
+    then
+      startMonitor
     fi
 }
 

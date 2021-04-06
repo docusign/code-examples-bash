@@ -9,7 +9,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -70,12 +70,12 @@ echo ""
 echo "Sending the EnvelopeDocuments::get request to DocuSign..."
 echo ""
 
-# ***DS.snippet.0.start
+# Step 3 start
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/documents/${doc_choice} \
      --output ${output_file}${output_file_extension}
-# ***DS.snippet.0.end
+# Step 3 end
 
 echo ""
 echo "The document(s) are stored in file ${output_file}${output_file_extension}"
