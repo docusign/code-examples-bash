@@ -1,6 +1,6 @@
 ### eSignature API:
 
-For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth)
+For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
 
 1. **Use embedded signing.**
 
@@ -129,7 +129,7 @@ For more information about the scopes used for obtaining authorization to use th
 
 For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/)
 
-**Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**
+**Note: To use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**
 1. **Create a room with data.**
    [Source](./examples/Rooms/eg001CreateRoomWithDataController.sh)
    This example creates a new room in your DocuSign Rooms account to be used for a transaction.
@@ -173,13 +173,13 @@ For more information about the scopes used for obtaining authorization to use th
 
 ## Monitor API 
 
-For more information about the scopes used for obtaining authorization to use the Monitor API, see the [Required Scopes section](https://developers.docusign.com/docs/monitor-api/monitor101/auth/)
+For more information about the scopes used for obtaining authorization to use the Monitor API, see the [Required Scopes section](https://developers.docusign.com/docs/monitor-api/monitor101/auth/).
 
-**Note:** to use the Monitor API you must also [enable DocuSign Monitor for your organization](https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/).
+**Note:** To use the Monitor API you must also [enable DocuSign Monitor for your organization](https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/).
 
 1. **Get Monitoring Data.**
    [Source.](./examples/Monitor/eg001GetMonitoringData.sh)
-   This example get and display all of your organization’s monitoring data.
+   This example demonstrates how to get and display all of your organization’s monitoring data.
 
 
 ## Installation
