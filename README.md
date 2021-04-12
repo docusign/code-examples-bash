@@ -241,7 +241,7 @@ For more information about the scopes used for obtaining authorization to use th
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 3 as it was automatically performed for you.
 
 1. Extract the Quickstart ZIP file or download or clone the code-examples-bash repository.
-1. In your command-line environment, switch the the folder:  
+1. In your command-line environment, switch to the folder:  
    `cd <Quickstart folder name>` or `cd code-examples-bash`
 1. To configure the launcher for [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication, create a copy of the file config/settings.example.txt and save the copy as config/settings.txt.
    1. Add your API Username. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **My Account Information**, copy the **API Username** GUID and save it in settings.txt as your `IMPERSONATION_USER_GUID`.
