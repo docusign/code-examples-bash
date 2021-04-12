@@ -266,7 +266,7 @@ Once you've created a payment gateway, save the **Gateway Account ID** GUID to s
 ## License and additional information
 
 ### License
-This repository uses the MIT License. See the LICENSE file for more information.
+This repository uses the MIT License. See [LICENSE](./LICENSE) for details.
 
 ### Pull Requests
 Pull requests are welcomed. Pull requests will only be considered if their content
