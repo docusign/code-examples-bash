@@ -5,7 +5,7 @@
 This repo includes a Bash command-line application to demonstrate:
 
 
-## eSignature API:
+## eSignature API
 
 For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
 
@@ -133,7 +133,7 @@ For more information about the scopes used for obtaining authorization to use th
    Demonstrates how to send a signature request via an SMS message using the [Envelopes: create](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method.  
 
 
-## Rooms API:  
+## Rooms API  
 
 For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
 
@@ -162,7 +162,7 @@ For more information about the scopes used for obtaining authorization to use th
    [Source.](./examples/Rooms/eg009AssignFormGroup.sh)
 
 
-## Click API:
+## Click API
 1. **Create a Clickwrap.**
    [Source](./examples/Click/eg001CreateClickwraps.sh)
    Demonstrates how to create a Clickwrap that you can embed in your website or app.
