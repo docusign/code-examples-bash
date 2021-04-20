@@ -19,7 +19,7 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # Check that we have a template id
-if [ ! -f ../TEMPLATE_ID ]; then
+if [ ! -f config/TEMPLATE_ID ]; then
     echo ""
     echo "PROBLEM: An template id is needed. Fix: execute script eg008CreateTemplate.sh"
     echo ""
