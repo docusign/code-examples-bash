@@ -21,13 +21,13 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # Check that we have a template id
-if [ ! -f ../TEMPLATE_ID ]; then
+if [ ! -f config/TEMPLATE_ID ]; then
     echo ""
     echo "PROBLEM: A template id is needed. Fix: execute script eg008CreateTemplate.sh"
     echo ""
     exit 0
 fi
-template_id=`cat ../TEMPLATE_ID`
+template_id=`cat config/TEMPLATE_ID`
 
 # temp files:
 request_data=$(mktemp /tmp/request-eg-013.XXXXXX)
@@ -71,7 +71,7 @@ printf \
                             }
                         ]
                     },
-                    "sequence": "1"
+                    "sequence": "2"
                 }
             ],
             "serverTemplates": [
@@ -123,7 +123,7 @@ printf \
                             }
                         ]
                     },
-                    "sequence": "2"
+                    "sequence": "1"
                 }
             ]
         }

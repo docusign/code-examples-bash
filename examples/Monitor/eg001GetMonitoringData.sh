@@ -9,12 +9,13 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Content-Type: application/json")
 # Step 2 end
 
-# Step 3 start
+
 # First call the endpoint with no cursor to get the first records. 
 # After each call, save the cursor and use it to make the next 
 # call from the point where the previous one left off when iterating through
 # the monitoring records
 
+# Step 3 start
 complete=false
 cursorValue=""
 iterations=0
