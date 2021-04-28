@@ -1,6 +1,6 @@
 <?php
 
-$PORT                  = '8080';
+$PORT                  = '5000';
 $IP                    = 'localhost';
 
 $outputFile            = 'config/ds_access_token.txt';
@@ -15,7 +15,7 @@ $IMPERSONATION_USER_GUID = getenv("IMPERSONATION_USER_GUID");
 $authorizationEndpoint = 'https://account-d.docusign.com/oauth/';
 
 $socket                =  'tcp://' . $IP . ':' . $PORT;
-$redirectURI           = 'http://' . $IP . ':' . $PORT . '/authorization-code/callback';
+$redirectURI           = 'https://github.com/docusign/code-examples-python/tree/master/app';
 
 function startHttpServer ($socket) {
   $responseOk = "HTTP/1.0 200 OK\r\n"

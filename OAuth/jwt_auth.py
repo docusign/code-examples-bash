@@ -1,0 +1,120 @@
+import uuid
+import os
+from os import path
+
+
+import requests
+import jwt
+import http.server
+import socketserver
+from docusign_esign import ApiClient
+from docusign_esign.client.api_exception import ApiException
+
+PORT = 5000
+
+DS_JWT = {
+    "ds_client_id": os.environ.get('INTEGRATION_KEY_JWT'),
+    "ds_impersonated_user_id": os.environ.get('IMPERSONATION_USER_GUID'),  # The id of the user.
+    "private_key_file": "./config/private.key", # Create a new file in your repo source folder named private.key then copy and paste your RSA private key there and save it.
+    "authorization_server": "account-d.docusign.com"
+}
+
+DS_CONFIG = {
+    "authorization_server": "https://account-d.docusign.com",
+    "app_url": "http://localhost:5000"
+}
+
+EXAMPLES_API_TYPE = {
+        "Rooms": False,
+        "ESignature": True,
+        "Click": False,
+        "Monitor": False,
+}
+
+SCOPES = [
+     "signature"
+]
+
+ROOMS_SCOPES = [
+    "room_forms", "dtr.rooms.read", "dtr.rooms.write",
+    "dtr.documents.read", "dtr.documents.write", "dtr.profile.read",
+    "dtr.profile.write", "dtr.company.read", "dtr.company.write"
+]
+
+CLICK_SCOPES = [
+    "signature", "click.manage", "click.send"
+]
+
+class DSClient:
+
+    ds_app = None
+
+    def _init():
+        cls._jwt_auth()
+
+    @classmethod
+    def _jwt_auth(cls):
+        """JSON Web Token authorization"""
+
+        if EXAMPLES_API_TYPE["Rooms"]:
+            use_scopes = ROOMS_SCOPES
+        elif EXAMPLES_API_TYPE["Click"]:
+            use_scopes = CLICK_SCOPES
+        else:
+            use_scopes = SCOPES
+
+        use_scopes.append("impersonation")
+
+        redirect_uri = "https://github.com/docusign/code-examples-python/tree/master/app"
+        consent_url = f"{DS_CONFIG['authorization_server']}/oauth/auth?response_type=code&" \
+                      f"scope=signature%20impersonation&client_id={DS_JWT['ds_client_id']}&redirect_uri={redirect_uri}"
+
+        print("Open the following url in your browser to grant consent to the application:")
+        print(consent_url)
+        consent_granted = input("Consent granted? \n 1)Yes \n 2)No \n")
+        if consent_granted == "1":
+            cls._write_token(use_scopes)
+
+    @classmethod
+    def _write_token(cls, scopes):
+
+        api_client = ApiClient()
+        api_client.set_base_path(DS_JWT["authorization_server"])
+        private_key = cls._get_private_key().encode("ascii").decode("utf-8")
+
+        cls.ds_app = api_client.request_jwt_user_token(
+            client_id=DS_JWT["ds_client_id"],
+            user_id=DS_JWT["ds_impersonated_user_id"],
+            oauth_host_name=DS_JWT["authorization_server"],
+            private_key_bytes=private_key,
+            expires_in=3600,
+            scopes=scopes
+        )
+
+        access_token = open("./config/ds_access_token.txt", "w")
+        access_token.write(cls.ds_app.access_token)
+        access_token.close()
+
+    
+    
+    @staticmethod
+    def _get_private_key():
+        """
+        Check that the private key present in the file and if it is, get it from the file.
+        In the opposite way get it from config variable.
+        """
+        private_key_file = path.abspath(DS_JWT["private_key_file"])
+
+        if path.isfile(private_key_file):
+            with open(private_key_file) as private_key_file:
+                private_key = private_key_file.read()
+        else:
+            private_key = DS_JWT["private_key_file"]
+
+        return private_key
+
+
+new_client = DSClient()
+new_client._jwt_auth()
+
+
