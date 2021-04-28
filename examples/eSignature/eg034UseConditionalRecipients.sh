@@ -102,6 +102,7 @@ printf \
                       "tabId": "ApprovalTab",                      
                       "operator": "equals",
                       "value": "false",
+                      "tabType": "checkbox",
                       "tabLabel": "ApproveWhenChecked"
                     }
                   ]
@@ -117,6 +118,7 @@ printf \
                       "tabId": "ApprovalTab",
                       "operator": "equals",
                       "value": "true",
+                      "tabType" : "checkbox",
                       "tabLabel": "ApproveWhenChecked"
                     }
                   ]
