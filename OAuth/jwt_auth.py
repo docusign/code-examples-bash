@@ -64,10 +64,11 @@ class DSClient:
             use_scopes = SCOPES
 
         use_scopes.append("impersonation")
+        url_scopes = "&".join(use_scopes)
 
         redirect_uri = "https://github.com/docusign/code-examples-python/tree/master/app"
         consent_url = f"{DS_CONFIG['authorization_server']}/oauth/auth?response_type=code&" \
-                      f"scope=signature%20impersonation&client_id={DS_JWT['ds_client_id']}&redirect_uri={redirect_uri}"
+                      f"scope={url_scopes}&client_id={DS_JWT['ds_client_id']}&redirect_uri={redirect_uri}"
 
         print("Open the following url in your browser to grant consent to the application:")
         print(consent_url)
