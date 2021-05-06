@@ -60,7 +60,7 @@ function login() {
             ;;
 
         Use_JSON_Web_Token)
-            choose_language "$api_version" "$METHOD"
+            choose_language "$api_version"
             ;;
 
         Skip_To_Examples)
