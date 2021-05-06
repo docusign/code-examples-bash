@@ -35,7 +35,7 @@ function choose_language(){
             ;;
             
         Python) 
-            python3 ./OAuth/jwt_auth.py
+            python3 ./OAuth/jwt_auth.py "$api_version"
             continu $api_version
         esac
     done
@@ -60,7 +60,7 @@ function login() {
             ;;
 
         Use_JSON_Web_Token)
-            choose_language "$api_version"
+            choose_language "$api_version" "$METHOD"
             ;;
 
         Skip_To_Examples)

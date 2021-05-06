@@ -15,7 +15,7 @@ $IMPERSONATION_USER_GUID = getenv("IMPERSONATION_USER_GUID");
 $authorizationEndpoint = 'https://account-d.docusign.com/oauth/';
 
 $socket                =  'tcp://' . $IP . ':' . $PORT;
-$redirectURI           = 'https://github.com/docusign/code-examples-python/tree/master/app';
+$redirectURI           = 'http://' . $IP . ':' . $PORT . '/authorization-code/callback';
 
 function startHttpServer ($socket) {
   $responseOk = "HTTP/1.0 200 OK\r\n"

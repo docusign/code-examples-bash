@@ -1,4 +1,5 @@
 import uuid
+import sys
 import os
 from os import path
 
@@ -19,17 +20,13 @@ DS_JWT = {
     "authorization_server": "account-d.docusign.com"
 }
 
-DS_CONFIG = {
-    "authorization_server": "https://account-d.docusign.com",
-    "app_url": "http://localhost:5000"
-}
+#DS_CONFIG = {
+#    "authorization_server": "https://account-d.docusign.com",
+#    "app_url": "http://localhost:5000"
+#}
 
-EXAMPLES_API_TYPE = {
-        "Rooms": False,
-        "ESignature": True,
-        "Click": False,
-        "Monitor": False,
-}
+API_VERSION = sys.argv[1]
+
 
 SCOPES = [
      "signature"
@@ -56,18 +53,18 @@ class DSClient:
     def _jwt_auth(cls):
         """JSON Web Token authorization"""
 
-        if EXAMPLES_API_TYPE["Rooms"]:
+        if (API_VERSION == "Rooms"):
             use_scopes = ROOMS_SCOPES
-        elif EXAMPLES_API_TYPE["Click"]:
+        elif (API_VERSION == "Click"):
             use_scopes = CLICK_SCOPES
         else:
             use_scopes = SCOPES
 
         use_scopes.append("impersonation")
-        url_scopes = "&".join(use_scopes)
+        url_scopes = "+".join(use_scopes)
 
-        redirect_uri = "https://github.com/docusign/code-examples-python/tree/master/app"
-        consent_url = f"{DS_CONFIG['authorization_server']}/oauth/auth?response_type=code&" \
+        redirect_uri = "http://localhost:5000/authorization-code/callback"
+        consent_url = f"https://{DS_JWT['authorization_server']}/oauth/auth?response_type=code&" \
                       f"scope={url_scopes}&client_id={DS_JWT['ds_client_id']}&redirect_uri={redirect_uri}"
 
         print("Open the following url in your browser to grant consent to the application:")
@@ -75,6 +72,8 @@ class DSClient:
         consent_granted = input("Consent granted? \n 1)Yes \n 2)No \n")
         if consent_granted == "1":
             cls._write_token(use_scopes)
+        else:
+            sys.exit("Please grant consent")
 
     @classmethod
     def _write_token(cls, scopes):
@@ -117,5 +116,3 @@ class DSClient:
 
 new_client = DSClient()
 new_client._jwt_auth()
-
-
