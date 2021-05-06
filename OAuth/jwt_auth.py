@@ -46,7 +46,7 @@ class DSClient:
 
     @classmethod
     def _jwt_auth(cls):
-        """JSON Web Token authorization"""
+        """JSON Web Token authentication"""
 
         if (API_VERSION == "Rooms"):
             use_scopes = ROOMS_SCOPES
@@ -62,7 +62,7 @@ class DSClient:
         consent_url = f"https://{DS_JWT['authorization_server']}/oauth/auth?response_type=code&" \
                       f"scope={url_scopes}&client_id={DS_JWT['ds_client_id']}&redirect_uri={redirect_uri}"
 
-        print("Open the following url in your browser to grant consent to the application:")
+        print("Open the following URL in your browser to grant consent to the application:")
         print(consent_url)
         consent_granted = input("Consent granted? \n 1)Yes \n 2)No \n")
         if consent_granted == "1":
@@ -95,8 +95,7 @@ class DSClient:
     @staticmethod
     def _get_private_key():
         """
-        Check that the private key present in the file and if it is, get it from the file.
-        In the opposite way get it from config variable.
+        Get the private key from the private.key file
         """
         private_key_file = path.abspath(DS_JWT["private_key_file"])
 
