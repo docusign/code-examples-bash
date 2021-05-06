@@ -11,7 +11,7 @@ import socketserver
 from docusign_esign import ApiClient
 from docusign_esign.client.api_exception import ApiException
 
-PORT = 5000
+PORT = 8080
 
 DS_JWT = {
     "ds_client_id": os.environ.get('INTEGRATION_KEY_JWT'),
@@ -19,11 +19,6 @@ DS_JWT = {
     "private_key_file": "./config/private.key", # Create a new file in your repo source folder named private.key then copy and paste your RSA private key there and save it.
     "authorization_server": "account-d.docusign.com"
 }
-
-#DS_CONFIG = {
-#    "authorization_server": "https://account-d.docusign.com",
-#    "app_url": "http://localhost:5000"
-#}
 
 API_VERSION = sys.argv[1]
 
@@ -63,7 +58,7 @@ class DSClient:
         use_scopes.append("impersonation")
         url_scopes = "+".join(use_scopes)
 
-        redirect_uri = "http://localhost:5000/authorization-code/callback"
+        redirect_uri = "http://localhost:8080/authorization-code/callback"
         consent_url = f"https://{DS_JWT['authorization_server']}/oauth/auth?response_type=code&" \
                       f"scope={url_scopes}&client_id={DS_JWT['ds_client_id']}&redirect_uri={redirect_uri}"
 
