@@ -10,6 +10,7 @@ import http.server
 import socketserver
 from docusign_esign import ApiClient
 from docusign_esign.client.api_exception import ApiException
+from docusign_esign.client import OAuthUserInfo, Account
 
 PORT = 8080
 
@@ -75,6 +76,7 @@ class DSClient:
 
         api_client = ApiClient()
         api_client.set_base_path(DS_JWT["authorization_server"])
+        api_client.set_oauth_host_name(DS_JWT["authorization_server"])
         private_key = cls._get_private_key().encode("ascii").decode("utf-8")
 
         cls.ds_app = api_client.request_jwt_user_token(
@@ -90,6 +92,11 @@ class DSClient:
         access_token.write(cls.ds_app.access_token)
         access_token.close()
 
+        user_info = api_client.get_user_info(cls.ds_app.access_token)
+        accounts = user_info.get_accounts()
+        api_account_id = open("./config/API_ACCOUNT_ID", "w")
+        api_account_id.write(accounts[0].account_id)
+        api_account_id.close()
     
     
     @staticmethod
