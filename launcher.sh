@@ -19,6 +19,28 @@ function resetToken() {
     rm -f config/ds_access_token* || true
 }
 
+function choose_language(){
+    echo ""
+    api_version=$1
+    PS3='Choose an OAuth Strategy: '
+    select LANGUAGE in \
+        "PHP" \
+        "Python"; do
+        case "$LANGUAGE" in 
+        
+        \
+        PHP)
+            php ./OAuth/code_grant.php "$api_version"
+            continu $api_version
+            ;;
+            
+        Python) 
+            python3 ./OAuth/jwt_auth.py "$api_version"
+            continu $api_version
+        esac
+    done
+}
+
 # Choose an OAuth Strategy
 function login() {
     echo ""
@@ -38,8 +60,7 @@ function login() {
             ;;
 
         Use_JSON_Web_Token)
-            php ./OAuth/jwt.php "$api_version"
-            continu $api_version
+            choose_language "$api_version"
             ;;
 
         Skip_To_Examples)
