@@ -1,6 +1,13 @@
-### eSignature API:
+# DocuSign Bash Code Examples
 
-For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth)
+
+## Introduction
+This repo includes a Bash command-line application to demonstrate:
+
+
+## eSignature API
+
+For more information about the scopes used for obtaining authorization to use the eSignature API, see the [Required Scopes section](https://developers.docusign.com/docs/esign-rest-api/esign101/auth).
 
 1. **Use embedded signing.**
 
@@ -125,9 +132,10 @@ For more information about the scopes used for obtaining authorization to use th
    [Source](./examples/eSignature/eg035SigningViaSMS.sh)
    Demonstrates how to send a signature request via an SMS message using the [Envelopes: create](https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create) method.  
 
-### Rooms API:  
 
-For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/)
+## Rooms API  
+
+For more information about the scopes used for obtaining authorization to use the Rooms API, see the [Required Scopes section](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).
 
 **Note: to use the Rooms API you must also create your DocuSign Developer Account for Rooms. Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.**
 1. **Create a room with data.**
@@ -145,9 +153,16 @@ For more information about the scopes used for obtaining authorization to use th
 1. **How to search for rooms with filters.**
    [Source](./examples/Rooms/eg005GetRoomsWithFiltersController.sh)
 1. **Create an external form fillable session.**
-   [Source](./examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh)
+   [Source.](./examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh)
+1. **Create a form group.**
+   [Source.](./examples/Rooms/eg007CreateFormGroup.sh)
+1. **Grant office access to a form group.**
+   [Source.](./examples/Rooms/eg008AccessFormGroup.sh)
+1. **Assign a form to a form group.**
+   [Source.](./examples/Rooms/eg009AssignFormGroup.sh)
 
-### Click API:
+
+## Click API
 1. **Create a Clickwrap.**
    [Source](./examples/Click/eg001CreateClickwraps.sh)
    Demonstrates how to create a Clickwrap that you can embed in your website or app.
@@ -164,76 +179,94 @@ For more information about the scopes used for obtaining authorization to use th
    [Source](./examples/Click/eg005GetClickwrapResponses.sh)
    Demonstrates how to get user responses to your Clickwrap agreements.
 
+
 ## Monitor API 
 
-For more information about the scopes used for obtaining authorization to use the Monitor API, see the [Required Scopes section](https://developers.docusign.com/docs/monitor-api/monitor101/auth/)
+For more information about the scopes used for obtaining authorization to use the Monitor API, see the [Required Scopes section](https://developers.docusign.com/docs/monitor-api/monitor101/auth/).
 
-**Note:** to use the Monitor API you must also [enable DocuSign Monitor for your organization](https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/).
+**Note:** To use the Monitor API you must also [enable DocuSign Monitor for your organization](https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/).
 
 1. **Get Monitoring Data.**
-   [Source.](./examples/Monitor/eg001GetMonitoringData.ps1)
-   This example get and display all of your organization’s monitoring data.
+   [Source.](./examples/Monitor/eg001GetMonitoringData.sh)
+   Demonstrates how to get and display all of your organization’s monitoring data.
 
 
 ## Installation
-**Note: If you downloaded this code using Quickstart from the DocuSign Developer Center, these steps were done for you and can be skipped.**
+### Prerequisites
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 as they were automatically performed for you.
 
-* Download or clone this repository to your workstation `git clone https://github.com/docusign/code-examples-bash`
-* Create a [DocuSign developer account](https://account-d.docusign.com/#/username) if you have not yet done so
-* Once you have a Docusign account created, make a new [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey)
-* Add in the following **redirect uri** `http://localhost:8080/authorization-code/callback`
-* **Signer name and email:** Remember to try the DocuSign signing example using both a mobile phone and a regular
-   email client
-* **Carbon Copy name and email:** Do not use the same email address for the CC and the Signer
-* [JWT - OPTIONAL] create an RSA keypair on your **integration key** and copy the **private_key** into the file `config/private.key` and save it. Use JWT authentication if you intend to run a system account integration or to impersonate a different user.
-* [JWT - CONTINUED] If you intend to use JWT grant authentication, set **IMPERSONATION_USER_GUID** by using your own **user_account_id** found on the same page used to set your [**integration key**](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey).
-* Copy the file 'config/settings.example.txt' to 'config/settings.txt'
-* Fill in your API credentials into 'config/settings.txt'
-  * IMPERSONATION_USER_GUID = API Account ID
-  * INTEGRATION_KEY_JWT = Integration Key  
-  * INTEGRATION_KEY_AUTH_CODE = Integration Key
-  * SECRET_KEY = Secret Key
-  * GATEWAY_ACCOUNT_ID = Account ID
+1. A free [DocuSign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
+1. A DocuSign app and integration key that is configured for authentication to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/).
 
-## OAuth Details
+   This [video](https://www.youtube.com/watch?v=eiRI4fe5HgM) demonstrates how to obtain an integration key.  
 
-This launcher is a collection of bash scripts, however the OAuth mechanisms are PHP scripts that setup a small HTTP listener on **port 8080** in order to receive the redirect callback from successful authorization with DocuSign servers that include the Authorization code or an access token in the response payload. Please ensure that any other webserver using 8080 are off so that the OAuth mechanism functions properly.
+   To use [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/), you will need an integration key and a secret key. See [Installation steps](#installation-steps) for details.  
 
-These PHP scripts are integrated into the launcher and hardcode the location for the RSA private key in the case of the JWT PHP scripts.
+   To use [JWT Grant](https://developers.docusign.com/platform/auth/jwt/), you will need an integration key, an RSA key pair, and the API Username GUID of the impersonated user. See [Installation steps for JWT Grant authentication](#installation-steps-for-jwt-grant-authentication) for details.  
 
-Do not delete or change the name of the private.key file located in the config directory as this will cause problems with jwt authentication.
+   For both authentication flows:  
+   
+   If you use this launcher on your own workstation, the integration key must include a redirect URI of  
 
-**Note:** Before you can make any API calls using JWT Grant, you must get your user’s consent for your app to impersonate them. To do this, the `impersonation` scope is added when requesting a JSON Web Token.
+   http://localhost:8080/authorization-code/callback  
+
+   If you host this launcher on a remote web server, set your redirect URI as   
+   
+   {base_url}/authorization-code/callback   
+   
+   where {base_url} is the URL for the web app.  
+   
+1. [Git Bash command line](https://gitforwindows.org/), macOS Terminal, or Linux shell  
 
 
-## Running the examples
-You can see each of the various examples in action by running `bash launcher.sh` and pressing numbers 1 or 2 to login using OAUTH and store an access token. (JWT tokens are good for 1 hour, Authorization Code grant tokens are good for 8 hours.)
+### Installation steps
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 3 as it was automatically performed for you.
 
-On successful login, you will be presented with a menu to run the various examples available.  For example: Press "2", to try eg002SigningViaEmail.
+1. Extract the Quickstart ZIP file or download or clone the code-examples-bash repository.
+1. In your command-line environment, switch to the folder:  
+   `cd <Quickstart folder name>` or `cd code-examples-bash`
+1. To configure the launcher for [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) authentication, create a copy of the file config/settings.example.txt and save the copy as config/settings.txt.
+   1. Add your integration key. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **Apps and Integration Keys**, choose the app to use, then select **Actions** > **Edit**. Under **General Info**, copy the **Integration Key** GUID and save it in settings.txt as your `INTEGRATION_KEY_AUTH_CODE`.
+   1. Generate a secret key, if you don’t already have one. Under **Authentication**, select **+ ADD SECRET KEY**. Copy the secret key and save it in settings.txt as your `SECRET_KEY`.
+   1. Add the launcher’s redirect URI. Under **Additional settings**, select **+ ADD URI**, and set a redirect URI of http://localhost:8080/authorization-code/callback. Select **SAVE**.   
+   1. Set a name and email address for the signer. In settings.txt, save an email address as `SIGNER_EMAIL` and a name as `SIGNER_NAME`.  
+**Note:** Protect your personal information. Please make sure that settings.txt will not be stored in your source code repository.
+1. Run the launcher: `bash launcher.sh`
+1. Select an API when prompted.
+1. Select **Authorization Code Grant** when authenticating your account.
+1. Select your desired code example.
 
-The examples have been tested on Windows using the **Git-Bash** software included with the [git for Windows](https://gitforwindows.org/) open source application.
 
-The scripts can also be used with MacOS and Linux systems.
+### Installation steps for JWT Grant authentication
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 3 as it was automatically performed for you.
 
-The source files for each example are located in the `/examples` directory.
+1. Extract the Quickstart ZIP file or download or clone the code-examples-bash repository.
+1. In your command-line environment, switch to the folder:  
+   `cd <Quickstart folder name>` or `cd code-examples-bash`
+1. To configure the launcher for [JWT Grant](https://developers.docusign.com/platform/auth/jwt/) authentication, create a copy of the file config/settings.example.txt and save the copy as config/settings.txt.
+   1. Add your API Username. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **My Account Information**, copy the **API Username** GUID and save it in settings.txt as your `IMPERSONATION_USER_GUID`.
+   1. Add your integration key. On the [Apps and Keys](https://admindemo.docusign.com/authenticate?goTo=apiIntegratorKey) page, under **Apps and Integration Keys**, choose the app to use, then select **Actions** > **Edit**. Under **General Info**, copy the **Integration Key** GUID and save it in settings.txt as your `INTEGRATION_KEY_JWT`.
+   1. Generate an RSA key pair, if you don’t already have one. Under **Authentication**, select **+ GENERATE RSA**. Copy the private key and save it in a new file named config/private.key.
+   1. Add the launcher’s redirect URI. Under **Additional settings**, select **+ ADD URI**, and set a redirect URI of http://localhost:8080/authorization-code/callback. Select **SAVE**.   
+   1. Set a name and email address for the signer. In settings.txt, save an email address as `SIGNER_EMAIL` and a name as `SIGNER_NAME`.  
+**Note:** Protect your personal information. Please make sure that settings.txt will not be stored in your source code repository.
+1. Run the launcher: `bash launcher.sh`
+1. Select an API when prompted.
+1. Select **JSON Web Token** when authenticating your account.
+1. Select your desired code example.
 
 
-**Note:** If your DocuSign account has more than one user associated with it, the first user is selected for subsequent API calls.
+## Payments code example
+To use the payments code example, create a test payment gateway on the [**Payments**](https://admindemo.docusign.com/authenticate?goTo=payments) page in your developer account. See [Configure a payment gateway](./PAYMENTS_INSTALLATION.md) for details.
 
-### Payments code example
-To use the payments code example, first create a test payments gateway in your account.
-Follow the instructions in the
-[PAYMENTS_INSTALLATION.md](https://github.com/docusign/code-examples-bash/blob/master/PAYMENTS_INSTALLATION.md)
-file.
-
-Then add the payment gateway id to the code example file.
+Once you've created a payment gateway, save the **Gateway Account ID** GUID to settings.txt.
 
 
 
 ## License and additional information
 
 ### License
-This repository uses the MIT License. See the LICENSE file for more information.
+This repository uses the MIT License. See [LICENSE](./LICENSE) for details.
 
 ### Pull Requests
 Pull requests are welcomed. Pull requests will only be considered if their content

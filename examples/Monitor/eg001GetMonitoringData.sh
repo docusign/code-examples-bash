@@ -3,19 +3,23 @@
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Construct your API headers
+# Step 2 start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+# Step 2 end
 
-complete=false
-cursorValue=""
-iterations=0
 
-# Step 3: Get monitoring data
 # First call the endpoint with no cursor to get the first records. 
 # After each call, save the cursor and use it to make the next 
 # call from the point where the previous one left off when iterating through
 # the monitoring records
+
+# Step 3 start
+complete=false
+cursorValue=""
+iterations=0
+
 while [ $complete == false ]; do
 ((iterations=iterations+1))
 # Create a temporary file to store the response
@@ -57,6 +61,7 @@ if [ "$endCursorValue" == "$cursorValue" ] ; then
 	cursorValue="${endCursorValue}"
 sleep 5
 fi
+# Step 3 end
 echo ""
 # Remove the temporary file
 rm "$response"

@@ -11,6 +11,10 @@ elseif($api_version == "Rooms"):
 elseif($api_version == "Click"):
   $scope = 'signature click.manage';
 elseif($api_version == "Monitor"):
+<<<<<<< HEAD
+=======
+  echo "Auth Code Grant is not supported for the Monitor API.";
+>>>>>>> 8e174cd2f7cae20dcd5339207a84d3fc7ec3dfb2
   $scope = "signature impersonation";
 endif;
 

@@ -19,6 +19,28 @@ function resetToken() {
     rm -f config/ds_access_token* || true
 }
 
+function choose_language(){
+    echo ""
+    api_version=$1
+    PS3='Choose an OAuth Strategy: '
+    select LANGUAGE in \
+        "PHP" \
+        "Python"; do
+        case "$LANGUAGE" in 
+        
+        \
+        PHP)
+            php ./OAuth/code_grant.php "$api_version"
+            continu $api_version
+            ;;
+            
+        Python) 
+            python3 ./OAuth/jwt_auth.py "$api_version"
+            continu $api_version
+        esac
+    done
+}
+
 # Choose an OAuth Strategy
 function login() {
     echo ""
@@ -27,7 +49,7 @@ function login() {
     select METHOD in \
         "Use_Authorization_Code_Grant" \
         "Use_JSON_Web_Token" \
-        "Skip_To_APIs" \
+        "Skip_To_Examples" \
         "Exit"; do
         case "$METHOD" in
 
@@ -38,12 +60,49 @@ function login() {
             ;;
 
         Use_JSON_Web_Token)
+            choose_language "$api_version"
+            ;;
+
+        Skip_To_Examples)
+            echo "Get a new token if you change API types"
+            continu $api_version
+            ;;
+
+        Exit)
+            exit 0
+            ;;
+        esac
+    done
+
+    mv ds_access_token.txt $token_file_name
+
+    account_id=$(cat config/API_ACCOUNT_ID)
+    ACCESS_TOKEN=$(cat $token_file_name)
+
+    export ACCOUNT_ID
+    export ACCESS_TOKEN
+}
+
+# The Monitor API currently only supports JWT (JSON Web Token)
+function monitor-login() {
+    echo ""
+    api_version=$1
+    PS3='Authenticate using JWT: '
+    select METHOD in \
+        "Use_JSON_Web_Token" \
+        "Skip_To_Examples" \
+        "Exit"; do
+        case "$METHOD" in
+
+        \
+        Use_JSON_Web_Token)
             php ./OAuth/jwt.php "$api_version"
             continu $api_version
             ;;
 
-        Skip_To_APIs)
-            choices
+        Skip_To_Examples)
+            echo "Get a new token if you change API types"
+            continu $api_version
             ;;
 
         Exit)
@@ -93,7 +152,7 @@ function choices() {
         
         Monitor)
             api_version="Monitor"
-            login $api_version
+            monitor-login $api_version
             startMonitor
             ;;
 
@@ -144,10 +203,9 @@ function startSignature() {
         "Unpause_Signature_Workflow" \
         "Use_Conditional_Recipients" \
         "Signing_Via_SMS" \
-        "Home"; do
+        "Pick_An_API"; do
         case "$CHOICE" in
-
-        Home)
+        Pick_An_API)
             choices
             ;;
         Embedded_Signing)
@@ -309,10 +367,13 @@ function startRooms() {
         "Add_Forms_To_Room_Controller" \
         "Get_Rooms_With_Filters_Controller" \
         "Create_An_External_Form_Fill_Session_Controller" \
-        "Home"; do
+        "Create_Form_Group" \
+        "Grant_Office_Access_To_Form_Group" \
+        "Assign_Form_To_Form_Group" \
+        "Pick_An_API"; do
         case "$CHOICE" in
 
-        Home)
+        Pick_An_API)
             choices
             ;;
         Create_Room_With_Data_Controller)
@@ -339,6 +400,18 @@ function startRooms() {
             bash examples/Rooms/eg006CreateAnExternalFormFillSessionController.sh
             startRooms
             ;;
+        Create_Form_Group)
+            bash examples/Rooms/eg007CreateFormGroup.sh
+            startRooms
+            ;;
+        Grant_Office_Access_To_Form_Group)
+            bash examples/Rooms/eg008AccessFormGroup.sh
+            startRooms
+            ;;
+        Assign_Form_To_Form_Group)
+            bash examples/Rooms/eg009AssignFormGroup.sh
+            startRooms
+            ;;
         *)
             echo "Default action..."
             startRooms
@@ -356,10 +429,10 @@ function startClick() {
         "Create_New_Clickwrap_Version" \
         "Get_List_Of_Clickwraps" \
         "Get_Clickwrap_Responses" \
-        "Home"; do
+        "Pick_An_API"; do
         case "$CHOICE" in
 
-        Home)
+        Pick_An_API)
             choices
             ;;
         Create_Clickwraps)
