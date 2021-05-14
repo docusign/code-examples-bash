@@ -191,6 +191,17 @@ For more information about the scopes used for obtaining authorization to use th
    Demonstrates how to get and display all of your organization’s monitoring data.
 
 
+## Admin API 
+
+For more information about the scopes used for obtaining authorization to use the Admin API, see the [Required Scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
+
+**Note:** To run these code examples you must also enable CLM for your organization
+
+1. **Create a new eSignature + CLM user with an active status.**
+   [Source.](./examples/Admin/eg001CreateActiveESignCLMUser.sh)
+   Demonstrates how to create a new eSignature + CLM user and activate their account automatically. 
+
+
 ## Installation
 ### Prerequisites
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 as they were automatically performed for you.

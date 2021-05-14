@@ -23,6 +23,8 @@ elseif($api_version == "Click"):
   $scope = 'signature click.manage';
 elseif($api_version == "Monitor"):
   $scope = "signature impersonation";
+elseif($api_version == "Admin"):
+  $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read impersonation';
 endif;
 
 $body = encodeBase64URL(

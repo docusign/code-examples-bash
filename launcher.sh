@@ -129,6 +129,7 @@ function choices() {
         "Rooms" \
         "Click" \
         "Monitor" \
+        "Admin" \
         "Exit"; do
         case "$METHOD" in
 
@@ -154,6 +155,12 @@ function choices() {
             api_version="Monitor"
             monitor-login $api_version
             startMonitor
+            ;;
+
+        Admin)
+            api_version="Admin"
+            login $api_version
+            startAdmin
             ;;
 
         Exit)
@@ -486,6 +493,29 @@ function startMonitor() {
     done
 }
 
+function startAdmin() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Create_Active_ESign_CLM_User" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Create_Active_ESign_CLM_User)
+            bash examples/Admin/eg001CreateActiveESignCLMUser.sh
+            startAdmin
+            ;;
+        *)
+            echo "Default action..."
+            startAdmin
+            ;;
+        esac
+    done
+}
+
 function continu() {
     echo "press the 'any' key to continue"
     read nothin
@@ -502,6 +532,9 @@ function continu() {
     elif [[ $api_version == "Monitor" ]]
     then
       startMonitor
+    elif [[ $api_version == "Admin" ]]
+    then
+      startAdmin
     fi
 }
 
