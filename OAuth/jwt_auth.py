@@ -59,7 +59,7 @@ class DSClient:
             use_scopes = ROOMS_SCOPES
         elif (API_VERSION == "Click"):
             use_scopes = CLICK_SCOPES
-        elif (API_VERSION == "ADMIN"):
+        elif (API_VERSION == "Admin"):
             use_scopes = ADMIN_SCOPES
         else:
             use_scopes = SCOPES
