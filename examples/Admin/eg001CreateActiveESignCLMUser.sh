@@ -115,7 +115,7 @@ Status=$(
 # If the status code returned is greater than 201 (OK/Accepted), display an error message with the API response
 if [[ "$Status" -gt "201" ]]; then
     echo ""
-    echo "Creating the new user has failed"
+    echo "Failed to create a new user"
     echo ""
     cat $response
     exit 0
