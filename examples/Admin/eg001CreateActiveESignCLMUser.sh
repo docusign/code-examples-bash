@@ -127,6 +127,10 @@ cat $response
 echo ""
 #Step 6 end
 
+# Remove the temporary files
+rm "$request_data"
+rm "$response"
+
 echo ""
 echo "Done."
 echo ""
