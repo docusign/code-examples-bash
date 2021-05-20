@@ -198,7 +198,7 @@ For more information about the scopes used for obtaining authorization to use th
 **Note:** To run these code examples you must also enable CLM for your organization
 
 1. **Create a new eSignature + CLM user with an active status.**
-   [Source.](./examples/Admin/eg001CreateActiveESignCLMUser.sh)
+   [Source.](./examples/Admin/eg002CreateActiveESignCLMUser.sh)
    Demonstrates how to create a new eSignature + CLM user and activate their account automatically. 
 
 

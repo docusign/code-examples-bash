@@ -505,7 +505,7 @@ function startAdmin() {
             choices
             ;;
         Create_Active_ESign_CLM_User)
-            bash examples/Admin/eg001CreateActiveESignCLMUser.sh
+            bash examples/Admin/eg002CreateActiveESignCLMUser.sh
             startAdmin
             ;;
         *)
