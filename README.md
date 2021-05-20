@@ -193,9 +193,9 @@ For more information about the scopes used for obtaining authorization to use th
 
 ## Admin API 
 
-For more information about the scopes used for obtaining authorization to use the Admin API, see the [Required Scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
+**Note:** To use the Admin API, you must [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your DocuSign account. Additionally, in order to run the v2.1 code examples, [CLM must be enabled for your organization](https://support.docusign.com/en/articles/DocuSign-and-SpringCM).
 
-**Note:** To run these code examples you must also enable CLM for your organization
+For more information about the scopes used for obtaining authorization to use the Admin API, see the [scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
 
 1. **Create a new eSignature + CLM user with an active status.**
    [Source.](./examples/Admin/eg002CreateActiveESignCLMUser.sh)

@@ -6,7 +6,7 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -22,14 +22,16 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Content-Type: application/json")
 # Step 2 end
 
-# Step 3 Start
+
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-admin.XXXXXX)
 echo ""
 echo "Getting permission profiles..."
+# Step 3 Start
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/products/permission_profiles \
      "${Headers[@]}" \
      --output ${response})
+#Step 3 End
 
 if [[ "$Status" -gt "201" ]]; then
     echo ""
@@ -91,14 +93,14 @@ else
         fi
     done
 fi
-#Step 3 End
 
-# Step 4 Start
 echo ""
 echo "Getting DS Groups..."
+# Step 4 Start
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/dsgroups \
      "${Headers[@]}" \
      --output ${response})
+#Step 4 End
 
 if [[ "$Status" -gt "201" ]]; then
     echo ""
@@ -134,7 +136,6 @@ else
         fi
     done
 fi
-#Step 4 End
 
 #Step 5 start
 # Create a temporary file to store the request data
@@ -173,6 +174,7 @@ Status=$(
     --data-binary @${request_data} \
     --output ${response}
 )
+#Step 6 end
 
 # If the status code returned is greater than 201 (OK/Accepted), display an error message with the API response
 if [[ "$Status" -gt "201" ]]; then
@@ -187,7 +189,6 @@ echo ""
 echo "Response:"
 cat $response
 echo ""
-#Step 6 end
 
 # Remove the temporary files
 rm "$request_data"
