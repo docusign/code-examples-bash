@@ -161,7 +161,7 @@ printf \
     ],
     "ds_groups": [
         {
-            "ds_group_id": '$DS_GROUP_ID'
+            "ds_group_id": "'$DS_GROUP_ID'"
         }
     ]
 }' >$request_data
