@@ -24,7 +24,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 
 # Step 3 start
 Status=$(
-    curl -w '%{http_code}' --request GET "https://api-d.docusign.net/management/v2/organizations/${ORGANIZATION_ID}/users?account_id=${API_ACCOUNT_ID}&last_modified_since=2020-05-01" \
+    curl -w '%{http_code}' --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/users?account_id=${API_ACCOUNT_ID}&last_modified_since=2020-05-01" \
     "${Headers[@]}" \
     --output modified.txt
 )
@@ -44,7 +44,7 @@ for user in $modified_users
 do
 
     Status=$(
-        curl -w '%{http_code}' -i --request GET "https://api-d.docusign.net/management/v2/organizations/${ORGANIZATION_ID}/users/profile?email=${user}" \
+        curl -w '%{http_code}' -i --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/users/profile?email=${user}" \
         "${Headers[@]}" \
         --output ${profiles}
     )
