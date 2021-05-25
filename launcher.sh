@@ -35,7 +35,11 @@ function choose_language(){
             ;;
             
         Python) 
-            python3 ./OAuth/jwt_auth.py "$api_version"
+            if [[ $(python3 --version | grep -q 'not found') ]]; then    
+                python ./OAuth/jwt_auth.py "$api_version"
+            else 
+                python3 ./OAuth/jwt_auth.py "$api_version"
+            fi
             continu $api_version
         esac
     done
