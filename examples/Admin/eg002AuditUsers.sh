@@ -23,8 +23,20 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 # Step 2 end
 
 # Step 3 start
+# Calculate date paramter to get users modified in the last 10 days
+if date -v -10d &>/dev/null; then
+    # Mac
+    # modified_since=`date -v -10d '+%Y-%m-%dT%H:%M:%S%z'`
+    modified_since=$(date -v -10d '+%Y-%m-%d')
+else
+    # Not a Mac
+    # modified_since=`date --date='-10 days' '+%Y-%m-%dT%H:%M:%S%z'`
+    modified_since=$(date --date='-10 days' '+%Y-%m-%d')
+fi
+
+# Call the Admin API
 Status=$(
-    curl -w '%{http_code}' --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/users?account_id=${API_ACCOUNT_ID}&last_modified_since=2020-05-01" \
+    curl -w '%{http_code}' --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/users?account_id=${API_ACCOUNT_ID}&last_modified_since${modified_since}" \
     "${Headers[@]}" \
     --output modified.txt
 )
