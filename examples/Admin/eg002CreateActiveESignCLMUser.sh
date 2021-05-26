@@ -137,17 +137,23 @@ else
     done
 fi
 
-#Step 5 start
+
 # Create a temporary file to store the request data
 request_data=$(mktemp /tmp/request-admin-001.XXXXXX)
 
+read -p "Please enter a username for the new user: " USER_NAME
+read -p "Please enter the first name for the new user: " FIRST_NAME
+read -p "Please enter the last name for the new user: " LAST_NAME
+read -p "Please enter an email for the new user: " EMAIL
+
+#Step 5 start
 printf \
 '
 {
-    "user_name": "Example User Name",
-    "first_name": "Example",
-    "last_name": "Name",
-    "email": "'${SIGNER_EMAIL}'",
+    "user_name": "'${USER_NAME}'",
+    "first_name": "'${FIRST_NAME}'",
+    "last_name": "'${LAST_NAME}'",
+    "email": "'${EMAIL}'",
     "auto_activate_memberships": true,
     "product_permission_profiles": [
         {
