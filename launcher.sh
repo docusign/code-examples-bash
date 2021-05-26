@@ -510,7 +510,7 @@ function startAdmin() {
             startAdmin
             ;;
         Audit_Users)
-            bash examples/Admin/eg002AuditUsers.sh
+            bash examples/Admin/eg005AuditUsers.sh
             startAdmin
             ;;
         *)
