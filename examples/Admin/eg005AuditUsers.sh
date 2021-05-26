@@ -23,7 +23,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 # Step 2 end
 
 # Step 3 start
-# Calculate date paramter to get users modified in the last 10 days
+# Calculate date parameter to get users modified in the last 10 days
 if date -v -10d &>/dev/null; then
     # Mac
     # modified_since=`date -v -10d '+%Y-%m-%dT%H:%M:%S%z'`
