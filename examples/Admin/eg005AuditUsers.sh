@@ -51,7 +51,7 @@ Status=$(
 
 # Step 4 start
 modified_users=$(cat response)
-user_emails=`echo $modified_users | ggrep -o -P '(?<=email\":\").*?(?=\")'`
+user_emails=`echo $modified_users | grep -o -P '(?<=email\":\").*?(?=\")'`
 array_emails=($user_emails)
 # Step 4 end
 
