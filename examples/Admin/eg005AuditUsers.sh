@@ -50,7 +50,7 @@ Status=$(
 # Step 3 end
 
 # Step 4 start
-modified_users=$(cat response)
+modified_users=$(cat $response)
 user_emails=`echo $modified_users | grep -o -P '(?<=email\":\").*?(?=\")'`
 array_emails=($user_emails)
 # Step 4 end
