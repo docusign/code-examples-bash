@@ -198,7 +198,7 @@ For more information about the scopes used for obtaining authorization to use th
 For more information about the scopes used for obtaining authorization to use the Admin API, see the [scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
 
 1. **Create a new eSignature + CLM user with an active status.**
-   [Source.](./examples/Admin/eg002CreateActiveESignCLMUser.sh)
+   [Source.](./examples/Admin/eg002CreateActiveCLMESignUser.sh)
    Demonstrates how to create a new eSignature + CLM user and activate their account automatically. 
 
 

@@ -501,15 +501,15 @@ function startAdmin() {
     echo ""
     PS3='Select the action : '
     select CHOICE in \
-        "Create_Active_ESign_CLM_User" \
+        "Create_Active_CLM_ESign_User" \
         "Home"; do
         case "$CHOICE" in
 
         Home)
             choices
             ;;
-        Create_Active_ESign_CLM_User)
-            bash examples/Admin/eg002CreateActiveESignCLMUser.sh
+        Create_Active_CLM_ESign_User)
+            bash examples/Admin/eg002CreateActiveCLMESignUser.sh
             startAdmin
             ;;
         *)
