@@ -234,7 +234,7 @@ function startSignature() {
             ;;
         Envelope_Get_Doc)
             bash examples/eSignature/eg007EnvelopeGetDoc.sh
-            constartSignature
+            startSignature
             ;;
         Create_Template)
             bash examples/eSignature/eg008CreateTemplate.sh
