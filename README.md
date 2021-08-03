@@ -66,8 +66,8 @@ For a list of code examples that use the Monitor API, select the Bash tab under 
    where {base_url} is the URL for the web app.  
    
 1. [Git Bash command line](https://gitforwindows.org/), macOS Terminal, or Linux shell  
-1. For authorization code grant authentication PHP 8.0.0 is required.
-   For JWT Grant authentication PHP 8.0.0 and Python 3 are required.
+1. For Authorization Code Grant authentication PHP 8.0.0 is required.
+   For JWT Grant authentication, PHP 8.0.0 and Python 3 are required.
 
 
 ### Installation steps
