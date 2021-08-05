@@ -142,6 +142,7 @@ function choices() {
         "Rooms" \
         "Click" \
         "Monitor" \
+        "Admin" \
         "Exit"; do
         case "$METHOD" in
 
@@ -167,6 +168,12 @@ function choices() {
             api_version="Monitor"
             monitor-login $api_version
             startMonitor
+            ;;
+
+        Admin)
+            api_version="Admin"
+            login $api_version
+            startAdmin
             ;;
 
         Exit)
@@ -499,6 +506,44 @@ function startMonitor() {
     done
 }
 
+function startAdmin() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Create_Active_CLM_ESign_User" \
+        "Create_New_User_With_Active_Status" \
+        "Bulk_Export_User_Data" \
+        "Add_Users_Via_Bulk_Import" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Create_Active_CLM_ESign_User)
+            bash examples/Admin/eg002CreateActiveCLMESignUser.sh
+            startAdmin
+            ;;
+        Create_New_User_With_Active_Status)
+            bash examples/Admin/eg001CreateNewUserWithActiveStatus.sh
+            startAdmin
+            ;;
+        Bulk_Export_User_Data)
+            bash examples/Admin/eg002BulkExportUserData.sh
+            startAdmin
+            ;;
+        Add_Users_Via_Bulk_Import)
+            bash examples/Admin/eg003AddUsersViaBulkImport.sh
+            startAdmin
+            ;;
+        *)
+            echo "Default action..."
+            startAdmin
+            ;;
+        esac
+    done
+}
+
 function continu() {
     echo "press the 'any' key to continue"
     read nothin
@@ -515,6 +560,9 @@ function continu() {
     elif [[ $api_version == "Monitor" ]]
     then
       startMonitor
+    elif [[ $api_version == "Admin" ]]
+    then
+      startAdmin
     fi
 }
 

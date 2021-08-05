@@ -40,6 +40,17 @@ For information about the scopes used for obtaining authorization to use the Mon
 For a list of code examples that use the Monitor API, select the Bash tab under [Examples and languages](https://developers.docusign.com/docs/monitor-api/how-to/code-launchers/#examples-and-languages) on the DocuSign Developer Center.
 
 
+## Admin API 
+
+**Note:** To use the Admin API, you must [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your DocuSign account. Additionally, in order to run the v2.1 code examples, [CLM must be enabled for your organization](https://support.docusign.com/en/articles/DocuSign-and-SpringCM).
+
+For more information about the scopes used for obtaining authorization to use the Admin API, see the [scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
+
+1. **Create a new eSignature + CLM user with an active status.**
+   [Source.](./examples/Admin/eg002CreateActiveCLMESignUser.sh)
+   Demonstrates how to create a new eSignature + CLM user and activate their account automatically. 
+
+
 ## Installation
 ### Prerequisites
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 as they were automatically performed for you.
