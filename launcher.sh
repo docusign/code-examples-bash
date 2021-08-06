@@ -497,8 +497,8 @@ function startAdmin() {
     echo ""
     PS3='Select the action : '
     select CHOICE in \
-        "Create_Active_CLM_ESign_User" \
         "Create_New_User_With_Active_Status" \
+        "Create_Active_CLM_ESign_User" \
         "Bulk_Export_User_Data" \
         "Add_Users_Via_Bulk_Import" \
         "Home"; do
@@ -507,20 +507,20 @@ function startAdmin() {
         Home)
             choices
             ;;
-        Create_Active_CLM_ESign_User)
-            bash examples/Admin/eg002CreateActiveCLMESignUser.sh
-            startAdmin
-            ;;
         Create_New_User_With_Active_Status)
             bash examples/Admin/eg001CreateNewUserWithActiveStatus.sh
             startAdmin
             ;;
+        Create_Active_CLM_ESign_User)
+            bash examples/Admin/eg002CreateActiveCLMESignUser.sh
+            startAdmin
+            ;;
         Bulk_Export_User_Data)
-            bash examples/Admin/eg002BulkExportUserData.sh
+            bash examples/Admin/eg003BulkExportUserData.sh
             startAdmin
             ;;
         Add_Users_Via_Bulk_Import)
-            bash examples/Admin/eg003AddUsersViaBulkImport.sh
+            bash examples/Admin/eg004AddUsersViaBulkImport.sh
             startAdmin
             ;;
         *)

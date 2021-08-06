@@ -16,6 +16,8 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 API_ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.net/management"
 
+ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
+
 # Step 2: Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
