@@ -26,15 +26,15 @@ function choose_language(){
     select LANGUAGE in \
         "PHP" \
         "Python"; do
-        case "$LANGUAGE" in 
-        
+        case "$LANGUAGE" in
+
         \
         PHP)
             php ./OAuth/code_grant.php "$api_version"
             continu $api_version
             ;;
-            
-        Python) 
+
+        Python)
             python3 ./OAuth/jwt_auth.py "$api_version"
             continu $api_version
         esac
@@ -144,13 +144,13 @@ function choices() {
             login $api_version
             startRooms
             ;;
-        
+
         Click)
             api_version="Click"
             login $api_version
             startClick
             ;;
-        
+
         Monitor)
             api_version="Monitor"
             monitor-login $api_version
@@ -549,6 +549,7 @@ function continu() {
       startMonitor
     elif [[ $api_version == "Admin" ]]
     then
+      bash ./examples/Admin/utils.sh
       startAdmin
     fi
 }
