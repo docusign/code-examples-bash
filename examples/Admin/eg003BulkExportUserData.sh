@@ -26,13 +26,23 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 # Step 3: Construct the request body
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
+response=$(mktemp /tmp/response-oa.XXXXXX)
+response2=$(mktemp /tmp/response-oa.XXXXXX)
 
 # Create the bulk export request
-response=$(mktemp /tmp/response-oa.XXXXXX)
+printf \
+'{
+    "type": "organization_memberships_export"
+}
+' >>$request_data
 
-# Next, begin the process of creating the bulk export list by calling the
-# /v2/organizations/{ORGANIZATION_ID}/exports/user_list endpoint.
-# You can retrieve the resulting CSV data in a future step.
+curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/user_list \
+        "${Headers[@]}" \
+        --data-binary @${request_data} \
+        --output ${response}
+
+# Create the bulk export request
+requestId=`cat $response | cut -f1 -d"," | sed 's/{//g' | sed 's/.*\"id\"://' | sed 's/\"//g'`
 
 retryCount=0
 downloadUrl=''
@@ -49,15 +59,18 @@ while [ $retryCount -le 5 ]; do
     echo ''
     cat $response
     echo ''
+
     #Check the status of the Bulk Action
     status=$(cat $response | grep status | sed 's/.*\"status\":\"//' | sed 's/\",.*//')
+    echo "Status: $status"
 
     if [ "$status" = "completed" ]; then
         echo ''
         echo 'Bulk Request has been completed'
         echo ''
         downloadUrl=$(cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\",.*//')
-        break
+        echo "Download Url: $downloadUrl"
+        let retryCount=6
     else
         echo ''
         echo 'Bulk Request has not been completed. Retrying in 5 seconds'
@@ -72,12 +85,28 @@ curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/user
     "${Headers[@]}" \
     --output ${response}
 
+echo ''
+echo "Response:"
+echo ''
+cat $response
+echo ''
+
+# Download the exported user data
+curl --request GET "${downloadUrl}" \
+	"${Headers[@]}" \
+	--output ${response2}
+echo ''
+cat $response2
+
+echo ''
+echo "Export data to file myfile.csv..."
+cat $response2 > myfile.csv
+
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
+rm "$response2"
 
 echo ""
 echo "Done."
 echo ""
-
-echo "eg002BulkExportUserData.sh - Work in progress..."
