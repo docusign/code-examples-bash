@@ -26,29 +26,16 @@ function choose_language(){
     select LANGUAGE in \
         "PHP" \
         "Python"; do
-        case "$LANGUAGE" in 
-        
+        case "$LANGUAGE" in
+
         \
         PHP)
             php ./OAuth/code_grant.php "$api_version"
             continu $api_version
             ;;
-            
-        Python) 
-        # Check stderr and stdout for either a python3 version number or "not found"
-        if [[ $(python3 --version 2>&1) == *"not found"* ]]; then  
-            # If no python3, check stderr and stdout for a python version number or "not found"
-            if [[ $(python --version 2>&1) != *"not found"* ]]; then
-                # Didn't get a "not found" error so run python
-                python ./OAuth/jwt_auth.py "$api_version"
-            else
-                echo "Either python or python3 must be installed to use this option." 
-                exit 1
-            fi
-        else 
-            # Didn't get a "not found" error so run python3
+
+        Python)
             python3 ./OAuth/jwt_auth.py "$api_version"
-        fi
             continu $api_version
         esac
     done
@@ -157,13 +144,13 @@ function choices() {
             login $api_version
             startRooms
             ;;
-        
+
         Click)
             api_version="Click"
             login $api_version
             startClick
             ;;
-        
+
         Monitor)
             api_version="Monitor"
             monitor-login $api_version
@@ -254,7 +241,7 @@ function startSignature() {
             ;;
         Envelope_Get_Doc)
             bash examples/eSignature/eg007EnvelopeGetDoc.sh
-            startSignature
+            constartSignature
             ;;
         Create_Template)
             bash examples/eSignature/eg008CreateTemplate.sh
@@ -510,8 +497,8 @@ function startAdmin() {
     echo ""
     PS3='Select the action : '
     select CHOICE in \
-        "Create_Active_CLM_ESign_User" \
         "Create_New_User_With_Active_Status" \
+        "Create_Active_CLM_ESign_User" \
         "Bulk_Export_User_Data" \
         "Add_Users_Via_Bulk_Import" \
         "Home"; do
@@ -520,20 +507,20 @@ function startAdmin() {
         Home)
             choices
             ;;
-        Create_Active_CLM_ESign_User)
-            bash examples/Admin/eg002CreateActiveCLMESignUser.sh
-            startAdmin
-            ;;
         Create_New_User_With_Active_Status)
             bash examples/Admin/eg001CreateNewUserWithActiveStatus.sh
             startAdmin
             ;;
+        Create_Active_CLM_ESign_User)
+            bash examples/Admin/eg002CreateActiveCLMESignUser.sh
+            startAdmin
+            ;;
         Bulk_Export_User_Data)
-            bash examples/Admin/eg002BulkExportUserData.sh
+            bash examples/Admin/eg003BulkExportUserData.sh
             startAdmin
             ;;
         Add_Users_Via_Bulk_Import)
-            bash examples/Admin/eg003AddUsersViaBulkImport.sh
+            bash examples/Admin/eg004AddUsersViaBulkImport.sh
             startAdmin
             ;;
         *)
@@ -562,6 +549,7 @@ function continu() {
       startMonitor
     elif [[ $api_version == "Admin" ]]
     then
+      bash ./examples/Admin/utils.sh
       startAdmin
     fi
 }
