@@ -48,8 +48,6 @@ permission_profile_id=`cat $response | sed 's/.*\"permission_profile\"://' | sed
 
 IFS=" "
 read -a NAME_ARRAY <<< "$CC_NAME"
-echo "First: " ${NAME_ARRAY[0]}
-echo "Last: " ${NAME_ARRAY[1]}
 
 printf \
 '{
