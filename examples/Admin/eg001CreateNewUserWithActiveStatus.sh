@@ -16,6 +16,8 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 API_ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.net/management"
 
+ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
+
 # Step 2: Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
@@ -44,16 +46,21 @@ fi
 group_id=`cat $response | sed 's/.*\"groups\"://' | sed 's/},/\n/g' | sed 's/.*\"id\"://' | sed 's/\".*//g' | sed 's/,//g' | sed -n 2p`
 permission_profile_id=`cat $response | sed 's/.*\"permission_profile\"://' | sed 's/},/\n/g' | sed -n 1p |  sed 's/.*\"id\"://' | sed 's/\".*//g' | sed 's/,//g'`
 
+IFS=" "
+read -a NAME_ARRAY <<< "$CC_NAME"
+echo "First: " ${NAME_ARRAY[0]}
+echo "Last: " ${NAME_ARRAY[1]}
+
 printf \
 '{
-  "user_name": "Example User Name",
-  "first_name": "Example",
-  "last_name": "Name",
-  "email": "examplename42@orobia.net",
+  "user_name": "'"${CC_NAME}"'",
+  "first_name": "'"${NAME_ARRAY[0]}"'",
+  "last_name": "'"{NAME_ARRAY[1]}"'",
+  "email": "'"${CC_EMAIL}"'",
   "auto_activate_memberships": false,
   "accounts": [
     {
-      "id": \"'${ACCOUNT_ID}'\",
+      "id": \"'${API_ACCOUNT_ID}'\",
       "permission_profile": {
         "id": \"'${permission_profile_id}'\",
       },
