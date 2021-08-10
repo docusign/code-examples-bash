@@ -28,8 +28,8 @@ request_data=$(mktemp /tmp/request-oa.XXXXXX)
 
 printf \
     'AccountID,UserName,UserEmail,PermissionSet
-\"'${ACCOUNT_ID}'\",FirstLast1,exampleuser1@example.com,DS Viewer,
-\"'${ACCOUNT_ID}'\",FirstLast2,exampleuser2@example.com,DS Viewer
+\"'${API_ACCOUNT_ID}'\",FirstLast1,exampleuser1@example.com,DS Viewer,
+\"'${API_ACCOUNT_ID}'\",FirstLast2,exampleuser2@example.com,DS Viewer
 ' >>$request_data
 
 # Create a temporary file to store the response
