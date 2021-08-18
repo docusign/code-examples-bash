@@ -46,16 +46,18 @@ fi
 group_id=`cat $response | sed 's/.*\"groups\"://' | sed 's/},/\n/g' | sed 's/.*\"id\"://' | sed 's/\".*//g' | sed 's/,//g' | sed -n 2p`
 permission_profile_id=`cat $response | sed 's/.*\"permission_profile\"://' | sed 's/},/\n/g' | sed -n 1p |  sed 's/.*\"id\"://' | sed 's/\".*//g' | sed 's/,//g'`
 
-IFS=" "
-read -a NAME_ARRAY <<< "$CC_NAME"
+read -p "Please enter a username for the new user: " USER_NAME
+read -p "Please enter the first name for the new user: " FIRST_NAME
+read -p "Please enter the last name for the new user: " LAST_NAME
+read -p "Please enter an email for the new user: " USER_EMAIL
 
 printf \
 '{
-  "user_name": "'"${CC_NAME}"'",
-  "first_name": "'"${NAME_ARRAY[0]}"'",
-  "last_name": "'"{NAME_ARRAY[1]}"'",
-  "email": "'"${CC_EMAIL}"'",
-  "auto_activate_memberships": false,
+  "user_name": \"'${USER_NAME}'\",
+  "first_name": \"'${FIRST_NAME}'\",
+  "last_name": \"'{LAST_NAME}'\",
+  "email": \"'${USER_EMAIL}'\",
+  "auto_activate_memberships": true,
   "accounts": [
     {
       "id": \"'${API_ACCOUNT_ID}'\",
