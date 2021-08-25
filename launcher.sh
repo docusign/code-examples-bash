@@ -501,6 +501,7 @@ function startAdmin() {
         "Create_Active_CLM_ESign_User" \
         "Bulk_Export_User_Data" \
         "Add_Users_Via_Bulk_Import" \
+        "Audit_Users" \
         "Home"; do
         case "$CHOICE" in
 
@@ -521,6 +522,10 @@ function startAdmin() {
             ;;
         Add_Users_Via_Bulk_Import)
             bash examples/Admin/eg004AddUsersViaBulkImport.sh
+            startAdmin
+            ;;
+        Audit_Users)
+            bash examples/Admin/eg005AuditUsers.sh
             startAdmin
             ;;
         *)
