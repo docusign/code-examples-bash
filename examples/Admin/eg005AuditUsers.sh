@@ -6,6 +6,11 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+# Check that ORGANIZATION_ID has been set
+if [[ -z "${ORGANIZATION_ID}" ]]; then
+    echo "PROBLEM: Please add your ORGANIZATION_ID to settings.txt."
+fi
+
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
@@ -34,16 +39,20 @@ else
     modified_since=$(date --date='-10 days' '+%Y-%m-%d')
 fi
 
+response=$(mktemp /tmp/response-admin.XXXXXX)
+
 # Call the Admin API
 Status=$(
     curl -w '%{http_code}' --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/users?account_id=${API_ACCOUNT_ID}&last_modified_since${modified_since}" \
     "${Headers[@]}" \
-    --output modified.txt
+    --output $response
 )
 # Step 3 end
 
 # Step 4 start
-modified_users=$( cat modified.txt | jq -r '.users[].email')
+modified_users=$(cat $response)
+user_emails=`echo $modified_users | grep -o -P '(?<=email\":\").*?(?=\")'`
+array_emails=($user_emails)
 # Step 4 end
 
 # Step 5 start
@@ -52,11 +61,11 @@ profiles=$(mktemp /tmp/profiles-oa.XXXXXX)
 echo ''
 echo 'User profiles:'
 
-for user in $modified_users
+for email in ${array_emails[@]}
 do
 
     Status=$(
-        curl -w '%{http_code}' -i --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/users/profile?email=${user}" \
+        curl -w '%{http_code}' -i --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/users/profile?email=${email}" \
         "${Headers[@]}" \
         --output ${profiles}
     )
@@ -69,6 +78,7 @@ done
 
 # Remove the temporary files"
 rm "$profiles"
+rm "$response"
 # Step 5 end
 
 
