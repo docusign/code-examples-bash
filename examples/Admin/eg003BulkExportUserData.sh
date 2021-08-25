@@ -48,7 +48,7 @@ retryCount=0
 downloadUrl=''
 while [ $retryCount -le 5 ]; do
     echo ''
-    echo 'Retriving Bulk Action Status...'
+    echo 'Retrieving Bulk Action Status...'
     echo ''
     curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/user_list/${requestId} \
         "${Headers[@]}" \
