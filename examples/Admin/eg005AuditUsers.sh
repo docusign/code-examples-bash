@@ -76,12 +76,11 @@ do
     echo ''
 
 done
+# Step 5 end
 
 # Remove the temporary files"
 rm "$profiles"
 rm "$response"
-# Step 5 end
-
 
 echo ""
 echo "Done."
