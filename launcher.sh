@@ -34,8 +34,21 @@ function choose_language(){
             continu $api_version
             ;;
 
-        Python)
+        Python) 
+        # Check stderr and stdout for either a python3 version number or "not found"
+        if [[ $(python3 --version 2>&1) == *"not found"* ]]; then  
+            # If no python3, check stderr and stdout for a python version number or "not found"
+            if [[ $(python --version 2>&1) != *"not found"* ]]; then
+                # Didn't get a "not found" error so run python
+                python ./OAuth/jwt_auth.py "$api_version"
+            else
+                echo "Either python or python3 must be installed to use this option." 
+                exit 1
+            fi
+        else 
+            # Didn't get a "not found" error so run python3
             python3 ./OAuth/jwt_auth.py "$api_version"
+        fi
             continu $api_version
         esac
     done
