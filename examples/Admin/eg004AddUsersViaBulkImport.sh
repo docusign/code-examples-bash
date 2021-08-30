@@ -18,26 +18,33 @@ base_path="https://api-d.docusign.net/management"
 
 ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
-# Step 2: Construct your API headers
+# Construct your API headers
+# Step 2 Start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Content-Disposition: filename=myfile.csv" \
 					'--header' "Content-Type: text/csv")
+# Step 2 End
 
-# Step 3. Create the bulk import request
+# Create the bulk import request
 request_data=$(mktemp /tmp/request-oa.XXXXXX)
 
+# Step 3 Start
 printf \
     'AccountID,UserName,UserEmail,PermissionSet
 \"'${API_ACCOUNT_ID}'\",FirstLast1,exampleuser1@example.com,DS Viewer,
 \"'${API_ACCOUNT_ID}'\",FirstLast2,exampleuser2@example.com,DS Viewer
 ' >>$request_data
+# # Step 3 End
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-oa.XXXXXX)
+
+# Step 4 Start
 curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/imports/bulk_users/add \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response}
+# Step 4 End
 
 echo ''
 echo 'Response:'
@@ -53,14 +60,16 @@ importId=${ID}
 rm $response
 rm $request_data
 
-# Step 4. Check the request status
+# Check the request status
 echo ''
 echo "Waiting for 20 seconds and check the status of the request..."
 sleep 20
+
+# Step 5 Start
 curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/imports/bulk_users/${importId} \
     "${Headers[@]}" \
     --output ${response}
-
+# Step 5 End
 echo 'Response:'
 echo ''
 cat $response

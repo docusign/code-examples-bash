@@ -17,18 +17,20 @@ API_ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.net/management"
 ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
-# Step 2: Construct your API headers
+# Construct your API headers
+# Step 2 start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-
+# Step 2 end
 # Get permission profiles
 
 response=$(mktemp /tmp/response-oa.XXXXXX)
-
+# Step 3 Start
 Status=$(curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/permissions \
 "${Headers[@]}" \
 --output ${response})
+#Step 3 End
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
@@ -84,11 +86,11 @@ echo ""
 
 # Retrieve group ids
 response2=$(mktemp /tmp/response2-oa.XXXXXX)
-
+# Step 4 Start
 Status=$(curl -w '%{http_code}' -i --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/groups" \
         "${Headers[@]}" \
         --output ${response2})
-
+# Step 4 End
 echo ""
 echo "Response: "
 echo ""
@@ -145,10 +147,11 @@ read -p "Please enter the last name for the new user: " LAST_NAME
 read -p "Please enter an email for the new user: " USER_EMAIL
 echo ""
 
-# Step 3. Construct the request body
+
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
-
+# Construct the request body
+#Step 5 start
 printf \
 '{
   "user_name": \"'${USER_NAME}'\",
@@ -171,13 +174,16 @@ printf \
   ]
 }
 ' >>$request_data
+#Step 5 end
 
 # Call the DocuSign Admin API
+#Step 6 start
 response3=$(mktemp /tmp/response3-oa.XXXXXX)
 Status=$(curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/users \
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response3})
+#Step 6 end
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
