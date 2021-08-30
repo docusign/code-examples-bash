@@ -26,14 +26,14 @@ function choose_language(){
     select LANGUAGE in \
         "PHP" \
         "Python"; do
-        case "$LANGUAGE" in 
-        
+        case "$LANGUAGE" in
+
         \
         PHP)
             php ./OAuth/code_grant.php "$api_version"
             continu $api_version
             ;;
-            
+
         Python) 
         # Check stderr and stdout for either a python3 version number or "not found"
         if [[ $(python3 --version 2>&1) == *"not found"* ]]; then  
@@ -142,6 +142,7 @@ function choices() {
         "Rooms" \
         "Click" \
         "Monitor" \
+        "Admin" \
         "Exit"; do
         case "$METHOD" in
 
@@ -156,17 +157,23 @@ function choices() {
             login $api_version
             startRooms
             ;;
-        
+
         Click)
             api_version="Click"
             login $api_version
             startClick
             ;;
-        
+
         Monitor)
             api_version="Monitor"
             monitor-login $api_version
             startMonitor
+            ;;
+
+        Admin)
+            api_version="Admin"
+            login $api_version
+            startAdmin
             ;;
 
         Exit)
@@ -499,6 +506,49 @@ function startMonitor() {
     done
 }
 
+function startAdmin() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Create_New_User_With_Active_Status" \
+        "Create_Active_CLM_ESign_User" \
+        "Bulk_Export_User_Data" \
+        "Add_Users_Via_Bulk_Import" \
+        "Audit_Users" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Create_New_User_With_Active_Status)
+            bash examples/Admin/eg001CreateNewUserWithActiveStatus.sh
+            startAdmin
+            ;;
+        Create_Active_CLM_ESign_User)
+            bash examples/Admin/eg002CreateActiveCLMESignUser.sh
+            startAdmin
+            ;;
+        Bulk_Export_User_Data)
+            bash examples/Admin/eg003BulkExportUserData.sh
+            startAdmin
+            ;;
+        Add_Users_Via_Bulk_Import)
+            bash examples/Admin/eg004AddUsersViaBulkImport.sh
+            startAdmin
+            ;;
+        Audit_Users)
+            bash examples/Admin/eg005AuditUsers.sh
+            startAdmin
+            ;;
+        *)
+            echo "Default action..."
+            startAdmin
+            ;;
+        esac
+    done
+}
+
 function continu() {
     echo "press the 'any' key to continue"
     read nothin
@@ -515,6 +565,10 @@ function continu() {
     elif [[ $api_version == "Monitor" ]]
     then
       startMonitor
+    elif [[ $api_version == "Admin" ]]
+    then
+      bash ./examples/Admin/utils.sh
+      startAdmin
     fi
 }
 
