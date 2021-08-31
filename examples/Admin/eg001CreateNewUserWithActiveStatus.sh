@@ -7,8 +7,8 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
+# Obtain your OAuth token
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
@@ -23,14 +23,12 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
 # Step 2 end
-# Get permission profiles
 
+# Get permission profiles
 response=$(mktemp /tmp/response-oa.XXXXXX)
-# Step 3 Start
 Status=$(curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/permissions \
 "${Headers[@]}" \
 --output ${response})
-#Step 3 End
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
@@ -86,11 +84,9 @@ echo ""
 
 # Retrieve group ids
 response2=$(mktemp /tmp/response2-oa.XXXXXX)
-# Step 4 Start
 Status=$(curl -w '%{http_code}' -i --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/groups" \
         "${Headers[@]}" \
         --output ${response2})
-# Step 4 End
 echo ""
 echo "Response: "
 echo ""
@@ -147,11 +143,10 @@ read -p "Please enter the last name for the new user: " LAST_NAME
 read -p "Please enter an email for the new user: " USER_EMAIL
 echo ""
 
-
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 # Construct the request body
-#Step 5 start
+#Step 3 start
 printf \
 '{
   "user_name": \"'${USER_NAME}'\",
@@ -174,16 +169,15 @@ printf \
   ]
 }
 ' >>$request_data
-#Step 5 end
+#Step 3 end
 
 # Call the DocuSign Admin API
-#Step 6 start
+#Step 4 start
 response3=$(mktemp /tmp/response3-oa.XXXXXX)
 Status=$(curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/users \
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response3})
-#Step 6 end
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
@@ -199,6 +193,7 @@ echo 'Response:'
 echo ''
 cat $response3
 echo ''
+#Step 4 end
 
 # Remove the temporary files
 rm "$request_data"

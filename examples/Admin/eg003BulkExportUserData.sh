@@ -7,7 +7,7 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -25,31 +25,26 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Content-Type: application/json")
 # Step 2 End
 
-# Construct the request body
+# Construct the request body to retrieve the user list
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 response=$(mktemp /tmp/response-oa.XXXXXX)
 response2=$(mktemp /tmp/response-oa.XXXXXX)
 
-# Create the bulk export request
-# Step 3 Start
 printf \
 '{
     "type": "organization_memberships_export"
 }
 ' >>$request_data
-# Step 3 End
 
-# Step 4 Start
 curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/user_list \
         "${Headers[@]}" \
         --data-binary @${request_data} \
         --output ${response}
-# Step 4 End
 
 # Create the bulk export request
 requestId=`cat $response | cut -f1 -d"," | sed 's/{//g' | sed 's/.*\"id\"://' | sed 's/\"//g'`
-
+# Step 3 Start
 retryCount=0
 downloadUrl=''
 while [ $retryCount -le 5 ]; do
@@ -85,13 +80,12 @@ while [ $retryCount -le 5 ]; do
         let retryCount=retryCount+1
     fi
 done
+# Step 3 End
 
 # Check the request status
-# Step 5 Start
 curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/user_list/${requestId} \
     "${Headers[@]}" \
     --output ${response}
-# Step 5 End
 
 echo ''
 echo "Response:"

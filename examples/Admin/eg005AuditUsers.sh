@@ -12,8 +12,9 @@ if [[ -z "$ORGANIZATION_ID" ]]; then
     echo "PROBLEM: Set ORGANIZATION_ID and add to config directory"
 fi
 
-# Step 1: Obtain your OAuth token
+
 # Note: Substitute these values with your own
+# Obtain your OAuth token
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example

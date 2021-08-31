@@ -26,31 +26,29 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 # Step 2 End
 
 # Create the bulk import request
+# Step 3 Start
 request_data=$(mktemp /tmp/request-oa.XXXXXX)
 
-# Step 3 Start
 printf \
     'AccountID,UserName,UserEmail,PermissionSet
 \"'${API_ACCOUNT_ID}'\",FirstLast1,exampleuser1@example.com,DS Viewer,
 \"'${API_ACCOUNT_ID}'\",FirstLast2,exampleuser2@example.com,DS Viewer
 ' >>$request_data
-# # Step 3 End
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-oa.XXXXXX)
 
-# Step 4 Start
 curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/imports/bulk_users/add \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response}
-# Step 4 End
 
 echo ''
 echo 'Response:'
 echo ''
 cat $response
 echo ''
+# Step 3 End
 
 #Pull the first Id from the JSON response
 ID=$(cat $response | grep id | sed 's/.*{\"id\":\"//' | sed 's/\",.*//')
@@ -65,11 +63,10 @@ echo ''
 echo "Waiting for 20 seconds and check the status of the request..."
 sleep 20
 
-# Step 5 Start
 curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/imports/bulk_users/${importId} \
     "${Headers[@]}" \
     --output ${response}
-# Step 5 End
+
 echo 'Response:'
 echo ''
 cat $response
