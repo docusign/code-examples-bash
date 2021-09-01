@@ -83,10 +83,11 @@ done
 # Step 3 End
 
 # Check the request status
+# Step 4 Start
 curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/user_list/${requestId} \
     "${Headers[@]}" \
     --output ${response}
-
+# Step 4 End
 echo ''
 echo "Response:"
 echo ''
@@ -94,9 +95,11 @@ cat $response
 echo ''
 
 # Download the exported user data
+# Step 5 Start
 curl --request GET "${downloadUrl}" \
 	"${Headers[@]}" \
 	--output ${response2}
+# Step 5 End
 echo ''
 cat $response2
 

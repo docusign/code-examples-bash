@@ -7,8 +7,8 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
+# Obtain your OAuth token
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
@@ -62,11 +62,11 @@ rm $request_data
 echo ''
 echo "Waiting for 20 seconds and check the status of the request..."
 sleep 20
-
+# Step 4 Start
 curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/imports/bulk_users/${importId} \
     "${Headers[@]}" \
     --output ${response}
-
+# Step 4 End
 echo 'Response:'
 echo ''
 cat $response
