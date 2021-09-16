@@ -207,8 +207,8 @@ function startSignature() {
         "Set_Template_Tab_Values" \
         "Envelope_Custom_Field_Data" \
         "Signing_Via_Email_With_Access_Code" \
-        "Signing_Via_Email_With_Sms_Authentication" \
         "Signing_Via_Email_With_Phone_Authentication" \
+        "" \
         "Signing_Via_Email_With_Knoweldge_Based_Authentication" \
         "Signing_Via_Email_With_IDV_Authentication" \
         "Creating_Permission_Profiles" \
@@ -304,12 +304,8 @@ function startSignature() {
             bash examples/eSignature/eg019SigningViaEmailWithAccessCode.sh
             startSignature
             ;;
-        Signing_Via_Email_With_Sms_Authentication)
-            bash examples/eSignature/eg020SigningViaEmailWithSmsAuthentication.sh
-            startSignature
-            ;;
         Signing_Via_Email_With_Phone_Authentication)
-            bash examples/eSignature/eg021SigningViaEmailWithPhoneAuthentication.sh
+            bash examples/eSignature/eg020SigningViaEmailWithPhoneAuthentication.sh
             startSignature
             ;;
         Signing_Via_Email_With_Knoweldge_Based_Authentication)
