@@ -2,7 +2,7 @@
 
 ### GitHub repo: [code-examples-bash](./README.md)
 
-This GitHub repo includes code example Bash scripts for the DocuSign eSignature REST API, Rooms API, Click API, and Monitor API. To switch between API code examples, select the desired option from the menu when prompted.
+This GitHub repo includes code examples for the DocuSign Admin API, Click API, eSignature REST API, Monitor API, and Rooms API. To switch between API code examples, select the desired option from the menu when prompted.
 
 ## Introduction
 
