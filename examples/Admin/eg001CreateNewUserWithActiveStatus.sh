@@ -182,6 +182,7 @@ Status=$(curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/us
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response3})
+# Step 6 end
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
@@ -197,7 +198,6 @@ echo 'Response:'
 echo ''
 cat $response3
 echo ''
-# Step 6 end
 
 # Remove the temporary files
 rm "$request_data"
