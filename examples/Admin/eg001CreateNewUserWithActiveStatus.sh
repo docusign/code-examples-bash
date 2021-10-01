@@ -25,10 +25,12 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 # Step 2 end
 
 # Get permission profiles
+# Step 3 start
 response=$(mktemp /tmp/response-oa.XXXXXX)
 Status=$(curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/permissions \
 "${Headers[@]}" \
 --output ${response})
+# Step 3 end
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
@@ -83,10 +85,12 @@ echo "PERMISSION_PROFILE_ID: " $PERMISSION_PROFILE_ID
 echo ""
 
 # Retrieve group ids
+# Step 4 start
 response2=$(mktemp /tmp/response2-oa.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/groups" \
         "${Headers[@]}" \
         --output ${response2})
+# Step 4 end
 echo ""
 echo "Response: "
 echo ""
@@ -146,7 +150,7 @@ echo ""
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 # Construct the request body
-#Step 3 start
+# Step 5 start
 printf \
 '{
   "user_name": \"'${USER_NAME}'\",
@@ -169,10 +173,10 @@ printf \
   ]
 }
 ' >>$request_data
-#Step 3 end
+# Step 5 end
 
 # Call the DocuSign Admin API
-#Step 4 start
+# Step 6 start
 response3=$(mktemp /tmp/response3-oa.XXXXXX)
 Status=$(curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/users \
 "${Headers[@]}" \
@@ -193,7 +197,7 @@ echo 'Response:'
 echo ''
 cat $response3
 echo ''
-#Step 4 end
+# Step 6 end
 
 # Remove the temporary files
 rm "$request_data"
