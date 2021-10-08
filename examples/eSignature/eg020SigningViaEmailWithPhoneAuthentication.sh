@@ -3,6 +3,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+source ./examples/eSignature/lib/utils.sh
 
 
 # Step 1: Obtain your OAuth token
@@ -15,6 +16,14 @@ account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 
+# temp files:
+request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
+response=$(mktemp /tmp/response-eg-001.XXXXXX)
+doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
+
+# Fetch doc and encode
+cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
+
 # Step 2: Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
@@ -23,21 +32,18 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 # Step 3: Construct your envelope JSON body
 # Create a temporary file to store the JSON body
 
-doc_base64=$(mktemp /tmp/eg-019-doc1.XXXXXX)
-cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc_base64
-
-read -p "Please enter an SMS number for recipient authentication [415-555-1212]: " PHONE
-PHONE=${PHONE:-"415-555-1212"}
-
+GetSignerPhoneNum
 
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
 printf \
 '{
 	"documents": [{
-		"documentBase64": "'"${doc_base64}"'",
-		"documentId": "1",
-		"fileExtension": "pdf",
-		"name": "Lorem"
+        "documentBase64": "' > $request_data
+        cat $doc1_base64 >> $request_data
+        printf '",
+        "name": "Lorem Ipsum",
+        "fileExtension": "pdf",
+        "documentId": "1"
 	}],
 	"emailBlurb": "Sample text for email body",
 	"emailSubject": "Please Sign",
@@ -55,7 +61,7 @@ printf \
 					"documentId": "1",
 					"name": "SignHereTab",
 					"pageNumber": "1",
-					"recipientId": "1", #This value represents your {RECIPIENT_ID}
+					"recipientId": "1", 
 					"tabLabel": "SignHereTab",
 					"xPosition": "75",
 					"yPosition": "572"
@@ -63,15 +69,22 @@ printf \
 			},
 			"templateAccessCodeRequired": null,
 			"deliveryMethod": "email",
-			"recipientId": "1", #This value represents your {RECIPIENT_ID}
-			"accessCode": "",
-			"smsAuthentication": {
-				"senderProvidedNumbers": ["'"${PHONE}"'"]
-			},
-		"idCheckConfigurationName": "SMS Auth $",
-		"requireIdLookup": true
-		}]
-	},
+			"recipientId": "1",
+			"identityVerification":{
+				"workflowId":"c368e411-1592-4001-a3df-dca94ac539ae",
+				"steps":null,"inputOptions":[
+					{"name":"phone_number_list",
+					"valueType":"PhoneNumberList",
+					"phoneNumberList":[
+						{
+							"countryCode":"'"${SIGNER_PHONE_COUNTRY}"'",
+							"number":"'"${SIGNER_PHONE_NUMBER}"'"
+						}
+						]
+					}]
+				}			
+			}]
+		},
 	"status": "Sent"
 }
 
