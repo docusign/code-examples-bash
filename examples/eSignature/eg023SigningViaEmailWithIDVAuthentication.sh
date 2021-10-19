@@ -118,7 +118,6 @@ curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_i
      --data-binary @${request_data} \
      --output ${response}
 
-
 echo ""
 echo "Response:"
 cat $response
