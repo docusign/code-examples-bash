@@ -47,8 +47,11 @@ echo "Response:"
 cat $response
 echo ""
 
-# Retrieve the workflow ID from the API response.
-workflowId=`cat $response | grep workflowId | sed 's/.*\"workflowId\":\"//' | sed 's/\",.*//'`
+# Retrieve the default workflow ID from the API response. It will be the first workflow ID in the returned JSON.
+workflowIds=`cat $response | grep -o -P '(?<=workflowId\":\").*?(?=\")'`
+arrWorkflowIds=($workflowIds)
+workflowId=${arrWorkflowIds[0]}
+
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
@@ -114,6 +117,7 @@ curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_i
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response}
+
 
 echo ""
 echo "Response:"
