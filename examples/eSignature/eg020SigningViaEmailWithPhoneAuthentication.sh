@@ -29,6 +29,68 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
 
+# Obtain your workflow ID
+# Create a temporary file to store
+request_data=$(mktemp /tmp/request-idv.XXXXXX)
+
+# Create a temporary file to store the response
+echo ""
+echo "Attempting to retrieve your account's workflow ID"
+echo ""
+response=$(mktemp /tmp/response-bs.XXXXXX)
+Status=$(curl -w '%{http_code}' -i --request GET "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/identity_verification" \
+     "${Headers[@]}" \
+     --output ${response})
+
+#If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
+if [[ "$Status" -gt "201" ]] ; then
+    echo ""
+	echo "Unable to retrieve your account's workflow ID."
+	echo ""
+	cat $response
+	exit 0
+fi
+
+echo ""
+echo "Response:"
+cat $response
+echo ""
+
+# Retrieve the workflow IDs from the API response and put them in an array.
+workflowIds=`cat $response | grep -o -P '(?<=workflowId\":\").*?(?=\")'`
+arrWorkflowIds=($workflowIds)
+
+# Get the index of the Phone auth workflow based on name and use that index for workflowId. 
+# Workflow name of phone auth is 'Phone Authentication'
+workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
+eval "arrWorkflowNames=($workflowNames)"
+element="Phone Authentication"
+index=-1
+workflowFound=false
+
+for i in "${!arrWorkflowNames[@]}";
+do
+	if [[ "${arrWorkflowNames[$i]}" = "${element}" ]];
+	then
+		index=$i
+		workflowFound=true
+		break
+	fi
+done
+
+if [ "$workflowFound" != true ]; then
+	echo ""
+	echo "Please contact Support to enable recipient phone authentication in your account."
+	echo ""
+	exit 0
+fi	
+
+workflowId=${arrWorkflowIds[$index]}
+
+# Remove the temporary files
+rm "$request_data"
+rm "$response"
+
 # Step 3: Construct your envelope JSON body
 # Create a temporary file to store the JSON body
 
@@ -71,7 +133,7 @@ printf \
 			"deliveryMethod": "email",
 			"recipientId": "1",
 			"identityVerification":{
-				"workflowId":"c368e411-1592-4001-a3df-dca94ac539ae",
+				"workflowId":"'"${workflowId}"'",
 				"steps":null,"inputOptions":[
 					{"name":"phone_number_list",
 					"valueType":"PhoneNumberList",

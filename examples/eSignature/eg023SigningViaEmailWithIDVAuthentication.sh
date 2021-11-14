@@ -3,7 +3,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-
+source ./examples/eSignature/lib/utils.sh
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
@@ -47,14 +47,42 @@ echo "Response:"
 cat $response
 echo ""
 
-# Retrieve the default workflow ID from the API response. It will be the first workflow ID in the returned JSON.
+# Retrieve the workflow IDs from the API response and put them in an array.
 workflowIds=`cat $response | grep -o -P '(?<=workflowId\":\").*?(?=\")'`
 arrWorkflowIds=($workflowIds)
-workflowId=${arrWorkflowIds[0]}
+
+# Get the index of the default workflow based on name and use that index for workflowId. 
+# Workflow name of the default workflow is 'DocuSign ID Verification'
+workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
+eval "arrWorkflowNames=($workflowNames)"
+element="DocuSign ID Verification"
+index=-1
+workflowFound=false
+
+for i in "${!arrWorkflowNames[@]}";
+do
+	if [[ "${arrWorkflowNames[$i]}" = "${element}" ]];
+	then
+		index=$i
+		workflowFound=true
+		break
+	fi
+done
+
+if [ "$workflowFound" != true ]; then
+	echo ""
+	echo "Please contact Support to enable IDV identity verification in your account."
+	echo ""
+	exit 0
+fi	
+
+workflowId=${arrWorkflowIds[$index]}
 
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
+
+GetSignerEmail
 
 # Step 4: Construct the JSON body for your envelope
 # Note: If you did not successfully obtain your workflow ID, step 4 will fail.
@@ -77,8 +105,8 @@ printf \
 	"envelopeIdStamping": "true",
 	"recipients": {
 	"signers": [{
-		"name": "'"${SIGNER_NAME}"'",
-		"email": "'"${SIGNER_EMAIL}"'",
+		"name": "'"${NAME}"'",
+		"email": "'"${EMAIL}"'",
 		"roleName": "",
 		"note": "",
 		"routingOrder": 1,
@@ -90,8 +118,8 @@ printf \
 					"pageNumber": "1",
 					"recipientId": "1", 
 					"tabLabel": "SignHereTab",
-					"xPosition": "0",
-					"yPosition": "1"
+					"xPosition": "200",
+					"yPosition": "220"
 				}]
 			},
 		"templateAccessCodeRequired": null,

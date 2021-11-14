@@ -54,7 +54,19 @@ function GetSignerPhoneNum()
     echo "SIGNER_PHONE_NUMBER is " $SIGNER_PHONE_NUMBER
 }
 
+function GetSignerEmail()
+{
+  while [[ $EMAIL != *"@"* ]]; do
+      echo ""
+      read -p "Enter an email address for the signer: " EMAIL
+      read -p "Enter a name for the signer: " NAME
+      echo ""
+      echo "EMAIL is " $EMAIL
+      echo "NAME is " $NAME
+done
+}
 
+export -f GetSignerEmail
 export -f CheckForValidCCEmail
 export -f CheckForValidNotCheckedEmail
 export -f GetCCPhoneNum
