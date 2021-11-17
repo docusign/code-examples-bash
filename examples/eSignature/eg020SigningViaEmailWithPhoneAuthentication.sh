@@ -65,27 +65,19 @@ arrWorkflowIds=($workflowIds)
 workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
 eval "arrWorkflowNames=($workflowNames)"
 element="Phone Authentication"
-index=-1
-workflowFound=false
 
-for i in "${!arrWorkflowNames[@]}";
-do
-	if [[ "${arrWorkflowNames[$i]}" = "${element}" ]];
-	then
-		index=$i
-		workflowFound=true
-		break
-	fi
-done
+workflowId=$(GetWorkflowId "$workflowNames" "$element" "$workflowIds")
 
-if [ "$workflowFound" != true ]; then
+if [ "$workflowId" == false ]; then
 	echo ""
 	echo "Please contact Support to enable recipient phone authentication in your account."
 	echo ""
 	exit 0
+else
+	echo ""
+	echo "workflowId: " $workflowId
+	echo ""
 fi	
-
-workflowId=${arrWorkflowIds[$index]}
 
 # Remove the temporary files
 rm "$request_data"

@@ -66,8 +66,37 @@ function GetSignerEmail()
 done
 }
 
+function GetWorkflowId()
+{
+
+    index=-1
+    workflowFound=false
+    eval "arrWorkflowNames=($1)"
+    element=$2
+    arrWorkflowIds=($3)
+
+    for i in "${!arrWorkflowNames[@]}";
+    do
+        if [[ "${arrWorkflowNames[$i]}" = "${element}" ]];
+        then
+            index=$i
+            workflowFound=true
+            break
+        fi
+    done
+
+    if [ "$workflowFound" == true ]; then
+        workflowId=${arrWorkflowIds[$index]}
+        echo $workflowId  
+    else
+        workflowId=false
+        echo $workflowId
+    fi
+}
+
 export -f GetSignerEmail
 export -f CheckForValidCCEmail
 export -f CheckForValidNotCheckedEmail
 export -f GetCCPhoneNum
 export -f GetSignerPhoneNum
+export -f GetWorkflowId
