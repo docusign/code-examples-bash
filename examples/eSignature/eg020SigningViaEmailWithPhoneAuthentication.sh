@@ -40,8 +40,8 @@ request_data=$(mktemp /tmp/request-idv.XXXXXX)
 echo ""
 echo "Attempting to retrieve your account's workflow ID"
 echo ""
-# Step 3 start
 response=$(mktemp /tmp/response-bs.XXXXXX)
+# Step 3 start
 Status=$(curl -w '%{http_code}' -i --request GET "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/identity_verification" \
      "${Headers[@]}" \
      --output ${response})
@@ -155,9 +155,9 @@ printf \
 		},
 	"status": "Sent"
 }
-# Step 4 end
 ' >> $request_data					
-					
+# Step 4 end
+
 # a) Make a POST call to the createEnvelopes endpoint to create a new envelope.
 # b) Display the JSON structure of the created envelope
 echo ""
@@ -165,8 +165,8 @@ echo "Request:"
 echo ""
 cat $request_data
 # Create a temporary file to store the response
-# Step 5 start
 response=$(mktemp /tmp/response-cw.XXXXXX)
+# Step 5 start
 curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes" \
      "${Headers[@]}" \
      --data-binary @${request_data} \
