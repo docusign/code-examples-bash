@@ -49,34 +49,24 @@ echo ""
 
 # Retrieve the workflow IDs from the API response and put them in an array.
 workflowIds=`cat $response | grep -o -P '(?<=workflowId\":\").*?(?=\")'`
-arrWorkflowIds=($workflowIds)
 
 # Get the index of the default workflow based on name and use that index for workflowId. 
 # Workflow name of the default workflow is 'DocuSign ID Verification'
 workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
-eval "arrWorkflowNames=($workflowNames)"
 element="DocuSign ID Verification"
-index=-1
-workflowFound=false
 
-for i in "${!arrWorkflowNames[@]}";
-do
-	if [[ "${arrWorkflowNames[$i]}" = "${element}" ]];
-	then
-		index=$i
-		workflowFound=true
-		break
-	fi
-done
+workflowId=$(GetWorkflowId "$workflowNames" "$element" "$workflowIds")
 
-if [ "$workflowFound" != true ]; then
+if [ "$workflowId" == false ]; then
 	echo ""
 	echo "Please contact Support to enable IDV identity verification in your account."
 	echo ""
 	exit 0
+else
+	echo ""
+	echo "workflowId: " $workflowId
+	echo ""
 fi	
-
-workflowId=${arrWorkflowIds[$index]}
 
 # Remove the temporary files
 rm "$request_data"
