@@ -82,12 +82,6 @@ else
 	echo ""
 fi	
 
-<<<<<<< HEAD
-=======
-workflowId=${arrWorkflowIds[$index]}
-# Step 3 end
-
->>>>>>> efac33afbd0706416fa507f07ed326de34330b8d
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
