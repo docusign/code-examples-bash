@@ -63,7 +63,6 @@ arrWorkflowIds=($workflowIds)
 # Get the index of the Phone auth workflow based on name and use that index for workflowId. 
 # Workflow name of phone auth is 'Phone Authentication'
 workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
-eval "arrWorkflowNames=($workflowNames)"
 element="Phone Authentication"
 
 workflowId=$(GetWorkflowId "$workflowNames" "$element" "$workflowIds")
@@ -117,8 +116,8 @@ printf \
 					"pageNumber": "1",
 					"recipientId": "1", 
 					"tabLabel": "SignHereTab",
-					"xPosition": "75",
-					"yPosition": "572"
+					"xPosition": "200",
+					"yPosition": "170"
 				}]
 			},
 			"templateAccessCodeRequired": null,
