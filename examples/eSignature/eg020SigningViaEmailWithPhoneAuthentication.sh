@@ -6,7 +6,7 @@ fi
 source ./examples/eSignature/lib/utils.sh
 
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -24,10 +24,13 @@ doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
 # Fetch doc and encode
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
 
-# Step 2: Construct your API headers
+# Construct your API headers
+# Step 2 start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
+# Step 2 end					
+
 
 # Obtain your workflow ID
 # Create a temporary file to store
@@ -38,6 +41,7 @@ echo ""
 echo "Attempting to retrieve your account's workflow ID"
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
+# Step 3 start
 Status=$(curl -w '%{http_code}' -i --request GET "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/identity_verification" \
      "${Headers[@]}" \
      --output ${response})
@@ -82,12 +86,13 @@ fi
 rm "$request_data"
 rm "$response"
 
-# Step 3: Construct your envelope JSON body
+# Construct your envelope JSON body
 # Create a temporary file to store the JSON body
 
 GetSignerPhoneNum
 
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
+# Step 4 start
 printf \
 '{
 	"documents": [{
@@ -140,21 +145,23 @@ printf \
 		},
 	"status": "Sent"
 }
-
 ' >> $request_data					
-					
-# Step 4: a) Make a POST call to the createEnvelopes endpoint to create a new envelope.
-#         b) Display the JSON structure of the created envelope
+# Step 4 end
+
+# a) Make a POST call to the createEnvelopes endpoint to create a new envelope.
+# b) Display the JSON structure of the created envelope
 echo ""
 echo "Request:"
 echo ""
 cat $request_data
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
+# Step 5 start
 curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes" \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response}
+# Step 5 end
 
 echo ""
 echo "Response:"
