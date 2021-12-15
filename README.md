@@ -100,6 +100,17 @@ For a list of code examples that use the Admin API, select the Bash tab under [E
 1. Select **Authorization Code Grant** when authenticating your account.
 1. Select your desired code example.
 
+**Note:** If you are using a Unix-like operating system (such as Mac or Linux), you may see the following error message when running some examples:
+
+`examples/eSignature/eg002SigningViaEmail.sh: line 148: syntax error: unexpected end of file`
+
+This is because code files use CRLF as the line ending type, which is incompatible with Unix-like operating systems. To fix this issue, follow the steps below:
+
+1. Install [dos2unix](https://linux.die.net/man/1/dos2unix).
+1. Convert the files to use LF as the line ending type by running `dos2unix filename.sh`.  
+   * Example: `dos2unix eg002SigningViaEmail.sh`
+1. Rerun the Bash launcher.
+
 
 ### Installation steps for JWT Grant authentication
 **Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 3 as it was automatically performed for you.
@@ -118,6 +129,17 @@ For a list of code examples that use the Admin API, select the Bash tab under [E
 1. Select an API when prompted.
 1. Select **JSON Web Token** when authenticating your account.
 1. Select your desired code example.
+
+**Note:** If you are using a Unix-like operating system (such as Mac or Linux), you may see the following error message when running some examples:
+
+`examples/eSignature/eg002SigningViaEmail.sh: line 148: syntax error: unexpected end of file`
+
+This is because code files use CRLF as the line ending type, which is incompatible with Unix-like operating systems. To fix this issue, follow the steps below:
+
+1. Install [dos2unix](https://linux.die.net/man/1/dos2unix).
+1. Convert the files to use LF as the line ending type by running `dos2unix filename.sh`.  
+   * Example: `dos2unix eg002SigningViaEmail.sh`
+1. Rerun the Bash launcher.
 
 
 ## Payments code example
