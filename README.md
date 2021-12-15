@@ -130,7 +130,9 @@ This is because code files use CRLF as the line ending type, which is incompatib
 1. Select **JSON Web Token** when authenticating your account.
 1. Select your desired code example.
 
-**Note:** If you are using a Unix-like operating system (such as Mac or Linux), you may see the following error message when running some examples:
+
+## Troubleshooting CRLF issue on Unix systems
+If you are using a Unix-like operating system (such as Mac or Linux), you may see the following error message when running some examples:
 
 `examples/eSignature/eg002SigningViaEmail.sh: line 148: syntax error: unexpected end of file`
 
