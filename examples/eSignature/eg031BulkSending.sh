@@ -195,71 +195,7 @@ echo ""
 rm "$response"
 rm "$request_data"
 
-# Step 6: Add placeholder recipients. These will be replaced by the details provided in the Bulk List uploaded during Step 2
-# Note: The name / email format used is:
-#		Name: Multi Bulk Recipients::{rolename}
-#		Email: MultiBulkRecipients-{rolename}@docusign.com
-
-# Create a temporary file to store the JSON body
-request_data=$(mktemp /tmp/request-bs.XXXXXX)
-printf \
-'{
-	"signers": [{
-		"name": "Multi Bulk Recipient::signer",
-		"email": "multiBulkRecipients-signer@docusign.com",
-		"roleName": "signer",
-		"note": "",
-		"routingOrder": 1,
-		"status": "created",
-		"templateAccessCodeRequired": null,
-		"deliveryMethod": "email",
-		"recipientId": "1",
-		"recipientType": "signer"
-	},
-	{
-		"name": "Multi Bulk Recipient::cc",
-		"email": "multiBulkRecipients-cc@docusign.com",
-		"roleName": "cc",
-		"note": "",
-		"routingOrder": 1,
-		"status": "created",
-		"templateAccessCodeRequired": null,
-		"deliveryMethod": "email",
-		"recipientId": "2",
-		"recipientType": "signer"
-	}]
-}	
-' >> $request_data
-
-echo ""
-echo "Adding placeholder recipients to the envelope."
-echo ""
-response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${ENVELOPE_ID}/recipients \
-     "${Headers[@]}" \
-     --data-binary @${request_data} \
-     --output ${response})
-
-#If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
-if [[ "$Status" -gt "201" ]] ; then
-    echo ""
-	echo "Addition of the placeholder recipients has failed"
-    echo ""
-	cat $response
-	exit 0
-fi
-
-echo ""
-echo "Response:"
-cat $response
-echo ""
-
-#Remove the temporary file
-
-rm "$response"
-rm "$request_data"
-
-# Step 7: Initiate the Bulk Send by posting your listId obtained from Step 2, and the envelopeId obtained in step 4.
+# Step 6: Initiate the Bulk Send by posting your listId obtained from Step 2, and the envelopeId obtained in step 4.
 # Target endpoint: {ACCOUNT_ID}/bulk_send_lists/{LIST_ID}/send
 printf \
 '{
@@ -296,8 +232,8 @@ batchId=`cat $response | grep batchId | sed 's/.*\"batchId\":\"//' | sed 's/\",.
 rm "$response"
 rm "$request_data"
 
-#Step 8: Confirm Bulk Send has initiated.
-#Note: Depending on the number of Bulk Recipients, it may take some time for the Bulk Send to complete. For 2000 recipients this can take ~1 hour.
+# Step 7: Confirm Bulk Send has initiated.
+# Note: Depending on the number of Bulk Recipients, it may take some time for the Bulk Send to complete. For 2000 recipients this can take ~1 hour.
 
 echo ""
 echo "Confirming Bulk Send has initiated. -- ${batchId}"
