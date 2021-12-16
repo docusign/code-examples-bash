@@ -70,6 +70,7 @@ workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
 element="Phone Authentication"
 
 workflowId=$(GetWorkflowId "$workflowNames" "$element" "$workflowIds")
+# Step 3 end
 
 if [ "$workflowId" == false ]; then
 	echo ""
