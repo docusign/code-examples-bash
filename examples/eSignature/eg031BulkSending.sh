@@ -121,8 +121,9 @@ printf \
 		"documentBase64": "' >> $request_data
 		cat $doc1_base64 >> $request_data
 		printf '",
+		"name": "Lorem Ipsum",
 		"fileExtension": "pdf",
-		"name": "Lorem Ipsum"
+		"documentId": "1"
 	}],
 	"envelopeIdStamping": "true",
 	"emailSubject": "Please sign",
