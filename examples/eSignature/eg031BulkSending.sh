@@ -120,6 +120,7 @@ printf \
 	"documents": [{
 		"documentBase64": "' >> $request_data
 		cat $doc1_base64 >> $request_data
+		printf '",
 		"fileExtension": "pdf",
 		"name": "Lorem Ipsum"
 	}],
@@ -133,7 +134,7 @@ printf \
 			"routingOrder": "1",
 			"recipientId" : "1",
 			"recipientType" : "signer",
-			"delieveryMethod" : "Email",
+			"deliveryMethod" : "Email",
 			"status": "created",
 			"tabs": {
 				"signHereTabs": [{
@@ -153,7 +154,7 @@ printf \
 			"routingOrder": "2",
 			"recipientId" : "2",
 			"recipientType" : "cc",
-			"delieveryMethod" : "Email",
+			"deliveryMethod" : "Email",
 			"status": "created"
 			}]
 		},		
