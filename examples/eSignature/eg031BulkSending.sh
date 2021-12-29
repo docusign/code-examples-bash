@@ -6,61 +6,71 @@ if [[ $SHELL != *"bash"* ]]; then
 fi
 
 # Check for a valid cc email and prompt the user if 
-#CC_EMAIL and CC_NAME haven't been set in the config file.
-source ./examples/eSignature/lib/utils.sh
-CheckForValidCCEmail
+# CC_EMAIL and CC_NAME haven't been set in the config file.
+# source ./examples/eSignature/lib/utils.sh
+# CheckForValidCCEmail
+read -p "Please enter Bulk copy #1 signer email address: " SIGNER1_EMAIL
+read -p "Please enter Bulk copy #1 signer name: " SIGNER1_NAME
+read -p "Please enter Bulk copy #1 carbon copy email address: " CC1_EMAIL
+read -p "Please enter Bulk copy #1 carbon copy name: " CC1_NAME
+read -p "Please enter Bulk copy #2 signer email address: " SIGNER2_EMAIL
+read -p "Please enter Bulk copy #2 signer name: " SIGNER2_NAME
+read -p "Please enter Bulk copy #2 carbon copy email address: " CC2_EMAIL
+read -p "Please enter Bulk copy #2 carbon copy name: " CC2_NAME
 
-# Step 1: Obtain your OAuth token
+# temp file
+doc1_base64=$(mktemp /tmp/eg-031-doc1.XXXXXX)
+
+# Fetch doc and encode
+cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
+
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
-# Step 2: Construct your API headers
+# Construct your API headers
+# Step 2 start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json, text/plain, */*" \
 					'--header' "Content-Type: application/json;charset=UTF-8" \
 					'--header' "Accept-Encoding: gzip, deflate, br" \
 					'--header' "Accept-Language: en-US,en;q=0.9")
-			
-# Step 3: Submit the Bulk List
+# Step 2 end
+
+# Submit the Bulk List
 # Create a temporary file to store the JSON body
 # The JSON body must contain the recipient role, recipientId, name, and email.
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
+
+# Step 3 start
 printf \
 '{
 	"name": "sample.csv",
 	"bulkCopies": [{
 		"recipients": [{
-			"recipientId": "1",
-			"role": "signer",
-			"tabs": [],
-			"name": "'"${SIGNER_NAME}"'",
-			"email": "'"${SIGNER_EMAIL}"'"
+			"roleName": "signer",
+			"name": "'"${SIGNER1_NAME}"'",
+			"email": "'"${SIGNER1_EMAIL}"'"
 		},
 		{
-			"recipientId": "2",
-			"role": "cc",
-			"tabs": [],
-			"name": "'"${CC_NAME}"'",
-			"email": "'"${CC_EMAIL}"'"
+			"roleName": "cc",
+			"name": "'"${CC1_NAME}"'",
+			"email": "'"${CC1_EMAIL}"'"
 		}],
 		"customFields": []
 	},
   {
 		"recipients": [{
-			"recipientId": "1",
-			"role": "signer",
-			"tabs": [],
-			"name": "'"${SIGNER_NAME}"'",
-			"email": "'"${SIGNER_EMAIL}"'"
+			"roleName": "signer",
+			"name": "'"${SIGNER2_NAME}"'",
+			"email": "'"${SIGNER2_EMAIL}"'"
 		},
 		{
-			"recipientId": "2",
-			"role": "cc",
-			"tabs": [],
-			"name": "'"${CC_NAME}"'",
-			"email": "'"${CC_EMAIL}"'"
+			"roleName": "cc",
+			"name": "'"${CC2_NAME}"'",
+			"email": "'"${CC2_EMAIL}"'"
 		}],
 		"customFields": []
 	}]
@@ -94,30 +104,59 @@ echo ""
 
 #Obtain the BULK_LIST_ID from the JSON response
 BULK_LIST_ID=`cat $response | grep listId | sed 's/.*\"listId\":\"//' | sed 's/\",.*//'`
+# Step 3 end
 
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
 
 
-# Step 4 : Create your draft envelope
+# Create your draft envelope
 # Create a temporary file to store the JSON body
-
-base64="DQoNCg0KCQkJCXRleHQgZG9jDQoNCg0KDQoNCg0KUk0gIwlSTSAjCVJNICMNCg0KDQoNClxzMVwNCg0KLy9hbmNoMSANCgkvL2FuY2gyDQoJCS8vYW5jaDM="
+# Step 4 start
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 printf \
 '{
 	"documents": [{
-		"documentBase64": "'"$base64"'",
-		"documentId": "1",
-		"fileExtension": "txt",
-		"name": "NDA"
+		"documentBase64": "' >> $request_data
+		cat $doc1_base64 >> $request_data
+		"fileExtension": "pdf",
+		"name": "Lorem Ipsum"
 	}],
 	"envelopeIdStamping": "true",
 	"emailSubject": "Please sign",
 	"recipients": {
-	},
-	
+		"signers": [{
+			"name": "Multi Bulk Recipient::signer",
+			"email": "multiBulkRecipients-signer@docusign.com",
+			"roleName": "signer",
+			"routingOrder": "1",
+			"recipientId" : "1",
+			"recipientType" : "signer",
+			"delieveryMethod" : "Email",
+			"status": "created",
+			"tabs": {
+				"signHereTabs": [{
+					"documentId": "1",
+					"name": "SignHereTab",
+					"pageNumber": "1",
+					"recipientId": "1",
+					"tabLabel": "SignHereTab",
+					"xPosition": "200",
+					"yPosition": "160"
+				}]}
+			}],
+		"carbonCopies": [{
+			"name": "Multi Bulk Recipient::cc",
+			"email": "multiBulkRecipients-cc@docusign.com",
+			"roleName": "cc",
+			"routingOrder": "2",
+			"recipientId" : "2",
+			"recipientType" : "cc",
+			"delieveryMethod" : "Email",
+			"status": "created"
+			}]
+		},		
 	"status": "created"
 }	
 ' >> $request_data
@@ -147,15 +186,17 @@ echo ""
 
 #Obtain the envelopeId from the API response.
 ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
+# Step 4 end
 
 #Remove the temporary files
 rm "$response"
 rm "$request_data"
 
-# Step 5: Add an envelope custom field set to the value of your listId
+# Add an envelope custom field set to the value of your listId
 # This Custom Field is used for tracking your Bulk Send via the Envelopes::Get method
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
+# Step 5 start
 printf \
 '{
 	"listCustomFields": [],
@@ -175,6 +216,7 @@ Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${a
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
+# Step 5 end
 
 #If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
 if [[ "$Status" -gt "201" ]] ; then
@@ -195,8 +237,9 @@ echo ""
 rm "$response"
 rm "$request_data"
 
-# Step 6: Initiate the Bulk Send by posting your listId obtained from Step 2, and the envelopeId obtained in step 4.
+# Initiate the Bulk Send by posting your listId obtained from Step 3, and the envelopeId obtained in step 4.
 # Target endpoint: {ACCOUNT_ID}/bulk_send_lists/{LIST_ID}/send
+# Step 6 start
 printf \
 '{
 	"listId": "'"${BULK_LIST_ID}"'",
@@ -228,13 +271,14 @@ cat $response
 echo ""
 
 batchId=`cat $response | grep batchId | sed 's/.*\"batchId\":\"//' | sed 's/\",.*//'`
+# Step 6 end
 
 rm "$response"
 rm "$request_data"
 
-# Step 7: Confirm Bulk Send has initiated.
+# Confirm Bulk Send has initiated.
 # Note: Depending on the number of Bulk Recipients, it may take some time for the Bulk Send to complete. For 2000 recipients this can take ~1 hour.
-
+# Step 7 start
 echo ""
 echo "Confirming Bulk Send has initiated. -- ${batchId}"
 echo ""
@@ -245,7 +289,8 @@ response=$(mktemp /tmp/response-bs.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/bulk_send_batch/${batchId} \
      "${Headers[@]}" \
      --output ${response})
-	 
+# Step 7 end
+
 #If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
 if [[ "$Status" -gt "201" ]] ; then
     echo ""
@@ -267,4 +312,3 @@ echo ""
 echo ""
 echo "Done."
 echo ""
-
