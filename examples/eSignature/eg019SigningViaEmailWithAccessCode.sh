@@ -15,10 +15,11 @@ account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 
-# Step 2: Construct your API headers
+# Step 2 start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
+# Step 2 end
  
 doc1_base64=$(mktemp /tmp/eg-002-doc1.XXXXXX)
 doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
@@ -29,12 +30,15 @@ cat demo_documents/doc_1.html | base64 > $doc1_base64
 cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc2_base64
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc3_base64
 
-# Step 3: Construct your envelope JSON body
-# Create a temporary file to store the JSON body
+read -p "Please enter signer email address: (Note: must use a different email from the one used to create the developer account)" SIGNER_EMAIL
+read -p "Please enter signer name: " SIGNER_NAME
+
 read -p "Please enter a an access code for recipient authentication [nj91@c]: " ACCESS_CODE
 ACCESS_CODE=${ACCESS_CODE:-"nj91@c"}
 request_data=$(mktemp /tmp/request-ds.XXXXXX)
 
+# Create a temporary file to store the JSON body
+# Step 3 start
 printf \
 '{
     "documents": [
@@ -97,6 +101,7 @@ printf \
 	"status": "Sent"
 }
 ' >> $request_data
+#Step 3 end
 
 echo "Access code for this example is ${ACCESS_CODE}"
 echo ""
@@ -108,10 +113,12 @@ echo ""
 cat $request_data
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
+# Step 4 start
 curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes" \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response}
+# Step 4 end
 
 echo ""
 echo "Response:"
