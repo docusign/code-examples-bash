@@ -20,23 +20,49 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
  
+doc1_base64=$(mktemp /tmp/eg-002-doc1.XXXXXX)
+doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
+doc3_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
+
+# Fetch docs and encode
+cat demo_documents/doc_1.html | base64 > $doc1_base64
+cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc2_base64
+cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc3_base64
+
 # Step 3: Construct your envelope JSON body
 # Create a temporary file to store the JSON body
-doc_base64=$(mktemp /tmp/eg-019-doc1.XXXXXX)
-cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc_base64
-
 read -p "Please enter a an access code for recipient authentication [nj91@c]: " ACCESS_CODE
 ACCESS_CODE=${ACCESS_CODE:-"nj91@c"}
 request_data=$(mktemp /tmp/request-ds.XXXXXX)
 
 printf \
 '{
-	"documents": [{
-		"documentBase64": "'"${doc_base64}"'",
-		"documentId": "1",
-		"fileExtension": "pdf",
-		"name": "Lorem"
-	}],
+    "documents": [
+        {
+            "documentBase64": "' > $request_data
+            cat $doc1_base64 >> $request_data
+            printf '",
+            "name": "Order acknowledgement",
+            "fileExtension": "html",
+            "documentId": "1"
+        },
+        {
+            "documentBase64": "' >> $request_data
+            cat $doc2_base64 >> $request_data
+            printf '",
+            "name": "Battle Plan",
+            "fileExtension": "docx",
+            "documentId": "2"
+        },
+        {
+            "documentBase64": "' >> $request_data
+            cat $doc3_base64 >> $request_data
+            printf '",
+            "name": "Lorem Ipsum",
+            "fileExtension": "pdf",
+            "documentId": "3"
+        }
+    ],
 	"emailBlurb": "Sample text for email body",
 	"emailSubject": "Please Sign",
 	"envelopeIdStamping": "true",
@@ -61,7 +87,7 @@ printf \
 			},
 		"templateAccessCodeRequired": null,
 		"deliveryMethod": "email",
-		"recipientId": "1", #This value represents your {RECIPIENT_ID}
+		"recipientId": "1",
 		"accessCode": "'"${ACCESS_CODE}"'",
 		"smsAuthentication": null,
 		"idCheckConfigurationName": "",
