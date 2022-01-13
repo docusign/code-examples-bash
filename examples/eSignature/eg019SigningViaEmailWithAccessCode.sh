@@ -21,14 +21,10 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Content-Type: application/json")
 # Step 2 end
  
-doc1_base64=$(mktemp /tmp/eg-002-doc1.XXXXXX)
-doc2_base64=$(mktemp /tmp/eg-002-doc2.XXXXXX)
-doc3_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
+doc_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
 
 # Fetch docs and encode
-cat demo_documents/doc_1.html | base64 > $doc1_base64
-cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc2_base64
-cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc3_base64
+cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc_base64
 
 read -p "Please enter signer email address: (Note: must use a different email from the one used to create the developer account)" SIGNER_EMAIL
 read -p "Please enter signer name: " SIGNER_NAME
@@ -43,28 +39,12 @@ printf \
 '{
     "documents": [
         {
-            "documentBase64": "' > $request_data
-            cat $doc1_base64 >> $request_data
-            printf '",
-            "name": "Order acknowledgement",
-            "fileExtension": "html",
-            "documentId": "1"
-        },
-        {
             "documentBase64": "' >> $request_data
-            cat $doc2_base64 >> $request_data
-            printf '",
-            "name": "Battle Plan",
-            "fileExtension": "docx",
-            "documentId": "2"
-        },
-        {
-            "documentBase64": "' >> $request_data
-            cat $doc3_base64 >> $request_data
+            cat $doc_base64 >> $request_data
             printf '",
             "name": "Lorem Ipsum",
             "fileExtension": "pdf",
-            "documentId": "3"
+            "documentId": "1"
         }
     ],
 	"emailBlurb": "Sample text for email body",
@@ -85,8 +65,8 @@ printf \
 					"pageNumber": "1",
 					"recipientId": "1",
 					"tabLabel": "SignHereTab",
-					"xPosition": "75",
-					"yPosition": "572"
+					"xPosition": "200",
+					"yPosition": "160"
 				}]
 			},
 		"templateAccessCodeRequired": null,
