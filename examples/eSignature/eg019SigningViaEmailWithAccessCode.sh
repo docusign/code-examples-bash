@@ -26,10 +26,10 @@ doc_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
 # Fetch docs and encode
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc_base64
 
-read -p "Please enter signer email address: (Note: must use a different email from the one used to create the developer account)" SIGNER_EMAIL
-read -p "Please enter signer name: " SIGNER_NAME
+read -p "Please enter a signer email address (must be different from the developer account email address): " SIGNER_EMAIL
+read -p "Please enter a signer name: " SIGNER_NAME
 
-read -p "Please enter a an access code for recipient authentication [nj91@c]: " ACCESS_CODE
+read -p "Please enter an access code for recipient authentication [Example: nj91@c]: " ACCESS_CODE
 ACCESS_CODE=${ACCESS_CODE:-"nj91@c"}
 request_data=$(mktemp /tmp/request-ds.XXXXXX)
 
