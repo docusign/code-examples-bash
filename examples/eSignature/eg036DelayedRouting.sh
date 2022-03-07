@@ -49,6 +49,7 @@ echo "Results:"
 echo ""
 
 # Concatenate the different parts of the request
+# Step 2 start
 printf \
 '{
     "emailSubject": "Please sign this document set",
@@ -114,12 +115,15 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
+# Step 2 end
 
+# Step 3 start
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output $response
+# Step 3 end
 
 echo ""
 echo "Response:"
