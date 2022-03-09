@@ -5,10 +5,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Check for a valid cc email and prompt the user if 
-#CC_EMAIL and CC_NAME haven't been set in the config file.
 source ./examples/eSignature/lib/utils.sh
-CheckForValidCCEmail
 
 # Get a country code and phone number for the CC recipient.
 GetCCPhoneNum
@@ -90,18 +87,11 @@ printf \
         "carbonCopies": 
         [
             {
-             "additionalNotifications":
-             [
+            "phoneNumber":
                 {
-                   "phoneNumber":
-                   {
-                      "countryCode": "'"${CC_PHONE_COUNTRY}"'",
-                      "number":"'"${CC_PHONE_NUMBER}"'"
-                   },
-                   "secondaryDeliveryMethod":"SMS"
-                }
-             ],                
-            "email": "'"${CC_EMAIL}"'",
+                    "countryCode": "'"${CC_PHONE_COUNTRY}"'",
+                    "number":"'"${CC_PHONE_NUMBER}"'"
+                },
             "name": "'"${CC_NAME}"'",
             "recipientId": "2",
             "routingOrder": "2"
@@ -110,18 +100,11 @@ printf \
         "signers": 
         [
             {
-             "additionalNotifications":
-             [
+            "phoneNumber":
                 {
-                   "phoneNumber":
-                   {
-                      "countryCode": "'"${SIGNER_PHONE_COUNTRY}"'",
-                      "number":"'"${SIGNER_PHONE_NUMBER}"'"
-                   },
-                   "secondaryDeliveryMethod":"SMS"
-                }
-             ],                
-                "email": "'"${SIGNER_EMAIL}"'",
+                    "countryCode": "'"${SIGNER_PHONE_COUNTRY}"'",
+                    "number":"'"${SIGNER_PHONE_NUMBER}"'"
+                },
                 "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1",
                 "routingOrder": "1",
