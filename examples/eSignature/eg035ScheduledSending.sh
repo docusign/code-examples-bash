@@ -54,7 +54,6 @@ printf \
     ],
     "workflow": {
         "scheduledSending": {
-            "status": "pending",
             "rules": [{
                 "resumeDate": "'"${SCHEDULED_DATE}"'" 
             }]

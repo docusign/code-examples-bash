@@ -68,7 +68,6 @@ printf \
             "action": "pause_before",
             "triggerOnItem": "routing_order",
             "itemId": 2,
-            "status": "pending",
             "delayedRouting": {
                 "rules": [{
                     "delay": "'"${DELAY}"'"
