@@ -222,6 +222,8 @@ function startSignature() {
         "Pause_Signature_Workflow" \
         "Unpause_Signature_Workflow" \
         "Use_Conditional_Recipients" \
+        "Scheduled_Sending" \
+        "Delayed_Routing" \
         "Signing_Via_SMS" \
         "Pick_An_API"; do
         case "$CHOICE" in
@@ -360,8 +362,16 @@ function startSignature() {
             bash examples/eSignature/eg034UseConditionalRecipients.sh
             startSignature
             ;;
+        Scheduled_Sending)
+            bash examples/eSignature/eg035ScheduledSending.sh
+            startSignature
+            ;;
+        Delayed_Routing)
+            bash examples/eSignature/eg036DelayedRouting.sh
+            startSignature
+            ;;
         Signing_Via_SMS)
-            bash examples/eSignature/eg035SigningViaSMS.sh
+            bash examples/eSignature/eg037SigningViaSMS.sh
             startSignature
             ;;
         *)
