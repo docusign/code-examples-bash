@@ -77,4 +77,6 @@ $userInfo = http($authorizationEndpoint . 'userinfo', false, [
   // var_dump($userInfo->sub);
   $APIAccountId = $userInfo->accounts[0]->account_id;
   file_put_contents('config/API_ACCOUNT_ID', $APIAccountId);
+  echo "Account id: $APIAccountId\n";
+  echo "Account id has been written to config/API_ACCOUNT_ID file...\n\n";
 ?>
