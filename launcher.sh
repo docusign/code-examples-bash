@@ -62,7 +62,6 @@ function login() {
     select METHOD in \
         "Use_Authorization_Code_Grant" \
         "Use_JSON_Web_Token" \
-        "Skip_To_Examples" \
         "Exit"; do
         case "$METHOD" in
 
@@ -74,11 +73,6 @@ function login() {
 
         Use_JSON_Web_Token)
             choose_language "$api_version"
-            ;;
-
-        Skip_To_Examples)
-            echo "Get a new token if you change API types"
-            continu $api_version
             ;;
 
         Exit)
@@ -103,18 +97,12 @@ function monitor-login() {
     PS3='Authenticate using JWT: '
     select METHOD in \
         "Use_JSON_Web_Token" \
-        "Skip_To_Examples" \
         "Exit"; do
         case "$METHOD" in
 
         \
         Use_JSON_Web_Token)
             php ./OAuth/jwt.php "$api_version"
-            continu $api_version
-            ;;
-
-        Skip_To_Examples)
-            echo "Get a new token if you change API types"
             continu $api_version
             ;;
 
@@ -136,7 +124,8 @@ function monitor-login() {
 # Choose an API
 function choices() {
     echo ""
-    PS3='Choose an API: '
+    echo "Choose an API"
+    PS3='Please make a selection: '
     select METHOD in \
         "eSignature" \
         "Rooms" \
@@ -185,7 +174,7 @@ function choices() {
 
 # Select the action
 function startSignature() {
-    echo ""
+    echo "Select the action"
     PS3='Select the action : '
     select CHOICE in \
         "Embedded_Signing" \
@@ -375,7 +364,7 @@ function startSignature() {
             startSignature
             ;;
         *)
-            echo "Default action..."
+            echo ""
             startSignature
             ;;
         esac
@@ -521,10 +510,10 @@ function startAdmin() {
         "Bulk_Export_User_Data" \
         "Add_Users_Via_Bulk_Import" \
         "Audit_Users" \
-        "Home"; do
+        "Pick_An_API"; do
         case "$CHOICE" in
 
-        Home)
+        Pick_An_API)
             choices
             ;;
         Create_New_User_With_Active_Status)
@@ -556,8 +545,6 @@ function startAdmin() {
 }
 
 function continu() {
-    echo "press the 'any' key to continue"
-    read nothin
     api_version=$1
     if [[ $api_version == "eSignature" ]]
     then
@@ -580,6 +567,5 @@ function continu() {
 
 echo ""
 echo "Welcome to the DocuSign Bash Launcher"
-echo "using Authorization Code grant or JWT grant authentication."
 
 choices
