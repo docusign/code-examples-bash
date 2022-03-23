@@ -23,8 +23,8 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # The sending editor can be opened in either of two views:
-echo ""
-PS3='Select the initial sending view: '
+echo "Select the initial sending view: "
+PS3='Please make a selection.'
 options=("Tagging view" "Recipients and documents view")
 select opt in "${options[@]}"
 do

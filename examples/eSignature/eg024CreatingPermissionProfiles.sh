@@ -7,7 +7,7 @@ fi
 
 
 
-read -p "Please enter a new permission profile name [Bash_Perms_{date}]: " PROFILE_NAME
+read -p "Please enter a new permission profile name: " PROFILE_NAME
 PROFILE_NAME=${PROFILE_NAME:-"Bash_Perms_"$(date +%Y-%m-%d-%H:%M)}
 export PROFILE_NAME
 

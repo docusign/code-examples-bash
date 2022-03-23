@@ -24,7 +24,7 @@ base_path="https://demo.docusign.net/restapi"
 # Check that we have an envelope id
 if [ ! -f config/ENVELOPE_ID ]; then
     echo ""
-    echo "PROBLEM: An envelope id is needed. Fix: execute script eg002SigningViaEmail.sh"
+    echo "PROBLEM: An envelope id is needed. Fix: execute code example 2 - Signing_Via_Email"
     echo ""
     exit 0
 fi
@@ -32,8 +32,8 @@ envelope_id=`cat config/ENVELOPE_ID`
 
 doc_choice=1
 output_file_extension=pdf
-echo ""
-PS3='Select a document or document set to download: '
+echo "Select a document or document set to download:"
+PS3='Please make a selection: '
 options=("Document 1" "Document 2" "Document 3" "Certificate of Completion" "Documents combined together" "ZIP file" )
 select opt in "${options[@]}"
 do
