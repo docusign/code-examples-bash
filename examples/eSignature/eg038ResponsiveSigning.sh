@@ -1,3 +1,4 @@
+#!/bin/sh
 # Signable HTML document
 #
 # Check that we're in a bash shell
