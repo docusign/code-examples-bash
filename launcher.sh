@@ -214,6 +214,7 @@ function startSignature() {
         "Scheduled_Sending" \
         "Delayed_Routing" \
         "Signing_Via_SMS" \
+        "Responsive_Signing" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -361,6 +362,10 @@ function startSignature() {
             ;;
         Signing_Via_SMS)
             bash examples/eSignature/eg037SigningViaSMS.sh
+            startSignature
+            ;;
+        Responsive_Signing)
+            bash examples/eSignature/eg038ResponsiveSigning.sh
             startSignature
             ;;
         *)
