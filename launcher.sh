@@ -510,6 +510,7 @@ function startAdmin() {
         "Bulk_Export_User_Data" \
         "Add_Users_Via_Bulk_Import" \
         "Audit_Users" \
+        "Retrieve_DocuSign_Profile" \
         "Pick_An_API"; do
         case "$CHOICE" in
 
@@ -534,6 +535,10 @@ function startAdmin() {
             ;;
         Audit_Users)
             bash examples/Admin/eg005AuditUsers.sh
+            startAdmin
+            ;;
+        Retrieve_DocuSign_Profile)
+            bash examples/Admin/eg006RetrieveDocuSignProfile.sh
             startAdmin
             ;;
         *)
