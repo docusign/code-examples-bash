@@ -19,11 +19,9 @@ function CheckForValidNotCheckedEmail()
 {
 while [[ $SIGNER_NOT_CHECKED_EMAIL != *"@"* ]]; do
     echo ""
-    echo "Current signer not checked email is " $SIGNER_NOT_CHECKED_EMAIL
     read -p "Enter an email address to route to when the checkbox is not checked: " SIGNER_NOT_CHECKED_EMAIL
     if [[ $SIGNER_NOT_CHECKED_NAME == *"{"* || SIGNER_NOT_CHECKED_NAME == "" ]] ; then
         echo ""
-        echo "Current signer not checked name is " $SIGNER_NOT_CHECKED_NAME
         read -p "Enter a name for the recipient when the checkbox is not checked: " SIGNER_NOT_CHECKED_NAME
     fi
     echo ""
@@ -35,23 +33,19 @@ done
 function GetCCPhoneNum()
 {
     echo ""
-    read -p "Enter CC phone country code (U.S. is 1): " CC_PHONE_COUNTRY
-    read -p "Enter CC phone number: " CC_PHONE_NUMBER
+    read -p "Please enter a country phone number prefix for the Carbon Copied recipient: " CC_PHONE_COUNTRY
+    read -p "Please enter an SMS-enabled Phone number for the Carbon Copied recipient: " CC_PHONE_NUMBER
     CC_PHONE_NUMBER="${CC_PHONE_NUMBER//[!0-9]/}"
     echo ""
-    echo "CC_PHONE_COUNTRY is " $CC_PHONE_COUNTRY
-    echo "CC_PHONE_NUMBER is " $CC_PHONE_NUMBER
 }
 
 function GetSignerPhoneNum()
 {
     echo ""
-    read -p "Enter signer phone country code (U.S. is 1): " SIGNER_PHONE_COUNTRY
-    read -p "Enter signer phone number: " SIGNER_PHONE_NUMBER
+    read -p "Please enter a country phone number prefix for the Signer: " SIGNER_PHONE_COUNTRY
+    read -p "Please enter an SMS-enabled Phone number for the Signer: " SIGNER_PHONE_NUMBER
     SIGNER_PHONE_NUMBER="${SIGNER_PHONE_NUMBER//[!0-9]/}"
     echo ""
-    echo "SIGNER_PHONE_COUNTRY is " $SIGNER_PHONE_COUNTRY
-    echo "SIGNER_PHONE_NUMBER is " $SIGNER_PHONE_NUMBER
 }
 
 function GetSignerEmail()

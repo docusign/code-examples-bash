@@ -14,6 +14,8 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 # Set up variables for full code example
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
+echo "Please input a name for the clickwrap: "
+read clickwrap_name
 
 # Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
@@ -32,7 +34,6 @@ printf \
     "format": "modal",
     "hasAccept": true,
     "mustRead": true,
-    "mustView": true,
     "requireAccept": true,
     "size": "medium",
     "documentDisplay": "document"
@@ -45,7 +46,7 @@ printf \
       "order": 0
     }
   ],
-  "name": "Terms of Service",
+  "name": "'"${clickwrap_name}"'",
   "requireReacceptance": true
 }
 ' >$request_data
