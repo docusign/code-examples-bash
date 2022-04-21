@@ -214,7 +214,7 @@ function startSignature() {
         "Scheduled_Sending" \
         "Delayed_Routing" \
         "Signing_Via_SMS" \
-        "Responsive_Signing" \
+        "Create_Signable_HTML_document" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
