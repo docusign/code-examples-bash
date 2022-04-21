@@ -364,7 +364,7 @@ function startSignature() {
             bash examples/eSignature/eg037SigningViaSMS.sh
             startSignature
             ;;
-        Responsive_Signing)
+        Create_Signable_HTML_document)
             bash examples/eSignature/eg038ResponsiveSigning.sh
             startSignature
             ;;
