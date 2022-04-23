@@ -47,7 +47,7 @@ fi
 response=$(mktemp /tmp/response-admin.XXXXXX)
 
 # Call the Admin API
-curl --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${ACCOUNT_ID}/products/permission_profiles/users?email=${EMAIL_ADDRESS} \
+curl --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/users/dsprofile?email=${EMAIL_ADDRESS} \
     "${Headers[@]}" \
     --output ${response}
 
