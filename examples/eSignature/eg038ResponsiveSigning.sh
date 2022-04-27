@@ -6,6 +6,13 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+
+# Check for a valid cc email and prompt the user if 
+#CC_EMAIL and CC_NAME haven't been set in the config file.
+source ./examples/eSignature/lib/utils.sh
+CheckForValidCCEmail
+
+
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
