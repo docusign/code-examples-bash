@@ -2,12 +2,12 @@ function CheckForValidCCEmail()
 {
   while [[ $CC_EMAIL != *"@"* ]]; do
       echo ""
-      echo "Current cc email address is " $CC_EMAIL
-      read -p "Enter an email address for the cc recipient different from the signer: " CC_EMAIL
+      echo "Current CC email address is " $CC_EMAIL
+      read -p "Enter a CC email address different from the signer email address: " CC_EMAIL
       if [[ $CC_NAME == *"{"* || CC_NAME == "" ]] ; then
           echo ""
-          echo "Current cc name is " $CC_NAME
-          read -p "Enter a name for the CC Recipient: " CC_NAME
+          echo "Current CC name is " $CC_NAME
+          read -p "Enter a name for the CC recipient: " CC_NAME
       fi
       echo ""
       echo "CC_EMAIL is " $CC_EMAIL
