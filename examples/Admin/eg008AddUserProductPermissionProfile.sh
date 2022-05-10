@@ -66,8 +66,6 @@ do
   break
 done
 
-echo $PRODUCT
-
 
 if [ "$product" == "eSignature" ]; then
     PRODUCT_ID=$ESIGN_PRODUCT_ID
