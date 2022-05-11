@@ -24,6 +24,13 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Content-Type: application/json")
 # Step 2 end
 
+EMAIL_ADDRESS=$(cat config/ESIGN_CLM_USER_EMAIL)
+
+if [ -z "$EMAIL_ADDRESS" ]; then
+  echo "Please run example 2: Create_Active_CLM_ESign_User before running this code example"
+  exit 1
+fi
+
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-admin.XXXXXX)
@@ -90,11 +97,6 @@ else
         fi
     done
 fi
-
-
-
-echo "Please input email address to add user product permission profile:"
-read EMAIL_ADDRESS
 
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 # Construct the request body
