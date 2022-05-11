@@ -191,6 +191,9 @@ if [[ "$Status" -gt "201" ]]; then
     echo ""
     cat $response
     exit 0
+else
+  # Store the email address into the config file for use in example 9
+  echo $EMAIL >config/ESIGN_CLM_USER_EMAIL
 fi
 
 echo ""

@@ -17,15 +17,19 @@ API_ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.net/management"
 ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
+EMAIL_ADDRESS=$(cat config/ESIGN_CLM_USER_EMAIL)
+
+if [ -z "$EMAIL_ADDRESS" ]; then
+  echo "Please run example 2: Create_Active_CLM_ESign_User before running this code example"
+  exit 1
+fi
+
 # Construct your API headers
 # Step 2 start
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
 # Step 2 end
-
-echo "Please input email address to retrieve and delete user product permission profiles:"
-read EMAIL_ADDRESS
 
 response=$(mktemp /tmp/response-oa.XXXXXX)
 curl --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/products/permission_profiles/users?email=${EMAIL_ADDRESS} \
