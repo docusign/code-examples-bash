@@ -522,7 +522,7 @@ function startAdmin() {
         "Audit_Users" \
         "Retrieve_DocuSign_Profile_By_Email_Address" \
         "Retrieve_DocuSign_Profile_By_UserId" \
-        "Add_User_Product_Permission_Profile" \
+        "Update_User_Product_Permission_Profile" \
         "Delete_User_Product_Permission_Profile" \
         "Pick_An_API"; do
         case "$CHOICE" in
@@ -558,8 +558,8 @@ function startAdmin() {
             bash examples/Admin/eg007RetrieveDocuSignProfileByUserId.sh
             startAdmin
             ;;
-        Add_User_Product_Permission_Profile)
-            bash examples/Admin/eg008AddUserProductPermissionProfile.sh
+        Update_User_Product_Permission_Profile)
+            bash examples/Admin/eg008UpdateUserProductPermissionProfile.sh
             startAdmin
             ;;
         Delete_User_Product_Permission_Profile)

@@ -43,7 +43,12 @@ echo ""
 CLM_PRODUCT_ID="37f013eb-7012-4588-8028-357b39fdbd00"
 ESIGN_PRODUCT_ID="f6406c68-225c-4e9b-9894-64152a26fa83"
 
-PS3='Which product permission profiles would you like to delete? '
+echo ""
+echo ""
+echo "Delete user product permission profile for the following email: $EMAIL_ADDRESS"
+echo ""
+
+PS3='Which product permission profile would you like to delete? '
 select choice in eSignature CLM
 do
   echo $choice
