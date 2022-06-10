@@ -1,3 +1,4 @@
+#!/bin/bash
 # Use embedded signing
 #
 # Check that we're in a bash shell
