@@ -26,7 +26,7 @@ function login() {
 
     mv ds_access_token.txt $token_file_name
 
-    account_id=$(cat config/API_ACCOUNT_ID)
+    ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
     ACCESS_TOKEN=$(cat $token_file_name)
 
     export ACCOUNT_ID
@@ -37,7 +37,6 @@ function login() {
 function startQuickACG() {
     echo ""
     echo "Authentication in progress, please wait"
-    echo ""
     login
 }
 
@@ -61,7 +60,6 @@ function startSignature() {
     done
 }
 
-echo ""
 echo "Welcome to the DocuSign Bash Quick Authorization Code Grant Launcher"
 
 startQuickACG

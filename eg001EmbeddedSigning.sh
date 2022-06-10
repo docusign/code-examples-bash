@@ -6,23 +6,23 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-access_token_path="config/ds_access_token.txt"
-account_id_path="config/API_ACCOUNT_ID"
+ds_access_token_path="config/ds_access_token.txt"
+api_account_id_path="config/API_ACCOUNT_ID"
 document_path="demo_documents/World_Wide_Corp_lorem.pdf"
 
-if [ ! -f $access_token_path ]; then
-    access_token_path="../config/ds_access_token.txt"
-    account_id_path="../config/API_ACCOUNT_ID"
+if [ ! -f $ds_access_token_path ]; then
+    ds_access_token_path="../config/ds_access_token.txt"
+    api_account_id_path="../config/API_ACCOUNT_ID"
     document_path="../demo_documents/World_Wide_Corp_lorem.pdf"
 fi
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
-ACCESS_TOKEN=$(cat ${access_token_path})
+ACCESS_TOKEN=$(cat ${ds_access_token_path})
 
 # Set up variables for full code example
 # Note: Substitute these values with your own
-account_id=$(cat ${account_id_path})
+ACCOUNT_ID=$(cat ${api_account_id_path})
 
 # ***DS.snippet.0.start
 # Step 2. Create the envelope.
@@ -87,7 +87,7 @@ printf \
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
+     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes \
      --output ${response}
 
 echo ""
@@ -127,7 +127,7 @@ echo ""
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
+     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes/${envelope_id}/views/recipient \
      --output ${response})
 
 if [[ "$Status" -gt "201" ]] ; then
