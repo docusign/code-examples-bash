@@ -34,18 +34,18 @@ function choose_language(){
             continu $api_version
             ;;
 
-        Python) 
+        Python)
         # Check stderr and stdout for either a python3 version number or "not found"
-        if [[ $(python3 --version 2>&1) == *"not found"* ]]; then  
+        if [[ $(python3 --version 2>&1) == *"not found"* ]]; then
             # If no python3, check stderr and stdout for a python version number or "not found"
             if [[ $(python --version 2>&1) != *"not found"* ]]; then
                 # Didn't get a "not found" error so run python
                 python ./OAuth/jwt_auth.py "$api_version"
             else
-                echo "Either python or python3 must be installed to use this option." 
+                echo "Either python or python3 must be installed to use this option."
                 exit 1
             fi
-        else 
+        else
             # Didn't get a "not found" error so run python3
             python3 ./OAuth/jwt_auth.py "$api_version"
         fi
@@ -520,6 +520,10 @@ function startAdmin() {
         "Bulk_Export_User_Data" \
         "Add_Users_Via_Bulk_Import" \
         "Audit_Users" \
+        "Retrieve_DocuSign_Profile_By_Email_Address" \
+        "Retrieve_DocuSign_Profile_By_UserId" \
+        "Update_User_Product_Permission_Profile" \
+        "Delete_User_Product_Permission_Profile" \
         "Pick_An_API"; do
         case "$CHOICE" in
 
@@ -544,6 +548,22 @@ function startAdmin() {
             ;;
         Audit_Users)
             bash examples/Admin/eg005AuditUsers.sh
+            startAdmin
+            ;;
+        Retrieve_DocuSign_Profile_By_Email_Address)
+            bash examples/Admin/eg006RetrieveDocuSignProfileByEmailAddress.sh
+            startAdmin
+            ;;
+        Retrieve_DocuSign_Profile_By_UserId)
+            bash examples/Admin/eg007RetrieveDocuSignProfileByUserId.sh
+            startAdmin
+            ;;
+        Update_User_Product_Permission_Profile)
+            bash examples/Admin/eg008UpdateUserProductPermissionProfile.sh
+            startAdmin
+            ;;
+        Delete_User_Product_Permission_Profile)
+            bash examples/Admin/eg009DeleteUserProductPermissionProfile.sh
             startAdmin
             ;;
         *)
