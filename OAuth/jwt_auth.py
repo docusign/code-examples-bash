@@ -12,6 +12,8 @@ from docusign_esign import ApiClient
 from docusign_esign.client.api_exception import ApiException
 from docusign_esign.client import OAuthUserInfo, Account
 
+from utils import run_server
+
 PORT = 8080
 
 DS_JWT = {
@@ -48,7 +50,7 @@ class DSClient:
 
     ds_app = None
 
-    def _init():
+    def _init(cls):
         cls._jwt_auth()
 
     @classmethod
@@ -71,13 +73,11 @@ class DSClient:
         consent_url = f"https://{DS_JWT['authorization_server']}/oauth/auth?response_type=code&" \
                       f"scope={url_scopes}&client_id={DS_JWT['ds_client_id']}&redirect_uri={redirect_uri}"
 
-        print("Open the following URL in your browser to grant consent to the application:")
-        print(consent_url)
-        consent_granted = input("Consent granted? \n 1)Yes \n 2)No \n")
-        if consent_granted == "1":
-            cls._write_token(use_scopes)
-        else:
-            sys.exit("Please grant consent")
+        print(f"\nOpen the following URL in your browser to grant consent to the application:\n{consent_url}\n")
+
+        run_server()
+        cls._write_token(use_scopes)
+
 
     @classmethod
     def _write_token(cls, scopes):
