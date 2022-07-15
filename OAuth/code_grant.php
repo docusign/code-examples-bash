@@ -2,6 +2,13 @@
 
 require 'utils.php';
 
+$outputFile = "config/ds_access_token.txt";
+$apiAccountIdFile = 'config/API_ACCOUNT_ID';
+if (!file_exists($outputFile)) {
+    $outputFile = "../config/ds_access_token.txt";
+    $apiAccountIdFile = '../config/API_ACCOUNT_ID';
+}
+
 $api_version = "$argv[1]";
 
 if($api_version == "eSignature"):
@@ -76,7 +83,7 @@ $userInfo = http($authorizationEndpoint . 'userinfo', false, [
   // impersonation user guid
   // var_dump($userInfo->sub);
   $APIAccountId = $userInfo->accounts[0]->account_id;
-  file_put_contents('config/API_ACCOUNT_ID', $APIAccountId);
+  file_put_contents($apiAccountIdFile, $APIAccountId);
   echo "Account id: $APIAccountId\n";
   echo "Account id has been written to config/API_ACCOUNT_ID file...\n\n";
 ?>

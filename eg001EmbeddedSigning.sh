@@ -1,3 +1,4 @@
+#!/bin/bash
 # Use embedded signing
 #
 # Check that we're in a bash shell
@@ -5,13 +6,23 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+ds_access_token_path="config/ds_access_token.txt"
+api_account_id_path="config/API_ACCOUNT_ID"
+document_path="demo_documents/World_Wide_Corp_lorem.pdf"
+
+if [ ! -f $ds_access_token_path ]; then
+    ds_access_token_path="../config/ds_access_token.txt"
+    api_account_id_path="../config/API_ACCOUNT_ID"
+    document_path="../demo_documents/World_Wide_Corp_lorem.pdf"
+fi
+
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
-ACCESS_TOKEN=$(cat config/ds_access_token.txt)
+ACCESS_TOKEN=$(cat ${ds_access_token_path})
 
 # Set up variables for full code example
 # Note: Substitute these values with your own
-account_id=$(cat config/API_ACCOUNT_ID)
+ACCOUNT_ID=$(cat ${api_account_id_path})
 
 # ***DS.snippet.0.start
 # Step 2. Create the envelope.
@@ -28,7 +39,7 @@ response=$(mktemp /tmp/response-eg-001.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
 
 # Fetch doc and encode
-cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
+cat $document_path | base64 > $doc1_base64
 
 echo ""
 echo "Sending the envelope request to DocuSign..."
@@ -76,7 +87,7 @@ printf \
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
+     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes \
      --output ${response}
 
 echo ""
@@ -116,7 +127,7 @@ echo ""
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
+     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes/${envelope_id}/views/recipient \
      --output ${response})
 
 if [[ "$Status" -gt "201" ]] ; then
