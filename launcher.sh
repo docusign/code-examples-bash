@@ -238,6 +238,7 @@ function startSignature() {
         "Delayed_Routing" \
         "Signing_Via_SMS" \
         "Create_Signable_HTML_document" \
+        "In_Person_Signing" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -389,6 +390,10 @@ function startSignature() {
             ;;
         Create_Signable_HTML_document)
             bash examples/eSignature/eg038ResponsiveSigning.sh
+            startSignature
+            ;;
+        In_Person_Signing)
+            bash examples/eSignature/eg039InPersonSigning.sh
             startSignature
             ;;
         *)
