@@ -123,6 +123,29 @@ function monitor-login() {
 
 # Choose an API
 function choices() {
+    if [[ $QUICKSTART == *"true"* ]]; then
+        if [ -z ${firstPassComplete+x} ]; then
+            echo ""
+            echo "Quickstart Enabled, please wait"
+            echo ""
+
+            php ./OAuth/code_grant.php "eSignature"
+            
+            bash ./eg001EmbeddedSigning.sh
+
+            startSignature
+
+            mv ds_access_token.txt $token_file_name
+
+            ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
+            ACCESS_TOKEN=$(cat $token_file_name)
+            firstPassComplete="true"
+
+            export ACCOUNT_ID
+            export ACCESS_TOKEN
+        fi
+    fi
+    
     echo ""
     echo "Choose an API"
     PS3='Please make a selection: '
@@ -215,6 +238,7 @@ function startSignature() {
         "Delayed_Routing" \
         "Signing_Via_SMS" \
         "Create_Signable_HTML_document" \
+        "In_Person_Signing" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -366,6 +390,10 @@ function startSignature() {
             ;;
         Create_Signable_HTML_document)
             bash examples/eSignature/eg038ResponsiveSigning.sh
+            startSignature
+            ;;
+        In_Person_Signing)
+            bash examples/eSignature/eg039InPersonSigning.sh
             startSignature
             ;;
         *)
