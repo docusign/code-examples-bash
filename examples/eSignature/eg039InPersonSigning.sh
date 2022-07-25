@@ -32,8 +32,8 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --output ${response}
 
 HOST_EMAIL=`cat $response | grep email | sed 's/.*\"email\":\"//' | sed 's/\",.*//'`
+HOST_NAME=`cat $response | grep name | sed 's/.*\"name\":\"//' | sed 's/\",.*//'`
 
-read -p "Please enter the name of the host: " HOST_NAME
 read -p "Please enter the name of the in person signer: " IN_PERSON_SIGNER_NAME
 
 echo ""
