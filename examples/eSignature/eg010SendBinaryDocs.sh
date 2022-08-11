@@ -5,7 +5,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Check for a valid cc email and prompt the user if 
+# Check for a valid cc email and prompt the user if
 #CC_EMAIL and CC_NAME haven't been set in the config file.
 source ./examples/eSignature/lib/utils.sh
 CheckForValidCCEmail
@@ -17,6 +17,13 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 # Set up variables for full code example
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
+
+# Step 2 start
+boundary="multipartboundary_multipartboundary"
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
+    '--header' "Accept: application/json"
+    '--header' "Content-Type: multipart/form-data; boundary=${boundary}")
+# Step 2 end
 
 # ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
@@ -102,9 +109,9 @@ json='
 
 # Step 2. Assemble the multipart body
 CRLF="\r\n"
-boundary="multipartboundary_multipartboundary"
+
 # it is not easy to printf hyphens. See https://unix.stackexchange.com/q/22764/149244
-hyphens_cmd='printf "--" --' 
+hyphens_cmd='printf "--" --'
 
 eval "$hyphens_cmd" > $request_data
 printf "${boundary}" >> $request_data
@@ -150,12 +157,11 @@ printf "${boundary}" >> $request_data
 eval "$hyphens_cmd"  >> $request_data
 printf "${CRLF}"     >> $request_data
 
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: multipart/form-data; boundary=${boundary}" \
-     --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
-     --output $response
-# ***DS.snippet.0.end
+
+Status=$(curl --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
+"${Headers[@]}" \
+--data-binary @${request_data} \
+--output ${response})
 
 echo ""
 cat $response
@@ -168,4 +174,3 @@ echo ""
 echo ""
 echo "Done."
 echo ""
-
