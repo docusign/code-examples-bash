@@ -5,7 +5,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Check for a valid cc email and prompt the user if 
+# Check for a valid cc email and prompt the user if
 #CC_EMAIL and CC_NAME haven't been set in the config file.
 source ./examples/eSignature/lib/utils.sh
 CheckForValidCCEmail
@@ -17,6 +17,13 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 # Set up variables for full code example
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
+
+
+# Step 2 start
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
+    '--header' "Accept: application/json"
+    '--header' "Content-Type: application/json")
+# Step 2 end
 
 # Check that we have a template id
 if [ ! -f config/TEMPLATE_ID ]; then
@@ -32,41 +39,41 @@ base_path="https://demo.docusign.net/restapi"
 # ***DS.snippet.0.start
 # Step 1. Create the envelope request.
 # temp files:
+request_data=$(mktemp /tmp/request-eg-009.XXXXXX)
 response=$(mktemp /tmp/response-eg-009.XXXXXX)
 
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --data-binary \
-"{
-    \"templateId\": \"${template_id}\",
-    \"templateRoles\": [
+printf \
+'{
+    "templateId": "'"${template_id}"'",
+    "templateRoles": [
         {
-            \"email\": \"${SIGNER_EMAIL}\",
-            \"name\": \"${SIGNER_NAME}\",
-            \"roleName\": \"signer\"
+            "email": "'"${SIGNER_EMAIL}"'",
+            "name": "'"${SIGNER_NAME}"'",
+            "roleName": "signer"
         },
         {
-            \"email\": \"${CC_EMAIL}\",
-            \"name\": \"${CC_NAME}\",
-            \"roleName\": \"cc\"
+            "email": "'"${CC_EMAIL}"'",
+            "name": "'"${CC_NAME}"'",
+            "roleName": "cc"
         }
     ],
-    \"status\": \"sent\"
-}" \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
-     --output ${response}
-# ***DS.snippet.0.end
+    "status": "sent"
+}' >> $request_data
+
+Status=$(curl --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
+"${Headers[@]}" \
+--data-binary @${request_data} \
+--output ${response})
 
 echo ""
 echo "Response:"
 cat $response
 rm $response
+rm $request_data
 echo ""
 echo ""
 echo "Done."
 echo ""
-
-
