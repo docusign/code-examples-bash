@@ -130,7 +130,7 @@ function choices() {
             echo ""
 
             php ./OAuth/code_grant.php "eSignature"
-            
+
             bash ./eg001EmbeddedSigning.sh
 
             startSignature
@@ -145,7 +145,7 @@ function choices() {
             export ACCESS_TOKEN
         fi
     fi
-    
+
     echo ""
     echo "Choose an API"
     PS3='Please make a selection: '
@@ -239,6 +239,7 @@ function startSignature() {
         "Signing_Via_SMS" \
         "Create_Signable_HTML_document" \
         "In_Person_Signing" \
+        "Set_Document_Visibility" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -394,6 +395,10 @@ function startSignature() {
             ;;
         In_Person_Signing)
             bash examples/eSignature/eg039InPersonSigning.sh
+            startSignature
+            ;;
+        Set_Document_Visibility)
+            bash examples/eSignature/eg040SetDocumentVisibility.sh
             startSignature
             ;;
         *)
