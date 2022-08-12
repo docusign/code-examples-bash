@@ -19,12 +19,6 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 
-# Step 2 start
-declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
-    '--header' "Accept: application/json"
-    '--header' "Content-Type: application/json")
-# Step 2 end
-
 # Check that we have a template id
 if [ ! -f config/TEMPLATE_ID ]; then
     echo ""
@@ -35,15 +29,9 @@ fi
 template_id=`cat config/TEMPLATE_ID`
 
 base_path="https://demo.docusign.net/restapi"
-
-# ***DS.snippet.0.start
 # Step 1. Create the envelope request.
 # temp files:
 request_data=$(mktemp /tmp/request-eg-009.XXXXXX)
-response=$(mktemp /tmp/response-eg-009.XXXXXX)
-
-echo ""
-echo "Sending the envelope request to DocuSign..."
 
 printf \
 '{
@@ -63,10 +51,17 @@ printf \
     "status": "sent"
 }' >> $request_data
 
-Status=$(curl --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
-"${Headers[@]}" \
---data-binary @${request_data} \
---output ${response})
+
+
+response=$(mktemp /tmp/response-eg-009.XXXXXX)
+
+echo ""
+echo "Sending the envelope request to DocuSign..."
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data-binary @${request_data} \
+  --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
+  --output ${response}
 
 echo ""
 echo "Response:"
