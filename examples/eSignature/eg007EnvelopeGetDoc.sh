@@ -34,7 +34,7 @@ doc_choice=1
 output_file_extension=pdf
 echo "Select a document or document set to download:"
 PS3='Please make a selection: '
-options=("Document 1" "Document 2" "Document 3" "Certificate of Completion" "Documents combined together" "ZIP file" )
+options=("Document 1" "Document 2" "Document 3" "Certificate of Completion" "Documents combined together" "ZIP file" "PDF Portfolio" )
 select opt in "${options[@]}"
 do
     case $opt in
@@ -49,6 +49,11 @@ do
         "ZIP file")
             doc_choice=archive
             output_file_extension=zip
+            break
+            ;;
+        "PDF Portfolio")
+            doc_choice=portfolio
+            output_file_extension=pdf
             break
             ;;
         "Document 1")
