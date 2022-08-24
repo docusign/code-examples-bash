@@ -27,6 +27,11 @@ else
     exit 0
 fi
 
+# Step 2. Construct your API headers
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" 
+    '--header' "Content-Type: application/json"
+    '--header' "Accept: application/json")
+
 # Construct your Clickwrap JSON body
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
@@ -41,11 +46,10 @@ printf \
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
 
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-    --header "Content-Type: application/json" \
+curl --request PUT https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/versions/${VersionNumber} \
+    "${Headers[@]}" \
     --data-binary @${request_data} \
-    --request PUT https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/versions/${VersionNumber} \
-    --output $response
+    --output ${response}
 
 echo ""
 echo "Response:"

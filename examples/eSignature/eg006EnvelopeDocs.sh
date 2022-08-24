@@ -13,6 +13,11 @@ fi
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
+# Step 2: Construct your API headers.
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
+					'--header' "Content-Type: application/json")
+
+
 # Set up variables for full code example
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
@@ -28,19 +33,26 @@ if [ ! -f config/ENVELOPE_ID ]; then
 fi
 envelope_id=`cat config/ENVELOPE_ID`
 
+# Step 3: a) Call the eSignature API
+#         b) Display the JSON response    
+# Create a temporary file to store the response
+
+response=$(mktemp /tmp/response-perm.XXXXXX)
+
+Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/documents \
+     "${Headers[@]}" \
+    --output ${response})
+
 echo ""
 echo "Sending the EnvelopeDocuments::list request to DocuSign..."
 echo "Results:"
 echo ""
-
-# ***DS.snippet.0.start
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/documents
-# ***DS.snippet.0.end
-
+cat $response 
 echo ""
 echo ""
 echo "Done."
 echo ""
+
+# Remove the temporary file
+rm "$response"
 
