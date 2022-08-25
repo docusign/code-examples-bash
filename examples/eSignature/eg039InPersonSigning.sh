@@ -40,7 +40,6 @@ echo ""
 echo "Sending the envelope request to DocuSign..."
 
 # Step 2 start
-
 printf \
 '{
     "emailSubject": "Please host this in-person signing session",
@@ -77,11 +76,9 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
-
 # Step 2 end
 
 # Step 3 start
-
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
@@ -95,7 +92,6 @@ echo ""
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 echo "EnvelopeId: ${envelope_id}"
-
 # Step 3 end
 
 # Create a recipient view (an embedded signing view) that the host will open to initiate in person signing
@@ -110,7 +106,6 @@ request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
 response=$(mktemp /tmp/response-eg-001.XXXXXX)
 
 # Step 4 start
-
 printf \
 '{
     "returnUrl": "http://httpbin.org/get",
@@ -127,14 +122,12 @@ echo "Requesting the url for the embedded signing..."
 echo ""
 
 # Step 5 start
-
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
      --output ${response})
 
-# Step 5 end
 
 if [[ "$Status" -gt "201" ]] ; then
     echo ""
@@ -145,7 +138,7 @@ if [[ "$Status" -gt "201" ]] ; then
 fi
 
 signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
-# ***DS.snippet.0.end
+# Step 5 end
 echo ""
 echo "The embedded signing URL is ${signing_url}"
 echo ""
