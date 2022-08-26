@@ -7,7 +7,7 @@ fi
 
 
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -22,13 +22,18 @@ request_data=$(mktemp /tmp/request-eg-016.XXXXXX)
 response=$(mktemp /tmp/response-eg-016.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-016-doc1.XXXXXX)
 
+# Construct your API headers
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
+    '--header' "Accept: application/json"
+    '--header' "Content-Type: application/json")
+
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
 # Fetch doc and encode
 cat demo_documents/World_Wide_Corp_salary.docx | base64 > $doc1_base64
 
-# Step 2. Construct the JSON body for your envelope
+# Construct the JSON body for your envelope
 printf \
 '{
     "customFields": {
@@ -108,14 +113,13 @@ printf \
     },
     "status": "Sent"
 }' >> $request_data
-# Step 3: a) Create your authorization headers
-#         b) Send a POST request to the Envelopes endpoint
+# a) Create your authorization headers
+# b) Send a POST request to the Envelopes endpoint
 
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
-     --output ${response}
+Status=$(curl --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
+"${Headers[@]}" \
+--data-binary @${request_data} \
+--output ${response})
 
 echo ""
 echo "Response:"
@@ -132,7 +136,7 @@ echo "EnvelopeId: ${envelope_id}"
 echo ${envelope_id} > config/ENVELOPE_ID
 
 
-# Step 4. Create a recipient view (an embedded signing view)
+# Create a recipient view (an embedded signing view)
 #         that the signer will directly open in their browser to sign
 #
 # The return URL is normally your own web app. DocuSign will redirect
@@ -160,7 +164,7 @@ echo "Response:"
 cat $response
 echo ""
 
-signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//'# | sed 's/\".*//'`
+signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 
 
 echo ""
