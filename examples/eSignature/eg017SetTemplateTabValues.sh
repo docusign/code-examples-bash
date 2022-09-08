@@ -152,7 +152,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
     "returnUrl": "http://httpbin.org/get",
     "authenticationMethod": "none",
     "email": "'"${SIGNER_EMAIL}"'",
-    "userName"'"${SIGNER_NAME}"'",
+    "userName": "'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
