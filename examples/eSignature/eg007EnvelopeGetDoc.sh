@@ -11,6 +11,7 @@ fi
 
 # Obtain your OAuth token
 # Note: Substitute these values with your own
+# Step 1 start
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
@@ -20,7 +21,14 @@ account_id=$(cat config/API_ACCOUNT_ID)
 output_file="envelope_document."
 
 base_path="https://demo.docusign.net/restapi"
+# Step 1 end
 
+# Step 2 start
+# Construct your API headers
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
+					'--header' "Accept: application/json" \
+					'--header' "Content-Type: application/json")
+# Step 2 end
 # Check that we have an envelope id
 if [ ! -f config/ENVELOPE_ID ]; then
     echo ""
@@ -76,10 +84,9 @@ echo "Sending the EnvelopeDocuments::get request to DocuSign..."
 echo ""
 
 # Step 3 start
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/documents/${doc_choice} \
-     --output ${output_file}${output_file_extension}
+Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/documents/${doc_choice} \
+     "${Headers[@]}" \
+     --output ${output_file}${output_file_extension})
 # Step 3 end
 
 echo ""
