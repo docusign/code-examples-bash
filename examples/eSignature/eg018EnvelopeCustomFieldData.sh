@@ -8,17 +8,24 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-
-
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
+# Step 1 start
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
+# Step 1 end
 
 #Set up variables for full code example
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
+
+# Construct your API headers
+# Step 2 start
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
+					'--header' "Accept: application/json" \
+					'--header' "Content-Type: application/json")
+# Step 2 end
 
 # Check that we have an template ID
 if [ ! -f config/ENVELOPE_ID ]; then
@@ -32,13 +39,14 @@ envelope_id=`cat config/ENVELOPE_ID`
 echo ""
 echo "Sending the EnvelopeCustomFields::list request to DocuSign..."
 
-#Step 2: a) Create your authorization headers
-#        b) Send a GET request to the Envelopes endpoint
+# Send a GET request to the Envelopes endpoint
+# Step 3 start
 response=$(mktemp /tmp/response-eg-018.XXXXXX)
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/custom_fields \
-     --output ${response}
+Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/custom_fields \
+     "${Headers[@]}" \
+     --output ${response})
+# Step 3 end
+
 echo "Results:"
 echo ""
 
