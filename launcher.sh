@@ -482,6 +482,7 @@ function startClick() {
         "Create_New_Clickwrap_Version" \
         "Get_List_Of_Clickwraps" \
         "Get_Clickwrap_Responses" \
+        "Create_Has_Agreed" \
         "Pick_An_API"; do
         case "$CHOICE" in
 
@@ -508,6 +509,11 @@ function startClick() {
             bash examples/Click/eg005GetClickwrapResponses.sh
             startClick
             ;;
+        Create_Has_Agreed)
+            bash examples/Click/eg006CreateHasAgreed.sh
+            startClick
+            ;;
+
         *)
             echo "Default action..."
             startClick
