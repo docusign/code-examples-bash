@@ -24,6 +24,8 @@ else
     exit 0
 fi
 
+
+
 # Step 2. Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
@@ -39,7 +41,7 @@ echo "Please input a full name: "
 read full_name
 echo "Please input an email address: "
 read email_address
-echo "Please input a copmany name: "
+echo "Please input a company name: "
 read company_name
 echo "Please input a job title: "
 read title
@@ -69,10 +71,22 @@ curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}
     --data-binary @${request_data} \
     --output ${response}
 
+
+message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
+echo "the message is: $message"
+
+if [[ "${message}" == *"There are no active versions for clickwrapId"* ]] ;then
+echo "Clickwrap needs to be activated. Please run step 2 - Activate Clickwrap"
+
+else
 echo ""
 echo "Response:"
 cat $response
 echo ""
+
+
+fi
+
 
 # Remove the temporary file
 rm "$response"
