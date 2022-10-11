@@ -68,7 +68,7 @@ Status=$(curl -w '%{http_code}' -i --request POST "https://lens-d.docusign.net/a
 # along with the API response
 if [[ "$Status" -gt "201" ]] ; then
     echo ""
-	echo "An error was returned."
+	echo "You do not have Monitor enabled for your account, follow https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/ to get it enabled."
 	echo ""
 	exit 1
 fi
