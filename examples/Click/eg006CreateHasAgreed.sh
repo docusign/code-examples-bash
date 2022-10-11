@@ -21,14 +21,14 @@ if [ -f "config/CLICKWRAP_ID" ]; then
     if [ -z "$clickwrap_id" ]; then
 
     echo ""
-    echo "Clickwrap ID required. Please run code example 1 - Create Clickwrap"
+    echo "Clickwrap ID required. Please run code to Create Clickwrap"
     exit 0
 fi
 
 
 else
     echo ""
-    echo "Clickwrap ID required. Please run code example 1 - Create Clickwrap"
+    echo "Clickwrap ID required. Please run code to Create Clickwrap"
     exit 0
 fi
 
@@ -85,6 +85,11 @@ message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
 
 if [[ "${message}" == *"There are no active versions for clickwrapId"* ]] ;then
 echo "Clickwrap must be activated. Please run code example 2 - Activate Clickwrap"
+exit 0
+
+elif [[ "${message}" == *"Unable to find Clickwrap with id"* ]] ;then
+echo "Clickwrap ID required. Please run code to Create Clickwrap"
+exit 0
 
 else
 echo ""
