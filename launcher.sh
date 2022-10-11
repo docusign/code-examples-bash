@@ -124,7 +124,7 @@ function monitor-login() {
 # Choose an API
 function choices() {
     if [[ $QUICKSTART == *"true"* ]]; then
-        if [ -z ${firstPassComplete+x} ]; then
+        if [[ $1 != "pick_api" ]]; then
             echo ""
             echo "Quickstart Enabled, please wait"
             echo ""
@@ -139,7 +139,6 @@ function choices() {
 
             ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
             ACCESS_TOKEN=$(cat $token_file_name)
-            firstPassComplete="true"
 
             export ACCOUNT_ID
             export ACCESS_TOKEN
@@ -243,7 +242,7 @@ function startSignature() {
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
-            choices
+            choices "pick_api"
             ;;
         Embedded_Signing)
             bash eg001EmbeddedSigning.sh
