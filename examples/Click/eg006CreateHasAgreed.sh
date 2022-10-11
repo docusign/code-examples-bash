@@ -18,6 +18,14 @@ account_id=$(cat config/API_ACCOUNT_ID)
 # Get a Clickwrap ID
 if [ -f "config/CLICKWRAP_ID" ]; then
     clickwrap_id=$(cat config/CLICKWRAP_ID)
+    if [ -z "$clickwrap_id" ]; then
+
+    echo ""
+    echo "Clickwrap ID is needed. Please run step 1 - Create Clickwrap..."
+    exit 0
+fi
+
+
 else
     echo ""
     echo "Clickwrap ID is needed. Please run step 1 - Create Clickwrap..."
@@ -73,7 +81,7 @@ curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}
 
 
 message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
-echo "the message is: $message"
+
 
 if [[ "${message}" == *"There are no active versions for clickwrapId"* ]] ;then
 echo "Clickwrap needs to be activated. Please run step 2 - Activate Clickwrap"
