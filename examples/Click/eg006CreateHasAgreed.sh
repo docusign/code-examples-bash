@@ -7,7 +7,7 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -21,26 +21,26 @@ if [ -f "config/CLICKWRAP_ID" ]; then
     if [ -z "$clickwrap_id" ]; then
 
     echo ""
-    echo "Clickwrap ID is needed. Please run step 1 - Create Clickwrap..."
+    echo "Clickwrap ID required. Please run code example 1 - Create Clickwrap"
     exit 0
 fi
 
 
 else
     echo ""
-    echo "Clickwrap ID is needed. Please run step 1 - Create Clickwrap..."
+    echo "Clickwrap ID required. Please run code example 1 - Create Clickwrap"
     exit 0
 fi
 
 
 
-# Step 2. Construct your API headers
+# Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
 
 
-# Step 3. Construct the request body
+# Construct the request body
 # Create a temporary file to store the JSON body
 
 echo "Please input a client User Id (your own unique identifier) for the clickwrap: "
@@ -68,7 +68,7 @@ printf \
   }
   }' >$request_data
 
-# Step 4. Call the Click API
+# Call the Click API
 # a) Make a POST call to the agreements endpoint to dynamically generate 
 # b) Display the returned JSON structure of the response
 # Create a temporary file to store the response
@@ -84,7 +84,7 @@ message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
 
 
 if [[ "${message}" == *"There are no active versions for clickwrapId"* ]] ;then
-echo "Clickwrap needs to be activated. Please run step 2 - Activate Clickwrap"
+echo "Clickwrap must be activated. Please run code example 2 - Activate Clickwrap"
 
 else
 echo ""
