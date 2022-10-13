@@ -508,8 +508,8 @@ function startClick() {
             bash examples/Click/eg005GetClickwrapResponses.sh
             startClick
             ;;
-        Create_Has_Agreed)
-            bash examples/Click/eg006CreateHasAgreed.sh
+        Embedded_Clickwrap)
+            bash examples/Click/eg006EmbeddedClickwrap.sh
             startClick
             ;;
 

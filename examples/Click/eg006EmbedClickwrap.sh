@@ -1,6 +1,6 @@
 #!/bin/bash
-# https://developers.docusign.com/docs/click-api/how-to/get-create-has-agreed
-# Checks if a user has agreed to a clickwrap and returns a response with the agreement URL.
+# https://developers.docusign.com/docs/click-api/how-to/embed-clickwrap
+# Shows how to embed a clickwrap with dynamic data
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -88,7 +88,8 @@ echo "Clickwrap must be activated. Please run code example 2 - Activate Clickwra
 exit 0
 
 elif [[ "${message}" == *"Unable to find Clickwrap with id"* ]] ;then
-echo "Clickwrap ID required. Please run code to Create Clickwrap"
+echo "mbed
+"
 exit 0
 
 else
