@@ -481,7 +481,7 @@ function startClick() {
         "Create_New_Clickwrap_Version" \
         "Get_List_Of_Clickwraps" \
         "Get_Clickwrap_Responses" \
-        "Create_Has_Agreed" \
+        "Embedded_Clickwrap" \
         "Pick_An_API"; do
         case "$CHOICE" in
 
