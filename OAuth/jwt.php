@@ -110,6 +110,7 @@ if (isset($response->error)) {
         );
 
         if (!isset($response->access_token)) {
+            var_dump($response);
             echo "\nError fetching access token\n";
             exit(2);
         }
