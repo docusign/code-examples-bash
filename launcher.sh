@@ -30,7 +30,7 @@ function choose_language(){
 
         \
         PHP)
-            php ./OAuth/code_grant.php "$api_version"
+            php ./OAuth/jwt.php "$api_version"
             continu $api_version
             ;;
 
