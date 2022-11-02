@@ -12,11 +12,11 @@ if (!file_exists($outputFile)) {
 $api_version = "$argv[1]";
 
 if($api_version == "eSignature"):
-  $scope = 'signature impersonation';
+  $scope = 'signature';
 elseif($api_version == "Rooms"):
-  $scope = 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms';
+  $scope = 'dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms';
 elseif($api_version == "Click"):
-  $scope = 'signature click.manage click.send';
+  $scope = 'click.manage click.send';
 elseif($api_version == "Monitor"):
   echo "Auth Code Grant is not supported for the Monitor API.";
   $scope = "signature impersonation";
