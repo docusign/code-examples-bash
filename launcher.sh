@@ -15,6 +15,24 @@ if [ -f "config/settings.txt" ]; then
     . config/settings.txt
 fi
 
+function isCFR() {
+    response=$(mktemp /tmp/response-eg-001.XXXXXX)
+    ACCOUNT_ID="$(cat config/API_ACCOUNT_ID)"
+    ACCESS_TOKEN=$(cat config/ds_access_token.txt)
+
+    curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
+         --header "Content-Type: application/json" \
+         --request GET https://demo.docusign.net/restapi/v2.1/accounts/${ACCOUNT_ID}/ \
+         --output ${response}
+    
+    ACCOUNT_INFO=`cat $response`
+    if [[ $ACCOUNT_INFO =~ "\"status21CFRPart11\":\"enabled\"" ]]; then
+        CFR_STATUS="enabled"
+    fi
+    export CFR_STATUS
+    
+}
+
 function resetToken() {
     rm -f config/ds_access_token* || true
 }
@@ -88,6 +106,7 @@ function login() {
 
     export ACCOUNT_ID
     export ACCESS_TOKEN
+
 }
 
 # The Monitor API currently only supports JWT (JSON Web Token)
@@ -130,10 +149,14 @@ function choices() {
             echo ""
 
             php ./OAuth/code_grant.php "eSignature"
-
-            bash ./eg001EmbeddedSigning.sh
-
-            startSignature
+            isCFR
+            if [[ $CFR_STATUS == *"enabled"* ]]; then
+                bash ./examples/eSignature/eg041EmbeddedSigningCFR.sh
+                startCFRSignature
+            else
+                bash ./eg001EmbeddedSigning.sh
+                startSignature
+            fi
 
             mv ds_access_token.txt $token_file_name
 
@@ -160,7 +183,6 @@ function choices() {
         eSignature)
             api_version="eSignature"
             login $api_version
-            startSignature
             ;;
 
         Rooms)
@@ -220,7 +242,7 @@ function startSignature() {
         "Signing_Via_Email_With_Access_Code" \
         "Signing_Via_Email_With_Phone_Authentication" \
         "================Do_Not_Use==================" \
-        "Signing_Via_Email_With_Knoweldge_Based_Authentication" \
+        "Signing_Via_Email_With_Knowledge_Based_Authentication" \
         "Signing_Via_Email_With_IDV_Authentication" \
         "Creating_Permission_Profiles" \
         "Setting_Permission_Profiles" \
@@ -324,8 +346,8 @@ function startSignature() {
             bash examples/eSignature/eg020SigningViaEmailWithPhoneAuthentication.sh
             startSignature
             ;;
-        Signing_Via_Email_With_Knoweldge_Based_Authentication)
-            bash examples/eSignature/eg022SigningViaEmailWithKnoweldgeBasedAuthentication.sh
+        Signing_Via_Email_With_Knowledge_Based_Authentication)
+            bash examples/eSignature/eg022SigningViaEmailWithKnowledgeBasedAuthentication.sh
             startSignature
             ;;
         Signing_Via_Email_With_IDV_Authentication)
@@ -403,6 +425,173 @@ function startSignature() {
         *)
             echo ""
             startSignature
+            ;;
+        esac
+    done
+}
+
+function startCFRSignature() {
+    echo "Select the action"
+    PS3='Select the action : '
+    select CHOICE in \
+        "Embedded_Signing_CFR_Part11" \
+        "Signing_Via_Email" \
+        "List_Envelopes" \
+        "Envelope_Info" \
+        "Envelope_Recipients" \
+        "Envelope_Docs" \
+        "Envelope_Get_Doc" \
+        "Create_Template" \
+        "Use_Template" \
+        "Send_Binary_Docs" \
+        "Embedded_Sending" \
+        "Embedded_Console" \
+        "Add_Doc_To_Template" \
+        "Envelope_Tab_Data" \
+        "Set_Tab_Values" \
+        "Set_Template_Tab_Values" \
+        "Envelope_Custom_Field_Data" \
+        "Signing_Via_Email_With_Knowledge_Based_Authentication" \
+        "Signing_Via_Email_With_Access_Code" \
+        "Signing_Via_Email_With_IDV_Authentication" \
+        "Creating_Permission_Profiles" \
+        "Setting_Permission_Profiles" \
+        "Updating_Individual_Permission" \
+        "Deleting_Permissions" \
+        "Creating_A_Brand" \
+        "Applying_Brand_Envelope" \
+        "Applying_Brand_Template" \
+        "Bulk_Sending" \
+        "Scheduled_Sending" \
+        "Create_Signable_HTML_document" \
+        "Pick_An_API"; do
+        case "$CHOICE" in
+        Pick_An_API)
+            choices "pick_api"
+            ;;
+        Embedded_Signing_CFR_Part11)
+            bash examples/eSignature/eg041EmbeddedSigningCFR.sh
+            startCFRSignature
+            ;;
+        Signing_Via_Email)
+            bash examples/eSignature/eg002SigningViaEmail.sh
+            startCFRSignature
+            ;;
+        List_Envelopes)
+            bash examples/eSignature/eg003ListEnvelopes.sh
+            startCFRSignature
+            ;;
+        Envelope_Info)
+            bash examples/eSignature/eg004EnvelopeInfo.sh
+            startCFRSignature
+            ;;
+        Envelope_Recipients)
+            bash examples/eSignature/eg005EnvelopeRecipients.sh
+            startCFRSignature
+            ;;
+        Envelope_Docs)
+            bash examples/eSignature/eg006EnvelopeDocs.sh
+            startCFRSignature
+            ;;
+        Envelope_Get_Doc)
+            bash examples/eSignature/eg007EnvelopeGetDoc.sh
+            startCFRSignature
+            ;;
+        Create_Template)
+            bash examples/eSignature/eg008CreateTemplate.sh
+            startCFRSignature
+            ;;
+        Use_Template)
+            bash examples/eSignature/eg009UseTemplate.sh
+            startCFRSignature
+            ;;
+        Send_Binary_Docs)
+            bash examples/eSignature/eg010SendBinaryDocs.sh
+            startCFRSignature
+            ;;
+        Embedded_Sending)
+            bash examples/eSignature/eg011EmbeddedSending.sh
+            startCFRSignature
+            ;;
+        Embedded_Console)
+            bash examples/eSignature/eg012EmbeddedConsole.sh
+            startCFRSignature
+            ;;
+        Add_Doc_To_Template)
+            bash examples/eSignature/eg013AddDocToTemplate.sh
+            startCFRSignature
+            ;;
+        Envelope_Tab_Data)
+            bash examples/eSignature/eg015EnvelopeTabData.sh
+            startCFRSignature
+            ;;
+        Set_Tab_Values)
+            bash examples/eSignature/eg016SetTabValues.sh
+            startCFRSignature
+            ;;
+        Set_Template_Tab_Values)
+            bash examples/eSignature/eg017SetTemplateTabValues.sh
+            startCFRSignature
+            ;;
+        Envelope_Custom_Field_Data)
+            bash examples/eSignature/eg018EnvelopeCustomFieldData.sh
+            startCFRSignature
+            ;;
+        Signing_Via_Email_With_Access_Code)
+            bash examples/eSignature/eg019SigningViaEmailWithAccessCode.sh
+            startCFRSignature
+            ;;
+        Signing_Via_Email_With_Knowledge_Based_Authentication)
+            bash examples/eSignature/eg022SigningViaEmailWithKnowledgeBasedAuthentication.sh
+            startCFRSignature
+            ;;
+        Signing_Via_Email_With_IDV_Authentication)
+            bash examples/eSignature/eg023SigningViaEmailWithIDVAuthentication.sh
+            startCFRSignature
+            ;;
+        Creating_Permission_Profiles)
+            bash examples/eSignature/eg024CreatingPermissionProfiles.sh
+            startCFRSignature
+            ;;
+        Setting_Permission_Profiles)
+            bash examples/eSignature/eg025SettingPermissionProfiles.sh
+            startCFRSignature
+            ;;
+        Updating_Individual_Permission)
+            bash examples/eSignature/eg026UpdatingIndividualPermission.sh
+            startCFRSignature
+            ;;
+        Deleting_Permissions)
+            bash examples/eSignature/eg027DeletingPermissions.sh
+            startCFRSignature
+            ;;
+        Creating_A_Brand)
+            bash examples/eSignature/eg028CreatingABrand.sh
+            startCFRSignature
+            ;;
+        Applying_Brand_Envelope)
+            bash examples/eSignature/eg029ApplyingBrandEnvelope.sh
+            startCFRSignature
+            ;;
+        Applying_Brand_Template)
+            bash examples/eSignature/eg030ApplyingBrandTemplate.sh
+            startCFRSignature
+            ;;
+        Bulk_Sending)
+            bash examples/eSignature/eg031BulkSending.sh
+            startCFRSignature
+            ;;
+        Scheduled_Sending)
+            bash examples/eSignature/eg035ScheduledSending.sh
+            startCFRSignature
+            ;;
+        Create_Signable_HTML_document)
+            bash examples/eSignature/eg038ResponsiveSigning.sh
+            startCFRSignature
+            ;;
+        *)
+            echo ""
+            startCFRSignature
             ;;
         esac
     done
@@ -613,6 +802,12 @@ function startAdmin() {
 }
 
 function continu() {
+
+    isCFR
+    if [[ $CFR_STATUS == *"enabled"* ]]; then
+        startCFRSignature
+    fi
+
     api_version=$1
     if [[ $api_version == "eSignature" ]]
     then
