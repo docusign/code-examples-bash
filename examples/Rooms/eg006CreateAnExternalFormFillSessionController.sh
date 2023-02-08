@@ -60,7 +60,8 @@ request_data=$(mktemp /tmp/request-rooms.XXXXXX)
 printf \
     '{
         "roomId": '$room_id',
-        "formId": "'$library_form_id'"
+        "formIds": ["'$library_form_id'"],
+        "xFrameAllowedUrl": "https://iframetester.com"
     }' >$request_data
 
 # Call the v2 Rooms API
@@ -73,9 +74,27 @@ curl --request POST https://demo.rooms.docusign.com/restapi/v2/accounts/${accoun
     --output ${response}
 
 echo ""
-echo "Response:"
+echo "URL to be Embedded:"
 cat $response
 echo ""
+echo ""
+
+embed_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
+redirect_url="https://iframetester.com/?url=${embed_url}"
+echo ""
+
+echo "The embedded form URL is ${redirect_url}"
+echo ""
+echo "Attempting to automatically open your browser..."
+
+if which xdg-open &> /dev/null  ; then
+  xdg-open "$redirect_url"
+elif which open &> /dev/null    ; then
+  open "$redirect_url"
+elif which start &> /dev/null   ; then
+  start "$redirect_url"
+fi
+
 
 # Remove the temporary files
 rm "$request_data"
