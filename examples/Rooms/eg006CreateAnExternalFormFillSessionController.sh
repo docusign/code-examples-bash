@@ -73,11 +73,17 @@ curl --request POST https://demo.rooms.docusign.com/restapi/v2/accounts/${accoun
     --data-binary @${request_data} \
     --output ${response}
 
-echo ""
-echo "URL to be Embedded:"
-cat $response
-echo ""
-echo ""
+if grep -q FORM_NOT_IN_ROOM "$response"
+then
+    echo ""
+    echo "" Problem: Form is not in the room. Please run example 4....
+    exit 0
+else
+    echo ""
+    echo "URL to be Embedded:"
+    cat $response
+    echo ""
+fi
 
 embed_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 redirect_url="https://iframetester.com/?url=${embed_url}"
