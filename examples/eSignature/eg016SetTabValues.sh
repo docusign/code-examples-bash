@@ -15,7 +15,7 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
-base_path="https://demo.docusign.net/restapi"
+base_path="https://stage.docusign.net/restapi"
 
 # Temp files:
 request_data=$(mktemp /tmp/request-eg-016.XXXXXX)
@@ -95,18 +95,28 @@ printf \
                     "tabId": "familiar_name",
                     "tabLabel": "Familiar name",
                     "value": "'"${SIGNER_NAME}"'"
-                }, {
-                    "anchorString": "/salary/",
-                    "anchorUnits": "pixels",
-                    "anchorXOffset": "5",
-                    "anchorYOffset": "-9",
+                }],
+                "numericalTabs" : [
+                 {
+                    "pageNumber" : "1",
+                    "documentID" : "1",
+                    "xPosition" : "210",
+                    "yPosition" : "235",
+                    "validationType" : "Currency",
                     "bold": "true",
                     "font": "helvetica",
                     "fontSize": "size11",
                     "locked": "true",
                     "tabId": "salary",
                     "tabLabel": "Salary",
-                    "value": "$123,000.00"
+                    "numericalValue": "123000",
+                    "localePolicy" : {
+                      "cultureName" : "en-US",
+                      "currencyCode": "usd",
+                      "currencyPositiveFormat" : "csym_1_comma_234_comma_567_period_89",
+                      "currencyNegativeFormat" : "minus_csym_1_comma_234_comma_567_period_89",
+                      "useLongCurrencyFormat" : "true"
+                    }
                 }]
             }
         }]
