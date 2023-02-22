@@ -125,6 +125,10 @@ echo "Response:"
 cat $response
 echo ""
 
+# Save a Room ID to file
+roomId=$(cat $response | grep roomId | sed 's/.*\"roomId\"://' | sed 's/,.*//')
+echo $roomId >config/ROOM_ID
+
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
