@@ -61,36 +61,29 @@ if [[ "$Status" -gt "200" ]]; then
     exit 1
 fi
 
-for form in `cat $response | jq -c '.forms[]'`; do
-    form_id=`echo $form | jq -c '.libraryFormId' | tr -d '"'`
-    form_name=`echo $form | jq -c '.name' | tr -d '"'`
+form_name=`cat $response | grep -o -P '(?<=name\":\").*?(?=\")'`
+form_ids=`cat $response | grep -o -P '(?<=libraryFormId\":).*?(?=\,)'`
 
-    form_name_to_id_map[$form_name]=$form_id
-    form_names+=($form_name)
-done
+arr_form_ids=($form_ids)
+form_count=$(echo "$form_name" | grep -c '^')
+
+if [ "$form_count" -eq "1" ]; then
+    FORM_ID=$form_ids
+else
+    echo ""
+    PS3='Select a form by the form name: '
+    IFS=$'\n'
+    select form in $form_name; do
+        if [ "$REPLY" -gt "0" ] && [ "$REPLY" -le "$form_count" ]; then
+            FORM_ID=${arr_form_ids[$REPLY-1]//\"/}
+            break
+        fi
+    done
+fi
 
 echo ""
-echo "Select a form by the form name:"
-i=1
-for form_name in "${form_names[@]}"; do
-    echo "$i) $form_name"
-    i=$((i+1))
-done
-
-is_valid_num=false
-while [[ $is_valid_num == false ]]; do
-    echo ""
-
-    read -p "Select a form: " chosen_form
-
-    if [[ $chosen_form -lt 1 || $chosen_form -gt ${#form_names[@]} ]]; then
-        echo "Please, pick one of the suggested options."
-    else
-        is_valid_num=true
-        chosen_form=$((chosen_form-1))
-        FORM_ID=${form_name_to_id_map[${form_names[chosen_form]}]}
-    fi
-done
+echo "FORM_ID: " $FORM_ID
+echo ""
 # Step 3 End
 
 # Call the Rooms API to look up a list of form group IDs
@@ -109,37 +102,36 @@ echo "Response:"
 cat $response
 echo ""
 
-FORM_GROUP_ID=""
+form_group_name=`cat $response | grep -o -P '(?<=name\":\").*?(?=\")'`
 
-# Check if form group id was selected. If no id's where picked - ask user to create a new one
-if [ -z "$response" ]; then
-    echo " Form group ID is needed. Please run step 7 - Create a form group..."
+form_group_ids=`cat $response | grep -o -P '(?<=formGroupId\":).*?(?=\,)'`
+
+arr_form_group_ids=($form_group_ids)
+form_group_count=$(echo "$form_group_name" | grep -c '^')
+
+if [ -z "$form_group_name" ]; then
+    echo ""
+    echo "Error:"
+    echo ""
+    echo "Form group ID is needed. Please run step 7 - Create a form group..."
     exit 0
+elif [ "$form_count" -eq "1" ]; then
+    FORM_GROUP_ID=$form_group_ids
 else
-    i=1
-    echo "Select a form group:"
-
-    for line in `cat $response | jq -c '.formGroups[].name'`; do
-        echo -n "$i) "
-        echo $line | tr -d '"'
-        i=$((i+1))
-    done
-
-    i=$((i-1))
-
-    is_valid_num=false
-    while [[ $is_valid_num == false ]]; do
-        read -p "Select a form group: " chosen_form_group
-
-        if [[ $chosen_form_group -lt 1 || $chosen_form_group -gt $i ]]; then
-            echo "Please, pick one of the suggested options."
-        else
-            is_valid_num=true
-            i=$((i-1))
-            FORM_GROUP_ID=$(cat $response | jq -c --argjson index $i '.formGroups[$index].formGroupId')
+    echo ""
+    PS3="Select a form group: "
+    IFS=$'\n'
+    select form_group in $form_group_name; do
+        if [ "$REPLY" -gt "0" ] && [ "$REPLY" -le "$form_group_count" ]; then
+            FORM_GROUP_ID=${arr_form_group_ids[$REPLY-1]//\"/}
+            break
         fi
     done
 fi
+
+echo ""
+echo "FORM_GROUP_ID: " $FORM_GROUP_ID
+echo ""
 
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-rooms-008.XXXXXX)
@@ -155,7 +147,7 @@ printf \
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rooms.XXXXXX)
 # Step 6 Start
-Status=$(curl -w '%{http_code}' --request POST ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups/${FORM_GROUP_ID//\"/}/assign_form "${Headers[@]}" --data-binary @${request_data} --output ${response})
+Status=$(curl -w '%{http_code}' --request POST ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups/${FORM_GROUP_ID}/assign_form "${Headers[@]}" --data-binary @${request_data} --output ${response})
 # Step 6 End
 
 if [[ "$Status" -gt "204" ]]; then
