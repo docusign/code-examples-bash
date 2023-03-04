@@ -29,7 +29,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 if [ -f "config/ROOM_ID" ]; then
     room_id=$(cat config/ROOM_ID)
 else
-    echo "" Room ID is needed. Please run step 1 or 2...
+    echo "" Problem: Create a room using example 1.
     exit 0
 fi
 
@@ -76,7 +76,7 @@ curl --request POST https://demo.rooms.docusign.com/restapi/v2/accounts/${accoun
 if grep -q FORM_NOT_IN_ROOM "$response"
 then
     echo ""
-    echo "" Problem: Form is not in the room. Please run example 4....
+    echo "" Problem: Selected room does not have any forms. Add a form to a room using example 4.
     exit 0
 else
     echo ""
