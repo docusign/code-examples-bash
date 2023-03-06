@@ -20,9 +20,6 @@ function GetRoleId()
     if [ "$adminFound" == true ]; then
         roleId=${arrRoleIds[$index]}
         echo $roleId  
-    # else
-    #     workflowId=false
-    #     echo $roleId
     fi
 }
 
