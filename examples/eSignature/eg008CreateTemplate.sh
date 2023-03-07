@@ -15,7 +15,7 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
-base_path="https://stage.docusign.net/restapi"
+base_path="https://demo.docusign.net/restapi"
 
 # ***DS.snippet.0.start
 # Step 1. List the account's templates
