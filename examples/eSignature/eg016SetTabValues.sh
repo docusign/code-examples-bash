@@ -95,18 +95,31 @@ printf \
                     "tabId": "familiar_name",
                     "tabLabel": "Familiar name",
                     "value": "'"${SIGNER_NAME}"'"
-                }, {
-                    "anchorString": "/salary/",
-                    "anchorUnits": "pixels",
-                    "anchorXOffset": "5",
-                    "anchorYOffset": "-9",
+                }],
+                "numericalTabs" : [
+                 {
+                    "pageNumber" : "1",
+                    "documentID" : "1",
+                    "xPosition" : "210",
+                    "yPosition" : "235",
+                    "height" : "20",
+                    "width" : "70",
+                    "minNumericalValue" : "0",
+                    "maxNumericalValue" : "1000000",
+                    "validationType" : "Currency",
                     "bold": "true",
                     "font": "helvetica",
                     "fontSize": "size11",
-                    "locked": "true",
                     "tabId": "salary",
                     "tabLabel": "Salary",
-                    "value": "$123,000.00"
+                    "numericalValue": "123000",
+                    "localePolicy" : {
+                      "cultureName" : "en-US",
+                      "currencyCode": "usd",
+                      "currencyPositiveFormat" : "csym_1_comma_234_comma_567_period_89",
+                      "currencyNegativeFormat" : "minus_csym_1_comma_234_comma_567_period_89",
+                      "useLongCurrencyFormat" : "true"
+                    }
                 }]
             }
         }]

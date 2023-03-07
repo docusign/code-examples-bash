@@ -35,7 +35,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 
 response=$(mktemp /tmp/response-rst.XXXXXX)
 
-Status=$(curl -w '%{http_code}' -i --request GET https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes/${envelope_id}/form_data \
+Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/form_data \
      "${Headers[@]}" \
      --output ${response})
 

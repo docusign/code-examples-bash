@@ -22,7 +22,7 @@ base_path="https://demo.docusign.net/restapi"
 echo ""
 echo "Checking to see if the template already exists in your account..."
 echo ""
-template_name="Example Signer and CC template"
+template_name="Example Signer and CC template v2"
 response=$(mktemp /tmp/response-eg-008.XXXXXX)
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
@@ -73,7 +73,7 @@ cat demo_documents/World_Wide_Corp_fields.pdf | base64 > $doc1_base64
 printf \
 '{
     "description": "Example template created via the API",
-    "name": "Example Signer and CC template",
+    "name": "Example Signer and CC template v2",
     "shared": "false",
     "documents": [
         {
@@ -168,15 +168,17 @@ printf \
                             "pageNumber": "1", "required": "false",
                             "tabLabel": "text", "width": 84,
                             "xPosition": "153", "yPosition": "230"
-                        },
+                        }
+                    ],
+                    "numericalTabs" : [
                         {
+                            "validationType": "Currency",
                             "documentId": "1", "font": "helvetica",
                             "fontSize": "size14", "height": 23,
                             "pageNumber": "1", "required": "false",
-                            "tabLabel": "numbersOnly", "width": 84,
+                            "tabLabel": "numericalCurrency", "width": 84,
                             "xPosition": "153", "yPosition": "260"
-                        }
-                    ]
+                        }]
                 }
             }
         ]
