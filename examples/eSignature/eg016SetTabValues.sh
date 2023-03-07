@@ -106,7 +106,6 @@ printf \
                     "bold": "true",
                     "font": "helvetica",
                     "fontSize": "size11",
-                    "locked": "true",
                     "tabId": "salary",
                     "tabLabel": "Salary",
                     "numericalValue": "123000",
