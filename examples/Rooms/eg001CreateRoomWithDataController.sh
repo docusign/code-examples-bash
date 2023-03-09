@@ -7,6 +7,8 @@ if [[ $SHELL != *"bash"* ]]; then
     echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+source ./examples/Rooms/lib/utils.sh
+
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
@@ -42,8 +44,17 @@ if [[ "$Status" -gt "201" ]]; then
     exit 0
 fi
 echo ""
-roleId=$(cat $response | grep roleId | sed 's/.*\"roleId\"://' | sed 's/,.*//')
-echo "roleID: $roleId"
+
+# Retrieve the role IDs from the API response and put them in an array.
+roleIds=`cat $response | grep -o -P '(?<=roleId\":).*?(?=,")'`
+arrRoleIds=($roleIds)
+
+# Get the index of the role based on name and use that index for roleId. 
+# Name of the role is 'Default Admin'
+roles=`cat $response | grep -o -P '(?<=name\":).*?(?=,)'`
+element="Default Admin"
+
+roleId=$(GetRoleId "$roles" "$element" "$roleIds")
 
 # Remove the temporary file
 rm "$response"
