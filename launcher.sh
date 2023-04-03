@@ -261,6 +261,7 @@ function startSignature() {
         "Create_Signable_HTML_document" \
         "In_Person_Signing" \
         "Set_Document_Visibility" \
+        "Shared_Access" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -420,6 +421,10 @@ function startSignature() {
             ;;
         Set_Document_Visibility)
             bash examples/eSignature/eg040SetDocumentVisibility.sh
+            startSignature
+            ;;
+        Shared_Access)
+            bash examples/eSignature/eg042SharedAccess.sh
             startSignature
             ;;
         *)
