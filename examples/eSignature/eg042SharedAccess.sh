@@ -1,12 +1,10 @@
 #!/bin/bash
-# Use embedded signing
+# Shared access
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
-
-source ./examples/eSignature/lib/utils.sh
 
 ds_access_token_path="config/ds_access_token.txt"
 api_account_id_path="config/API_ACCOUNT_ID"
@@ -26,58 +24,90 @@ ACCESS_TOKEN=$(cat ${ds_access_token_path})
 # Note: Substitute these values with your own
 ACCOUNT_ID=$(cat ${api_account_id_path})
 
-#Using DSDEMO userid to test call
-USER_ID="b4f9c980-4f8e-4617-93d2-db2dcd5cf04b"
-
 # ***DS.snippet.0.start
-# Step 2. Create the envelope.
-#         The signer recipient includes a clientUserId setting
-#
-#  document 1 (pdf) has tag /sn1/
-#  The envelope will be sent to the signer.
 
 base_path="https://demo.docusign.net/restapi"
 
 # temp files:
-request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
-response=$(mktemp /tmp/response-eg-001.XXXXXX)
-doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
-
-# Create a temporary file to store the response
+request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
+doc1_base64=$(mktemp /tmp/eg-042-doc1.XXXXXX)
 
-# Step 2 start
-# Sharing the envelope with user
+echo "Please enter the name of the new user: "
+read AGENT_NAME
+echo "Please enter an email address for the new user: "
+read AGENT_EMAIL
+echo "Please input an activation code for the new user: "
+read ACTIVATION
 
-#making req body
+# Create a second user in the account
 printf \
 '{
-    "agentUser": {
-        "userId": "b4f9c980-4f8e-4617-93d2-db2dcd5cf04b",
-        "accountId": "559960c8-cb3f-4118-a34f-c200eabc8a86"
-    },
-    "permission:" "Manage"
+  "newUsers": [
+    {
+      "activationAccessCode": "'"${ACTIVATION}"'",
+      "userName": "'"${AGENT_NAME}"'",
+      "email": "'"${AGENT_EMAIL}"'"
+    }
+  ]
 }' >> $request_data
 
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users/${USER_ID}/authorization \
+     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users \
+     --output ${response}
+
+AGENT_USER_ID=`cat $response | grep userId | sed 's/.*\"userId\":\"//' | sed 's/\",.*//'`
+
+rm "$request_data"
+rm "$response"
+
+# Sharing the envelope with user
+
+request_data=$(mktemp /tmp/request-bs.XXXXXX)
+response=$(mktemp /tmp/response-bs.XXXXXX)
+
+# Construct the request body
+printf \
+'{
+    "agentUser":
+        {
+            "userId": "'"${AGENT_USER_ID}"'",
+            "accountId": "'"${ACCOUNT_ID}"'"
+        },
+    "permission": "manage"
+}' >> $request_data
+
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
+     --header "Content-Type: application/json" \
+     --data-binary @${request_data} \
+     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users/${IMPERSONATION_USER_GUID}/authorization \
      --output ${response}
 
 
-echo "Sharing auth response: " 
-cat $response
+message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
 
+if [[ "${message}" == *"No User was found for given criteria. User isn't found or inactive."* ]] ;then
+echo "User not found. Activate the new user, restart this example, and enter the same new user information."
+exit 0
+
+else
+rm "$request_data"
+rm "$response"
 
 # Creating the envelope
 
 # Fetch doc and encode
-cat $document_path | base64 > $doc1_base64
+cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
+
 
 echo "Sending the envelope request to DocuSign..."
 echo "Results:"
 echo ""
+
+request_data=$(mktemp /tmp/request-bs.XXXXXX)
+response=$(mktemp /tmp/response-bs.XXXXXX)
 
 # Concatenate the different parts of the request
 printf \
@@ -94,14 +124,6 @@ printf \
         }
     ],
     "recipients": {
-        "carbonCopies": [
-            {
-                "email": "'"${CC_EMAIL}"'",
-                "name": "'"${CC_NAME}"'",
-                "recipientId": "2",
-                "routingOrder": "2"
-            }
-        ],
         "signers": [
             {
                 "email": "'"${SIGNER_EMAIL}"'",
@@ -110,12 +132,6 @@ printf \
                 "routingOrder": "1",
                 "tabs": {
                     "signHereTabs": [
-                        {
-                            "anchorString": "**signature_1**",
-                            "anchorUnits": "pixels",
-                            "anchorXOffset": "20",
-                            "anchorYOffset": "10"
-                        },
                         {
                             "anchorString": "/sn1/",
                             "anchorUnits": "pixels",
@@ -133,32 +149,22 @@ printf \
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
+     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes \
      --output $response
 
 echo ""
 echo "Response:"
 cat $response
 echo ""
-#################################
 
-# USER 2 checks envelope status
+envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 
-signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
-# ***DS.snippet.0.end
-# Step 6 end
+# User 2 checks the envelope status
+echo "Your envelope ID is: ${envelope_id}"
 echo ""
-echo "The embedded signing URL is ${signing_url}"
-echo ""
-echo "It is only valid for five minutes. Attempting to automatically open your browser..."
-
-if which xdg-open &> /dev/null  ; then
-  xdg-open "$signing_url"
-elif which open &> /dev/null    ; then
-  open "$signing_url"
-elif which start &> /dev/null   ; then
-  start "$signing_url"
-fi
+echo "Close the launcher and activate the second user on developers.docusign.com."
+echo "Restart the launcher and authenticate as the second user."
+echo "Run example 3 - list envelopes and verify your envelope ID is in the list."
 
 # cleanup
 rm "$request_data"
@@ -167,3 +173,5 @@ rm "$doc1_base64"
 
 echo ""
 echo "Done."
+
+fi
