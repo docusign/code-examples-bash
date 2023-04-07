@@ -65,6 +65,15 @@ Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users \
 
 AGENT_USER_ID=`cat $response | grep userId | sed 's/.*\"userId\":\"//' | sed 's/\",.*//'`
 
+echo "" 
+echo "Agent user has been created. Please activate user and press 1 to continue the example: "
+read choice
+
+if [ "$choice" != "1" ]; then 
+echo "Closing the example... "
+exit 0
+
+else
 rm "$request_data"
 rm "$response"
 
@@ -164,8 +173,9 @@ envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | s
 # User 2 checks the envelope status
 echo "Your envelope ID is: ${envelope_id}"
 echo ""
+echo "Close the launcher and activate the second user on developers.docusign.com."
 echo "Restart the launcher and authenticate as the second user."
-echo "Run example 3 - list envelopes and verify your envelope ID is in the list."
+echo "Run example 4 - get envelope info and verify your envelope ID is in the list."
 
 # cleanup
 rm "$request_data"
@@ -175,4 +185,5 @@ rm "$doc1_base64"
 echo ""
 echo "Done."
 
+fi
 fi
