@@ -28,6 +28,12 @@ ACCOUNT_ID=$(cat ${api_account_id_path})
 
 base_path="https://demo.docusign.net/restapi"
 
+# Construct your API headers
+# Step 2 start
+declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
+    '--header' "Accept: application/json"
+    '--header' "Content-Type: application/json")
+
 # temp files:
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
@@ -52,11 +58,10 @@ printf \
   ]
 }' >> $request_data
 
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users \
-     --output ${response}
+Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users \
+"${Headers[@]}" \
+--data-binary @${request_data} \
+--output ${response})
 
 AGENT_USER_ID=`cat $response | grep userId | sed 's/.*\"userId\":\"//' | sed 's/\",.*//'`
 
@@ -79,12 +84,10 @@ printf \
     "permission": "manage"
 }' >> $request_data
 
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users/${IMPERSONATION_USER_GUID}/authorization \
-     --output ${response}
-
+Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users/${IMPERSONATION_USER_GUID}/authorization \
+"${Headers[@]}" \
+--data-binary @${request_data} \
+--output ${response})
 
 message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
 
@@ -146,11 +149,10 @@ printf \
     "status": "sent"
 }' >> $request_data
 
-curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "Content-Type: application/json" \
-     --data-binary @${request_data} \
-     --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes \
-     --output $response
+Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes \
+"${Headers[@]}" \
+--data-binary @${request_data} \
+--output ${response})
 
 echo ""
 echo "Response:"
