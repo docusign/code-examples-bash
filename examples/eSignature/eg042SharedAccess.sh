@@ -164,7 +164,6 @@ envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | s
 # User 2 checks the envelope status
 echo "Your envelope ID is: ${envelope_id}"
 echo ""
-echo "Close the launcher and activate the second user on developers.docusign.com."
 echo "Restart the launcher and authenticate as the second user."
 echo "Run example 3 - list envelopes and verify your envelope ID is in the list."
 
