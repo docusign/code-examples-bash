@@ -43,7 +43,7 @@ echo "Please enter the name of the new user: "
 read AGENT_NAME
 echo "Please enter an email address for the new user: "
 read AGENT_EMAIL
-echo "Please input an activation code for the new user: "
+echo "Please input an activation code for the new user. Save this code. You'll need it when activating the new user."
 read ACTIVATION
 
 # Create a second user in the account
@@ -62,6 +62,11 @@ Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users \
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response})
+
+echo ""
+echo "Response: "
+cat $response
+echo ""
 
 AGENT_USER_ID=`cat $response | grep userId | sed 's/.*\"userId\":\"//' | sed 's/\",.*//'`
 
@@ -98,13 +103,6 @@ Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users/${IM
 --data-binary @${request_data} \
 --output ${response})
 
-message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
-
-if [[ "${message}" == *"No User was found for given criteria. User isn't found or inactive."* ]] ;then
-echo "User not found. Activate the new user, restart this example, and enter the same new user information."
-exit 0
-
-else
 rm "$request_data"
 rm "$response"
 
@@ -185,5 +183,4 @@ rm "$doc1_base64"
 echo ""
 echo "Done."
 
-fi
 fi
