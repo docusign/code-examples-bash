@@ -90,7 +90,7 @@ function GetWorkflowId()
 function SharedAccessChooseLanguage(){
     echo ""
     api_version=$1
-    PS3='Choose an cool OAuth Strategy: '
+    PS3='Choose an OAuth Strategy. Then log in as the new user that you just created. '
     select LANGUAGE in \
         "PHP" \
         "Python"; do
@@ -99,7 +99,7 @@ function SharedAccessChooseLanguage(){
         \
         PHP)
             php ./OAuth/jwt.php "$api_version"
-            continu $api_version
+            return
             ;;
 
         Python)
@@ -109,6 +109,7 @@ function SharedAccessChooseLanguage(){
             if [[ $(python --version 2>&1) != *"not found"* ]]; then
                 # Didn't get a "not found" error so run python
                 python ./OAuth/jwt_auth.py "$api_version"
+                return
             else
                 echo "Either python or python3 must be installed to use this option."
                 exit 1
@@ -116,6 +117,7 @@ function SharedAccessChooseLanguage(){
         else
             # Didn't get a "not found" error so run python3
             python3 ./OAuth/jwt_auth.py "$api_version"
+            return
         fi
             continue
         esac
@@ -126,7 +128,7 @@ function SharedAccessChooseLanguage(){
 function SharedAccessLogin() {
     echo ""
     api_version=$1
-    PS3='Choose an OAuth Strategy: '
+    PS3='Choose an OAuth Strategy. Then log in as the new user that you just created. '
     select METHOD in \
         "Use_Authorization_Code_Grant" \
         "Use_JSON_Web_Token" \
