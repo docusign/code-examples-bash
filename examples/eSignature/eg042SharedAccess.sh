@@ -128,10 +128,22 @@ SharedAccessLogin
 
 # Make the API call to check the envelope
 
+request_data=$(mktemp /tmp/request-bs.XXXXXX)
+response=$(mktemp /tmp/response-bs.XXXXXX)
+
+if date -v -10d &> /dev/null ; then
+    # Mac
+    from_date=`date -v -10d '+%Y-%m-%dT%H:%M:%S%z'`
+else
+    # Not a Mac
+    from_date=`date --date='-10 days' '+%Y-%m-%dT%H:%M:%S%z'`
+
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "X-DocuSign-Act-On-Behalf: {$ACCOUNT_ID}" \
+     --header "X-DocuSign-Act-On-Behalf: {$IMPERSONATION_USER_GUID}" \
      --header "Content-Type: application/json" \
-     --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/
+     --get \
+     --data-urlencode "from_date=${from_date}" \
+     --request GET ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes/
 
 # cleanup
 rm "$request_data"
@@ -141,5 +153,6 @@ rm "$doc1_base64"
 echo ""
 echo "Done."
 
+fi
 fi
 fi
