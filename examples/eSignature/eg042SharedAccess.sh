@@ -8,10 +8,12 @@ fi
 
 ds_access_token_path="config/ds_access_token.txt"
 api_account_id_path="config/API_ACCOUNT_ID"
+document_path="demo_documents/World_Wide_Corp_lorem.pdf"
 
 if [ ! -f $ds_access_token_path ]; then
     ds_access_token_path="../config/ds_access_token.txt"
     api_account_id_path="../config/API_ACCOUNT_ID"
+    document_path="../demo_documents/World_Wide_Corp_lorem.pdf"
 fi
 
 # Step 1: Obtain your OAuth token
@@ -35,6 +37,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 # temp files:
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
+doc1_base64=$(mktemp /tmp/eg-042-doc1.XXXXXX)
 
 echo "Please enter the name of the new user: "
 read AGENT_NAME
@@ -100,10 +103,15 @@ Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users/${IM
 --data-binary @${request_data} \
 --output ${response})
 
+echo ""
+cat $response
+echo ""
 rm "$request_data"
 rm "$response"
 
 # Creating the envelope
+
+# Fetch doc and encode
 create_envelope="examples/eSignature/eg002SigningViaEmail.sh"
 
 bash "$create_envelope"
@@ -123,7 +131,6 @@ SharedAccessLogin
 
 # Make the API call to check the envelope
 
-request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
 if date -v -10d &> /dev/null ; then
@@ -137,13 +144,15 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "X-DocuSign-Act-On-Behalf: {$IMPERSONATION_USER_GUID}" \
      --header "Content-Type: application/json" \
      --get \
+     --output $response \
      --data-urlencode "from_date=${from_date}" \
      --request GET ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes/
+     
+echo ""
+cat $response
 
 # cleanup
-rm "$request_data"
 rm "$response"
-rm "$doc1_base64"
 
 echo ""
 echo "Done."
