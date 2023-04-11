@@ -136,11 +136,12 @@ function SharedAccessLogin() {
         \
             Use_Authorization_Code_Grant)
             php ./OAuth/code_grant.php "$api_version"
-            continu $api_version
+            return
             ;;
 
-        Use_JSON_Web_Token)
-           SharedAccessChooseLanguage "$api_version"
+            Use_JSON_Web_Token)
+            SharedAccessChooseLanguage "$api_version"
+            return
             ;;
 
         Exit)
