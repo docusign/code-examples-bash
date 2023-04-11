@@ -6,8 +6,6 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-source launcher.sh
-
 ds_access_token_path="config/ds_access_token.txt"
 api_account_id_path="config/API_ACCOUNT_ID"
 document_path="demo_documents/World_Wide_Corp_lorem.pdf"
@@ -111,72 +109,29 @@ rm "$response"
 # Creating the envelope
 
 # Fetch doc and encode
-cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
-
-
-echo "Sending the envelope request to DocuSign..."
-echo "Results:"
-echo ""
-
-request_data=$(mktemp /tmp/request-bs.XXXXXX)
-response=$(mktemp /tmp/response-bs.XXXXXX)
 create_envelope="examples/eSignature/eg002SigningViaEmail.sh"
 
-# Concatenate the different parts of the request
-printf \
-'{
-    "emailSubject": "Please sign this document",
-    "documents": [
-        {
-            "documentBase64": "' > $request_data
-            cat $doc1_base64 >> $request_data
-            printf '",
-            "name": "Lorem Ipsum",
-            "fileExtension": "pdf",
-            "documentId": "1"
-        }
-    ],
-    "recipients": {
-        "signers": [
-            {
-                "email": "'"${SIGNER_EMAIL}"'",
-                "name": "'"${SIGNER_NAME}"'",
-                "recipientId": "1",
-                "routingOrder": "1",
-                "tabs": {
-                    "signHereTabs": [
-                        {
-                            "anchorString": "/sn1/",
-                            "anchorUnits": "pixels",
-                            "anchorXOffset": "20",
-                            "anchorYOffset": "10"
-                        }
-                    ]
-                }
-            }
-        ]
-    },
-    "status": "sent"
-}' >> $request_data
+bash "$create_envelope"
 
-Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes \
-"${Headers[@]}" \
---data-binary @${request_data} \
---output ${response})
+#User is told to log out and log in as the new user
+echo "" 
+echo "Please go to your developer account at demo.docusign.com and log out, then come back to this terminal. Press 1 to continue: "
+read choice
 
-echo ""
-echo "Response:"
-cat $response
-echo ""
+if [ "$choice" != "1" ]; then 
+echo "Closing the example... "
+exit 0
 
-envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
+else
+source ./examples/eSignature/lib/utils.sh
+SharedAccessLogin
 
-# User 2 checks the envelope status
-echo "Your envelope ID is: ${envelope_id}"
-echo ""
-echo "Close the launcher and activate the second user on developers.docusign.com."
-echo "Restart the launcher and authenticate as the second user."
-echo "Run example 4 - get envelope info and verify your envelope ID is in the list."
+# Make the API call to check the envelope
+
+curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
+     --header "X-DocuSign-Act-On-Behalf: {$ACCOUNT_ID}" \
+     --header "Content-Type: application/json" \
+     --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/
 
 # cleanup
 rm "$request_data"
@@ -186,4 +141,5 @@ rm "$doc1_base64"
 echo ""
 echo "Done."
 
+fi
 fi
