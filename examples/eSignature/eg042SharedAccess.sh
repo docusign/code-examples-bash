@@ -6,6 +6,8 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
+source launcher.sh
+
 ds_access_token_path="config/ds_access_token.txt"
 api_account_id_path="config/API_ACCOUNT_ID"
 document_path="demo_documents/World_Wide_Corp_lorem.pdf"
@@ -118,6 +120,7 @@ echo ""
 
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
+create_envelope="examples/eSignature/eg002SigningViaEmail.sh"
 
 # Concatenate the different parts of the request
 printf \
