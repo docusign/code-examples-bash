@@ -141,7 +141,7 @@ else
     from_date=`date --date='-10 days' '+%Y-%m-%dT%H:%M:%S%z'`
 
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "X-DocuSign-Act-On-Behalf: {$IMPERSONATION_USER_GUID}" \
+     --header "X-DocuSign-Act-On-Behalf: ${IMPERSONATION_USER_GUID}" \
      --header "Content-Type: application/json" \
      --get \
      --output $response \
