@@ -8,12 +8,10 @@ fi
 
 ds_access_token_path="config/ds_access_token.txt"
 api_account_id_path="config/API_ACCOUNT_ID"
-document_path="demo_documents/World_Wide_Corp_lorem.pdf"
 
 if [ ! -f $ds_access_token_path ]; then
     ds_access_token_path="../config/ds_access_token.txt"
     api_account_id_path="../config/API_ACCOUNT_ID"
-    document_path="../demo_documents/World_Wide_Corp_lorem.pdf"
 fi
 
 # Step 1: Obtain your OAuth token
@@ -37,7 +35,6 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 # temp files:
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
-doc1_base64=$(mktemp /tmp/eg-042-doc1.XXXXXX)
 
 echo "Please enter the name of the new user: "
 read AGENT_NAME
@@ -107,8 +104,6 @@ rm "$request_data"
 rm "$response"
 
 # Creating the envelope
-
-# Fetch doc and encode
 create_envelope="examples/eSignature/eg002SigningViaEmail.sh"
 
 bash "$create_envelope"
