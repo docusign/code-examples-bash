@@ -98,7 +98,7 @@ function SharedAccessChooseLanguage(){
 
         \
         PHP)
-            php ./OAuth/jwt.php "$api_version"
+            php ./OAuth/jwt.php "eSignature"
             return
             ;;
 
@@ -108,7 +108,7 @@ function SharedAccessChooseLanguage(){
             # If no python3, check stderr and stdout for a python version number or "not found"
             if [[ $(python --version 2>&1) != *"not found"* ]]; then
                 # Didn't get a "not found" error so run python
-                python ./OAuth/jwt_auth.py "$api_version"
+                python ./OAuth/jwt_auth.py "eSignature"
                 return
             else
                 echo "Either python or python3 must be installed to use this option."
@@ -116,7 +116,7 @@ function SharedAccessChooseLanguage(){
             fi
         else
             # Didn't get a "not found" error so run python3
-            python3 ./OAuth/jwt_auth.py "$api_version"
+            python3 ./OAuth/jwt_auth.py "eSignature"
             return
         fi
             continue
@@ -137,12 +137,12 @@ function SharedAccessLogin() {
 
         \
             Use_Authorization_Code_Grant)
-            php ./OAuth/code_grant.php "$api_version"
+            php ./OAuth/code_grant.php "eSignature"
             return
             ;;
 
             Use_JSON_Web_Token)
-            SharedAccessChooseLanguage "$api_version"
+            SharedAccessChooseLanguage "eSignature"
             return
             ;;
 
