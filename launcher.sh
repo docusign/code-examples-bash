@@ -424,7 +424,7 @@ function startSignature() {
             startSignature
             ;;
         Shared_Access)
-            bash examples/eSignature/eg042SharedAccess.sh
+            bash examples/eSignature/eg043SharedAccess.sh
             startSignature
             ;;
         *)
