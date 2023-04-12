@@ -39,14 +39,14 @@ request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-042-doc1.XXXXXX)
 
-echo "Please enter the name of the new user: "
+echo "Please enter the name of the new agent: "
 read AGENT_NAME
-echo "Please enter an email address for the new user: "
+echo "Please enter the email address of the new agent: "
 read AGENT_EMAIL
-echo "Please input an activation code for the new user. Save this code. You'll need it when activating the new user."
+echo "Please input an activation code for the new agent. Save this code. You'll need it when activating the new agent."
 read ACTIVATION
 
-# Create a second user in the account
+# Create a new agent in the account
 printf \
 '{
   "newUsers": [
@@ -71,7 +71,7 @@ echo ""
 AGENT_USER_ID=`cat $response | grep userId | sed 's/.*\"userId\":\"//' | sed 's/\",.*//'`
 
 echo "" 
-echo "Agent user has been created. Please activate user and press 1 to continue the example: "
+echo "Agent has been created. Please go to the agent's email to activate the agent, and press 1 to continue the example: "
 read choice
 
 if [ "$choice" != "1" ]; then 
@@ -82,7 +82,7 @@ else
 rm "$request_data"
 rm "$response"
 
-# Sharing the envelope with user
+# Sharing the envelope with the agent
 
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
@@ -116,9 +116,9 @@ create_envelope="examples/eSignature/eg002SigningViaEmail.sh"
 
 bash "$create_envelope"
 
-#User is told to log out and log in as the new user
+# Principal is told to log out and log in as the new agent
 echo "" 
-echo "Please go to your developer account at demo.docusign.com and log out, then come back to this terminal. Press 1 to continue: "
+echo "Please go to the principal's developer account at admindemo.docusign.com and log out, then come back to this terminal. Press 1 to continue: "
 read choice
 
 if [ "$choice" != "1" ]; then 
@@ -141,7 +141,7 @@ else
     from_date=`date --date='-10 days' '+%Y-%m-%dT%H:%M:%S%z'`
 
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-     --header "X-DocuSign-Act-On-Behalf: {$IMPERSONATION_USER_GUID}" \
+     --header "X-DocuSign-Act-On-Behalf: ${IMPERSONATION_USER_GUID}" \
      --header "Content-Type: application/json" \
      --get \
      --output $response \
