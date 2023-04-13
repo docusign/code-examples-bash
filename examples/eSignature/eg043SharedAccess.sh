@@ -139,7 +139,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --request GET ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes/
 
 echo ""
- 
+
 if [[ -z "$response" ]]; then  
     echo "Response body is empty because there are no envelopes in the account. Please run example 2 and re-run this example." 
 else
@@ -152,6 +152,7 @@ rm "$response"
 echo ""
 echo "Done."
 
+fi
 fi
 fi
 fi
