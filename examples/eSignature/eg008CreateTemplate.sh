@@ -70,6 +70,7 @@ echo ""
 cat demo_documents/World_Wide_Corp_fields.pdf | base64 > $doc1_base64
 
 # Concatenate the different parts of the request
+#ds-snippet-start:eSign8Step2
 printf \
 '{
     "description": "Example template created via the API",
@@ -185,12 +186,15 @@ printf \
     },
     "status": "created"
 }' >> $request_data
+#ds-snippet-end:eSign8Step2
 
+#ds-snippet-start:eSign8Step3
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/templates \
      --output $response
+#ds-snippet-end:eSign8Step3
 
 echo ""
 echo "Results:"
