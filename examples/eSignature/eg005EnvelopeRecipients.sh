@@ -34,11 +34,11 @@ echo "Sending the EnvelopeRecipients::list request to DocuSign..."
 echo "Results:"
 echo ""
 
-# ***DS.snippet.0.start
+#ds-snippet-start:eSign5Step2
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/recipients
-# ***DS.snippet.0.end
+#ds-snippet-end:eSign5Step2
 
 echo ""
 echo ""
