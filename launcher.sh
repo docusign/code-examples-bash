@@ -24,13 +24,13 @@ function isCFR() {
          --header "Content-Type: application/json" \
          --request GET https://demo.docusign.net/restapi/v2.1/accounts/${ACCOUNT_ID}/ \
          --output ${response}
-    
+
     ACCOUNT_INFO=`cat $response`
     if [[ $ACCOUNT_INFO =~ "\"status21CFRPart11\":\"enabled\"" ]]; then
         CFR_STATUS="enabled"
     fi
     export CFR_STATUS
-    
+
 }
 
 function resetToken() {
@@ -262,6 +262,8 @@ function startSignature() {
         "In_Person_Signing" \
         "Set_Document_Visibility" \
         "Shared_Access" \
+        "Document_Generation" \
+        "Shared_Access" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -421,6 +423,10 @@ function startSignature() {
             ;;
         Set_Document_Visibility)
             bash examples/eSignature/eg040SetDocumentVisibility.sh
+            startSignature
+            ;;
+        Document_Generation)
+            bash examples/eSignature/eg042DocumentGeneration.sh
             startSignature
             ;;
         Shared_Access)
