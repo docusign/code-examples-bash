@@ -87,6 +87,81 @@ function GetWorkflowId()
         echo $workflowId
     fi
 }
+function SharedAccessChooseLanguage(){
+    echo ""
+    api_version=$1
+    PS3='Choose an OAuth Strategy. Then log in as the new user that you just created. '
+    select LANGUAGE in \
+        "PHP" \
+        "Python"; do
+        case "$LANGUAGE" in
+
+        \
+        PHP)
+            php ./OAuth/jwt.php "eSignature"
+            return
+            ;;
+
+        Python)
+        # Check stderr and stdout for either a python3 version number or "not found"
+        if [[ $(python3 --version 2>&1) == *"not found"* ]]; then
+            # If no python3, check stderr and stdout for a python version number or "not found"
+            if [[ $(python --version 2>&1) != *"not found"* ]]; then
+                # Didn't get a "not found" error so run python
+                python ./OAuth/jwt_auth.py "eSignature"
+                return
+            else
+                echo "Either python or python3 must be installed to use this option."
+                exit 1
+            fi
+        else
+            # Didn't get a "not found" error so run python3
+            python3 ./OAuth/jwt_auth.py "eSignature"
+            return
+        fi
+            continue
+        esac
+    done
+    return 0
+}
+
+function SharedAccessLogin() {
+    echo ""
+    api_version=$1
+    PS3='Choose an OAuth Strategy. Then log in as the new user that you just created. '
+    select METHOD in \
+        "Use_Authorization_Code_Grant" \
+        "Use_JSON_Web_Token" \
+        "Exit"; do
+        case "$METHOD" in
+
+        \
+            Use_Authorization_Code_Grant)
+            php ./OAuth/code_grant.php "eSignature"
+            return
+            ;;
+
+            Use_JSON_Web_Token)
+            SharedAccessChooseLanguage "eSignature"
+            return
+            ;;
+
+        Exit)
+            exit 0
+            ;;
+        esac
+    done
+
+    mv ds_access_token.txt $token_file_name
+
+    account_id=$(cat config/API_ACCOUNT_ID)
+    ACCESS_TOKEN=$(cat $token_file_name)
+
+    export ACCOUNT_ID
+    export ACCESS_TOKEN
+    return 0
+
+}
 
 export -f GetSignerEmail
 export -f CheckForValidCCEmail
@@ -94,3 +169,5 @@ export -f CheckForValidNotCheckedEmail
 export -f GetCCPhoneNum
 export -f GetSignerPhoneNum
 export -f GetWorkflowId
+export -f SharedAccessLogin
+export -f SharedAccessChooseLanguage
