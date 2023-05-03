@@ -94,7 +94,8 @@ printf \
                 },
             "name": "'"${CC_NAME}"'",
             "recipientId": "2",
-            "routingOrder": "2"
+            "routingOrder": "2",
+            "delieveryMethod": "SMS"
             }
         ],
         "signers": 
@@ -108,6 +109,7 @@ printf \
                 "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1",
                 "routingOrder": "1",
+                "delieveryMethod": "SMS",
                 "tabs": 
                 {
                     "signHereTabs": 
