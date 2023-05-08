@@ -18,12 +18,15 @@ echo "Please input a name for the clickwrap: "
 read clickwrap_name
 
 # Construct your API headers
+#ds-snippet-start:Click1Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Click1Step2
 
 # Step 3. Construct the request body
 # Create a temporary file to store the JSON body
+#ds-snippet-start:Click1Step3
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 printf \
     '{
@@ -50,16 +53,19 @@ printf \
   "requireReacceptance": true
 }
 ' >$request_data
+#ds-snippet-end:Click1Step3
 
 # Step 4. Call the Click API
 # a) Make a POST call to the Clickwraps endpoint to create a Clickwrap for an account
 # b) Display the JSON structure of the created Clickwrap
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
+#ds-snippet-start:Click1Step4
 Status=$(curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
+#ds-snippet-end:Click1Step4
 
 # Obtain the Clickwrap ID from the JSON response
 clickwrap_id=$(cat $response | grep clickwrapId | sed 's/ //g' | sed 's/.*\"clickwrapId\":\"//' | sed 's/\",.*//')

@@ -762,6 +762,8 @@ function startAdmin() {
         "Retrieve_DocuSign_Profile_By_UserId" \
         "Update_User_Product_Permission_Profile" \
         "Delete_User_Product_Permission_Profile" \
+        "Delete_User_Data_Org_Admin" \
+        "Delete_User_Data_Account_Admin" \
         "Pick_An_API"; do
         case "$CHOICE" in
 
@@ -802,6 +804,14 @@ function startAdmin() {
             ;;
         Delete_User_Product_Permission_Profile)
             bash examples/Admin/eg009DeleteUserProductPermissionProfile.sh
+            startAdmin
+            ;;
+        Delete_User_Data_Org_Admin)
+            bash examples/Admin/eg010DeleteUserDataFromOrganization.sh
+            startAdmin
+            ;;
+        Delete_User_Data_Account_Admin)
+            bash examples/Admin/eg011DeleteUserDataFromAccount.sh
             startAdmin
             ;;
         *)
