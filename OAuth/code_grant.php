@@ -21,7 +21,7 @@ elseif($api_version == "Monitor"):
   echo "Auth Code Grant is not supported for the Monitor API.";
   $scope = "signature impersonation";
 elseif($api_version == "Admin"):
-  $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read';
+  $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact';
 endif;
 
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
