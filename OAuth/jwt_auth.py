@@ -43,7 +43,7 @@ CLICK_SCOPES = [
 ADMIN_SCOPES = [
     "signature", "organization_read", "group_read", "permission_read", 
     "user_read", "user_write", "account_read", "domain_read", 
-    "identity_provider_read"
+    "identity_provider_read", "user_data_redact"
 ]
 
 class DSClient:

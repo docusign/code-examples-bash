@@ -26,7 +26,7 @@ if ($api_version == "eSignature") {
 } else if ($api_version == "Monitor") {
     $scope = "signature impersonation";
 } else if ($api_version == "Admin") {
-    $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read impersonation';
+    $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read impersonation user_data_redact';
 }
 
 $body = encodeBase64URL(
