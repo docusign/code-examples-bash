@@ -36,6 +36,18 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
+Status=$(curl --request GET https://account-d.docusign.com/oauth/userinfo \
+"${Headers[@]}" \
+--data-binary @${request_data} \
+--output ${response})
+
+IMPERSONATION_USER_GUID=`cat $response | grep sub | sed 's/.*\"sub\":\"//' | sed 's/\",.*//'`
+
+rm "$request_data"
+rm "$response"
+
+request_data=$(mktemp /tmp/request-bs.XXXXXX)
+response=$(mktemp /tmp/response-bs.XXXXXX)
 echo "Please enter the name of the new agent: "
 read AGENT_NAME
 echo "Please enter the email address of the new agent: "
