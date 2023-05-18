@@ -28,11 +28,11 @@ else
 fi
 
 # Step 2. Construct your API headers
-#ds-snippet-start:ClickStep2
+#ds-snippet-start:Click2Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" 
     '--header' "Content-Type: application/json"
     '--header' "Accept: application/json")
-#ds-snippet-end:ClickStep2
+#ds-snippet-end:Click2Step2
 
 # Construct your Clickwrap JSON body
 # Create a temporary file to store the JSON body
@@ -42,7 +42,7 @@ printf \
     '{
         "status" : "active" 
     }' >$request_data
-#ds-snippet-end:ClickStep3
+#ds-snippet-end:Click2Step3
 
 # a) Make a POST call to the Clickwraps endpoint to activate the Clickwrap for an account
 # b) Display the JSON structure of the created Clickwrap
