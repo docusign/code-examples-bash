@@ -28,17 +28,21 @@ else
 fi
 
 # Step 2. Construct your API headers
+#ds-snippet-start:Click2Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" 
     '--header' "Content-Type: application/json"
     '--header' "Accept: application/json")
+#ds-snippet-end:Click2Step2
 
 # Construct your Clickwrap JSON body
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
+#ds-snippet-start:Click2Step3
 printf \
     '{
         "status" : "active" 
     }' >$request_data
+#ds-snippet-end:Click2Step3
 
 # a) Make a POST call to the Clickwraps endpoint to activate the Clickwrap for an account
 # b) Display the JSON structure of the created Clickwrap
@@ -46,10 +50,12 @@ printf \
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
 
+#ds-snippet-start:Click2Step4
 curl --request PUT https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/versions/${VersionNumber} \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response}
+#ds-snippet-end:Click2Step4
 
 echo ""
 echo "Response:"
