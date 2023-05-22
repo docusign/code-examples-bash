@@ -19,13 +19,13 @@ API_ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.rooms.docusign.com"
 
-# Step 2 Start
+#ds-snippet-start:Rooms9Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-# Step 2 End
+#ds-snippet-end:Rooms9Step2
 
-# Step 3 Start
+#ds-snippet-start:Rooms9Step3
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rooms.XXXXXX)
 # Call the Rooms API to look up your forms library ID
@@ -84,8 +84,9 @@ fi
 echo ""
 echo "FORM_ID: " $FORM_ID
 echo ""
-# Step 3 End
+#ds-snippet-end:Rooms9Step3
 
+#ds-snippet-start:Rooms9Step4
 # Call the Rooms API to look up a list of form group IDs
 Status=$(curl -w '%{http_code}' --request GET ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups "${Headers[@]}" --output ${response})
 
@@ -128,6 +129,7 @@ else
         fi
     done
 fi
+#ds-snippet-end:Rooms9Step4
 
 echo ""
 echo "FORM_GROUP_ID: " $FORM_GROUP_ID
@@ -136,19 +138,19 @@ echo ""
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-rooms-008.XXXXXX)
 
-# Step 5 Start
+#ds-snippet-start:Rooms9Step5
 printf \
     '
 {
   "formId": "'"${FORM_ID}"'",
 }' >>$request_data
-# Step 5 End
+#ds-snippet-end:Rooms9Step5
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rooms.XXXXXX)
-# Step 6 Start
+#ds-snippet-start:Rooms9Step6
 Status=$(curl -w '%{http_code}' --request POST ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups/${FORM_GROUP_ID}/assign_form "${Headers[@]}" --data-binary @${request_data} --output ${response})
-# Step 6 End
+#ds-snippet-end:Rooms9Step6
 
 if [[ "$Status" -gt "204" ]]; then
     echo ""
