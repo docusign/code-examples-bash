@@ -27,12 +27,15 @@ read USER_ID
 
 # Construct your API headers
 # Step 2 start
+#ds-snippet-start:Admin7Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Admin7Step2
 # Step 2 end
 
 # Step 3 start
+#ds-snippet-start:Admin7Step3
 # Calculate date parameter to get users modified in the last 10 days
 if date -v -10d &>/dev/null; then
     # Mac
@@ -51,6 +54,7 @@ curl --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/users/${US
     "${Headers[@]}" \
     --output ${response}
 
+#ds-snippet-end:Admin7Step3
 # Step 3 end
 
 echo ""
