@@ -19,16 +19,20 @@ ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
 # Construct your API headers
 # Step 2 start
+#ds-snippet-start:Admin1Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Admin1Step2
 # Step 2 end
 
 # Get permission profiles
+#ds-snippet-start:Admin1Step3
 response=$(mktemp /tmp/response-oa.XXXXXX)
 Status=$(curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/permissions \
 "${Headers[@]}" \
 --output ${response})
+#ds-snippet-end:Admin1Step3
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
@@ -83,10 +87,12 @@ echo "PERMISSION_PROFILE_ID: " $PERMISSION_PROFILE_ID
 echo ""
 
 # Retrieve group ids
+#ds-snippet-start:Admin1Step4
 response2=$(mktemp /tmp/response2-oa.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --request GET "${base_path}/v2/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/groups" \
         "${Headers[@]}" \
         --output ${response2})
+#ds-snippet-end:Admin1Step4
 echo ""
 echo "Response: "
 echo ""
@@ -146,7 +152,7 @@ echo ""
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 # Construct the request body
-#Step 3 start
+#ds-snippet-start:Admin1Step5
 printf \
 '{
   "user_name": \"'${USER_NAME}'\",
@@ -169,15 +175,16 @@ printf \
   ]
 }
 ' >>$request_data
-#Step 3 end
+#ds-snippet-end:Admin1Step5
 
 # Call the DocuSign Admin API
-#Step 4 start
+#ds-snippet-start:Admin1Step6
 response3=$(mktemp /tmp/response3-oa.XXXXXX)
 Status=$(curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/users \
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response3})
+#ds-snippet-end:Admin1Step6
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then

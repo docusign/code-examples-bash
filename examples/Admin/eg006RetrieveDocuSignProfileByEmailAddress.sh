@@ -27,12 +27,15 @@ read EMAIL_ADDRESS
 
 # Construct your API headers
 # Step 2 start
+#ds-snippet-start:Admin6Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Admin6Step2
 # Step 2 end
 
 # Step 3 start
+#ds-snippet-start:Admin6Step3
 # Calculate date parameter to get users modified in the last 10 days
 if date -v -10d &>/dev/null; then
     # Mac
@@ -50,7 +53,7 @@ response=$(mktemp /tmp/response-admin.XXXXXX)
 curl --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/users/dsprofile?email=${EMAIL_ADDRESS} \
     "${Headers[@]}" \
     --output ${response}
-
+#ds-snippet-end:Admin6Step3
 # Step 3 end
 
 echo ""

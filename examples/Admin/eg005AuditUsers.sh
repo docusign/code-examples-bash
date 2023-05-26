@@ -24,12 +24,15 @@ base_path="https://api-d.docusign.net/management"
 
 # Construct your API headers
 # Step 2 start
+#ds-snippet-start:Admin5Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Admin5Step2
 # Step 2 end
 
 # Step 3 start
+#ds-snippet-start:Admin5Step3
 # Calculate date parameter to get users modified in the last 10 days
 if date -v -10d &>/dev/null; then
     # Mac
@@ -49,15 +52,19 @@ Status=$(
     "${Headers[@]}" \
     --output $response
 )
+#ds-snippet-end:Admin5Step3
 # Step 3 end
 
 # Step 4 start
+#ds-snippet-start:Admin5Step4
 modified_users=$(cat $response)
 user_emails=`echo $modified_users | grep -o -P '(?<=email\":\").*?(?=\")'`
 array_emails=($user_emails)
+#ds-snippet-end:Admin5Step4
 # Step 4 end
 
 # Step 5 start
+#ds-snippet-start:Admin5Step5
 profiles=$(mktemp /tmp/profiles-oa.XXXXXX)
 
 echo ''
@@ -77,6 +84,7 @@ do
     echo ''
 
 done
+#ds-snippet-end:Admin5Step5
 # Step 5 end
 
 # Remove the temporary files"

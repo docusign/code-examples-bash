@@ -19,9 +19,11 @@ ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
 # Construct your API headers
 # Step 2 start
+#ds-snippet-start:Admin2Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Admin1Step2
 # Step 2 end
 
 
@@ -30,9 +32,11 @@ response=$(mktemp /tmp/response-admin.XXXXXX)
 echo ""
 echo "Getting permission profiles..."
 # Step 3 Start
+#ds-snippet-start:Admin2Step3
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/products/permission_profiles \
      "${Headers[@]}" \
      --output ${response})
+#ds-snippet-end:Admin2Step3
 #Step 3 End
 
 if [[ "$Status" -gt "201" ]]; then
@@ -99,9 +103,11 @@ fi
 echo ""
 echo "Getting DS Groups..."
 # Step 4 Start
+#ds-snippet-start:Admin2Step4
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/dsgroups \
      "${Headers[@]}" \
      --output ${response})
+#ds-snippet-end:Admin2Step4
 #Step 4 End
 
 if [[ "$Status" -gt "201" ]]; then
@@ -149,6 +155,7 @@ read -p "Please enter the last name for the new user: " LAST_NAME
 read -p "Please enter an email for the new user: " EMAIL
 
 #Step 5 start
+#ds-snippet-start:Admin2Step5
 printf \
 '
 {
@@ -173,15 +180,18 @@ printf \
         }
     ]
 }' >$request_data
+#ds-snippet-end:Admin2Step5
 #Step 5 end
 
 #Step 6 start
+#ds-snippet-start:Admin2Step6
 Status=$(
     curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/users/ \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response}
 )
+#ds-snippet-end:Admin2Step6
 #Step 6 end
 
 # If the status code returned is greater than 201 (OK/Accepted), display an error message with the API response

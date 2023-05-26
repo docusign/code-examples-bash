@@ -20,13 +20,16 @@ ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
 # Construct your API headers
 # Step 2 Start
+#ds-snippet-start:Admin4Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Content-Disposition: filename=myfile.csv" \
 					'--header' "Content-Type: text/csv")
+#ds-snippet-end:Admin4Step2
 # Step 2 End
 
 # Create the bulk import request
 # Step 3 Start
+#ds-snippet-start:Admin4Step3
 request_data=$(mktemp /tmp/request-oa.XXXXXX)
 
 printf \
@@ -48,6 +51,7 @@ echo 'Response:'
 echo ''
 cat $response
 echo ''
+#ds-snippet-end:Admin4Step3
 # Step 3 End
 
 #Pull the first Id from the JSON response
@@ -63,9 +67,11 @@ echo ''
 echo "Waiting for 20 seconds and check the status of the request..."
 sleep 20
 # Step 4 Start
+#ds-snippet-start:Admin4Step4
 curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/imports/bulk_users/${importId} \
     "${Headers[@]}" \
     --output ${response}
+#ds-snippet-end:Admin4Step4
 # Step 4 End
 echo 'Response:'
 echo ''

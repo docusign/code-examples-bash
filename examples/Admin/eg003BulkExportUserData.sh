@@ -20,9 +20,11 @@ ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
 # Construct your API headers
 # Step 2 Start
+#ds-snippet-start:Admin3Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Admin3Step2
 # Step 2 End
 
 # Construct the request body to retrieve the user list
@@ -45,6 +47,7 @@ curl --request POST ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/use
 # Create the bulk export request
 requestId=`cat $response | cut -f1 -d"," | sed 's/{//g' | sed 's/.*\"id\"://' | sed 's/\"//g'`
 # Step 3 Start
+#ds-snippet-start:Admin3Step3
 retryCount=0
 downloadUrl=''
 while [ $retryCount -le 5 ]; do
@@ -80,13 +83,16 @@ while [ $retryCount -le 5 ]; do
         let retryCount=retryCount+1
     fi
 done
+#ds-snippet-end:Admin3Step3
 # Step 3 End
 
 # Check the request status
 # Step 4 Start
+#ds-snippet-start:Admin3Step4
 curl --request GET ${base_path}/v2/organizations/${ORGANIZATION_ID}/exports/user_list/${requestId} \
     "${Headers[@]}" \
     --output ${response}
+#ds-snippet-end:Admin3Step4
 # Step 4 End
 echo ''
 echo "Response:"
@@ -96,9 +102,11 @@ echo ''
 
 # Download the exported user data
 # Step 5 Start
+#ds-snippet-start:Admin3Step5
 curl --request GET "${downloadUrl}" \
 	"${Headers[@]}" \
 	--output ${response2}
+#ds-snippet-end:Admin3Step5
 # Step 5 End
 echo ''
 cat $response2

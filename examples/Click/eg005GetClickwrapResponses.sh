@@ -25,18 +25,21 @@ else
 fi
 
 # Step 2. Construct your API headers
+#ds-snippet-start:Click5Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json")
+#ds-snippet-end:Click5Step2
 
 # Step 3. Call the Click API
 # a) Make a GET call to the users endpoint to retrieve responses (acceptance) of a specific Clickwrap for an account
 # b) Display the returned JSON structure of the responses
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
-
+#ds-snippet-start:Click5Step3
 curl --request GET https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/users \
     "${Headers[@]}" \
     --output ${response}
+#ds-snippet-end:Click5Step3
 
 echo ""
 echo "Response:"

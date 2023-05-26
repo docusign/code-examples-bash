@@ -18,11 +18,11 @@ base_path="https://api-d.docusign.net/management"
 ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:Admin8Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:Admin68tep2
 
 EMAIL_ADDRESS=$(cat config/ESIGN_CLM_USER_EMAIL)
 
@@ -36,11 +36,9 @@ fi
 response=$(mktemp /tmp/response-admin.XXXXXX)
 echo ""
 echo "Getting permission profiles..."
-# Step 3 Start
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/products/permission_profiles \
      "${Headers[@]}" \
      --output ${response})
-#Step 3 End
 
 if [[ "$Status" -gt "201" ]]; then
     echo ""
@@ -104,7 +102,7 @@ fi
 
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 # Construct the request body
-#Step 3 start
+#ds-snippet-start:Admin8Step3
 printf \
 '{
   "email": "'${EMAIL_ADDRESS}'",
@@ -116,12 +114,15 @@ printf \
   ]
 }
 ' >>$request_data
+#ds-snippet-end:Admin8Step3
 echo $request_data
 Add user permission profile
+#ds-snippet-start:Admin8Step4
 curl -w '%{http_code}' -i --request POST "${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/products/permission_profiles/users" \
   "${Headers[@]}" \
   --data-binary @${request_data} \
   --output ${response}
+#ds-snippet-end:Admin8Step4
 echo ""
 echo "Response: "
 echo ""
