@@ -24,7 +24,7 @@ ACCESS_TOKEN=$(cat ${ds_access_token_path})
 # Note: Substitute these values with your own
 ACCOUNT_ID=$(cat ${api_account_id_path})
 
-# ***DS.snippet.0.start
+
 # Step 2. Create the envelope.
 #         The signer recipient includes a clientUserId setting
 #
@@ -45,6 +45,7 @@ echo ""
 echo "Sending the envelope request to DocuSign..."
 
 # Concatenate the different parts of the request
+#ds-snippet-start:eSign1Step2
 printf \
 '{
     "emailSubject": "Please sign this document set",
@@ -81,14 +82,17 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
+#ds-snippet-end:eSign1Step2
 
 # Step 3. Call DocuSign to create the envelope
 
+#ds-snippet-start:eSign1Step3
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes \
      --output ${response}
+#ds-snippet-end:eSign1Step3
 
 echo ""
 echo "Response:" `cat $response`
@@ -110,6 +114,7 @@ echo "EnvelopeId: ${envelope_id}"
 request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
 response=$(mktemp /tmp/response-eg-001.XXXXXX)
 
+#ds-snippet-start:eSign1Step4
 printf \
 '{
     "returnUrl": "http://httpbin.org/get",
@@ -118,17 +123,21 @@ printf \
     "userName": "'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
 }' >> $request_data
+#ds-snippet-end:eSign1Step4
 
 # Step 5. Create the recipient view and call the API to initiate the signing
 
 echo ""
 echo "Requesting the url for the embedded signing..."
 echo ""
+
+#ds-snippet-start:eSign1Step5
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes/${envelope_id}/views/recipient \
      --output ${response})
+#ds-snippet-end:eSign1Step5
 
 if [[ "$Status" -gt "201" ]] ; then
     echo ""

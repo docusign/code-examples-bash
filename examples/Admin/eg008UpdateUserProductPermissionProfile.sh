@@ -22,7 +22,7 @@ ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-#ds-snippet-end:Admin68tep2
+#ds-snippet-end:Admin6Step2
 
 EMAIL_ADDRESS=$(cat config/ESIGN_CLM_USER_EMAIL)
 
