@@ -42,6 +42,8 @@ Status=$(curl --request GET https://account-d.docusign.com/oauth/userinfo \
 --output ${response})
 
 IMPERSONATION_USER_GUID=`cat $response | grep sub | sed 's/.*\"sub\":\"//' | sed 's/\",.*//'`
+echo ""
+cat $IMPERSONATION_USER_GUID
 
 rm "$request_data"
 rm "$response"
