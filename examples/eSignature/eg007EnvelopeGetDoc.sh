@@ -23,12 +23,12 @@ output_file="envelope_document."
 base_path="https://demo.docusign.net/restapi"
 # Step 1 end
 
-# Step 2 start
+#ds-snippet-start:eSign007Step2
 # Construct your API headers
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:eSign007Step2
 # Check that we have an envelope id
 if [ ! -f config/ENVELOPE_ID ]; then
     echo ""
@@ -83,11 +83,11 @@ echo ""
 echo "Sending the EnvelopeDocuments::get request to DocuSign..."
 echo ""
 
-# Step 3 start
+#ds-snippet-start:eSign007Step3
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/documents/${doc_choice} \
      "${Headers[@]}" \
      --output ${output_file}${output_file_extension})
-# Step 3 end
+#ds-snippet-end:eSign007Step3
 
 echo ""
 echo "The document(s) are stored in file ${output_file}${output_file_extension}"

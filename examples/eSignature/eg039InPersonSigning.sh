@@ -39,7 +39,7 @@ read -p "Please enter the name of the in person signer: " IN_PERSON_SIGNER_NAME
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
-# Step 2 start
+#ds-snippet-start:eSign039Step2
 printf \
 '{
     "emailSubject": "Please host this in-person signing session",
@@ -76,9 +76,9 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
-# Step 2 end
+#ds-snippet-end:eSign039Step2
 
-# Step 3 start
+#ds-snippet-start:eSign039Step3
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
@@ -92,7 +92,7 @@ echo ""
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 echo "EnvelopeId: ${envelope_id}"
-# Step 3 end
+#ds-snippet-end:eSign039Step3
 
 # Create a recipient view (an embedded signing view) that the host will open to initiate in person signing
 #
@@ -105,7 +105,7 @@ echo "EnvelopeId: ${envelope_id}"
 request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
 response=$(mktemp /tmp/response-eg-001.XXXXXX)
 
-# Step 4 start
+#ds-snippet-start:eSign039Step4
 printf \
 '{
     "returnUrl": "http://httpbin.org/get",
@@ -113,7 +113,7 @@ printf \
     "email": "'"${HOST_EMAIL}"'",
     "userName": "'"${HOST_NAME}"'"
 }' >> $request_data
-# Step 4 end
+#ds-snippet-end:eSign039Step4
 
 # Create the recipient view and call the API to initiate the signing
 
@@ -121,7 +121,7 @@ echo ""
 echo "Requesting the url for the embedded signing..."
 echo ""
 
-# Step 5 start
+#ds-snippet-start:eSign039Step5
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
@@ -138,7 +138,7 @@ if [[ "$Status" -gt "201" ]] ; then
 fi
 
 signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
-# Step 5 end
+#ds-snippet-end:eSign039Step5
 echo ""
 echo "The embedded signing URL is ${signing_url}"
 echo ""

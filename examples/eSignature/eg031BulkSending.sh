@@ -31,20 +31,20 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:eSign031Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json, text/plain, */*" \
 					'--header' "Content-Type: application/json;charset=UTF-8" \
 					'--header' "Accept-Encoding: gzip, deflate, br" \
 					'--header' "Accept-Language: en-US,en;q=0.9")
-# Step 2 end
+#ds-snippet-end:eSign031Step2
 
 # Submit the Bulk List
 # Create a temporary file to store the JSON body
 # The JSON body must contain the recipient role, recipientId, name, and email.
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 
-# Step 3 start
+#ds-snippet-start:eSign031Step3
 printf \
 '{
 	"name": "sample.csv",
@@ -104,7 +104,7 @@ echo ""
 
 #Obtain the BULK_LIST_ID from the JSON response
 BULK_LIST_ID=`cat $response | grep listId | sed 's/.*\"listId\":\"//' | sed 's/\",.*//'`
-# Step 3 end
+#ds-snippet-end:eSign031Step3
 
 # Remove the temporary files
 rm "$request_data"
@@ -113,7 +113,7 @@ rm "$response"
 
 # Create your draft envelope
 # Create a temporary file to store the JSON body
-# Step 4 start
+#ds-snippet-start:eSign031Step4
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 printf \
 '{
@@ -188,7 +188,7 @@ echo ""
 
 #Obtain the envelopeId from the API response.
 ENVELOPE_ID=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
-# Step 4 end
+#ds-snippet-end:eSign031Step4
 
 #Remove the temporary files
 rm "$response"
@@ -198,7 +198,7 @@ rm "$request_data"
 # This Custom Field is used for tracking your Bulk Send via the Envelopes::Get method
 # Create a temporary file to store the JSON body
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
-# Step 5 start
+#ds-snippet-start:eSign031Step5
 printf \
 '{
 	"listCustomFields": [],
@@ -218,7 +218,7 @@ Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${a
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
-# Step 5 end
+#ds-snippet-end:eSign031Step5
 
 #If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
 if [[ "$Status" -gt "201" ]] ; then
@@ -241,7 +241,7 @@ rm "$request_data"
 
 # Initiate the Bulk Send by posting your listId obtained from Step 3, and the envelopeId obtained in step 4.
 # Target endpoint: {ACCOUNT_ID}/bulk_send_lists/{LIST_ID}/send
-# Step 6 start
+#ds-snippet-start:eSign031Step6
 printf \
 '{
 	"listId": "'"${BULK_LIST_ID}"'",
@@ -273,14 +273,14 @@ cat $response
 echo ""
 
 batchId=`cat $response | grep batchId | sed 's/.*\"batchId\":\"//' | sed 's/\",.*//'`
-# Step 6 end
+#ds-snippet-end:eSign031Step6
 
 rm "$response"
 rm "$request_data"
 
 # Confirm Bulk Send has initiated.
 # Note: Depending on the number of Bulk Recipients, it may take some time for the Bulk Send to complete. For 2000 recipients this can take ~1 hour.
-# Step 7 start
+#ds-snippet-start:eSign031Step7
 echo ""
 echo "Confirming Bulk Send has initiated. -- ${batchId}"
 echo ""
@@ -291,7 +291,7 @@ response=$(mktemp /tmp/response-bs.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/bulk_send_batch/${batchId} \
      "${Headers[@]}" \
      --output ${response})
-# Step 7 end
+#ds-snippet-end:eSign031Step7
 
 #If the Status code returned is greater than 201 (OK / Accepted), display an error message along with the API response. 
 if [[ "$Status" -gt "201" ]] ; then
