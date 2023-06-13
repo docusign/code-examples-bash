@@ -3,11 +3,11 @@
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Construct your API headers
-#ds-snippet-start:Monitor001Step2
+#ds-snippet-start:Monitor1Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-#ds-snippet-end:Monitor001Step2
+#ds-snippet-end:Monitor1Step2
 
 
 # First call the endpoint with no cursor to get the first records. 
@@ -15,7 +15,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 # call from the point where the previous one left off when iterating through
 # the monitoring records
 
-#ds-snippet-start:Monitor001Step3
+#ds-snippet-start:Monitor1Step3
 complete=false
 cursorValue=""
 iterations=0
@@ -61,7 +61,7 @@ if [ "$endCursorValue" == "$cursorValue" ] ; then
 	cursorValue="${endCursorValue}"
 sleep 5
 fi
-#ds-snippet-end:Monitor001Step3
+#ds-snippet-end:Monitor1Step3
 echo ""
 # Remove the temporary file
 rm "$response"
