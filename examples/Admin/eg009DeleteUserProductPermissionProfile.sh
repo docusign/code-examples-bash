@@ -25,17 +25,18 @@ if [ -z "$EMAIL_ADDRESS" ]; then
 fi
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:Admin9Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:Admin9Step2
 
 response=$(mktemp /tmp/response-oa.XXXXXX)
+#ds-snippet-start:Admin9Step3
 curl --request GET ${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/products/permission_profiles/users?email=${EMAIL_ADDRESS} \
     "${Headers[@]}" \
     --output ${response}
-
+#ds-snippet-end:Admin9Step3
 echo ""
 cat $response
 echo ""
@@ -64,7 +65,7 @@ fi
 
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 # Construct the request body
-#Step 3 start
+#ds-snippet-start:Admin9Step4
 printf \
 '{
   "user_email": "'${EMAIL_ADDRESS}'",
@@ -73,14 +74,16 @@ printf \
   ]
 }
 ' >>$request_data
-
+#ds-snippet-end:Admin9Step4
 cat $request_data
 
 #Delete User Permission Profile
+#ds-snippet-start:Admin9Step5
 curl -w '%{http_code}' -i --request DELETE "${base_path}/v2.1/organizations/${ORGANIZATION_ID}/accounts/${API_ACCOUNT_ID}/products/users" \
   "${Headers[@]}" \
   --data-binary @${request_data} \
   --output ${response}
+#ds-snippet-end:Admin9Step5
 echo ""
 echo "Response: "
 echo ""
