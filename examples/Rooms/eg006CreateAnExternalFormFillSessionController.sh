@@ -25,7 +25,7 @@ account_id=$(cat config/API_ACCOUNT_ID)
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-#ds-snippet-stop:Rooms6Step2
+#ds-snippet-end:Rooms6Step2
 
 # Get a Room ID
 if [ -f "config/ROOM_ID" ]; then
