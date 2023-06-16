@@ -19,10 +19,11 @@ base_path="https://demo.docusign.net/restapi"
 room_id=$(cat config/ROOM_ID)
 
 # Construct your API headers
-
+#ds-snippet-start:Rooms4Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Rooms4Step2
 
 # Get a Room ID
 if [ -f "config/ROOM_ID" ]; then
@@ -53,22 +54,26 @@ library_form_id=$(cat $response | grep libraryFormId | sed 's/.*\"libraryFormId\
 # Remove the temporary file
 rm "$response"
 
+
 # Create a temporary file to store the request body and response
 request_data=$(mktemp /tmp/request-rms-001.XXXXXX)
 response=$(mktemp /tmp/response-rms.XXXXXX)
-
 # Construct the request body for adding a form
+#ds-snippet-start:Rooms4Step3
 printf \
     '{
         "formId":"'"$library_form_id"'",
     }' >$request_data
+#ds-snippet-end:Rooms4Step3
 
 # a) Call the Rooms API
 # b) Display the JSON response
+#ds-snippet-start:Rooms4Step4
 Status=$(curl -w '%{http_code}' -i --request POST "https://demo.rooms.docusign.com/restapi/v2/accounts/${account_id}/rooms/${room_id}/forms" \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
+#ds-snippet-end:Rooms4Step4
 
 # If the Status code returned is greater than 201 (OK/Accepted), display an error message along with the API response
 if [[ "$Status" -gt "201" ]]; then
