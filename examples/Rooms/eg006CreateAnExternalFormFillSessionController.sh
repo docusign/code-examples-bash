@@ -21,9 +21,11 @@ account_id=$(cat config/API_ACCOUNT_ID)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 # Construct your API headers
+#ds-snippet-start:Rooms6Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-stop:Rooms6Step2
 
 # Get a Room ID
 if [ -f "config/ROOM_ID" ]; then
@@ -56,6 +58,8 @@ rm "$response"
 
 # Construct your request body
 # Create a temporary file to store the JSON body
+
+#ds-snippet-start:Rooms6Step3
 request_data=$(mktemp /tmp/request-rooms.XXXXXX)
 printf \
     '{
@@ -63,9 +67,11 @@ printf \
         "formIds": ["'$library_form_id'"],
         "xFrameAllowedUrl": "https://iframetester.com"
     }' >$request_data
+#ds-snippet-end:Rooms6Step3
 
 # Call the v2 Rooms API
 # Create a temporary file to store the response
+#ds-snippet-start:Rooms6Step4
 response=$(mktemp /tmp/response-rooms.XXXXXX)
 
 curl --request POST https://demo.rooms.docusign.com/restapi/v2/accounts/${account_id}/external_form_fill_sessions \
@@ -84,7 +90,9 @@ else
     cat $response
     echo ""
 fi
+#ds-snippet-end:Rooms6Step4
 
+#ds-snippet-start:Rooms6Step5
 embed_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 redirect_url="https://iframetester.com/?url=${embed_url}"
 echo ""
@@ -92,6 +100,7 @@ echo ""
 echo "The embedded form URL is ${redirect_url}"
 echo ""
 echo "Attempting to automatically open your browser..."
+#ds-snippet-end:Rooms6Step5
 
 if which xdg-open &> /dev/null  ; then
   xdg-open "$redirect_url"
