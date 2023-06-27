@@ -20,10 +20,12 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # Construct your API headers
+#ds-snippet-start:Rooms1Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
 
+#ds-snippet-end:Rooms1Step2
 # - Construct the request body for your room
 
 echo ""
@@ -90,6 +92,7 @@ rm "$response"
 # Create a temporary file to store the request body
 request_data=$(mktemp /tmp/request-rms-001.XXXXXX)
 
+#ds-snippet-start:Rooms1Step3
 printf \
 '
 {
@@ -109,18 +112,21 @@ printf \
       }
      }
 }' >$request_data
+#ds-snippet-end:Rooms1Step3
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rms.XXXXXX)
 
 # a) Call the Rooms API
 # b) Display the JSON response
+#ds-snippet-start:Rooms1Step4
 Status=$(
     curl -w '%{http_code}' -i --request POST https://demo.rooms.docusign.com/restapi/v2/accounts/${account_id}/rooms \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response}
 )
+#ds-snippet-end:Rooms1Step4
 
 # If the status code returned is greater than 201 (OK/Accepted), display an error message with the API response
 if [[ "$Status" -gt "201" ]]; then
