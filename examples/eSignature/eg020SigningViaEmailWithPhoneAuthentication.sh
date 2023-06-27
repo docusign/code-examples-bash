@@ -25,11 +25,11 @@ doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:eSign20Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
-# Step 2 end					
+#ds-snippet-end:eSign20Step2
 
 
 # Obtain your workflow ID
@@ -41,7 +41,7 @@ echo ""
 echo "Attempting to retrieve your account's workflow ID"
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
-# Step 3 start
+#ds-snippet-start:eSign20Step3
 Status=$(curl -w '%{http_code}' -i --request GET "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/identity_verification" \
      "${Headers[@]}" \
      --output ${response})
@@ -70,7 +70,7 @@ workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
 element="Phone Authentication"
 
 workflowId=$(GetWorkflowId "$workflowNames" "$element" "$workflowIds")
-# Step 3 end
+#ds-snippet-end:eSign20Step2
 
 if [ "$workflowId" == false ]; then
 	echo ""
@@ -93,7 +93,7 @@ rm "$response"
 GetSignerPhoneNum
 
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
-# Step 4 start
+#ds-snippet-start:eSign20Step4
 printf \
 '{
 	"documents": [{
@@ -147,7 +147,7 @@ printf \
 	"status": "Sent"
 }
 ' >> $request_data					
-# Step 4 end
+#ds-snippet-end:eSign20Step4
 
 # a) Make a POST call to the createEnvelopes endpoint to create a new envelope.
 # b) Display the JSON structure of the created envelope
@@ -157,12 +157,12 @@ echo ""
 cat $request_data
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
-# Step 5 start
+#ds-snippet-start:eSign20Step5
 curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes" \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response}
-# Step 5 end
+#ds-snippet-end:eSign20Step5
 
 echo ""
 echo "Response:"
