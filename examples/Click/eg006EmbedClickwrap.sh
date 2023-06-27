@@ -35,9 +35,11 @@ fi
 
 
 # Construct your API headers
+#ds-snippet-start:Click6Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Click6Step2
 
 
 # Construct the request body
@@ -54,6 +56,7 @@ read company_name
 echo "Please input a job title: "
 read title
 
+#ds-snippet-start:Click6Step3
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 printf \
     '
@@ -67,18 +70,20 @@ printf \
     "date": "'"$(date -I)"'"
   }
   }' >$request_data
+#ds-snippet-end:Click6Step3
 
 # Call the Click API
 # a) Make a POST call to the agreements endpoint to dynamically generate 
 # b) Display the returned JSON structure of the response
 # Create a temporary file to store the response
+#ds-snippet-start:Click6Step4
 response=$(mktemp /tmp/response-cw.XXXXXX)
 
 curl --request POST https://demo.docusign.net/clickapi/v1/accounts/${account_id}/clickwraps/${clickwrap_id}/agreements \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response}
-
+#ds-snippet-end:Click6Step4
 
 message=`cat $response | grep message | sed 's/.*\"message\":\"//'`
 
