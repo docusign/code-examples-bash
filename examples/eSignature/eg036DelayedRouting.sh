@@ -130,7 +130,6 @@ echo ""
 
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
-# ***DS.snippet.0.end
 # Save the envelope id for use by other scripts
 echo "EnvelopeId: ${envelope_id}"
 echo ${envelope_id} > config/ENVELOPE_ID
