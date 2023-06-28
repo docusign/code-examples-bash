@@ -18,14 +18,13 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 # Note: Substitute these values with your own
 account_id=$(cat config/API_ACCOUNT_ID)
 
-# Step 2 start
+#ds-snippet-start:eSign10Step2
 boundary="multipartboundary_multipartboundary"
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: multipart/form-data; boundary=${boundary}")
-# Step 2 end
+#ds-snippet-end:eSign10Step2
 
-# ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
@@ -36,6 +35,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
 
+#ds-snippet-start:eSign10Step3
 base_path="https://demo.docusign.net/restapi"
 
 # temp files
@@ -52,7 +52,7 @@ echo "The envelope has three documents. Processing time will be about 15 seconds
 echo "Results:"
 echo ""
 
-# Step 1. Make the JSON part of the final request body
+# Make the JSON part of the final request body
 json='
 {
     "emailSubject": "Please sign this document set",
@@ -107,7 +107,7 @@ json='
     "status": "sent"
 }'
 
-# Step 2. Assemble the multipart body
+# Assemble the multipart body
 CRLF="\r\n"
 
 # it is not easy to printf hyphens. See https://unix.stackexchange.com/q/22764/149244
@@ -156,12 +156,15 @@ eval "$hyphens_cmd"  >> $request_data
 printf "${boundary}" >> $request_data
 eval "$hyphens_cmd"  >> $request_data
 printf "${CRLF}"     >> $request_data
+#ds-snippet-end:eSign10Step3
 
 
+#ds-snippet-start:eSign10Step4
 Status=$(curl --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response})
+#ds-snippet-end:eSign10Step4
 
 echo ""
 cat $response
