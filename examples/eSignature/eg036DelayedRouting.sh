@@ -5,7 +5,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -15,7 +15,6 @@ account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 
-# ***DS.snippet.0.start
 #  document 1 (pdf) has tag /sn1/
 #
 #  The envelope has two recipients.
@@ -49,7 +48,7 @@ echo "Results:"
 echo ""
 
 # Concatenate the different parts of the request
-# Step 2 start
+#ds-snippet-start:eSign36Step2
 printf \
 '{
     "emailSubject": "Please sign this document set",
@@ -114,15 +113,15 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
-# Step 2 end
+#ds-snippet-end:eSign36Step2
 
-# Step 3 start
+#ds-snippet-start:eSign36Step3
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output $response
-# Step 3 end
+#ds-snippet-end:eSign36Step3
 
 echo ""
 echo "Response:"
@@ -131,7 +130,6 @@ echo ""
 
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
-# ***DS.snippet.0.end
 # Save the envelope id for use by other scripts
 echo "EnvelopeId: ${envelope_id}"
 echo ${envelope_id} > config/ENVELOPE_ID
