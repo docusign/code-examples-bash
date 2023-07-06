@@ -20,9 +20,11 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 #Construct API headers
+#ds-snippet-start:eSign25Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 '--header' "Accept: application/json" \
 '--header' "Content-Type: application/json" )
+#ds-snippet-end:eSign25Step2
 
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-bs.XXXXXX)
@@ -175,6 +177,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 
 # Step 3: Construct your request body
 # Create a temporary file to store the request body
+#ds-snippet-start:eSign25Step3
 request_data=$(mktemp /tmp/request-perm-001.XXXXXX)
 printf \
 '{
@@ -185,16 +188,19 @@ printf \
         }
             ]
 }' >> $request_data
+#ds-snippet-end:eSign25Step3
 
 # Step 4: a) Call the eSignature API
 #         b) Display the JSON response    
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-perm.XXXXXX)
 
+#ds-snippet-start:eSign25Step4
 Status=$(curl -w '%{http_code}' -i --request PUT ${base_path}/v2.1/accounts/${account_id}/groups \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
+#ds-snippet-end:eSign25Step4
 
 # If the Status code returned is greater than 399, display an error message along with the API response
 if [[ "$Status" -gt "399" ]] ; then
