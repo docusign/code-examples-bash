@@ -19,13 +19,16 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # Step 2: Construct your API headers
+#ds-snippet-start:eSign28Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
+#ds-snippet-end:eSign28Step2
 
 # Step 3: Construct the request body
 # Create a temporary file to store the request body
 request_data=$(mktemp /tmp/request-brand-001.XXXXXX)
+#ds-snippet-start:eSign28Step3
 printf \
 '{
 
@@ -33,16 +36,19 @@ printf \
     "defaultBrandLanguage": "en"
 
 }' >> $request_data
+#ds-snippet-end:eSign28Step3
 
 # Step 4: a) Call the eSignature API
 #         b) Display the JSON response    
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-brand.XXXXXX)
 
+#ds-snippet-start:eSign28Step4
 Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/brands \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
+#ds-snippet-end:eSign28Step4     
      
 # If the Status code returned is greater than 399, display an error message along with the API response
 if [[ "$Status" -gt "399" ]] ; then
