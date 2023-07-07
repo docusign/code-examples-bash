@@ -12,7 +12,6 @@ CheckForValidCCEmail
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
-# Step 1 start
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
 # Set up variables for full code example
@@ -20,14 +19,13 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
-# Step 1 end
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:eSign17Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:eSign17Step2
 
 # temp files:
 request_data=$(mktemp /tmp/request-eg-017.XXXXXX)
@@ -47,8 +45,8 @@ response=$(mktemp /tmp/response-eg-017.XXXXXX)
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
-# Step 4. Construct the JSON body for your envelope
-# Step 4 start
+# Construct the JSON body for your envelope
+#ds-snippet-start:eSign17Step4
 printf \
 '{
     "customFields": {
@@ -113,15 +111,15 @@ printf \
         "roleName": "cc"
     }]
 }' >> $request_data
-# Step 4 end
+#ds-snippet-end:eSign17Step4
 
-# Step 5: Call the eSignature REST API
-# Step 5 start
+# Call the eSignature REST API
+#ds-snippet-start:eSign17Step5
 Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response})
-# Step 5 end
+#ds-snippet-end:eSign17Step5
 echo ""
 echo "Response:"
 cat $response
@@ -141,10 +139,10 @@ echo "EnvelopeId: ${envelope_id}"
 # the signer to the return URL when the DocuSign signing completes.
 # For this example, we'll use http://httpbin.org/get to show the 
 # query parameters passed back from DocuSign
-# Step 6 start
 
 echo ""
 echo "Requesting the url for the embedded signing..."
+#ds-snippet-start:eSign17Step6
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary '
@@ -158,7 +156,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
      --output ${response}
 
-# Step 6 end
+#ds-snippet-end:eSign17Step6
 
 echo ""
 echo "Response:"
