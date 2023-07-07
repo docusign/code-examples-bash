@@ -25,15 +25,18 @@ SIGNER2_NAME=$CC_NAME
 
 # Step 2: Construct your API headers
 # Construct your API headers
+#ds-snippet-start:eSign32Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
   '--header' "Accept: application/json"
   '--header' "Content-Type: application/json")
+#ds-snippet-end:eSign32Step2
 
 # Step 3. Construct the request body
 # Create a temporary files to store the JSON body and response
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
 # Create the request body
+#ds-snippet-start:eSign32Step3
 printf \
   '{
   "documents": [
@@ -97,12 +100,15 @@ printf \
 "status": "Sent"
 }
 ' >>$request_data
+#ds-snippet-end:eSign32Step3
 
 # Step 4. Call the eSignature API
+#ds-snippet-start:eSign32Step4
 Status=$(curl --request POST "${base_path}/v2.1/accounts/${account_id}/envelopes" \
   "${Headers[@]}" \
   --data-binary @${request_data} \
   --output ${response})
+#ds-snippet-end:eSign32Step4
 
 if [[ "$Status" -gt "201" ]]; then
   echo ""
