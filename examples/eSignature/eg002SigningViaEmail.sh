@@ -50,6 +50,7 @@ echo "Results:"
 echo ""
 
 # Concatenate the different parts of the request
+#ds-snippet-start:eSign2Step2
 printf \
 '{
     "emailSubject": "Please sign this document set",
@@ -115,12 +116,15 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
+#ds-snippet-end:eSign2Step2
 
+#ds-snippet-start:eSign2Step3
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output $response
+#ds-snippet-end:eSign2Step3
 
 echo ""
 echo "Response:"
