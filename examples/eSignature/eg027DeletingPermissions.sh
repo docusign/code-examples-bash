@@ -23,18 +23,22 @@ permission_profile_id=`cat config/PROFILE_ID`
 base_path="https://demo.docusign.net/restapi"
 
 #Step 2: Construct your API headers
+#ds-snippet-start:eSign27Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
+#ds-snippet-end:eSign27Step2
 
 # Step 3: a) Call the eSignature API
 #         b) Display the JSON response    
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-perm.XXXXXX)
 
+#ds-snippet-start:eSign27Step3
 Status=$(curl -w '%{http_code}' -i --request DELETE ${base_path}/v2.1/accounts/${account_id}/permission_profiles/${permission_profile_id} \
      "${Headers[@]}" \
      --output ${response})
+#ds-snippet-end:eSign27Step3
 
 # If the Status code returned is greater than 399, display an error message along with the API response
 if [[ "$Status" -gt "399" ]] ; then
