@@ -29,9 +29,11 @@ base_path="https://demo.docusign.net/restapi"
 
 # Step 2. Construct your API headers
 # Construct your API headers
+#ds-snippet-start:eSign34Step2
 declare -a Headers=('--header' "Authorization: Bearer $ACCESS_TOKEN"
   '--header' "Accept: application/json"
   '--header' "Content-Type: application/json")
+#ds-snippet-end:eSign34Step2
 
 # Step 3. Construct the request body
 
@@ -39,6 +41,7 @@ declare -a Headers=('--header' "Authorization: Bearer $ACCESS_TOKEN"
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
+#ds-snippet-start:eSign34Step3
 printf \
   '{
   "documents": 
@@ -196,12 +199,15 @@ printf \
 "status": "Sent"
 }
 ' >>$request_data
+#ds-snippet-end:eSign34Step3
 
 # Step 4. Call the eSignature API
+#ds-snippet-start:eSign34Step4
 Status=$(curl --request POST "${base_path}/v2.1/accounts/${account_id}/envelopes" \
   "${Headers[@]}" \
   --data-binary @${request_data} \
   --output ${response})
+#ds-snippet-end:eSign34Step4
 
 if [[ "$Status" -gt "201" ]]; then
   echo ""
