@@ -20,14 +20,17 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # - Construct your API headers
+#ds-snippet-start:Rooms2Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:Rooms2Step2
 
 # - Retrieve rooms pre-requisite data
 # - Retrieve Rooms default role Id
 
 # Create a temporary file to store the response
+#ds-snippet-start:Rooms2Step3
 request_data=$(mktemp /tmp/request-rmtmp.XXXXXX)
 
 echo ""
@@ -90,6 +93,7 @@ echo "Response:"
 cat $response
 echo ""
 officeId=$(cat $response | grep officeId | sed 's/.*\"officeId\"://' | sed 's/,.*//')
+#ds-snippet-end:Rooms2Step3
 
 # Remove the temporary files
 rm "$request_data"
@@ -128,6 +132,7 @@ rm "$response"
 
 # Construct the JSON body for your room
 # Create a temporary file to store the JSON body
+#ds-snippet-start:Rooms2Step4
 request_data=$(mktemp /tmp/request-rms-001.XXXXXX)
 printf \
     '
@@ -149,6 +154,7 @@ printf \
       }
      }
 }' >>$request_data
+#ds-snippet-end:Rooms2Step4
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rms-001.XXXXXX)
 
