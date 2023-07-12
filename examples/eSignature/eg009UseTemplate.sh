@@ -31,6 +31,7 @@ template_id=`cat config/TEMPLATE_ID`
 base_path="https://demo.docusign.net/restapi"
 # Step 1. Create the envelope request.
 # temp files:
+#ds-snippet-start:eSign9Step2
 request_data=$(mktemp /tmp/request-eg-009.XXXXXX)
 
 printf \
@@ -50,9 +51,10 @@ printf \
     ],
     "status": "sent"
 }' >> $request_data
+#ds-snippet-end:eSign9Step2
 
 
-
+#ds-snippet-start:eSign9Step3
 response=$(mktemp /tmp/response-eg-009.XXXXXX)
 
 echo ""
@@ -62,6 +64,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
   --data-binary @${request_data} \
   --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
   --output ${response}
+#ds-snippet-end:eSign9Step3
 
 echo ""
 echo "Response:"
