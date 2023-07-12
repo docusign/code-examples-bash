@@ -25,7 +25,6 @@ request_data=$(mktemp /tmp/request-eg-014.XXXXXX)
 response=$(mktemp /tmp/response-eg-014.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-014-doc1.XXXXXX)
 
-# ***DS.snippet.0.start
 # Fetch doc and encode
 cat demo_documents/order_form.html | base64 > $doc1_base64
 
@@ -33,6 +32,7 @@ echo ""
 echo "Sending the envelope request to DocuSign..."
 
 # Concatenate the different parts of the request
+#ds-snippet-start:eSign14Step3
 printf \
 '{
     "emailSubject": "Please complete your order",
@@ -164,13 +164,15 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
+#ds-snippet-end:eSign14Step3
 
+#ds-snippet-start:eSign14Step4
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output $response
-# ***DS.snippet.0.end
+#ds-snippet-end:eSign14Step4
 
 echo ""
 echo "Results:"
