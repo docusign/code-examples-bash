@@ -34,11 +34,11 @@ echo "Sending the Envelopes::get request to DocuSign..."
 echo "Results:"
 echo ""
 
-# ***DS.snippet.0.start
+#ds-snippet-start:eSign4Step2
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}
-# ***DS.snippet.0.end
+#ds-snippet-end:eSign4Step2
 
 echo ""
 echo ""
