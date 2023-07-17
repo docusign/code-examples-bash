@@ -46,6 +46,10 @@ ADMIN_SCOPES = [
     "identity_provider_read", "user_data_redact"
 ]
 
+NOTARY_SCOPES = [
+    "signature", "organization_read", "notary_read", "notary_write"
+]
+
 class DSClient:
 
     ds_app = None
@@ -63,6 +67,8 @@ class DSClient:
             use_scopes = CLICK_SCOPES
         elif (API_VERSION == "Admin"):
             use_scopes = ADMIN_SCOPES
+        elif (API_VERSION == "Notary"):
+            use_scopes = NOTARY_SCOPES
         else:
             use_scopes = SCOPES
 

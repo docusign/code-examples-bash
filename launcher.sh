@@ -177,6 +177,7 @@ function choices() {
         "Click" \
         "Monitor" \
         "Admin" \
+        "Notary" \
         "Exit"; do
         case "$METHOD" in
 
@@ -207,6 +208,12 @@ function choices() {
             api_version="Admin"
             login $api_version
             startAdmin
+            ;;
+
+        Notary)
+            api_version="Notary"
+            login $api_version
+            startNotary
             ;;
 
         Exit)
@@ -822,6 +829,39 @@ function startAdmin() {
     done
 }
 
+function startNotary() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Signature_Request_To_Notary_Group" \
+        "Invite_Notary_To_Pool" \
+        "Jurisdictions" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Signature_Request_To_Notary_Group)
+            bash examples/Notary/eg001SignatureRequestToNotaryGroup.sh
+            startNotary
+            ;;
+        Invite_Notary_To_Pool)
+            bash examples/Notary/eg002InviteNotaryToPool.sh
+            startNotary
+            ;;
+        Jurisdictions)
+            bash examples/Notary/eg003Jurisdictions.sh
+            startNotary
+            ;;
+        *)
+            echo "Default action..."
+            startNotary
+            ;;
+        esac
+    done
+}
+
 function continu() {
 
     isCFR
@@ -846,6 +886,10 @@ function continu() {
     then
       bash ./examples/Admin/utils.sh
       startAdmin
+    elif [[ $api_version == "Notary" ]]
+    then
+      bash ./examples/Admin/utils.sh
+      startNotary
     fi
 }
 
