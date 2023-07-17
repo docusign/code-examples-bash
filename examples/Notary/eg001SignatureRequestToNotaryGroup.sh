@@ -34,7 +34,8 @@ doc_base64=$(mktemp /tmp/eg-001-doc.XXXXXX)
 cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc_base64
 
 echo "Sending the envelope request to DocuSign..."
-echo "Results:"
+echo "The envelope processing time will be about 15 seconds."
+echo "Response:"
 
 # Concatenate the different parts of the request
 
