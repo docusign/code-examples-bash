@@ -62,8 +62,8 @@ printf \
                 "tabs": {
                     "notarySealTabs": [
                         {
-                            "xPosition": "150",
-                            "yPosition": "50",
+                            "xPosition": "300",
+                            "yPosition": "235",
                             "documentId": "1",
                             "pageNumber": "1",
                         },
@@ -93,8 +93,8 @@ printf \
                     "signHereTabs": [
                         {
                             "documentId": "1",
-                            "xPosition": "50",
-                            "yPosition": "50",
+                            "xPosition": "200",
+                            "yPosition": "235",
                             "pageNumber": "1",
                         },
                         {
