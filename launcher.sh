@@ -888,6 +888,7 @@ function continu() {
       startAdmin
     elif [[ $api_version == "Notary" ]]
     then
+      bash ./examples/Admin/utils.sh
       startNotary
     fi
 }
