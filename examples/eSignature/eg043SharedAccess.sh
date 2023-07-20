@@ -22,15 +22,15 @@ ACCESS_TOKEN=$(cat ${ds_access_token_path})
 # Note: Substitute these values with your own
 ACCOUNT_ID=$(cat ${api_account_id_path})
 
-# ***DS.snippet.0.start
 
 base_path="https://demo.docusign.net/restapi"
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:eSign43Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:eSign43Step2
 
 # temp files:
 request_data=$(mktemp /tmp/request-bs.XXXXXX)
@@ -58,6 +58,7 @@ echo "Please input an activation code for the new agent. Save this code. You'll 
 read ACTIVATION
 
 # Create a new agent in the account
+#ds-snippet-start:eSign43Step3
 printf \
 '{
   "newUsers": [
@@ -80,6 +81,7 @@ cat $response
 echo ""
 
 AGENT_USER_ID=`cat $response | grep userId | sed 's/.*\"userId\":\"//' | sed 's/\",.*//'`
+#ds-snippet-end:eSign43Step3
 
 echo "" 
 echo "Agent has been created. Please go to the agent's email to activate the agent, and press 1 to continue the example: "
@@ -99,6 +101,7 @@ request_data=$(mktemp /tmp/request-bs.XXXXXX)
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
 # Construct the request body
+#ds-snippet-start:eSign43Step4
 printf \
 '{
     "agentUser":
@@ -113,6 +116,7 @@ Status=$(curl --request POST ${base_path}/v2.1/accounts/${ACCOUNT_ID}/users/${IM
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response})
+#ds-snippet-end:eSign43Step4
 
 echo ""
 cat $response
@@ -135,6 +139,7 @@ SharedAccessLogin
 
 # Make the API call to check the envelope
 
+#ds-snippet-start:eSign43Step5
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
 if date -v -10d &> /dev/null ; then
@@ -151,6 +156,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --output $response \
      --data-urlencode "from_date=${from_date}" \
      --request GET ${base_path}/v2.1/accounts/${ACCOUNT_ID}/envelopes/
+#ds-snippet-end:eSign43Step5
 
 echo ""
 

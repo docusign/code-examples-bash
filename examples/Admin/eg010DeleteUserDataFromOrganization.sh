@@ -17,11 +17,11 @@ base_path="https://api-d.docusign.net/management"
 ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:Admin10Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:Admin10Step2
 
 response=$(mktemp /tmp/response-oa.XXXXXX)
 request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
@@ -39,7 +39,7 @@ USER_ID=$(cat $response | sed 's/}]}/\n/' | grep users | sed 's/.*\"id\"://' | s
 ACCOUNT_ID=$(cat $response | sed 's/}]}/\n/' | grep memberships | sed 's/.*\"account_id\"://' | sed 's/,".*//')
 
 # Construct the request body
-#Step 3 start
+#ds-snippet-start:Admin10Step3
 printf \
 '{
   "user_id": '${USER_ID}',
@@ -48,12 +48,15 @@ printf \
   }]
 }
 ' >>$request_data
+#ds-snippet-end:Admin10Step3
 
 #Delete user info from an organization
+#ds-snippet-start:Admin10Step4
 curl -w '%{http_code}' -i --request POST "${base_path}/v2/data_redaction/organizations/${ORGANIZATION_ID}/user" \
   "${Headers[@]}" \
   --data-binary @${request_data} \
   --output ${response}
+#ds-snippet-end:Admin10Step4
 
 echo ""
 echo "Response: "
