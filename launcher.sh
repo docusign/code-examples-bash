@@ -177,6 +177,7 @@ function choices() {
         "Click" \
         "Monitor" \
         "Admin" \
+        "ID_Evidence" \
         "Notary" \
         "Exit"; do
         case "$METHOD" in
@@ -209,7 +210,11 @@ function choices() {
             login $api_version
             startAdmin
             ;;
-
+        ID_Evidence)
+            api_version="idEvidence"
+            login $api_version
+            startIdEvidence
+            ;;
         Notary)
             api_version="Notary"
             login $api_version
@@ -829,6 +834,35 @@ function startAdmin() {
     done
 }
 
+
+function startIdEvidence() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Retrieve_Events" \
+        "Retrieve_Media" \
+        "Pick_An_API"; do
+        case "$CHOICE" in
+
+        Pick_An_API)
+            choices
+            ;;
+        Retrieve_Events)
+            bash examples/IdEvidence/eg001RetrieveEvents.sh
+            startIdEvidence
+            ;;
+        Retrieve_Media)
+            bash examples/IdEvidence/eg002RetrieveMedia.sh
+            startIdEvidence
+            ;;
+        *)
+            echo "Default action..."
+            startIdEvidence
+            ;;
+        esac
+    done
+}
+
 function startNotary() {
     echo ""
     PS3='Select the action : '
@@ -882,6 +916,9 @@ function continu() {
     elif [[ $api_version == "Monitor" ]]
     then
       startMonitor
+    elif [[ $api_version == "idEvidence" ]]
+    then
+      startIdEvidence
     elif [[ $api_version == "Admin" ]]
     then
       bash ./examples/Admin/utils.sh

@@ -17,7 +17,7 @@ $header = encodeBase64URL(
     )
 );
 
-if ($api_version == "eSignature") {
+if ($api_version == "eSignature" || $api_version == "idEvidence") {
     $scope = 'signature impersonation';
 } else if ($api_version == "Rooms") {
     $scope = 'signature impersonation dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms';
