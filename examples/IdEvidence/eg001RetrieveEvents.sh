@@ -21,6 +21,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
     '--header' "Content-Type: application/json;charset=UTF-8")
 
 # Retrieve recipient data
+#ds-snippet-start:IDEvidence1Step2
 uri="https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes/${idv_envelope_id}/recipients"
 response=$(mktemp /tmp/response.XXXXXX)
 
@@ -29,6 +30,7 @@ echo "Retrieving recipient data"
 status=$(curl -s -w "%{http_code}" --request GET "${uri}" \
     "${Headers[@]}" \
     --output ${response})
+#ds-snippet-end
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$status" -gt "201" ]]; then
@@ -55,6 +57,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${access_token}" \
     '--header' "Content-Type: application/json;charset=UTF-8")
 
 # Obtain identity proof token (resource token)
+#ds-snippet-start:IDEvidence1Step3
 uri="https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes/${idv_envelope_id}/recipients/${recipientIdGuid}/identity_proof_token"
 response=$(mktemp /tmp/response.XXXXXX)
 
@@ -63,6 +66,7 @@ echo "Attempting to retrieve your identity proof token"
 status=$(curl -s -w "%{http_code}" --request POST "${uri}" \
 	"${Headers[@]}" \
 	--output ${response})
+#ds-snippet-end
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$status" -gt "201" ]]; then
@@ -85,11 +89,13 @@ echo ""
 echo $resourceToken >config/RESOURCE_TOKEN
 
 # Construct your API headers
+#ds-snippet-start:IDEvidence1Step4
 declare -a Headers=('--header' "Authorization: Bearer ${resourceToken}" \
     '--header' "Accept: application/json, text/plain, */*" \
     '--header' "Content-Type: application/json;charset=UTF-8")
-
+#ds-snippet-end
 # Obtain identity proof token (resource token)
+#ds-snippet-start:IDEvidence1Step5
 uri="https://proof-d.docusign.net/api/v1/events/person/${recipientIdGuid}.json"
 response=$(mktemp /tmp/response.XXXXXX)
 
@@ -98,6 +104,7 @@ echo "Retrieving recipient data"
 status=$(curl -s -w "%{http_code}" --request GET "${uri}" \
 	"${Headers[@]}" \
 	--output ${response})
+#ds-snippet-end
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$status" -gt "201" ]]; then
