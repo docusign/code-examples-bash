@@ -140,6 +140,15 @@ echo ""
 echo "Response:"
 cat $response
 echo ""
+
+# Save the IDV envelope id for use by other scripts
+envelopeId=$(cat $response | grep -o '"envelopeId":"[^"]*' | sed 's/"envelopeId":"//')
+
+echo ""
+echo "IDV EnvelopeId: $envelopeId"
+
+echo $envelopeId >config/IDV_ENVELOPE_ID
+
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
