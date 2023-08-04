@@ -16,15 +16,18 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # Step 2: Construct your API headers
+#ds-snippet-start:eSign23Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
 
+#ds-snippet-end:eSign23Step2
 # Step 3: Obtain your workflow ID
 # Create a temporary file to store
 request_data=$(mktemp /tmp/request-idv.XXXXXX)
 
 # Create a temporary file to store the response
+#ds-snippet-start:eSign23Step3
 echo ""
 echo "Attempting to retrieve your account's workflow ID"
 echo ""
@@ -56,6 +59,7 @@ workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
 element="DocuSign ID Verification"
 
 workflowId=$(GetWorkflowId "$workflowNames" "$element" "$workflowIds")
+#ds-snippet-end:eSign23Step3
 
 if [ "$workflowId" == false ]; then
 	echo ""
@@ -80,6 +84,7 @@ doc_base64=$(mktemp /tmp/base64doc-idv.XXXXXX)
 cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc_base64
 request_data=$(mktemp /tmp/request-idv.XXXXXX)
 
+#ds-snippet-start:eSign23Step4
 printf \
 '{
 	"documents": [{
@@ -126,15 +131,18 @@ printf \
 	"status": "Sent"
 }
 ' >> $request_data
+#ds-snippet-end:eSign23Step4
 					
 # Step 5: a) Make a POST call to the createEnvelopes endpoint to create a new envelope.
 #         b) Display the JSON structure of the created envelope
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-idv.XXXXXX)
+#ds-snippet-start:eSign23Step5
 curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes" \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response}
+#ds-snippet-end:eSign23Step5
 
 echo ""
 echo "Response:"
