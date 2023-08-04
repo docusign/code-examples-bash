@@ -15,11 +15,11 @@ account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 
-# Step 2 start
+#ds-snippet-start:eSign19Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:eSign19Step2
  
 doc_base64=$(mktemp /tmp/eg-002-doc3.XXXXXX)
 
@@ -34,7 +34,7 @@ ACCESS_CODE=${ACCESS_CODE:-"nj91@c"}
 request_data=$(mktemp /tmp/request-ds.XXXXXX)
 
 # Create a temporary file to store the JSON body
-# Step 3 start
+#ds-snippet-start:eSign19Step3
 printf \
 '{
     "documents": [
@@ -81,7 +81,7 @@ printf \
 	"status": "Sent"
 }
 ' >> $request_data
-#Step 3 end
+#ds-snippet-end:eSign19Step3
 
 echo "Access code for this example is ${ACCESS_CODE}"
 echo ""
@@ -93,12 +93,12 @@ echo ""
 cat $request_data
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-cw.XXXXXX)
-# Step 4 start
+#ds-snippet-start:eSign19Step4
 curl --request POST "https://demo.docusign.net/restapi/v2.1/accounts/${account_id}/envelopes" \
      "${Headers[@]}" \
      --data-binary @${request_data} \
      --output ${response}
-# Step 4 end
+#ds-snippet-end:eSign19Step4
 
 echo ""
 echo "Response:"
