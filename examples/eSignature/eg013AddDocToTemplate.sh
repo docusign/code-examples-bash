@@ -34,7 +34,6 @@ request_data=$(mktemp /tmp/request-eg-013.XXXXXX)
 response=$(mktemp /tmp/response-eg-013.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-013-doc1.XXXXXX)
 
-# ***DS.snippet.0.start
 # Fetch docs and encode
 cat demo_documents/added_document.html | base64 > $doc1_base64
 
@@ -45,6 +44,7 @@ echo "added by using Composite Templates"
 
 # Concatenate the different parts of the request
 #  document 1 (html) has tag **signature_1**
+#ds-snippet-start:eSign13Step2
 printf \
 '{
     "compositeTemplates": [
@@ -130,12 +130,15 @@ printf \
     ],
     "status": "sent"
 }' >> $request_data
+#ds-snippet-end:eSign13Step2
 
+#ds-snippet-start:eSign13Step3
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output $response
+#ds-snippet-end:eSign13Step3
 
 echo ""
 echo "Results:"
@@ -155,6 +158,7 @@ echo "EnvelopeId: ${envelope_id}"
 
 echo ""
 echo "Requesting the url for the embedded signing..."
+#ds-snippet-start:eSign13Step4
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary '
@@ -167,6 +171,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
      --output ${response}
+#ds-snippet-end:eSign13Step4
 
 echo ""
 echo "Response:"
@@ -174,7 +179,6 @@ cat $response
 echo ""
 
 signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
-# ***DS.snippet.0.end
 echo ""
 printf "The embedded signing URL is ${signing_url}\n"
 printf "It is only valid for five minutes. Attempting to automatically open your browser...\n"
