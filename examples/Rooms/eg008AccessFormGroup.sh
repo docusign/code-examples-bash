@@ -17,14 +17,14 @@ API_ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.rooms.docusign.com"
 
-# Step 2 Start
+#ds-snippet-start:Rooms8Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-# Step 2 End
+#ds-snippet-end:Rooms8Step2
 
 
-# Step 3 Start
+#ds-snippet-start:Rooms8Step3
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-rooms.XXXXXX)
 echo ""
@@ -51,9 +51,10 @@ cat $response
 echo ""
 
 request_data=$(mktemp /tmp/request-rooms-008.XXXXXX)
-#Step 3 End
+#ds-snippet-end:Rooms8Step3
 
 # Get a form group ID from the file ./config/FORM_GROUP_ID
+#ds-snippet-start:Rooms8Step4
 if [ -f "config/FORM_GROUP_ID" ]; then
     FORM_GROUP_ID=$(cat config/FORM_GROUP_ID)
 else
@@ -62,20 +63,21 @@ else
     exit 0
 
 fi
+#ds-snippet-end:Rooms8Step4
 
 
 response=$(mktemp /tmp/request-rooms-008step4req.XXXXXX)
 echo ""
 echo "Call the Rooms API..."
 
-# Step 5 Start
+#ds-snippet-start:Rooms8Step5
 Status=$(
     curl -w '%{http_code}' --request POST ${base_path}/restapi/v2/accounts/${API_ACCOUNT_ID}/form_groups/$FORM_GROUP_ID/grant_office_access/${OFFICE_ID} \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response}
 )
-# Step 5 End
+#ds-snippet-end:Rooms8Step5
 
 
 if [[ "$Status" -ne "204" ]]; then
