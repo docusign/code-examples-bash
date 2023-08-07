@@ -16,11 +16,11 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:eSign40Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:eSign40Step2
 
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
@@ -63,7 +63,7 @@ echo "Results:"
 echo ""
 
 # Concatenate the different parts of the request
-# Step 3 start
+#ds-snippet-start:eSign40Step3
 printf \
 '{
     "emailSubject": "Please sign this document set",
@@ -141,15 +141,15 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
-# Step 3 end
+#ds-snippet-end:eSign40Step3
 
-# Step 4 start
+#ds-snippet-start:eSign40Step4
 response=$(mktemp /tmp/response-oa.XXXXXX)
 Status=$(curl --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response})
-# Step 4 end
+#ds-snippet-end:eSign40Step4
 
 # If the status code returned a response greater than 201, display an error message
 if [[ "$Status" -gt "201" ]]; then
