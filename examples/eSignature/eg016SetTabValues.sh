@@ -23,9 +23,11 @@ response=$(mktemp /tmp/response-eg-016.XXXXXX)
 doc1_base64=$(mktemp /tmp/eg-016-doc1.XXXXXX)
 
 # Construct your API headers
+#ds-snippet-start:eSign16Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
     '--header' "Accept: application/json"
     '--header' "Content-Type: application/json")
+#ds-snippet-end:eSign16Step2
 
 echo ""
 echo "Sending the envelope request to DocuSign..."
@@ -34,6 +36,7 @@ echo "Sending the envelope request to DocuSign..."
 cat demo_documents/World_Wide_Corp_salary.docx | base64 > $doc1_base64
 
 # Construct the JSON body for your envelope
+#ds-snippet-start:eSign16Step3
 printf \
 '{
     "customFields": {
@@ -126,13 +129,16 @@ printf \
     },
     "status": "Sent"
 }' >> $request_data
+#ds-snippet-end:eSign16Step3
 # a) Create your authorization headers
 # b) Send a POST request to the Envelopes endpoint
 
+#ds-snippet-start:eSign16Step4
 Status=$(curl --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
 "${Headers[@]}" \
 --data-binary @${request_data} \
 --output ${response})
+#ds-snippet-end:eSign16Step4
 
 echo ""
 echo "Response:"
