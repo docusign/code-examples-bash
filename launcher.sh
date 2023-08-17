@@ -738,7 +738,6 @@ function startMonitor() {
     PS3='Select the action : '
     select CHOICE in \
         "Get_Monitoring_Data" \
-        "Web_Query_Endpoint" \
         "Home"; do
         case "$CHOICE" in
 
@@ -747,10 +746,6 @@ function startMonitor() {
             ;;
         Get_Monitoring_Data)
             bash examples/Monitor/eg001GetMonitoringData.sh
-            startMonitor
-            ;;
-        Web_Query_Endpoint)
-            bash examples/Monitor/eg002WebQueryEndpoint.sh
             startMonitor
             ;;
         *)
