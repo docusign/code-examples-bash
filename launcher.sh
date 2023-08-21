@@ -269,7 +269,7 @@ function startSignature() {
         "Use_Conditional_Recipients" \
         "Scheduled_Sending" \
         "Delayed_Routing" \
-        "Signing_Via_SMS" \
+        "Signing_Via_SMS_or_WhatsApp" \
         "Create_Signable_HTML_document" \
         "In_Person_Signing" \
         "Set_Document_Visibility" \
@@ -421,7 +421,7 @@ function startSignature() {
             bash examples/eSignature/eg036DelayedRouting.sh
             startSignature
             ;;
-        Signing_Via_SMS)
+        Signing_Via_SMS_or_WhatsApp)
             bash examples/eSignature/eg037SigningViaSMS.sh
             startSignature
             ;;
