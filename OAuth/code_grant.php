@@ -21,7 +21,7 @@ elseif($api_version == "Monitor") :
     echo "Auth Code Grant is not supported for the Monitor API.";
     $scope = "signature impersonation";
 elseif($api_version == "Admin") :
-    $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact';
+    $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read';
 elseif($api_version == "Notary") :
     $scope = "signature organization_read notary_read notary_write";
 endif;
