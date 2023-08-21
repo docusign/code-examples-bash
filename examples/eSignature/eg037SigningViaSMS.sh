@@ -7,12 +7,6 @@ fi
 
 source ./examples/eSignature/lib/utils.sh
 
-# Get a country code and phone number for the signer
-GetSignerPhoneNum
-
-# Get a country code and phone number for the CC recipient.
-GetCCPhoneNum
-
 # Choose a delivery method.
 DELIVERY_METHOD="0"
 echo "Please choose a delivery method:"
@@ -31,6 +25,12 @@ case $choice in
         echo "Invalid choice. Select 1 or 2."
         ;;
 esac
+
+# Get a country code and phone number for the signer
+GetSignerPhoneNum
+
+# Get a country code and phone number for the CC recipient.
+GetCCPhoneNum
 
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own

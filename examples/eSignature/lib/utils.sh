@@ -34,7 +34,7 @@ function GetCCPhoneNum()
 {
     echo ""
     read -p "Please enter a country phone number prefix for the Carbon Copied recipient: " CC_PHONE_COUNTRY
-    read -p "Please enter an SMS-enabled Phone number for the Carbon Copied recipient: " CC_PHONE_NUMBER
+    read -p "Please enter a mobile number for the Carbon Copied recipient: " CC_PHONE_NUMBER
     CC_PHONE_NUMBER="${CC_PHONE_NUMBER//[!0-9]/}"
     echo ""
 }
@@ -43,7 +43,7 @@ function GetSignerPhoneNum()
 {
     echo ""
     read -p "Please enter a country phone number prefix for the Signer: " SIGNER_PHONE_COUNTRY
-    read -p "Please enter an SMS-enabled Phone number for the Signer: " SIGNER_PHONE_NUMBER
+    read -p "Please enter a mobile number for the Signer: " SIGNER_PHONE_NUMBER
     SIGNER_PHONE_NUMBER="${SIGNER_PHONE_NUMBER//[!0-9]/}"
     echo ""
 }
