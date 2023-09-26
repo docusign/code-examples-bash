@@ -7,6 +7,25 @@ fi
 
 source ./examples/eSignature/lib/utils.sh
 
+# Choose a delivery method.
+DELIVERY_METHOD="0"
+echo "Please choose a delivery method:"
+echo "Press 1 for SMS."
+echo "Press 2 for WhatsApp."
+read choice
+
+case $choice in
+    1) 
+        DELIVERY_METHOD="SMS"
+        ;;
+    2) 
+        DELIVERY_METHOD="WhatsApp"
+        ;;
+    *) 
+        echo "Invalid choice. Select 1 or 2."
+        ;;
+esac
+
 # Get a country code and phone number for the signer
 GetSignerPhoneNum
 
@@ -96,7 +115,7 @@ printf \
             "name": "'"${CC_NAME}"'",
             "recipientId": "2",
             "routingOrder": "2",
-            "deliveryMethod": "SMS"
+            "deliveryMethod": "'"${DELIVERY_METHOD}"'",
             }
         ],
         "signers": 
@@ -110,7 +129,7 @@ printf \
                 "name": "'"${SIGNER_NAME}"'",
                 "recipientId": "1",
                 "routingOrder": "1",
-                "deliveryMethod": "SMS",
+                "deliveryMethod": "'"${DELIVERY_METHOD}"'",
                 "tabs": 
                 {
                     "signHereTabs": 
@@ -151,7 +170,6 @@ echo ""
 
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
-# ***DS.snippet.0.end
 # Save the envelope id for use by other scripts
 echo "EnvelopeId: ${envelope_id}"
 echo ${envelope_id} > config/ENVELOPE_ID
