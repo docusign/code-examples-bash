@@ -6,11 +6,11 @@ if [[ $SHELL != *"bash"* ]]; then
 fi
 
 # Check for a valid cc email and prompt the user if 
-#CC_EMAIL and CC_NAME haven't been set in the config file.
+# CC_EMAIL and CC_NAME haven't been set in the config file.
 source ./examples/eSignature/lib/utils.sh
 CheckForValidCCEmail
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -20,7 +20,6 @@ account_id=$(cat config/API_ACCOUNT_ID)
 
 base_path="https://demo.docusign.net/restapi"
 
-# ***DS.snippet.0.start
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
 #  document 3 (pdf) has tag /sn1/
@@ -133,7 +132,7 @@ echo ""
 
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
-# ***DS.snippet.0.end
+
 # Save the envelope id for use by other scripts
 echo "EnvelopeId: ${envelope_id}"
 echo ${envelope_id} > config/ENVELOPE_ID
@@ -149,4 +148,3 @@ echo ""
 echo ""
 echo "Done."
 echo ""
-

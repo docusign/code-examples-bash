@@ -275,7 +275,6 @@ function startSignature() {
         "Set_Document_Visibility" \
         "Shared_Access" \
         "Document_Generation" \
-        "Shared_Access" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
