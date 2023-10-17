@@ -30,11 +30,10 @@ echo ""
 echo "Sending the envelope request to DocuSign..."
 
 # Fetch doc and encode
-#ds-snippet-start:eSign38Step2
 html_with_tabs=`cat $html_document_path \
     | sed 's/sn1/<ds-signature data-ds-role="Signer"\\/>/g' \
-    | sed 's/l1q/<input data-ds-type="number"\\/>/g' \
-    | sed 's/l2q/<input data-ds-type="number"\\/>/g' \
+    | sed 's/l1q/<input data-ds-type="number" name="l1q"\\/>/g' \
+    | sed 's/l2q/<input data-ds-type="number" name="l2q"\\/>/g' \
     | sed 's/\\"/\\\\\\\\"/g'`
 
 printf \
@@ -58,7 +57,36 @@ printf \
                 "recipientId": "1",
                 "routingOrder": "1",
                 "clientUserId": "1000",
-                "signerRole": "Signer"
+                "signerRole": "Signer",
+                "tabs": {
+                    "formulaTabs": [
+                        {
+                            "anchorString": "/l1e/", "anchorUnits": "pixels",
+                            "anchorXOffset": "105", "anchorYOffset": "-8",
+                            "disableAutoSize": "false", "font": "helvetica",
+                            "fontSize": "size11", "formula": "[l1q] * 5",
+                            "locked": "true", "required": "true",
+                            "roundDecimalPlaces": "0", "tabLabel": "l1e"
+                        },
+                        {
+                            "anchorString": "/l2e/", "anchorUnits": "pixels",
+                            "anchorXOffset": "105", "anchorYOffset": "-8",
+                            "disableAutoSize": "false", "font": "helvetica",
+                            "fontSize": "size11", "formula": "[l2q] * 150",
+                            "locked": "true", "required": "true",
+                            "roundDecimalPlaces": "0", "tabLabel": "l2e"
+                        },
+                        {
+                            "anchorString": "/l3t/", "anchorUnits": "pixels",
+                            "anchorXOffset": "105", "anchorYOffset": "-8",
+                            "bold": "true", "disableAutoSize": "false",
+                            "font": "helvetica", "fontSize": "size11",
+                            "formula": "[l1e] + [l2e]", "locked": "true",
+                            "required": "true", "roundDecimalPlaces": "0",
+                            "tabLabel": "l3t"
+                        },
+                    ],
+                }
             }
         ],
        "carbonCopies": [
@@ -72,15 +100,13 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
-#ds-snippet-end:eSign38Step2
 
-#ds-snippet-start:eSign38Step3
+
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output ${response}
-#ds-snippet-end:eSign38Step3
 
 echo ""
 echo "Response:" `cat $response`
