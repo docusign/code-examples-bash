@@ -160,11 +160,12 @@ response=$(mktemp /tmp/response-rms-001.XXXXXX)
 
 # a) Call the Rooms API
 # b) Display JSON response
+#ds-snippet-start:Rooms2Step5
 Status=$(curl -w '%{http_code}' -i --request POST https://demo.rooms.docusign.com/restapi/v2/accounts/${account_id}/rooms \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
-
+#ds-snippet-end:Rooms2Step5
 if [[ "$Status" -gt "201" ]]; then
     echo ""
     echo "Posting the new room has failed."
