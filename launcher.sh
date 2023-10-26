@@ -275,6 +275,7 @@ function startSignature() {
         "Set_Document_Visibility" \
         "Shared_Access" \
         "Document_Generation" \
+        "Focused_View" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -442,6 +443,10 @@ function startSignature() {
             ;;
         Shared_Access)
             bash examples/eSignature/eg043SharedAccess.sh
+            startSignature
+            ;;
+        Focused_View)
+            bash examples/eSignature/eg044FocusedView.sh
             startSignature
             ;;
         *)
