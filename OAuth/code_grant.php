@@ -75,14 +75,34 @@ $accessToken = $response->access_token;
 file_put_contents($outputFile, $accessToken);
 echo "\nAccess token has been written to " . $outputFile . "\n\n";
 
-$userInfo = http(
-    $authorizationEndpoint . 'userinfo', false, [
-    'Authorization: Bearer ' . $accessToken]
+$userInfo = http($authorizationEndpoint . 'userinfo', false, 
+    [
+        'Authorization: Bearer ' . $accessToken
+    ]
 );
-  // impersonation user guid
-  // var_dump($userInfo->sub);
-  $APIAccountId = $userInfo->accounts[0]->account_id;
-  file_put_contents($apiAccountIdFile, $APIAccountId);
-  echo "Account id: $APIAccountId\n";
-  echo "Account id has been written to config/API_ACCOUNT_ID file...\n\n";
+
+if ($TARGET_ACCOUNT_ID != "{TARGET_ACCOUNT_ID}") {
+    $targetAccountFound = false;
+    foreach ($userInfo->accounts as $account_info) {
+        if ($account_info->account_id == $TARGET_ACCOUNT_ID) {
+            $APIAccountId = $account_info->account_id;
+            $targetAccountFound = true;
+            break;
+        }
+    }
+    if (! $targetAccountFound) {
+        throw new Exception("Targeted Account with Id " . $TARGET_ACCOUNT_ID . " not found.");
+    }
+} else {
+    foreach ($userInfo->accounts as $account_info) {
+        if ($account_info->is_default) {
+            $APIAccountId = $account_info->account_id;
+            break;
+        }
+    }
+}
+
+file_put_contents($apiAccountIdFile, $APIAccountId);
+echo "Account id: $APIAccountId\n";
+echo "Account id has been written to config/API_ACCOUNT_ID file...\n\n";
 ?>

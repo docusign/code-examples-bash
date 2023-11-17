@@ -11,6 +11,7 @@ $clientSecret          = getenv("SECRET_KEY");
 
 $INTEGRATION_KEY_JWT = getenv("INTEGRATION_KEY_JWT");
 $IMPERSONATION_USER_GUID = getenv("IMPERSONATION_USER_GUID");
+$TARGET_ACCOUNT_ID = getenv("TARGET_ACCOUNT_ID");
 
 $authorizationEndpoint = 'https://account-d.docusign.com/oauth/';
 

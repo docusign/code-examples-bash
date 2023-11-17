@@ -136,7 +136,24 @@ $userInfo = http(
     ]
 );
 
-$APIAccountId = $userInfo->accounts[0]->account_id;
-file_put_contents('config/API_ACCOUNT_ID', $APIAccountId);
-
+if ($TARGET_ACCOUNT_ID != "{TARGET_ACCOUNT_ID}") {
+    $targetAccountFound = false;
+    foreach ($userInfo->accounts as $account_info) {
+        if ($account_info->account_id == $TARGET_ACCOUNT_ID) {
+            file_put_contents('config/API_ACCOUNT_ID', $account_info->account_id);
+            $targetAccountFound = true;
+            break;
+        }
+    }
+    if (! $targetAccountFound) {
+        throw new Exception("Targeted Account with Id " . $TARGET_ACCOUNT_ID . " not found.");
+    }
+} else {
+    foreach ($userInfo->accounts as $account_info) {
+        if ($account_info->is_default) {
+            file_put_contents('config/API_ACCOUNT_ID', $account_info->account_id);
+            break;
+        }
+    }
+}
 ?>

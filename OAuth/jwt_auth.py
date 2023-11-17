@@ -109,9 +109,15 @@ class DSClient:
 
         user_info = api_client.get_user_info(cls.ds_app.access_token)
         accounts = user_info.get_accounts()
-        api_account_id = open("./config/API_ACCOUNT_ID", "w")
-        api_account_id.write(accounts[0].account_id)
-        api_account_id.close()
+        target_account_id = os.environ.get('TARGET_ACCOUNT_ID')
+        if target_account_id != "{TARGET_ACCOUNT_ID}":
+            api_account_id = open("./config/API_ACCOUNT_ID", "w")
+            api_account_id.write(target_account_id)
+            api_account_id.close()
+        else:
+            api_account_id = open("./config/API_ACCOUNT_ID", "w")
+            api_account_id.write(accounts[0].account_id)
+            api_account_id.close()
     
     
     @staticmethod
