@@ -2,7 +2,7 @@
 
 ### GitHub repo: [code-examples-bash](./README.md)
 
-This GitHub repo includes code examples for the DocuSign Admin API, Click API, eSignature REST API, ID Evidence API, Monitor API, Rooms API, and Notary API. To switch between API code examples, select the desired option from the menu when prompted.
+This GitHub repo includes code examples for the DocuSign Admin API, Click API, eSignature REST API, ID Evidence API, Monitor API, Notary API, and Rooms API. To switch between API code examples, select the desired option from the menu when prompted.
 
 ## Introduction
 
@@ -21,13 +21,13 @@ For more information about the scopes used for obtaining authorization to use th
 For a list of code examples that use the eSignature REST API, see the [How-to guides overview](https://developers.docusign.com/docs/esign-rest-api/how-to/) on the DocuSign Developer Center.
 
 
-## Rooms API 
+## Admin API
 
-**Note:** To use the Rooms API, you must also [create your Rooms developer account](https://developers.docusign.com/docs/rooms-api/rooms101/create-account). Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.  
+**Note:** To use the Admin API, you must [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your DocuSign developer account. Also, to run the DocuSign CLM code example, [CLM must be enabled for your organization](https://support.docusign.com/en/articles/DocuSign-and-SpringCM).
 
-For more information about the scopes used for obtaining authorization to use the Rooms API, see [Required scopes](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).  
+For information about the scopes used for obtaining authorization to use the Admin API, see the [scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
 
-For a list of code examples that use the Rooms API, see the [How-to guides overview](https://developers.docusign.com/docs/rooms-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Admin API, see the [How-to guides overview](https://developers.docusign.com/docs/admin-api/how-to/) on the DocuSign Developer Center.
 
 
 ## Click API  
@@ -54,22 +54,26 @@ For information about the scopes used for obtaining authorization to use the Mon
 For a list of code examples that use the Monitor API, see the [How-to guides overview](https://developers.docusign.com/docs/monitor-api/how-to/) on the DocuSign Developer Center.
 
 
-## Admin API
-
-**Note:** To use the Admin API, you must [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your DocuSign developer account. Also, to run the DocuSign CLM code example, [CLM must be enabled for your organization](https://support.docusign.com/en/articles/DocuSign-and-SpringCM).
-
-For information about the scopes used for obtaining authorization to use the Admin API, see the [scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
-
-For a list of code examples that use the Admin API, see the [How-to guides overview](https://developers.docusign.com/docs/admin-api/how-to/) on the DocuSign Developer Center.
-
-
 ## Notary API (closed beta)
 
-**Note:** For closed beta participants interested in adding Notary API functionality to your production account, contact your DocuSign representative. Example 1 requires a Sender DocuSign developer account API account ID that has been provisioned for the [Notary API base URI](https://developers.docusign.com/docs/notary-api/go-live/). Example 2 requires that you [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your Sender DocuSign developer account.
+**Note:** For closed beta participants interested in adding Notary API functionality to your production account, contact your DocuSign representative. 
+
+Example 1 requires a Sender DocuSign developer account API account ID that has been provisioned for the [Notary API base URI](https://developers.docusign.com/docs/notary-api/go-live/). 
+
+Example 2 requires that you [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your Sender DocuSign developer account.
 
 For information about the scopes used for obtaining authorization to use the Notary API, see the [scopes section](https://developers.docusign.com/docs/notary-api/notary101/auth/).
 
 For a list of code examples that use the Notary API, see the [How-to guides overview](https://developers.docusign.com/docs/notary-api/how-to/) on the DocuSign Developer Center.
+
+
+## Rooms API 
+
+**Note:** To use the Rooms API, you must also [create your Rooms developer account](https://developers.docusign.com/docs/rooms-api/rooms101/create-account). Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.  
+
+For more information about the scopes used for obtaining authorization to use the Rooms API, see [Required scopes](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).  
+
+For a list of code examples that use the Rooms API, see the [How-to guides overview](https://developers.docusign.com/docs/rooms-api/how-to/) on the DocuSign Developer Center.
 
 
 ## Installation
