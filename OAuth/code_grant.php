@@ -24,6 +24,8 @@ elseif($api_version == "Admin") :
     $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read';
 elseif($api_version == "Notary") :
     $scope = "signature organization_read notary_read notary_write";
+elseif($api_version == "Maestro") :
+    $scope = "signature aow_manage";
 endif;
 
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query(
@@ -75,7 +77,7 @@ $accessToken = $response->access_token;
 file_put_contents($outputFile, $accessToken);
 echo "\nAccess token has been written to " . $outputFile . "\n\n";
 
-$userInfo = http($authorizationEndpoint . 'userinfo', false, 
+$userInfo = http($authorizationEndpoint . 'userinfo', false,
     [
         'Authorization: Bearer ' . $accessToken
     ]

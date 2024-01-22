@@ -29,6 +29,8 @@ if ($api_version == "eSignature" || $api_version == "idEvidence") {
     $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read impersonation user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read';
 } else if ($api_version == "Notary") {
     $scope = "signature organization_read notary_read notary_write";
+} else if ($api_version == "Maestro") {
+  $scope = "signature aow_manage";
 }
 
 $body = encodeBase64URL(

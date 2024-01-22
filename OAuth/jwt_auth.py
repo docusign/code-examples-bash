@@ -41,14 +41,18 @@ CLICK_SCOPES = [
 ]
 
 ADMIN_SCOPES = [
-    "signature", "organization_read", "group_read", "permission_read", 
-    "user_read", "user_write", "account_read", "domain_read", 
+    "signature", "organization_read", "group_read", "permission_read",
+    "user_read", "user_write", "account_read", "domain_read",
     "identity_provider_read", "user_data_redact", "asset_group_account_read",
     "asset_group_account_clone_write", "asset_group_account_clone_read"
 ]
 
 NOTARY_SCOPES = [
     "signature", "organization_read", "notary_read", "notary_write"
+]
+
+MAESTRO_SCOPES = [
+    "signature", "aow_manage"
 ]
 
 class DSClient:
@@ -70,6 +74,8 @@ class DSClient:
             use_scopes = ADMIN_SCOPES
         elif (API_VERSION == "Notary"):
             use_scopes = NOTARY_SCOPES
+        elif (API_VERSION == "Maestro"):
+            use_scopes = MAESTRO_SCOPES
         else:
             use_scopes = SCOPES
 
@@ -118,8 +124,8 @@ class DSClient:
             api_account_id = open("./config/API_ACCOUNT_ID", "w")
             api_account_id.write(accounts[0].account_id)
             api_account_id.close()
-    
-    
+
+
     @staticmethod
     def _get_private_key():
         """

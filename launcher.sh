@@ -179,6 +179,7 @@ function choices() {
         "Admin" \
         "ID_Evidence" \
         "Notary" \
+        "Maestro" \
         "Exit"; do
         case "$METHOD" in
 
@@ -219,6 +220,11 @@ function choices() {
             api_version="Notary"
             login $api_version
             startNotary
+            ;;
+        Maestro)
+            api_version="Maestro"
+            login $api_version
+            startMaestro
             ;;
 
         Exit)
@@ -900,6 +906,39 @@ function startNotary() {
     done
 }
 
+function startMaestro() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Trigger_Workflow" \
+        "Stop_Workflow" \
+        "Get_Workflow_Status"\
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Trigger_Workflow)
+            bash examples/Maestro/eg001TriggerWorkflow.sh
+            startMaestro
+            ;;
+        Stop_Workflow)
+            bash examples/Maestro/eg002CancelWorkflow.sh
+            startMaestro
+            ;;
+        Get_Workflow_Status)
+            bash examples/Maestro/eg003GetWorkflowStatus.sh
+            startMaestro
+            ;;
+        *)
+            echo "Default action..."
+            startMaestro
+            ;;
+        esac
+    done
+}
+
 function continu() {
 
     isCFR
@@ -931,6 +970,9 @@ function continu() {
     then
       bash ./examples/Admin/utils.sh
       startNotary
+    elif [[ $api_version == "Maestro" ]]
+    then
+      startMaestro
     fi
 }
 
