@@ -42,7 +42,7 @@ echo ""
 echo "Attempting to cancel the Workflow Instance..."
 echo ""
 
-#ds-snippet-start:Maestro3Step3
+#ds-snippet-start:Maestro2Step3
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
     curl -w '%{http_code}' --request POST "${BASE_PATH}/management/accounts/${ACCOUNT_ID}/instances/${WORKFLOW_INSTANCE_ID}/cancel" \
