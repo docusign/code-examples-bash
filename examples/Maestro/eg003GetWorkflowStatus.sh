@@ -41,7 +41,7 @@ echo ""
 echo "Attempting to retrieve Workflow Instance Status"
 echo ""
 
-#ds-snippet-start:Maestro3Step2
+#ds-snippet-start:Maestro3Step3
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
     curl -w '%{http_code}' --request GET "${base_path}/management/accounts/${account_id}/workflowDefinitions/${workflow_id}/instances/${workflow_instance_id}" \
@@ -58,6 +58,7 @@ if [[ "$Status" -gt "201" ]]; then
 fi
 
 status=`cat $response | grep instanceState | sed 's/.*\"instanceState\":\"//' | sed 's/\",.*//'`
+#ds-snippet-end:Maestro3Step3
 
 echo ""
 echo "Full Response Output:"
@@ -67,6 +68,6 @@ echo ""
 echo "Workflow Status:"
 echo $status
 echo ""
-#ds-snippet-end:Maestro3Step3
+
 # Remove the temporary files
 rm "$response"
