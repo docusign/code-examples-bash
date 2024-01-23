@@ -49,6 +49,7 @@ Status=$(
     "${Headers[@]}" \
     --output ${response}
 )
+#ds-snippet-end:Maestro2Step3
 # If the status code returned is greater than 201 (OK / Accepted), display an error message with the API response.
 if [[ "$Status" -gt "201" ]]; then
     echo ""
@@ -66,7 +67,6 @@ echo "Response:"
 cat $response
 echo ""
 echo ""
-#ds-snippet-end:Maestro2Step3
 
 # Remove the temporary files
 rm "$response"
