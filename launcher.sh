@@ -226,6 +226,7 @@ function choices() {
             api_version="WebForms"
             login $api_version
             startWebForms
+            ;;
         Maestro)
             api_version="Maestro"
             login $api_version
