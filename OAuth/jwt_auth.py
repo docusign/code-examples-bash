@@ -51,6 +51,10 @@ NOTARY_SCOPES = [
     "signature", "organization_read", "notary_read", "notary_write"
 ]
 
+WEB_FORMS_SCOPES = [
+    "signature", "webforms_read", "webforms_instance_read", "webforms_instance_write"
+]
+
 MAESTRO_SCOPES = [
     "signature", "aow_manage"
 ]
@@ -72,6 +76,8 @@ class DSClient:
             use_scopes = CLICK_SCOPES
         elif (API_VERSION == "Admin"):
             use_scopes = ADMIN_SCOPES
+        elif (API_VERSION == "WebForms"):
+            use_scopes = WEB_FORMS_SCOPES
         elif (API_VERSION == "Notary"):
             use_scopes = NOTARY_SCOPES
         elif (API_VERSION == "Maestro"):

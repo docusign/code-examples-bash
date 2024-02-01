@@ -179,6 +179,7 @@ function choices() {
         "Admin" \
         "ID_Evidence" \
         "Notary" \
+        "WebForms" \
         "Maestro" \
         "Exit"; do
         case "$METHOD" in
@@ -221,6 +222,10 @@ function choices() {
             login $api_version
             startNotary
             ;;
+        WebForms)
+            api_version="WebForms"
+            login $api_version
+            startWebForms
         Maestro)
             api_version="Maestro"
             login $api_version
@@ -906,6 +911,29 @@ function startNotary() {
     done
 }
 
+function startWebForms() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "CreateInstance" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        CreateInstance)
+            bash examples/WebForms/eg001CreateInstance.sh
+            startWebForms
+            ;;
+        *)
+            echo "Default action..."
+            startWebForms
+            ;;
+        esac
+    done
+}
+
 function startMaestro() {
     echo ""
     PS3='Select the action : '
@@ -970,6 +998,9 @@ function continu() {
     then
       bash ./examples/Admin/utils.sh
       startNotary
+    elif [[ $api_version == "WebForms" ]]
+    then
+      startWebForms
     elif [[ $api_version == "Maestro" ]]
     then
       startMaestro

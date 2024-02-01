@@ -24,6 +24,8 @@ elseif($api_version == "Admin") :
     $scope = 'signature organization_read group_read permission_read user_read user_write account_read domain_read identity_provider_read user_data_redact asset_group_account_read asset_group_account_clone_write asset_group_account_clone_read';
 elseif($api_version == "Notary") :
     $scope = "signature organization_read notary_read notary_write";
+elseif($api_version == "WebForms") :
+    $scope = "signature webforms_manage webforms_read webforms_instance_read webforms_instance_write";
 elseif($api_version == "Maestro") :
     $scope = "signature aow_manage";
 endif;
