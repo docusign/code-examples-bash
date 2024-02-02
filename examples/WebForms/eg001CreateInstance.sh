@@ -12,8 +12,7 @@ ACCESS_TOKEN=$(cat ${ds_access_token_path})
 # Set up variables for full code example
 # Note: Substitute these values with your own
 ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
-base_path="https://demo.services.docusign.net/webforms"
-#base_path="https://apps-d.docusign.com/api/webforms/v1.1"
+base_path="https://apps-d.docusign.com/api/webforms/v1.1"
 
 # Create template for the Web Form from the API
 bash ./examples/WebForms/lib/createWebFormTemplate.sh
@@ -37,7 +36,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 # List web forms in account that match the name of the web form we just created
 #ds-snippet-start:WebForms1Step3
 response=$(mktemp /tmp/response-cw.XXXXXX)
-Status=$(curl -w '%{http_code}' --request GET ${base_path}/v1.1/accounts/${ACCOUNT_ID}/forms?search=Web%20Form%20Example%20Template \
+Status=$(curl -w '%{http_code}' --request GET ${base_path}/accounts/${ACCOUNT_ID}/forms?search=Web%20Form%20Example%20Template \
     "${Headers[@]}" \
     --output ${response})
 
@@ -61,7 +60,7 @@ printf \
 
 response=$(mktemp /tmp/response-cw.XXXXXX)
 #ds-snippet-start:WebForms1Step5
-Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v1.1/accounts/${ACCOUNT_ID}/forms/${FORM_ID}/instances \
+Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/accounts/${ACCOUNT_ID}/forms/${FORM_ID}/instances \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
