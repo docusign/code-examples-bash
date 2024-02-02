@@ -30,7 +30,7 @@ if ($api_version == "eSignature" || $api_version == "idEvidence") {
 } else if ($api_version == "Notary") {
     $scope = "signature organization_read notary_read notary_write";
 } else if ($api_version == "WebForms") {
-    $scope = "signature webforms_manage impersonation webforms_read webforms_instance_read webforms_instance_write";
+    $scope = "signature impersonation webforms_read webforms_instance_read webforms_instance_write";
 } else if ($api_version == "Maestro") {
   $scope = "signature aow_manage";
 }
