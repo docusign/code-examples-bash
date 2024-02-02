@@ -45,7 +45,7 @@ Status=$(curl -w '%{http_code}' -i --request GET https://demo.rooms.docusign.com
 
 if [[ "$Status" -gt "201" ]]; then
     echo ""
-    echo "Unable to retreive field_set on roomId: $room_id"
+    echo "Unable to retrieve field_set on roomId: $room_id"
     echo ""
     cat $response
     exit 0
