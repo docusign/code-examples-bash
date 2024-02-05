@@ -50,7 +50,7 @@ For a list of code examples that use the ID Evidence API, see the [How-to guides
 
 For information about the scopes used for obtaining authorization to use the Maestro API, see the [scopes section](https://developers.docusign.com/docs/maestro-api/auth/).
 
-For a list of code examples that use the Notary API, see the [How-to guides overview](https://developers.docusign.com/docs/maestro-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Maestro API, see the [How-to guides overview](https://developers.docusign.com/docs/maestro-api/how-to/) on the DocuSign Developer Center.
 
 ## Monitor API
 
