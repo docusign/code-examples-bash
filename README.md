@@ -44,6 +44,13 @@ For more information about the scopes used for obtaining authorization to use th
 
 For a list of code examples that use the ID Evidence API, see the [How-to guides overview](https://developers.docusign.com/docs/idevidence-api/how-to/) on the DocuSign Developer Center.
 
+## Maestro API (beta)
+
+**Note:** Maestro API is currently only avaiable for developers that participate in the [beta program](https://developers.docusign.com/docs/maestro-api/get-access/). 
+
+For information about the scopes used for obtaining authorization to use the Maestro API, see the [scopes section](https://developers.docusign.com/docs/maestro-api/auth/).
+
+For a list of code examples that use the Maestro API, see the [How-to guides overview](https://developers.docusign.com/docs/maestro-api/how-to/) on the DocuSign Developer Center.
 
 ## Monitor API
 
