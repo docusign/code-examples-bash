@@ -46,9 +46,9 @@ For a list of code examples that use the ID Evidence API, see the [How-to guides
 
 ## Maestro API (beta)
 
-**Note:** Maestro API is currently only avaiable for developers that participate in the beta program. 
+**Note:** Maestro API is currently only avaiable for developers that participate in the [beta program](https://developers.docusign.com/docs/maestro-api/get-access/). 
 
-For information about the scopes used for obtaining authorization to use the Maestro API, see the [scopes section](https://developers.docusign.com/docs/notary-api/notary101/auth/](https://developers.docusign.com/docs/maestro-api/auth/).
+For information about the scopes used for obtaining authorization to use the Maestro API, see the [scopes section](https://developers.docusign.com/docs/maestro-api/auth/).
 
 For a list of code examples that use the Notary API, see the [How-to guides overview](https://developers.docusign.com/docs/maestro-api/how-to/) on the DocuSign Developer Center.
 
