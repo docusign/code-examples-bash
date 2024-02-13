@@ -7,7 +7,7 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 
@@ -30,7 +30,7 @@ echo ""
 echo "Sending the template create request to DocuSign..."
 echo ""
 
-# Step 2. Create a template
+#ds-snippet-start:eSign42Step2
 printf \
 '{
     "description": "Example template created via the API",
@@ -62,13 +62,15 @@ fi
 
 # pull out the template id
 template_id=`cat $response | grep templateId | sed 's/.*\"templateId\":\"//' | sed 's/\",.*//'`
+#ds-snippet-end:eSign42Step2
 
 echo ""
 echo "Template was created! Template ID ${template_id}."
 rm "$response"
 rm "$request_data"
 
-# Step 3. Add a document with merge fields to your template
+# Add a document with merge fields to your template
+#ds-snippet-start:eSign42Step3
 # Fetch document and encode
 cat demo_documents/Offer_Letter_Demo.docx | base64 > $doc1_base64
 
@@ -91,6 +93,7 @@ Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
   --data-binary @${request_data} \
   --request PUT ${base_path}/v2.1/accounts/${account_id}/templates/${template_id}/documents/1 \
   --output ${response})
+#ds-snippet-end:eSign42Step3
 
 if [[ "$Status" -gt "201" ]] ; then
   echo ""
@@ -105,7 +108,8 @@ echo "Document created!"
 rm "$response"
 rm "$request_data"
 
-# Step 4. Add tabs to the template
+# Add tabs to the template
+#ds-snippet-start:eSign42Step4
 printf \
 '{
     "signHereTabs": [
@@ -131,6 +135,7 @@ Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
   --data-binary @${request_data} \
   --request POST ${base_path}/v2.1/accounts/${account_id}/templates/${template_id}/recipients/1/tabs \
   --output ${response})
+#ds-snippet-end:eSign42Step4
 
 if [[ "$Status" -gt "201" ]] ; then
   echo ""
@@ -145,7 +150,8 @@ echo "Tabs created"
 rm "$response"
 rm "$request_data"
 
-# Step 5. Create an envelope draft from a template
+# Create an envelope draft from a template
+#ds-snippet-start:eSign42Step5
 printf \
 '{
     "templateId": "'"${template_id}"'",
@@ -162,7 +168,6 @@ printf \
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
-# Step 5. Create an envelope draft
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
   --header "Content-Type: application/json" \
   --data-binary @${request_data} \
@@ -178,11 +183,14 @@ if [[ "$Status" -gt "201" ]] ; then
 fi
 
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
+#ds-snippet-end:eSign42Step5
+
 echo ""
 echo "Envelope was created! Envelope ID: ${envelope_id}."
 
 
-# Step 6: Get DocGenFormFields
+# Get DocGenFormFields
+#ds-snippet-start:eSign42Step6
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
       --header "Accept: application/json" \
       --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/docGenFormFields \
@@ -202,6 +210,8 @@ cat $response
 
 # Retrieve the document id
 document_id=`cat $response | grep documentId | sed 's/.*\"documentId\":\"//' | sed 's/\",.*//'`
+#ds-snippet-end:eSign42Step6
+
 echo ""
 echo "Document ID GUID: ${document_id}."
 rm "$response"
@@ -229,7 +239,8 @@ read START_DATE
 echo "Please input the salary:"
 read SALARY
 
-# Step 7. Merge data fields with the eSignature REST API
+# Merge data fields with the eSignature REST API
+#ds-snippet-start:eSign42Step7
 printf \
 '{
   "docGenFormFields": [
@@ -266,6 +277,7 @@ Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
       --data-binary @${request_data} \
       --request PUT ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/docgenformfields \
       --output ${response})
+#ds-snippet-end:eSign42Step7
 
 if [[ "$Status" -gt "201" ]] ; then
   echo ""
@@ -280,7 +292,8 @@ echo "Merge succeeded!"
 rm "$response"
 rm "$request_data"
 
-# Step 9. Send the envelope with the eSignature REST API
+# Send the envelope with the eSignature REST API
+#ds-snippet-start:eSign42Step8
 printf \
 '{
     "status": "sent"
@@ -291,7 +304,7 @@ Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
   --data-binary @${request_data} \
   --request PUT ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id} \
   --output ${response})
-
+#ds-snippet-end:eSign42Step8
 
 if [[ "$Status" -gt "201" ]] ; then
   echo ""
