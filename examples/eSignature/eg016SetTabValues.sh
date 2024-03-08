@@ -165,6 +165,7 @@ echo ${envelope_id} > config/ENVELOPE_ID
 
 echo ""
 echo "Requesting the url for the embedded signing..."
+#ds-snippet-start:eSign16Step5
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary '
@@ -177,7 +178,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
 }' \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/recipient \
      --output ${response}
-
+#ds-snippet-end:eSign16Step5
 echo ""
 echo "Response:"
 cat $response
