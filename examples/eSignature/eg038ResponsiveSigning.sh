@@ -30,6 +30,7 @@ echo ""
 echo "Sending the envelope request to DocuSign..."
 
 # Fetch doc and encode
+#ds-snippet-start:eSign38Step2
 html_with_tabs=`cat $html_document_path \
     | sed 's/sn1/<ds-signature data-ds-role="Signer"\\/>/g' \
     | sed 's/l1q/<input data-ds-type="number" name="l1q"\\/>/g' \
@@ -100,13 +101,15 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
+#ds-snippet-end:eSign38Step2
 
-
+#ds-snippet-start:eSign38Step3
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes \
      --output ${response}
+#ds-snippet-end:eSign38Step3
 
 echo ""
 echo "Response:" `cat $response`
