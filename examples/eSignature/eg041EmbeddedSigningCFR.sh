@@ -18,7 +18,7 @@ if [ ! -f $ds_access_token_path ]; then
     document_path="../demo_documents/World_Wide_Corp_lorem.pdf"
 fi
 
-# Step 1: Obtain your OAuth token
+# Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat ${ds_access_token_path})
 
@@ -26,8 +26,7 @@ ACCESS_TOKEN=$(cat ${ds_access_token_path})
 # Note: Substitute these values with your own
 ACCOUNT_ID=$(cat ${api_account_id_path})
 
-# ***DS.snippet.0.start
-# Step 2. Create the envelope.
+# Create the envelope.
 #         The signer recipient includes a clientUserId setting
 #
 #  document 1 (pdf) has tag /sn1/
@@ -46,7 +45,7 @@ echo "Attempting to retrieve your account's workflow ID"
 echo ""
 response=$(mktemp /tmp/response-bs.XXXXXX)
 
-# Step 2 start
+#ds-snippet-start:eSign41Step2
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
@@ -72,7 +71,7 @@ workflowNames=`cat $response | grep -o -P '(?<=defaultName\":).*?(?=,)'`
 element="SMS for access & signatures"
 
 workflowId=$(GetWorkflowId "$workflowNames" "$element" "$workflowIds")
-# Step 2 end
+#ds-snippet-end:eSign41Step2
 
 if [ "$workflowId" == false ]; then
 	echo ""
@@ -94,7 +93,7 @@ cat $document_path | base64 > $doc1_base64
 echo ""
 echo "Sending the envelope request to DocuSign..."
 
-# Step 3 start
+#ds-snippet-start:eSign41Step3
 # Concatenate the different parts of the request
 printf \
 '{
@@ -144,10 +143,10 @@ printf \
     },
     "status": "sent"
 }' >> $request_data
-# Step 3 end
+#ds-snippet-end:eSign41Step3
 # Call DocuSign to create the envelope
 
-# Step 4 start
+#ds-snippet-start:eSign41Step4
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
@@ -160,7 +159,7 @@ echo ""
 
 # Pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
-# Step 4 end
+#ds-snippet-end:eSign41Step4
 echo "EnvelopeId: ${envelope_id}"
 
 # Create a recipient view (an embedded signing view)
@@ -174,7 +173,7 @@ echo "EnvelopeId: ${envelope_id}"
 # temp files:
 request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
 response=$(mktemp /tmp/response-eg-001.XXXXXX)
-# Step 5 start
+#ds-snippet-start:eSign41Step5
 printf \
 '{
     "returnUrl": "http://httpbin.org/get",
@@ -183,13 +182,13 @@ printf \
     "userName": "'"${SIGNER_NAME}"'",
     "clientUserId": 1000,
 }' >> $request_data
-# Step 5 end
+#ds-snippet-end:eSign41Step5
 # Create the recipient view and call the API to initiate the signing
 
 echo ""
 echo "Requesting the url for the embedded signing..."
 echo ""
-# Step 6 start
+#ds-snippet-start:eSign41Step6
 Status=$(curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
      --data-binary @${request_data} \
@@ -205,8 +204,7 @@ if [[ "$Status" -gt "201" ]] ; then
 fi
 
 signing_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
-# ***DS.snippet.0.end
-# Step 6 end
+#ds-snippet-end:eSign41Step6
 echo ""
 echo "The embedded signing URL is ${signing_url}"
 echo ""
