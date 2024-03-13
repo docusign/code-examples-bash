@@ -40,7 +40,6 @@ do
     esac
 done
 
-# ***DS.snippet.0.start
 # Create the document request body
 #  document 1 (html) has tag **signature_1**
 #  document 2 (docx) has tag /sn1/
@@ -55,6 +54,7 @@ done
 #  The envelope will be sent first to the signer.
 #  After it is signed, a copy is sent to the cc person.
 
+#ds-snippet-start:eSign11Step2
 # temp files:
 request_data=$(mktemp /tmp/request-eg-011.XXXXXX)
 response=$(mktemp /tmp/response-eg-011.XXXXXX)
@@ -139,6 +139,8 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
 
 echo ""
 cat $response
+#ds-snippet-end:eSign11Step2
+#ds-snippet-start:eSign11Step3
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
 
@@ -163,7 +165,7 @@ sending_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
 if [ "$starting_view" = "recipient" ]; then
    sending_url=`printf "${sending_url/send=1/send=0}"`
 fi
-# ***DS.snippet.0.end
+#ds-snippet-end:eSign11Step3
 
 echo ""
 printf "The embedded sending URL is ${sending_url}\n"
