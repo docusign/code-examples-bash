@@ -25,7 +25,7 @@ base_path="https://demo.docusign.net/restapi"
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
-#ds-snippet-start:eSign18Step2
+#ds-snippet-end:eSign18Step2
 
 # Check that we have an template ID
 if [ ! -f config/ENVELOPE_ID ]; then
