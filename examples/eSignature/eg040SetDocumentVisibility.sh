@@ -52,7 +52,12 @@ doc2_base64=$(mktemp /tmp/eg-040-doc2.XXXXXX)
 doc3_base64=$(mktemp /tmp/eg-040-doc3.XXXXXX)
 
 # Fetch docs and encode
-cat demo_documents/doc_1.html | base64 > $doc1_base64
+cat demo_documents/doc_1.html \
+| sed "s/{USER_EMAIL}/$SIGNER1_EMAIL/g" \
+| sed "s/{USER_FULLNAME}/$SIGNER1_NAME/g" \
+| sed "s/{CC_EMAIL}/$CC_EMAIL/g" \
+| sed "s/{CC_NAME}/$CC_NAME/g" \
+| base64 > $doc1_base64
 cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc2_base64
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc3_base64
 
