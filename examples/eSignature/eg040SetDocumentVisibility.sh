@@ -67,6 +67,7 @@ echo ""
 printf \
 '{
     "emailSubject": "Please sign this document set",
+    "enforceSignerVisibility": "true",
     "documents": [
         {
             "documentBase64": "' > $request_data
