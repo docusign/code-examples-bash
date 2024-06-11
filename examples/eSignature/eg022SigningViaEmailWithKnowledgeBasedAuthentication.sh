@@ -3,8 +3,6 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-$(cat $token_file_name)
-
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
@@ -33,9 +31,11 @@ request_data=$(mktemp /tmp/request-cw.XXXXXX)
 printf \
 '{
 	"documents": [{
-		"documentBase64": "'"${doc_bases64}"'",
+		"documentBase64":"' > $request_data
+            cat $doc_base64 >> $request_data
+            printf '",
 		"documentId": "1",
-		"fileExtension": "pdf",
+		"fileExtension": "docx",
 		"name": "Lorem"
 	}],
 	"emailBlurb": "Sample text for email body",
@@ -46,8 +46,8 @@ printf \
 			"deliveryMethod": "Email",
 			"name": "'"${SIGNER_NAME}"'",
 			"email": "'"${SIGNER_EMAIL}"'",
-			"idCheckConfigurationName": "ID Check $",
-			"recipientId": "1", #This value represents your {RECIPIENT_ID}
+			"idCheckConfigurationName": "ID Check",
+			"recipientId": "1",
 			"requireIdLookup": "true",
 			"routingOrder": "1",
 			"status": "Created",
@@ -56,7 +56,7 @@ printf \
 					"documentId": "1",
 					"name": "SignHereTab",
 					"pageNumber": "1",
-					"recipientId": "1", #This value represents your {RECIPIENT_ID}
+					"recipientId": "1",
 					"tabLabel": "SignHereTab",
 					"xPosition": "75",
 					"yPosition": "572"
