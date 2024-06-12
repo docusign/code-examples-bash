@@ -92,6 +92,20 @@ rm "$response"
 
 GetSignerPhoneNum
 
+is_data_correct=true
+while $is_data_correct; do
+	read -p "Please enter name for the signer: " RECIPIENT_NAME
+	read -p "Please enter email address for the signer: " RECIPIENT_EMAIL
+
+	if [[ "$RECIPIENT_EMAIL" = "$SIGNER_EMAIL" ]]; then
+	  echo ""
+		echo "For recipient authentication you must specify a different recipient from the account owner (sender) in order to ensure recipient authentication is performed"
+		echo ""
+	else
+		is_data_correct=false
+	fi
+done
+
 request_data=$(mktemp /tmp/request-cw.XXXXXX)
 #ds-snippet-start:eSign20Step4
 printf \
@@ -109,8 +123,8 @@ printf \
 	"envelopeIdStamping": "true",
 	"recipients": {
 		"signers": [{
-			"name": "'"${SIGNER_NAME}"'",
-			"email": "'"${SIGNER_EMAIL}"'",
+			"name": "'"${RECIPIENT_EMAIL}"'",
+			"email": "'"${RECIPIENT_NAME}"'",
 			"roleName": "",
 			"note": "",
 			"routingOrder": 3,

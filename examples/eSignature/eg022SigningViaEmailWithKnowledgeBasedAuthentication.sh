@@ -22,6 +22,19 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 #ds-snippet-end:eSign22Step2
 # Step 3: Construct your envelope JSON body
 # Create a temporary file to store the JSON body
+is_data_correct=true
+while $is_data_correct; do
+	read -p "Please enter name for the signer: " RECIPIENT_NAME
+	read -p "Please enter email address for the signer: " RECIPIENT_EMAIL
+
+	if [[ "$RECIPIENT_EMAIL" = "$SIGNER_EMAIL" ]]; then
+	  echo ""
+		echo "For recipient authentication you must specify a different recipient from the account owner (sender) in order to ensure recipient authentication is performed"
+		echo ""
+	else
+		is_data_correct=false
+	fi
+done
 
 doc_base64=$(mktemp /tmp/eg-019-doc1.XXXXXX)
 cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc_base64
@@ -44,8 +57,8 @@ printf \
 	"recipients": {
 		"signers": [{
 			"deliveryMethod": "Email",
-			"name": "'"${SIGNER_NAME}"'",
-			"email": "'"${SIGNER_EMAIL}"'",
+			"name": "'"${RECIPIENT_NAME}"'",
+			"email": "'"${RECIPIENT_EMAIL}"'",
 			"idCheckConfigurationName": "ID Check",
 			"recipientId": "1",
 			"requireIdLookup": "true",
