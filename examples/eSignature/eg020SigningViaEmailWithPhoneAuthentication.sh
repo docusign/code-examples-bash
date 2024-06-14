@@ -123,11 +123,10 @@ printf \
 	"envelopeIdStamping": "true",
 	"recipients": {
 		"signers": [{
-			"name": "'"${RECIPIENT_EMAIL}"'",
-			"email": "'"${RECIPIENT_NAME}"'",
-			"roleName": "",
+			"name": "'"${RECIPIENT_NAME}"'",
+			"email": "'"${RECIPIENT_EMAIL}"'",
 			"note": "",
-			"routingOrder": 3,
+			"routingOrder": "1",
 			"status": "created",
 			"tabs": {
 				"signHereTabs": [{
