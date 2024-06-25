@@ -1,8 +1,12 @@
 # Bash Launcher Code Examples
-
+>
+>### PLEASE! Share your feedback in a [two questions survey](https://docs.google.com/forms/d/e/1FAIpQLScPa74hwhJwi7XWDDj4-XZVOQTF9jJWgbIFEpulXokCqYWT4A/viewform?usp=pp_url&entry.680551577=Bash).
+>
+>
 ### GitHub repo: [code-examples-bash](./README.md)
 
-This GitHub repo includes code examples for the DocuSign Admin API, Click API, eSignature REST API, ID Evidence API, Monitor API, Notary API, and Rooms API. To switch between API code examples, select the desired option from the menu when prompted.
+This GitHub repo includes code examples for the [Web Forms API](https://developers.docusign.com/docs/web-forms-api/), [Maestro API](https://developers.docusign.com/docs/maestro-api/), [Docusign Admin API](https://developers.docusign.com/docs/admin-api/), [Click API](https://developers.docusign.com/docs/click-api/), [eSignature REST API](https://developers.docusign.com/docs/esign-rest-api/), [Monitor API](https://developers.docusign.com/docs/monitor-api/), and [Rooms API](https://developers.docusign.com/docs/rooms-api/). 
+
 
 ## Introduction
 
