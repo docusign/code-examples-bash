@@ -24,17 +24,17 @@ base_path="https://demo.docusign.net/restapi"
 
 # The sending editor can be opened in either of two views:
 echo "Select the initial sending view: "
-PS3='Please make a selection.'
-options=("Tagging view" "Recipients and documents view")
+PS3='Please make a selection. '
+options=("Tagging view" "Prepare view")
 select opt in "${options[@]}"
 do
     case $opt in
         "Tagging view")
-            starting_view=tagging
+            starting_view=Tagger
             break
             ;;
-        "Recipients and documents view")
-            starting_view=recipient
+        "Prepare view")
+            starting_view=Prepare
             break
             ;;
     esac
@@ -147,24 +147,52 @@ envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | s
 echo ""
 echo "Requesting the sender view url"
 
+sender_view_request_data=$(mktemp /tmp/request-eg-002.XXXXXX)
+
+printf \
+'{
+    "returnUrl": "http://httpbin.org/get",
+    "viewAccess": "envelope",
+    "settings": {
+        "startingScreen": "'${starting_view}'",
+        "sendButtonAction": "send",
+        "showBackButton": "false",
+        "backButtonAction": "previousPage",
+        "showHeaderActions": "false",
+        "showDiscardAction": "false",
+        "lockToken": "",
+        "recipientSettings": {
+            "showEditRecipients": "false",
+            "showContactsList": "false"
+        },
+        "documentSettings": {  
+            "showEditDocuments": "false",
+            "showEditDocumentVisibility": "false",
+            "showEditPages": "false"
+        },
+        "taggerSettings": {  
+            "paletteSections": "default",
+            "paletteDefault": "custom"
+        },
+        "templateSettings": { 
+            "showMatchingTemplatesPrompt": "true"
+        }   
+    }
+}' >> $sender_view_request_data
+
 # The returnUrl is normally your own web app. DocuSign will redirect
 # the signer to returnUrl when the embedded sending completes.
 # For this example, we'll use http://httpbin.org/get to show the 
 # query parameters passed back from DocuSign
 curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Content-Type: application/json" \
-     --data-binary "{\"returnUrl\": \"http://httpbin.org/get\"}" \
+     --data-binary @${sender_view_request_data} \
      --request POST ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/views/sender \
      --output $response
 
 echo ""
 cat $response
 sending_url=`cat $response | grep url | sed 's/.*\"url\":\"//' | sed 's/\".*//'`
-# Next, we update the returned url if we want to start with the Recipient
-# and Documents view
-if [ "$starting_view" = "recipient" ]; then
-   sending_url=`printf "${sending_url/send=1/send=0}"`
-fi
 #ds-snippet-end:eSign11Step3
 
 echo ""

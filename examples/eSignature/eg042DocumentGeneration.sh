@@ -72,7 +72,7 @@ rm "$request_data"
 # Add a document with merge fields to your template
 #ds-snippet-start:eSign42Step3
 # Fetch document and encode
-cat demo_documents/Offer_Letter_Demo.docx | base64 > $doc1_base64
+cat demo_documents/Offer_Letter_Dynamic_Table.docx | base64 > $doc1_base64
 
 printf \
 '{
@@ -122,7 +122,7 @@ printf \
     ],
     "dateSignedTabs": [
         {
-            "anchorString": "Date",
+            "anchorString": "Date Signed",
             "anchorUnits": "pixels",
             "anchorYOffset": "-22"
         }
@@ -223,8 +223,7 @@ read CANDIDATE_NAME
 PS3='Please select a job title:'
 select choice in \
   "Software Engineer" \
-  "Product Manager" \
-  "Sales Representative"; do
+  "Account Executive"; do
   echo $choice
   JOB_TITLE=$choice
   break
@@ -237,7 +236,10 @@ echo "Please input the start date in the format MM/DD/YYYY:"
 read START_DATE
 
 echo "Please input the salary:"
-read SALARY
+read -p "$" SALARY
+
+echo "Please input the RSUs:"
+read RSUS
 
 # Merge data fields with the eSignature REST API
 #ds-snippet-start:eSign42Step7
@@ -264,8 +266,46 @@ printf \
           "value": "'"${START_DATE}"'"
         },
         {
-          "name": "Salary",
-          "value": "'"${SALARY}"'"
+          "name": "Compensation_Package",
+          "type": "TableRow",
+          "rowValues": [
+            {
+              "docGenFormFieldList": [
+                {
+                  "name": "Compensation_Component",
+                  "value": "Salary"
+                },
+                {
+                  "name": "Details",
+                  "value": "$'"${SALARY}"'"
+                }
+              ]
+            },
+            {
+              "docGenFormFieldList": [
+                {
+                  "name": "Compensation_Component",
+                  "value": "Bonus"
+                },
+                {
+                  "name": "Details",
+                  "value": "20%%"
+                }
+              ]
+            },
+            {
+              "docGenFormFieldList": [
+                {
+                  "name": "Compensation_Component",
+                  "value": "RSUs"
+                },
+                {
+                  "name": "Details",
+                  "value": '${RSUS}'
+                }
+              ]
+            }
+          ]
         }
       ]
     }

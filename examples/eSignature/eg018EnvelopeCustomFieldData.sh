@@ -21,11 +21,11 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://demo.docusign.net/restapi"
 
 # Construct your API headers
-# Step 2 start
+#ds-snippet-start:eSign18Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 					'--header' "Accept: application/json" \
 					'--header' "Content-Type: application/json")
-# Step 2 end
+#ds-snippet-end:eSign18Step2
 
 # Check that we have an template ID
 if [ ! -f config/ENVELOPE_ID ]; then
@@ -40,12 +40,12 @@ echo ""
 echo "Sending the EnvelopeCustomFields::list request to DocuSign..."
 
 # Send a GET request to the Envelopes endpoint
-# Step 3 start
+#ds-snippet-start:eSign18Step3
 response=$(mktemp /tmp/response-eg-018.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}/custom_fields \
      "${Headers[@]}" \
      --output ${response})
-# Step 3 end
+#ds-snippet-end:eSign18Step3
 
 echo "Results:"
 echo ""
