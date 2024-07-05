@@ -3,8 +3,6 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-$(cat $token_file_name)
-
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
@@ -24,6 +22,19 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 #ds-snippet-end:eSign22Step2
 # Step 3: Construct your envelope JSON body
 # Create a temporary file to store the JSON body
+is_data_correct=true
+while $is_data_correct; do
+	read -p "Please enter name for the signer: " RECIPIENT_NAME
+	read -p "Please enter email address for the signer: " RECIPIENT_EMAIL
+
+	if [[ "$RECIPIENT_EMAIL" = "$SIGNER_EMAIL" ]]; then
+	  echo ""
+		echo "For recipient authentication you must specify a different recipient from the account owner (sender) in order to ensure recipient authentication is performed"
+		echo ""
+	else
+		is_data_correct=false
+	fi
+done
 
 doc_base64=$(mktemp /tmp/eg-019-doc1.XXXXXX)
 cat demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx | base64 > $doc_base64
@@ -33,9 +44,11 @@ request_data=$(mktemp /tmp/request-cw.XXXXXX)
 printf \
 '{
 	"documents": [{
-		"documentBase64": "'"${doc_bases64}"'",
+		"documentBase64":"' > $request_data
+            cat $doc_base64 >> $request_data
+            printf '",
 		"documentId": "1",
-		"fileExtension": "pdf",
+		"fileExtension": "docx",
 		"name": "Lorem"
 	}],
 	"emailBlurb": "Sample text for email body",
@@ -44,10 +57,10 @@ printf \
 	"recipients": {
 		"signers": [{
 			"deliveryMethod": "Email",
-			"name": "'"${SIGNER_NAME}"'",
-			"email": "'"${SIGNER_EMAIL}"'",
-			"idCheckConfigurationName": "ID Check $",
-			"recipientId": "1", #This value represents your {RECIPIENT_ID}
+			"name": "'"${RECIPIENT_NAME}"'",
+			"email": "'"${RECIPIENT_EMAIL}"'",
+			"idCheckConfigurationName": "ID Check",
+			"recipientId": "1",
 			"requireIdLookup": "true",
 			"routingOrder": "1",
 			"status": "Created",
@@ -56,7 +69,7 @@ printf \
 					"documentId": "1",
 					"name": "SignHereTab",
 					"pageNumber": "1",
-					"recipientId": "1", #This value represents your {RECIPIENT_ID}
+					"recipientId": "1",
 					"tabLabel": "SignHereTab",
 					"xPosition": "75",
 					"yPosition": "572"
