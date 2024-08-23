@@ -30,13 +30,29 @@ elseif($api_version == "Maestro") :
     $scope = "signature aow_manage";
 endif;
 
+function generateCodeVerifier() {
+    return bin2hex(random_bytes(32));
+}
+
+function generateCodeChallenge($code_verifier) {
+    return rtrim(strtr(base64_encode(hash('sha256', $code_verifier, true)), '+/', '-_'), '=');
+}
+
+$use_pkce = true;
+$code_verifier = generateCodeVerifier();
+$code_challenge = generateCodeChallenge($code_verifier);
+
+$_SESSION['code_verifier'] = $code_verifier;
+
 $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query(
     [
       'redirect_uri'  => $redirectURI,
       'scope'         => $scope,
       'client_id'     => $clientID,
       'state'         => $state,
-      'response_type' => 'code'
+      'response_type' => 'code',
+      'code_challenge' => $code_challenge,
+      'code_challenge_method' => 'S256'
     ]
 );
 
@@ -64,7 +80,8 @@ $response = http(
     $authorizationEndpoint . 'token', [
       'grant_type'   => 'authorization_code',
       'redirect_uri' => $redirectURI,
-      'code'         => $code
+      'code'         => $code,
+      'code_verifier' => $code_verifier
     ], [
       'Authorization: Basic ' . base64_encode($clientID . ':' .$clientSecret),
     ], true
@@ -72,7 +89,35 @@ $response = http(
 
 if (!isset($response->access_token)) {
     echo "\nError fetching access token\n";
+    $use_pkce = false;
+    echo "\nPKCE failed\n";
     exit(2);
+}
+
+if (!$use_pkce) {
+    // Start Authorization Code Grant flow without PKCE
+    $authorizationURL = $authorizationEndpoint . 'auth?' . http_build_query([
+        'redirect_uri'  => $redirectURI,
+        'scope'         => $scope,
+        'client_id'     => $clientID,
+        'state'         => $state,
+        'response_type' => 'code'
+    ]);}
+
+if (!$use_pkce){
+    $code = $auth['code'];
+    echo "\nGetting an access token...\n";
+    
+    $response = http(
+        $authorizationEndpoint . 'token', [
+            'grant_type'   => 'authorization_code',
+            'redirect_uri' => $redirectURI,
+            'code'         => $code
+        ], [
+            'Authorization: Basic ' . base64_encode($clientID . ':' .$clientSecret),
+        ], true
+    );
+
 }
 
 $accessToken = $response->access_token;
