@@ -44,7 +44,8 @@ ADMIN_SCOPES = [
     "signature", "organization_read", "group_read", "permission_read",
     "user_read", "user_write", "account_read", "domain_read",
     "identity_provider_read", "user_data_redact", "asset_group_account_read",
-    "asset_group_account_clone_write", "asset_group_account_clone_read"
+    "asset_group_account_clone_write", "asset_group_account_clone_read",
+    "organization_sub_account_write", "organization_sub_account_read"
 ]
 
 NOTARY_SCOPES = [

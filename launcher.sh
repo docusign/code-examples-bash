@@ -788,6 +788,7 @@ function startAdmin() {
         "Delete_User_Data_Org_Admin" \
         "Delete_User_Data_Account_Admin" \
         "Clone_Account" \
+        "Create_Account" \
         "Pick_An_API"; do
         case "$CHOICE" in
 
@@ -840,6 +841,10 @@ function startAdmin() {
             ;;
         Clone_Account)
             bash examples/Admin/eg012CloneAccount.sh
+            startAdmin
+            ;;
+        Create_Account)
+            bash examples/Admin/eg013CreateAccount.sh
             startAdmin
             ;;
         *)
