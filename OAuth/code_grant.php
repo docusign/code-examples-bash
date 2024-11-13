@@ -28,6 +28,8 @@ elseif($api_version == "WebForms") :
     $scope = "signature webforms_read webforms_instance_read webforms_instance_write";
 elseif($api_version == "Maestro") :
     $scope = "signature aow_manage";
+elseif($api_version == "Navigator") :
+    $scope = "signature adm_store_unified_repo_read";
 endif;
 
 function generateCodeVerifier() {

@@ -181,6 +181,7 @@ function choices() {
         "Notary" \
         "WebForms" \
         "Maestro" \
+        "Navigator (beta)" \
         "Exit"; do
         case "$METHOD" in
 
@@ -231,6 +232,11 @@ function choices() {
             api_version="Maestro"
             login $api_version
             startMaestro
+            ;;
+        "Navigator (beta)")
+            api_version="Navigator"
+            login $api_version
+            startNavigator
             ;;
 
         Exit)
@@ -973,6 +979,34 @@ function startMaestro() {
     done
 }
 
+function startNavigator() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "List_Agreements" \
+        "Get_Single_Agreement" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        List_Agreements)
+            bash examples/Navigator/eg001ListAgreements.sh
+            startNavigator
+            ;;
+        Get_Single_Agreement)
+            bash examples/Navigator/eg002GetSingleAgreement.sh
+            startNavigator
+            ;;
+        *)
+            echo "Default action..."
+            startNavigator
+            ;;
+        esac
+    done
+}
+
 function continu() {
 
     isCFR
@@ -1010,6 +1044,9 @@ function continu() {
     elif [[ $api_version == "Maestro" ]]
     then
       startMaestro
+    elif [[ $api_version == "Navigator" ]]
+    then
+      startNavigator
     fi
 }
 
