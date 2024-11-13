@@ -60,6 +60,10 @@ MAESTRO_SCOPES = [
     "signature", "aow_manage"
 ]
 
+NAVIGATOR_SCOPES = [
+    "signature", "adm_store_unified_repo_read"
+]
+
 class DSClient:
 
     ds_app = None
@@ -83,6 +87,8 @@ class DSClient:
             use_scopes = NOTARY_SCOPES
         elif (API_VERSION == "Maestro"):
             use_scopes = MAESTRO_SCOPES
+        elif (API_VERSION == "Navigator"):
+            use_scopes = NAVIGATOR_SCOPES
         else:
             use_scopes = SCOPES
 

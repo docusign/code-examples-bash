@@ -32,7 +32,9 @@ if ($api_version == "eSignature" || $api_version == "idEvidence") {
 } else if ($api_version == "WebForms") {
     $scope = "signature impersonation webforms_read webforms_instance_read webforms_instance_write";
 } else if ($api_version == "Maestro") {
-  $scope = "signature aow_manage";
+    $scope = "signature aow_manage";
+} else if ($api_version == "Navigator") {
+    $scope = "signature adm_store_unified_repo_read";
 }
 
 $body = encodeBase64URL(
