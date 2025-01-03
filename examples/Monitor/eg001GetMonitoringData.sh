@@ -16,8 +16,16 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}"
 # the monitoring records
 
 #ds-snippet-start:Monitor1Step3
+if date -v -10d &>/dev/null; then
+    # Mac
+    cursorDate=$(date -v -1y '+%Y-%m-%d')
+else
+    # Not a Mac
+    cursorDate=$(date --date='-1 year' '+%Y-%m-%d')
+fi
+
 complete=false
-cursorValue=""
+cursorValue="${cursorDate}T00:00:00Z"
 iterations=0
 
 while [ $complete == false ]; do
