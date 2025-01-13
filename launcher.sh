@@ -951,8 +951,6 @@ function startMaestro() {
     PS3='Select the action : '
     select CHOICE in \
         "Trigger_Workflow" \
-        "Stop_Workflow" \
-        "Get_Workflow_Status"\
         "Home"; do
         case "$CHOICE" in
 
@@ -961,14 +959,6 @@ function startMaestro() {
             ;;
         Trigger_Workflow)
             bash examples/Maestro/eg001TriggerWorkflow.sh
-            startMaestro
-            ;;
-        Stop_Workflow)
-            bash examples/Maestro/eg002CancelWorkflow.sh
-            startMaestro
-            ;;
-        Get_Workflow_Status)
-            bash examples/Maestro/eg003GetWorkflowStatus.sh
             startMaestro
             ;;
         *)

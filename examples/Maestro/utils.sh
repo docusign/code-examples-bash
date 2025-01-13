@@ -101,7 +101,8 @@ printf \
                     "propertyName": "dacId",
                     "stepId": "'"${TRIGGER_ID}"'"
                 }
-            }
+            },
+            "type": "API"
         },
         "variables": {
             "dacId_'"${TRIGGER_ID}"'": {
@@ -154,46 +155,6 @@ printf \
             }
         },
         "steps": [
-            {
-                "id": "step1",
-                "name": "Set Up Invite",
-                "moduleName": "Notification-SendEmail",
-                "configurationProgress": "Completed",
-                "type": "DS-EmailNotification",
-                "config": {
-                    "templateType": "WorkflowParticipantNotification",
-                    "templateVersion": 1,
-                    "language": "en",
-                    "sender_name": "DocuSign Orchestration",
-                    "sender_alias": "Orchestration",
-                    "participantId": "'"${SIGNER_ID}"'"
-                },
-                "input": {
-                    "recipients": [
-                        {
-                            "name": {
-                                "source": "step",
-                                "propertyName": "signerName",
-                                "stepId": "'"${TRIGGER_ID}"'"
-                            },
-                            "email": {
-                                "source": "step",
-                                "propertyName": "signerEmail",
-                                "stepId": "'"${TRIGGER_ID}"'"
-                            }
-                        }
-                    ],
-                    "mergeValues": {
-                        "CustomMessage": "Follow this link to access and complete the workflow.",
-                        "ParticipantFullName": {
-                            "source": "step",
-                            "propertyName": "signerName",
-                            "stepId": "'"${TRIGGER_ID}"'"
-                        }
-                    }
-                },
-                "output": {}
-            },
             {
                 "id": "step2",
                 "name": "Get Signatures",
@@ -580,7 +541,8 @@ printf \
                         }
                     }
                 },
-                "output": {}
+                "output": {},
+                "triggerType": "API"
             }
         ]
     }
