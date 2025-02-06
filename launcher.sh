@@ -897,6 +897,7 @@ function startNotary() {
         "Signature_Request_To_Notary_Group" \
         "Invite_Notary_To_Pool" \
         "Jurisdictions" \
+        "Signature_Request_Third_Party_Notary" \
         "Home"; do
         case "$CHOICE" in
 
@@ -913,6 +914,10 @@ function startNotary() {
             ;;
         Jurisdictions)
             bash examples/Notary/eg003Jurisdictions.sh
+            startNotary
+            ;;
+        Signature_Request_Third_Party_Notary)
+            bash examples/Notary/eg004SendWithThirdPartyNotary.sh
             startNotary
             ;;
         *)
