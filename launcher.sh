@@ -294,6 +294,7 @@ function startSignature() {
         "Shared_Access" \
         "Document_Generation" \
         "Focused_View" \
+        "Connected_Fields" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -465,6 +466,10 @@ function startSignature() {
             ;;
         Focused_View)
             bash examples/eSignature/eg044FocusedView.sh
+            startSignature
+            ;;
+        Connected_Fields)
+            bash examples/eSignature/eg045ConnectedFields.sh
             startSignature
             ;;
         *)
@@ -1046,6 +1051,6 @@ function continu() {
 }
 
 echo ""
-echo "Welcome to the DocuSign Bash Launcher"
+echo "Welcome to the Docusign Bash Launcher"
 
 choices
