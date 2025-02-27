@@ -92,6 +92,7 @@ parse_verification_data() {
     publisher_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.publisherName')
     application_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.applicationName')
     action_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.actionName')
+    action_input_key=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.actionInputKey')
     action_contract=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.actionContract')
     extension_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.extensionName')
     extension_contract=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.extensionContract')
@@ -107,6 +108,7 @@ parse_verification_data() {
     echo "Application Name: $application_name"
     echo "Action Name: $action_name"
     echo "Action Contract: $action_contract"
+    echo "Action Input Key: $action_input_key"
     echo "Extension Name: $extension_name"
     echo "Extension Contract: $extension_contract"
     echo "Required for Extension: $required_for_extension"
@@ -194,7 +196,6 @@ printf \
                             "tabId": "'"${tab_id}"'",
                             "templateRequired": false,
                             "tabType": "text",
-                            "tooltip": "Phone Number",
                             "extensionData": {
                                 "extensionGroupId": "'"${extension_group_id}"'",
                                 "publisherName": "'"${publisher_name}"'",
@@ -205,7 +206,7 @@ printf \
                                 "extensionName": "'"${extension_name}"'",
                                 "extensionContract": "'"${extension_contract}"'",
                                 "requiredForExtension": "'"${required_for_extension}"'",
-                                "actionInputKey": "phoneNumber",
+                                "actionInputKey": "'"${action_input_key}"'",
                                 "extensionPolicy": "None",
                                 "connectionInstances": [
                                     {
