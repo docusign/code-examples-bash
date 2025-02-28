@@ -245,7 +245,7 @@ function choices() {
             startNavigator
             ;;
 
-        ConnectedFields)
+        Connected_Fields)
             api_version="ConnectedFields"
             login $api_version
             startConnectedFields
