@@ -35,6 +35,8 @@ if ($api_version == "eSignature" || $api_version == "idEvidence") {
     $scope = "signature aow_manage";
 } else if ($api_version == "Navigator") {
     $scope = "signature adm_store_unified_repo_read";
+} else if ($api_version == "ConnectedFields") {
+    $scope = "signature adm_store_unified_repo_read";
 }
 
 $body = encodeBase64URL(

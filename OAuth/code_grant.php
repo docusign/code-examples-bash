@@ -12,6 +12,8 @@ if (!file_exists($outputFile)) {
 $api_version = "$argv[1]";
 
 if($api_version == "eSignature" || $api_version == "idEvidence") :
+    $scope = 'signature';
+elseif($api_version == "ConnectedFields") :
     $scope = 'signature adm_store_unified_repo_read';
 elseif($api_version == "Rooms") :
     $scope = 'dtr.rooms.read dtr.rooms.write dtr.documents.read dtr.documents.write dtr.profile.read dtr.profile.write dtr.company.read dtr.company.write room_forms';
