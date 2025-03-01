@@ -59,23 +59,24 @@ extract_verify_info() {
 
 prompt_user_choice() {
     local json_data="$1"
-    local apps=( $(echo "$json_data" | jq -r '.[] | .appId') )
-    mapfile -t names < <(echo "$json_data" | jq -r '.[] | .tabs[0].extensionData.applicationName')
-
+    mapfile -t unique_apps < <(echo "$json_data" | jq -r '[.[] | {appId: .appId, applicationName: .tabs[0].extensionData.applicationName}] | unique_by(.appId) | .[] | "\(.appId) \(.applicationName)"')
 
     if [[ -z "$json_data" || "$json_data" == "[]" ]]; then
-        echo "Error: No verification apps found in the data."
+        echo "No data verification were found in the account. Please install a data verification app."
+        echo ""
+        echo "You can install a phone number verification extension app by copying the following link to your browser: "
+        echo "https://apps.docusign.com/app-center/app/d16f398f-8b9a-4f94-b37c-af6f9c910c04"
         exit 1
     fi
 
     echo "Please select an app by entering a number:"
-    for i in "${!names[@]}"; do
-        echo "$((i+1)). ${names[$i]}"
+    for i in "${!unique_apps[@]}"; do
+        echo "$((i+1)). ${unique_apps[$i]#* }"
     done
 
-    read -p "Enter choice (1-${#names[@]}): " choice
-    if [[ "$choice" =~ ^[1-${#names[@]}]$ ]]; then
-        chosen_app_id="${apps[$((choice-1))]}"
+    read -p "Enter choice (1-${#unique_apps[@]}): " choice
+    if [[ "$choice" =~ ^[1-${#unique_apps[@]}]$ ]]; then
+        chosen_app_id="${unique_apps[$((choice-1))]%% *}"
         selected_data=$(echo "$json_data" | jq --arg appId "$chosen_app_id" '[.[] | select(.appId == $appId)]')
         parse_verification_data "$selected_data"
     else
@@ -126,7 +127,10 @@ fi
 filtered_data=$(extract_verify_info)
 
 if [[ -z "$filtered_data" || "$filtered_data" == "[]" ]]; then
-    echo "Error: No verification data found in response file."
+    echo "No data verification were found in the account. Please install a data verification app."
+    echo ""
+    echo "You can install a phone number verification extension app by copying the following link to your browser: "
+    echo "https://apps.docusign.com/app-center/app/d16f398f-8b9a-4f94-b37c-af6f9c910c04"
     exit 1
 fi
 
