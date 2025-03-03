@@ -98,8 +98,7 @@ parse_verification_data() {
     extension_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.extensionName')
     extension_contract=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.extensionContract')
     required_for_extension=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.requiredForExtension')
-    validation_pattern=$(echo "$clean_json" | jq -r '.[0].tabs[]? | select(.extensionData.actionInputKey=="phoneNumber").validationPattern')
-    tab_label=$(echo "$clean_json" | jq -r '.[0].tabs[]? | select(.extensionData.actionInputKey=="phoneNumber").tabLabel')
+    tab_label=$(echo "$clean_json" | jq -r '.[0].tabs[].tabLabel')
     connection_key=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.connectionInstances[0].connectionKey')
     connection_value=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.connectionInstances[0].connectionValue')
     
@@ -113,7 +112,6 @@ parse_verification_data() {
     echo "Extension Name: $extension_name"
     echo "Extension Contract: $extension_contract"
     echo "Required for Extension: $required_for_extension"
-    echo "Validation Pattern: $validation_pattern"
     echo "Tab Label: $tab_label"
     echo "Connection Key: $connection_key"
     echo "Connection Value: $connection_value"
@@ -176,12 +174,9 @@ printf \
                     ],
                     "textTabs": [
                         {
-                            "validationPattern": "'"${validation_pattern}"'",
-                            "validationMessage": "'"${validation_message}"'",
                             "requireInitialOnSharedChange": false,
                             "requireAll": false,
-                            "name": "'"${name}"'",
-                            "value": "",
+                            "name": "'"${application_name}"'",
                             "required": true,
                             "locked": false,
                             "disableAutoSize": false,
@@ -197,13 +192,12 @@ printf \
                             "yPosition": "191",
                             "width": "84",
                             "height": "22",
-                            "tabId": "'"${tab_id}"'",
                             "templateRequired": false,
                             "tabType": "text",
                             "extensionData": {
                                 "extensionGroupId": "'"${extension_group_id}"'",
                                 "publisherName": "'"${publisher_name}"'",
-                                "applicationId": "'"${application_id}"'",
+                                "applicationId": "'"${app_id}"'",
                                 "applicationName": "'"${application_name}"'",
                                 "actionName": "'"${action_name}"'",
                                 "actionContract": "'"${action_contract}"'",
