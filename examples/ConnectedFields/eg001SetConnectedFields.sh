@@ -32,18 +32,18 @@ ACCESS_TOKEN=$(cat ${ds_access_token_path})
 account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.com/v1"
 
-#ds-snippet-start:eSign45Step2
+#ds-snippet-start:ConnectedFields1Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
             '--header' "Accept: application/json" \
 			'--header' "Content-Type: application/json")
-#ds-snippet-end:eSign45Step2
+#ds-snippet-end:ConnectedFields1Step2
 
-#ds-snippet-start:eSign45Step3
+#ds-snippet-start:ConnectedFields1Step3
 response=$(mktemp /tmp/response-cf.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --ssl-no-revoke --request GET https://api-d.docusign.com/v1/accounts/${account_id}/connected-fields/tab-groups \
     "${Headers[@]}" \
     --output ${response})
-#ds-snippet-end:eSign45Step3
+#ds-snippet-end:ConnectedFields1Step3
 
 echo ""
 echo "Response:"
@@ -51,10 +51,10 @@ cat $response
 echo ""
 
 #Extract tab data from response
-#ds-snippet-start:eSign45Step4
+#ds-snippet-start:ConnectedFields1Step4
 extract_verify_info() {
     clean_response=$(sed -n '/\[/,$p' "$response")
-    echo "$clean_response" | jq '[.[] | select(.tabs[]?.extensionData.actionContract | contains("Verify"))]'
+    echo "$clean_response" | jq '[.[] | select((.tabs[]?.extensionData.actionContract | contains("Verify")) or (.tabs[]?.tabLabel? // empty | contains("connecteddata")))]'
 }
 
 prompt_user_choice() {
@@ -133,15 +133,14 @@ if [[ -z "$filtered_data" || "$filtered_data" == "[]" ]]; then
 fi
 
 prompt_user_choice "$filtered_data"
-#ds-snippet-end:eSign45Step4
+#ds-snippet-end:ConnectedFields1Step4
 
-
-request_data=$(mktemp /tmp/request-eg-045.XXXXXX)
-doc1_base64=$(mktemp /tmp/eg-045-doc1.XXXXXX)
+request_data=$(mktemp /tmp/request-eg-001.XXXXXX)
+doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
 
 #Construct the request body
-#ds-snippet-start:eSign45Step5
+#ds-snippet-start:eConnectedFields1Step5
 printf \
 '{
     "emailSubject": "Please sign this document",
@@ -220,7 +219,7 @@ printf \
         ]
     }
 }' >> $request_data
-#ds-snippet-end:eSign45Step5
+#ds-snippet-end:ConnectedFields1Step5
 
 # Remove the temporary file
 rm "$response"
@@ -230,8 +229,8 @@ echo ""
 echo "Done."
 echo ""
 
-#ds-snippet-start:eSign45Step6
-response=$(mktemp /tmp/response-eg-045.XXXXXX)
+#ds-snippet-start:ConnectedFields1Step6
+response=$(mktemp /tmp/response-eg-001.XXXXXX)
 
 echo ""
 echo "Sending the envelope request to Docusign..."
@@ -249,7 +248,7 @@ echo ""
 echo "Response:"
 cat $response
 echo ""
-#ds-snippet-end:eSign45Step6
+#ds-snippet-end:ConnectedFields1Step6
 
 # pull out the envelopeId
 envelope_id=`cat $response | grep envelopeId | sed 's/.*\"envelopeId\":\"//' | sed 's/\",.*//'`
