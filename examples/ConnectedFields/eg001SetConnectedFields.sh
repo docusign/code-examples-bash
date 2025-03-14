@@ -36,13 +36,13 @@ echo ""
 invoke_python() {
     if [[ $(python3 --version 2>&1) == *"not found"* ]]; then
         if [[ $(python --version 2>&1) != *"not found"* ]]; then
-            python -c "$1"
+            python -c "from examples.ConnectedFields.jsonParsingUtils import *; from json import *; print($1)"
         else
             echo "Either python or python3 must be installed to use this option."
             exit 1
         fi
     else
-        python3 -c "$1"
+        python3 -c "from examples.ConnectedFields.jsonParsingUtils import *; from json import *; print($1)"
     fi
 }
 
@@ -50,27 +50,12 @@ invoke_python() {
 #ds-snippet-start:ConnectedFields1Step4
 extract_verify_info() {
     clean_response=$(sed -n '/\[/,$p' "$response")
-    echo "$clean_response" | invoke_python "
-import sys, json
-data = json.load(sys.stdin)
-filtered_data = [item for item in data if any('Verify' in tab.get('extensionData', {}).get('actionContract', '') for tab in item.get('tabs', []))]
-print(json.dumps(filtered_data))"
+    invoke_python "filter_by_verify_action('''$clean_response''')"
 }
 
 prompt_user_choice() {
-    local json_data="$1"
-    mapfile -t unique_apps < <(echo "$json_data" | echo "$json_data" | invoke_python "
-import sys, json
-data = json.load(sys.stdin)
-unique_apps = {}
-for item in data:
-    app_id = item.get('appId')
-    application_name = item.get('tabs', [{}])[0].get('extensionData', {}).get('applicationName')
-    if app_id and application_name:
-        unique_apps[app_id] = application_name
-for app_id, application_name in unique_apps.items():
-    print(f'{app_id} {application_name}')
-")
+    local json_data="'''$1'''"
+    mapfile -t unique_apps < <(invoke_python "extract_unique_apps($json_data)")
 
     if [[ -z "$json_data" || "$json_data" == "[]" ]]; then
         echo "No data verification were found in the account. Please install a data verification app."
@@ -87,12 +72,8 @@ for app_id, application_name in unique_apps.items():
 
     read -p "Enter choice (1-${#unique_apps[@]}): " choice
     if [[ "$choice" =~ ^[1-${#unique_apps[@]}]$ ]]; then
-        chosen_app_id="${unique_apps[$((choice-1))]%% *}"
-        selected_data=$(echo "$json_data" | invoke_python "
-import sys, json
-data = json.load(sys.stdin)
-print(json.dumps([item for item in data if item.get('appId') == '$chosen_app_id']))
-")
+        chosen_app_id="'${unique_apps[$((choice-1))]%% *}'"
+        selected_data=$(invoke_python "filter_by_app_id($json_data, $chosen_app_id)")
         parse_verification_data "$selected_data"
     else
         echo "Invalid choice. Exiting."
@@ -101,21 +82,21 @@ print(json.dumps([item for item in data if item.get('appId') == '$chosen_app_id'
 }
 
 parse_verification_data() {
-    local clean_json="$1"
+    local clean_json="'''$1'''"
     
-    app_id=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['appId'])")
-    extension_group_id=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['extensionGroupId'])")
-    publisher_name=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['publisherName'])")
-    application_name=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['applicationName'])")
-    action_name=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['actionName'])")
-    action_input_key=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['actionInputKey'])")
-    action_contract=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['actionContract'])")
-    extension_name=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['extensionName'])")
-    extension_contract=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['extensionContract'])")
-    required_for_extension=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['requiredForExtension'])")
-    tab_label=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(' '.join([tab['tabLabel'] for tab in data[0]['tabs']]))")
-    connection_key=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['connectionInstances'][0]['connectionKey'])")
-    connection_value=$(echo "$clean_json" | invoke_python "import sys, json; data = json.load(sys.stdin); print(data[0]['tabs'][0]['extensionData']['connectionInstances'][0]['connectionValue'])")
+    app_id=$(echo "$clean_json" | invoke_python "get_app_id($clean_json)")
+    extension_group_id=$(echo "$clean_json" | invoke_python "get_extension_group_id($clean_json)")
+    publisher_name=$(echo "$clean_json" | invoke_python "get_publisher_name($clean_json)")
+    application_name=$(echo "$clean_json" | invoke_python "get_application_name($clean_json)")
+    action_name=$(echo "$clean_json" | invoke_python "get_action_name($clean_json)")
+    action_input_key=$(echo "$clean_json" | invoke_python "get_action_input_key($clean_json)")
+    action_contract=$(echo "$clean_json" | invoke_python "get_action_contract($clean_json)")
+    extension_name=$(echo "$clean_json" | invoke_python "get_extension_name($clean_json)")
+    extension_contract=$(echo "$clean_json" | invoke_python "get_extension_contract($clean_json)")
+    required_for_extension=$(echo "$clean_json" | invoke_python "get_required_for_extension($clean_json)")
+    tab_label=$(echo "$clean_json" | invoke_python "get_tab_label($clean_json)")
+    connection_key=$(echo "$clean_json" | invoke_python "get_connection_key($clean_json)")
+    connection_value=$(echo "$clean_json" | invoke_python "get_connection_value($clean_json)")
         
     echo "App ID: $app_id"
     echo "Extension Group ID: $extension_group_id"
