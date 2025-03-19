@@ -48,6 +48,7 @@ Status=$(
     "${Headers[@]}" \
     --output ${response}
 )
+#apx-snippet-end:GetWorkflowsList
 # If the status code returned is greater than 201 (OK / Accepted), display an error message with the API response.
 if [[ "$Status" -gt "201" ]]; then
     echo ""
@@ -84,7 +85,6 @@ echo ""
 
 trigger_url=$(grep '"url":' $response | sed -n 's/.*"url": "\([^"]*\)".*/\1/p')
 decoded_trigger_url=$(echo $trigger_url | sed 's/\\u0026/\&/g')
-#apx-snippet-end:GetWorkflowsList
 #ds-snippet-end:Maestro1Step3
 
 echo "Please input a name for the workflow instance: "
