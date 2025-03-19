@@ -16,6 +16,7 @@ ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.com/v1"
 
 #ds-snippet-start:Navigator1Step2
+#apx-snippet-start:GetAgreementsList
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
             '--header' "Accept: application/json" \
 			'--header' "Content-Type: application/json")
@@ -27,6 +28,7 @@ response=$(mktemp /tmp/response-cw.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --ssl-no-revoke --request GET ${base_path}/accounts/${ACCOUNT_ID}/agreements \
     "${Headers[@]}" \
     --output ${response})
+#apx-snippet-end:GetAgreementsList
 #ds-snippet-end:Navigator1Step3
 
 if [[ "$Status" -gt "399" ]] ; then
