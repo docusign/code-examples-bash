@@ -101,6 +101,7 @@ echo "Please input an email for the cc participant: "
 read cc_email
 
 #ds-snippet-start:Maestro1Step4
+#apx-snippet-start:TriggerWorkflow
 request_data=$(mktemp /tmp/request-wf-001.XXXXXX)
 printf \
 '{
@@ -116,10 +117,13 @@ printf \
 
 #ds-snippet-start:Maestro1Step5
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
+# The ${decoded_trigger_url} variable is extracted from the response from a previous API call  
+# to the Workflows: getWorkflowTriggerRequirements endpoint.
 Status=$(curl -s -w "%{http_code}\n" -i --request POST ${decoded_trigger_url} \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
+#apx-snippet-end:TriggerWorkflow
 #ds-snippet-end:Maestro1Step5
 
 
