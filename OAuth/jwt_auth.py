@@ -64,6 +64,10 @@ NAVIGATOR_SCOPES = [
     "signature", "adm_store_unified_repo_read"
 ]
 
+CONNECTED_FIELDS_SCOPES = [
+    "signature", "adm_store_unified_repo_read"
+]
+
 class DSClient:
 
     ds_app = None
@@ -89,6 +93,8 @@ class DSClient:
             use_scopes = MAESTRO_SCOPES
         elif (API_VERSION == "Navigator"):
             use_scopes = NAVIGATOR_SCOPES
+        elif (API_VERSION == "ConnectedFields"):
+            use_scopes = CONNECTED_FIELDS_SCOPES
         else:
             use_scopes = SCOPES
 

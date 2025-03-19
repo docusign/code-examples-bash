@@ -182,6 +182,7 @@ function choices() {
         "WebForms" \
         "Maestro" \
         "Navigator (beta)" \
+        "Connected_Fields" \
         "Exit"; do
         case "$METHOD" in
 
@@ -213,30 +214,41 @@ function choices() {
             login $api_version
             startAdmin
             ;;
+
         ID_Evidence)
             api_version="idEvidence"
             login $api_version
             startIdEvidence
             ;;
+
         Notary)
             api_version="Notary"
             login $api_version
             startNotary
             ;;
+
         WebForms)
             api_version="WebForms"
             login $api_version
             startWebForms
             ;;
+
         Maestro)
             api_version="Maestro"
             login $api_version
             startMaestro
             ;;
+
         "Navigator (beta)")
             api_version="Navigator"
             login $api_version
             startNavigator
+            ;;
+
+        Connected_Fields)
+            api_version="ConnectedFields"
+            login $api_version
+            startConnectedFields
             ;;
 
         Exit)
@@ -1002,6 +1014,29 @@ function startNavigator() {
     done
 }
 
+function startConnectedFields() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Set_Connected_Fields" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Set_Connected_Fields)
+            bash examples/ConnectedFields/eg001SetConnectedFields.sh
+            startConnectedFields
+            ;;
+        *)
+            echo "Default action..."
+            startConnectedFields
+            ;;
+        esac
+    done
+}
+
 function continu() {
 
     isCFR
@@ -1042,10 +1077,13 @@ function continu() {
     elif [[ $api_version == "Navigator" ]]
     then
       startNavigator
+    elif [[ $api_version == "ConnectedFields" ]]
+    then
+      startConnectedFields
     fi
 }
 
 echo ""
-echo "Welcome to the DocuSign Bash Launcher"
+echo "Welcome to the Docusign Bash Launcher"
 
 choices
