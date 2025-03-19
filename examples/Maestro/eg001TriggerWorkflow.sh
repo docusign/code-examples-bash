@@ -101,6 +101,7 @@ echo "Please input an email for the cc participant: "
 read cc_email
 
 #ds-snippet-start:Maestro1Step4
+#apx-snippet-start:GetWorkflowsList
 request_data=$(mktemp /tmp/request-wf-001.XXXXXX)
 printf \
 '{
@@ -120,6 +121,7 @@ Status=$(curl -s -w "%{http_code}\n" -i --request POST ${decoded_trigger_url} \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
+#apx-snippet-end:GetWorkflowsList
 #ds-snippet-end:Maestro1Step5
 
 
