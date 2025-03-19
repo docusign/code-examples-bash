@@ -41,6 +41,7 @@ echo ""
 echo "Attempting to retrieve Workflow definition"
 echo ""
 #ds-snippet-start:Maestro1Step3
+#apx-snippet-start:GetWorkflowsList
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
     curl -w '%{http_code}' --request GET "${base_path}/accounts/${account_id}/workflows" \
@@ -83,6 +84,7 @@ echo ""
 
 trigger_url=$(grep '"url":' $response | sed -n 's/.*"url": "\([^"]*\)".*/\1/p')
 decoded_trigger_url=$(echo $trigger_url | sed 's/\\u0026/\&/g')
+#apx-snippet-end:GetWorkflowsList
 #ds-snippet-end:Maestro1Step3
 
 echo "Please input a name for the workflow instance: "
@@ -101,7 +103,6 @@ echo "Please input an email for the cc participant: "
 read cc_email
 
 #ds-snippet-start:Maestro1Step4
-#apx-snippet-start:GetWorkflowsList
 request_data=$(mktemp /tmp/request-wf-001.XXXXXX)
 printf \
 '{
@@ -121,7 +122,6 @@ Status=$(curl -s -w "%{http_code}\n" -i --request POST ${decoded_trigger_url} \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
-#apx-snippet-end:GetWorkflowsList
 #ds-snippet-end:Maestro1Step5
 
 
