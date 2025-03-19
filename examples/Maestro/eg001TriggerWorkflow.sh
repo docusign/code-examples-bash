@@ -41,12 +41,14 @@ echo ""
 echo "Attempting to retrieve Workflow definition"
 echo ""
 #ds-snippet-start:Maestro1Step3
+#apx-snippet-start:GetWorkflowsList
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
     curl -w '%{http_code}' --request GET "${base_path}/accounts/${account_id}/workflows" \
     "${Headers[@]}" \
     --output ${response}
 )
+#apx-snippet-end:GetWorkflowsList
 # If the status code returned is greater than 201 (OK / Accepted), display an error message with the API response.
 if [[ "$Status" -gt "201" ]]; then
     echo ""
