@@ -64,12 +64,14 @@ echo ""
 
 workflow_id=$(grep -B 1 '"name": "Example workflow - send invite to signer"' $response | grep '"id":' | sed -n 's/.*"id": "\([^"]*\)".*/\1/p')
 
+#apx-snippet-start:GetWorkflowTriggerRequirements
 # Get the trigger URL
+# workflow_id comes from the response of the Workflows: getWorkflowsList endpoint
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(curl -s -w "%{http_code}\n" -i --request GET "${base_path}/accounts/${account_id}/workflows/${workflow_id}/trigger-requirements" \
     "${Headers[@]}" \
     --output ${response})
-
+#apx-snippet-end:GetWorkflowTriggerRequirements
 # If the status code returned is greater than 201 (OK / Accepted), display an error message with the API response.
 if [[ "$Status" -gt "201" ]]; then
     echo ""
