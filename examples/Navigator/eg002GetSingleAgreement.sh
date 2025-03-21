@@ -52,10 +52,12 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 
 # Get Agreement
 #ds-snippet-start:Navigator2Step3
+#apx-snippet-start:GetAgreement
 response=$(mktemp /tmp/response-neg-002.XXXXXX)
 Status=$(curl -w '%{http_code}' -i --request GET ${base_path}/accounts/${ACCOUNT_ID}/agreements/${AGREEMENT_ID} \
     "${Headers[@]}" \
     --output ${response})
+#apx-snippet-end:GetAgreement
 #ds-snippet-end:Navigator2Step3
 
 
