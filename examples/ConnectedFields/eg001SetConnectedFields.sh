@@ -3,23 +3,6 @@ if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
 fi
 
-if ! command -v jq &> /dev/null; then
-    echo "jq is not installed. Installing jq..."
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        sudo apt-get update && sudo apt-get install -y jq  # For Debian/Ubuntu
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install jq  # For macOS (Homebrew)
-    elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" ]]; then
-        echo "Please install jq manually from: https://stedolan.github.io/jq/download/"
-        exit 1
-    else
-        echo "Unsupported OS. Please install jq manually."
-        exit 1
-    fi
-else
-    echo "jq is already installed."
-fi
-
 ds_access_token_path="config/ds_access_token.txt"
 verification_file="config/verification_app.txt"
 
@@ -50,16 +33,29 @@ echo "Response:"
 cat $response
 echo ""
 
+invoke_python() {
+    if [[ $(python3 --version 2>&1) == *"not found"* ]]; then
+        if [[ $(python --version 2>&1) != *"not found"* ]]; then
+            python -c "from examples.ConnectedFields.jsonParsingUtils import *; from json import *; print($1)"
+        else
+            echo "Either python or python3 must be installed to use this option."
+            exit 1
+        fi
+    else
+        python3 -c "from examples.ConnectedFields.jsonParsingUtils import *; from json import *; print($1)"
+    fi
+}
+
 #Extract tab data from response
 #ds-snippet-start:ConnectedFields1Step4
 extract_verify_info() {
     clean_response=$(sed -n '/\[/,$p' "$response")
-    echo "$clean_response" | jq '[.[] | select((.tabs[]?.extensionData.actionContract | contains("Verify")) or (.tabs[]?.tabLabel? // empty | contains("connecteddata")))]'
+    invoke_python "filter_by_verify_action('''$clean_response''')"
 }
 
 prompt_user_choice() {
-    local json_data="$1"
-    mapfile -t unique_apps < <(echo "$json_data" | jq -r '[.[] | {appId: .appId, applicationName: .tabs[0].extensionData.applicationName}] | unique_by(.appId) | .[] | "\(.appId) \(.applicationName)"')
+    local json_data="'''$1'''"
+    mapfile -t unique_apps < <(invoke_python "extract_unique_apps($json_data)")
 
     if [[ -z "$json_data" || "$json_data" == "[]" ]]; then
         echo "No data verification were found in the account. Please install a data verification app."
@@ -76,8 +72,8 @@ prompt_user_choice() {
 
     read -p "Enter choice (1-${#unique_apps[@]}): " choice
     if [[ "$choice" =~ ^[1-${#unique_apps[@]}]$ ]]; then
-        chosen_app_id="${unique_apps[$((choice-1))]%% *}"
-        selected_data=$(echo "$json_data" | jq --arg appId "$chosen_app_id" '[.[] | select(.appId == $appId)]')
+        chosen_app_id="'${unique_apps[$((choice-1))]%% *}'"
+        selected_data=$(invoke_python "filter_by_app_id($json_data, $chosen_app_id)")
         parse_verification_data "$selected_data"
     else
         echo "Invalid choice. Exiting."
@@ -86,22 +82,22 @@ prompt_user_choice() {
 }
 
 parse_verification_data() {
-    local clean_json="$1"
+    local clean_json="'''$1'''"
     
-    app_id=$(echo "$clean_json" | jq -r '.[0].appId')
-    extension_group_id=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.extensionGroupId')
-    publisher_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.publisherName')
-    application_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.applicationName')
-    action_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.actionName')
-    action_input_key=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.actionInputKey')
-    action_contract=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.actionContract')
-    extension_name=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.extensionName')
-    extension_contract=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.extensionContract')
-    required_for_extension=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.requiredForExtension')
-    tab_label=$(echo "$clean_json" | jq -r '.[0].tabs[].tabLabel')
-    connection_key=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.connectionInstances[0].connectionKey')
-    connection_value=$(echo "$clean_json" | jq -r '.[0].tabs[0].extensionData.connectionInstances[0].connectionValue')
-    
+    app_id=$(echo "$clean_json" | invoke_python "get_app_id($clean_json)")
+    extension_group_id=$(echo "$clean_json" | invoke_python "get_extension_group_id($clean_json)")
+    publisher_name=$(echo "$clean_json" | invoke_python "get_publisher_name($clean_json)")
+    application_name=$(echo "$clean_json" | invoke_python "get_application_name($clean_json)")
+    action_name=$(echo "$clean_json" | invoke_python "get_action_name($clean_json)")
+    action_input_key=$(echo "$clean_json" | invoke_python "get_action_input_key($clean_json)")
+    action_contract=$(echo "$clean_json" | invoke_python "get_action_contract($clean_json)")
+    extension_name=$(echo "$clean_json" | invoke_python "get_extension_name($clean_json)")
+    extension_contract=$(echo "$clean_json" | invoke_python "get_extension_contract($clean_json)")
+    required_for_extension=$(echo "$clean_json" | invoke_python "get_required_for_extension($clean_json)")
+    tab_label=$(echo "$clean_json" | invoke_python "get_tab_label($clean_json)")
+    connection_key=$(echo "$clean_json" | invoke_python "get_connection_key($clean_json)")
+    connection_value=$(echo "$clean_json" | invoke_python "get_connection_value($clean_json)")
+        
     echo "App ID: $app_id"
     echo "Extension Group ID: $extension_group_id"
     echo "Publisher Name: $publisher_name"
@@ -140,7 +136,7 @@ doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
 
 #Construct the request body
-#ds-snippet-start:eConnectedFields1Step5
+#ds-snippet-start:ConnectedFields1Step5
 printf \
 '{
     "emailSubject": "Please sign this document",
