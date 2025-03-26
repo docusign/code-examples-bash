@@ -136,7 +136,7 @@ doc1_base64=$(mktemp /tmp/eg-001-doc1.XXXXXX)
 cat demo_documents/World_Wide_Corp_lorem.pdf | base64 > $doc1_base64
 
 #Construct the request body
-#ds-snippet-start:eConnectedFields1Step5
+#ds-snippet-start:ConnectedFields1Step5
 printf \
 '{
     "emailSubject": "Please sign this document",
