@@ -1,15 +1,22 @@
 from json import dumps, loads
 
-def filter_by_verify_action(data: str) -> str:
+def filter_by_verify_action(filename: str) -> str:
     """
-    Filters items where any tab contains 'Verify' in the actionContract.
+    Filters items where any tab contains 'Verify' in the actionContract and 'connecteddata' in the tabLabel.
     """
+
+    with open(filename) as file:
+        data = file.read()
+
+    apps = data[data.find("["):] if "[" in data else ""
     return dumps([
-        item for item in loads(data)
-        if any(
+        {"appId": app["appId"], "applicationName": app["tabs"][0]["extensionData"]["applicationName"]}
+        for app in loads(apps)
+        if "appId" in app and app.get("tabs") and "extensionData" in app["tabs"][0] and "applicationName" in app["tabs"][0]["extensionData"]
+        and any(
             ("extensionData" in tab and "actionContract" in tab["extensionData"] and "Verify" in tab["extensionData"]["actionContract"]) or
             ("tabLabel" in tab and "connecteddata" in tab["tabLabel"])
-            for tab in item.get("tabs", [])
+            for tab in app["tabs"]
         )
     ])
 
@@ -20,55 +27,106 @@ def extract_unique_apps(data: str):
     unique_apps = {}
     for item in loads(data):
         app_id = item.get('appId', '')
-        application_name = item.get('tabs', [{}])[0].get('extensionData', {}).get('applicationName', '')
+        application_name = item.get('applicationName', '')
         if app_id != '' and application_name != '':
             unique_apps[app_id] = application_name
             
     return '\n'.join([f'{app_id} {application_name}' for app_id, application_name in unique_apps.items()])
  
-def filter_by_app_id(data: str, chosen_app_id: str) -> str:
+def filter_by_app_id(filename: str, chosen_app_id: str) -> str:
     """
     Filters items based on a given appId.
     """
-    return dumps([item for item in loads(data) if item.get('appId') == chosen_app_id])
+    with open(filename) as file:
+        data = file.read()
 
-def get_app_id(data: str) -> str:
-    return loads(data)[0].get('appId', '')
+    apps = data[data.find("["):] if "[" in data else ""
 
-def get_extension_group_id(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('extensionGroupId', '')
+    return dumps([item for item in loads(apps) if item.get('appId') == chosen_app_id])
 
-def get_publisher_name(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('publisherName', '')
+def extract_verification_data(selected_app_id, tab):
+    extension_data = tab["extensionData"]
 
-def get_application_name(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('applicationName', '')
+    return {
+        "app_id": selected_app_id,
+        "extension_group_id": extension_data["extensionGroupId"] if "extensionGroupId" in extension_data else "",
+        "publisher_name": extension_data["publisherName"] if "publisherName" in extension_data else "",
+        "application_name": extension_data["applicationName"] if "applicationName" in extension_data else "",
+        "action_name": extension_data["actionName"] if "actionName" in extension_data else "",
+        "action_input_key": extension_data["actionInputKey"] if "actionInputKey" in extension_data else "",
+        "action_contract": extension_data["actionContract"] if "actionContract" in extension_data else "",
+        "extension_name": extension_data["extensionName"] if "extensionName" in extension_data else "",
+        "extension_contract": extension_data["extensionContract"] if "extensionContract" in extension_data else "",
+        "required_for_extension": extension_data["requiredForExtension"] if "requiredForExtension" in extension_data else "",
+        "tab_label": tab["tabLabel"],
+        "connection_key": (
+            extension_data["connectionInstances"][0]["connectionKey"]
+            if "connectionInstances" in extension_data and extension_data["connectionInstances"]
+            else ""
+        ),
+        "connection_value": (
+            extension_data["connectionInstances"][0]["connectionValue"]
+            if "connectionInstances" in extension_data and extension_data["connectionInstances"]
+            else ""
+        ),
+    }
 
-def get_action_name(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('actionName', '')
+def get_extension_data(verification_data):
+    return {
+        "extensionGroupId": verification_data["extension_group_id"],
+        "publisherName": verification_data["publisher_name"],
+        "applicationId": verification_data["app_id"],
+        "applicationName": verification_data["application_name"],
+        "actionName": verification_data["action_name"],
+        "actionContract": verification_data["action_contract"],
+        "extensionName": verification_data["extension_name"],
+        "extensionContract": verification_data["extension_contract"],
+        "requiredForExtension": verification_data["required_for_extension"],
+        "actionInputKey": verification_data["action_input_key"],
+        "extensionPolicy": 'MustVerifyToSign',
+        "connectionInstances": [
+            {
+                "connectionKey": verification_data["connection_key"],
+                "connectionValue": verification_data["connection_value"],
+            }
+        ]
+    }
 
-def get_action_input_key(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('actionInputKey', '')
+def make_text_tab(verification_data, extension_data, text_tab_count):
+    text_tab = {
+        "requireInitialOnSharedChange": "false",
+        "requireAll": "false",
+        "name": verification_data["application_name"],
+        "required": "true",
+        "locked": "false",
+        "disableAutoSize": "false",
+        "maxLength": 4000,
+        "tabLabel": verification_data["tab_label"],
+        "font": "lucidaconsole",
+        "fontColor": "black",
+        "fontSize": "size9",
+        "documentId": "1",
+        "recipientId": "1",
+        "pageNumber": "1",
+        "xPosition": f"{70 + 100 * int(text_tab_count / 10)}",
+        "yPosition": f"{560 + 20 * (text_tab_count % 10)}",
+        "width": "84",
+        "height": "22",
+        "templateRequired": "false",
+        "tabType": "text",
+        "tooltip": verification_data["action_input_key"],
+        "extensionData": extension_data
+    }
+    return text_tab
 
-def get_action_contract(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('actionContract', '')
+def make_text_tabs_list(data: str, selected_app_id: str):
+    app = loads(data)[0]
+    text_tabs = []
+    for tab in (t for t in app["tabs"] if "SuggestionInput" not in t["tabLabel"]):
+        verification_data = extract_verification_data(selected_app_id, tab)
+        extension_data = get_extension_data(verification_data)
 
-def get_extension_name(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('extensionName', '')
+        text_tab = make_text_tab(verification_data, extension_data, len(text_tabs))
+        text_tabs.append(text_tab)
 
-def get_extension_contract(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('extensionContract', '')
-
-def get_required_for_extension(data: str) -> str:
-    return loads(data)[0]['tabs'][0]['extensionData'].get('requiredForExtension', '')
-
-def get_tab_label(data: str) -> str:
-    return ' '.join([tab['tabLabel'] for tab in loads(data)[0].get('tabs', [])])
-
-def get_connection_key(data: str) -> str:
-    connection_instances = loads(data)[0]['tabs'][0]['extensionData'].get('connectionInstances', [])
-    return connection_instances[0].get('connectionKey', '') if len(connection_instances) > 0 else ''
-
-def get_connection_value(data: str) -> str:
-    connection_instances = loads(data)[0]['tabs'][0]['extensionData'].get('connectionInstances', [])
-    return connection_instances[0].get('connectionValue', '') if len(connection_instances) > 0 else ''
+    return dumps(text_tabs)
