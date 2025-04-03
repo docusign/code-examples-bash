@@ -54,7 +54,10 @@ extract_verify_info() {
 
 prompt_user_choice() {
     local json_data="'''$1'''"
-    mapfile -t unique_apps < <(invoke_python "extract_unique_apps($json_data)")
+    unique_apps=()
+    while IFS= read -r line; do
+        unique_apps+=("$line")
+    done < <(invoke_python "extract_unique_apps($json_data)")
 
     if [[ -z "$json_data" || "$json_data" == "[]" ]]; then
         echo "No data verification were found in the account. Please install a data verification app."
