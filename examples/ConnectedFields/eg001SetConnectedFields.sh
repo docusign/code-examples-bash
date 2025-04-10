@@ -16,6 +16,7 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.com/v1"
 
 #ds-snippet-start:ConnectedFields1Step2
+#apx-snippet-start:ConnectedFieldsApi_GetTabGroups
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
             '--header' "Accept: application/json" \
 			'--header' "Content-Type: application/json")
@@ -27,6 +28,7 @@ Status=$(curl -w '%{http_code}' -i --ssl-no-revoke --request GET https://api-d.d
     "${Headers[@]}" \
     --output ${response})
 #ds-snippet-end:ConnectedFields1Step3
+#apx-snippet-end:ConnectedFieldsApi_GetTabGroups
 
 echo ""
 echo "Response:"
