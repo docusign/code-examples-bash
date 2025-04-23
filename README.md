@@ -12,32 +12,32 @@ This GitHub repo includes code examples for the [Web Forms API](https://develope
 
 This repo is a collection of Bash scripts that support the following authentication workflows:
 
-* Authentication with DocuSign via [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode).
+* Authentication with Docusign via [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode).
 When the token expires, the user is asked to re-authenticate. The refresh token is not used.
 
-* Authentication with DocuSign via [JSON Web Token (JWT) Grant](https://developers.docusign.com/platform/auth/jwt/).
+* Authentication with Docusign via [JSON Web Token (JWT) Grant](https://developers.docusign.com/platform/auth/jwt/).
 When the token expires, it updates automatically.
 
 ## eSignature REST API
 
 For more information about the scopes used for obtaining authorization to use the eSignature REST API, see [Required scopes](https://developers.docusign.com/docs/esign-rest-api/esign101/auth#required-scopes).  
 
-For a list of code examples that use the eSignature REST API, see the [How-to guides overview](https://developers.docusign.com/docs/esign-rest-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the eSignature REST API, see the [How-to guides overview](https://developers.docusign.com/docs/esign-rest-api/how-to/) on the Docusign Developer Center.
 
 
 ## Admin API
 
-**Note:** To use the Admin API, you must [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your DocuSign developer account. Also, to run the DocuSign CLM code example, [CLM must be enabled for your organization](https://support.docusign.com/en/articles/DocuSign-and-SpringCM).
+**Note:** To use the Admin API, you must [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your Docusign developer account. Also, to run the Docusign CLM code example, [CLM must be enabled for your organization](https://support.docusign.com/en/articles/Docusign-and-SpringCM).
 
 For information about the scopes used for obtaining authorization to use the Admin API, see the [scopes section](https://developers.docusign.com/docs/admin-api/admin101/auth/).
 
-For a list of code examples that use the Admin API, see the [How-to guides overview](https://developers.docusign.com/docs/admin-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Admin API, see the [How-to guides overview](https://developers.docusign.com/docs/admin-api/how-to/) on the Docusign Developer Center.
 
 
 ## Click API  
 For more information about the scopes used for obtaining authorization to use the Click API, see [Required scopes](https://developers.docusign.com/docs/click-api/click101/auth/#required-scopes)  
 
-For a list of code examples that use the Click API, see the [How-to guides overview](https://developers.docusign.com/docs/click-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Click API, see the [How-to guides overview](https://developers.docusign.com/docs/click-api/how-to/) on the Docusign Developer Center.
 
 
 ## ID Evidence API
@@ -46,7 +46,7 @@ For a list of code examples that use the Click API, see the [How-to guides overv
 
 For more information about the scopes used for obtaining authorization to use the ID Evidence API, see [Required scopes](https://developers.docusign.com/docs/esign-rest-api/esign101/auth#required-scopes).  
 
-For a list of code examples that use the ID Evidence API, see the [How-to guides overview](https://developers.docusign.com/docs/idevidence-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the ID Evidence API, see the [How-to guides overview](https://developers.docusign.com/docs/idevidence-api/how-to/) on the Docusign Developer Center.
 
 ## Maestro API (beta)
 
@@ -54,54 +54,54 @@ For a list of code examples that use the ID Evidence API, see the [How-to guides
 
 For information about the scopes used for obtaining authorization to use the Maestro API, see the [scopes section](https://developers.docusign.com/docs/maestro-api/auth/).
 
-For a list of code examples that use the Maestro API, see the [How-to guides overview](https://developers.docusign.com/docs/maestro-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Maestro API, see the [How-to guides overview](https://developers.docusign.com/docs/maestro-api/how-to/) on the Docusign Developer Center.
 
 ## Monitor API
 
-**Note:** To use the Monitor API, you must also [enable DocuSign Monitor for your organization](https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/).  
+**Note:** To use the Monitor API, you must also [enable Docusign Monitor for your organization](https://developers.docusign.com/docs/monitor-api/how-to/enable-monitor/).  
 
 For information about the scopes used for obtaining authorization to use the Monitor API, see the [scopes section](https://developers.docusign.com/docs/monitor-api/monitor101/auth/). 
 
-For a list of code examples that use the Monitor API, see the [How-to guides overview](https://developers.docusign.com/docs/monitor-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Monitor API, see the [How-to guides overview](https://developers.docusign.com/docs/monitor-api/how-to/) on the Docusign Developer Center.
 
 
 ## Notary API (closed beta)
 
-**Note:** For closed beta participants interested in adding Notary API functionality to your production account, contact your DocuSign representative. 
+**Note:** For closed beta participants interested in adding Notary API functionality to your production account, contact your Docusign representative. 
 
-Example 1 requires a Sender DocuSign developer account API account ID that has been provisioned for the [Notary API base URI](https://developers.docusign.com/docs/notary-api/go-live/). 
+Example 1 requires a Sender Docusign developer account API account ID that has been provisioned for the [Notary API base URI](https://developers.docusign.com/docs/notary-api/go-live/). 
 
-Example 2 requires that you [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your Sender DocuSign developer account.
+Example 2 requires that you [create an organization](https://support.docusign.com/en/guides/org-admin-guide-create-org) in your Sender Docusign developer account.
 
 For information about the scopes used for obtaining authorization to use the Notary API, see the [scopes section](https://developers.docusign.com/docs/notary-api/notary101/auth/).
 
-For a list of code examples that use the Notary API, see the [How-to guides overview](https://developers.docusign.com/docs/notary-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Notary API, see the [How-to guides overview](https://developers.docusign.com/docs/notary-api/how-to/) on the Docusign Developer Center.
 
 
 ## Rooms API 
 
-**Note:** To use the Rooms API, you must also [create your Rooms developer account](https://developers.docusign.com/docs/rooms-api/rooms101/create-account). Examples 4 and 6 require that you have the DocuSign Forms feature enabled in your Rooms for Real Estate account.  
+**Note:** To use the Rooms API, you must also [create your Rooms developer account](https://developers.docusign.com/docs/rooms-api/rooms101/create-account). Examples 4 and 6 require that you have the Docusign Forms feature enabled in your Rooms for Real Estate account.  
 
 For more information about the scopes used for obtaining authorization to use the Rooms API, see [Required scopes](https://developers.docusign.com/docs/rooms-api/rooms101/auth/).  
 
-For a list of code examples that use the Rooms API, see the [How-to guides overview](https://developers.docusign.com/docs/rooms-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Rooms API, see the [How-to guides overview](https://developers.docusign.com/docs/rooms-api/how-to/) on the Docusign Developer Center.
 
 ## Web Forms API
 
-The Web Forms API is available in all developer accounts, but only in certain production account plans. Contact [DocuSign Support](https://support.docusign.com/) or your account manager to find out whether the Web Forms API is available for your production account plan.
+The Web Forms API is available in all developer accounts, but only in certain production account plans. Contact [Docusign Support](https://support.docusign.com/) or your account manager to find out whether the Web Forms API is available for your production account plan.
 
 For more information about the scopes used for obtaining authorization to use the Rooms API, see [Required scopes](https://developers.docusign.com/docs/web-forms-api/plan-integration/authentication/).
 
-For a list of code examples that use the Web Forms API, see the [How-to guides overview](https://developers.docusign.com/docs/web-forms-api/how-to/) on the DocuSign Developer Center.
+For a list of code examples that use the Web Forms API, see the [How-to guides overview](https://developers.docusign.com/docs/web-forms-api/how-to/) on the Docusign Developer Center.
 
 
 ## Installation
 
 ### Prerequisites
-**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip items 1 and 2 as they were automatically performed for you.
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the Docusign Developer Center, skip items 1 and 2 as they were automatically performed for you.
 
-1. A free [DocuSign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
-1. A DocuSign app and integration key that is configured for authentication to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/).
+1. A free [Docusign developer account](https://go.docusign.com/o/sandbox/); create one if you don't already have one.
+1. A Docusign app and integration key that is configured for authentication to use either [Authorization Code Grant](https://developers.docusign.com/platform/auth/authcode/) or [JWT Grant](https://developers.docusign.com/platform/auth/jwt/).
 
    This [video](https://www.youtube.com/watch?v=eiRI4fe5HgM) demonstrates how to obtain an integration key.  
 
@@ -127,7 +127,7 @@ For a list of code examples that use the Web Forms API, see the [How-to guides o
 
 
 ### Installation steps
-**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 3 as it was automatically performed for you.
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the Docusign Developer Center, skip step 3 as it was automatically performed for you.
 
 1. Extract the Quickstart ZIP file or download or clone the code-examples-bash repository.
 1. In your command-line environment, switch to the folder:  
@@ -145,7 +145,7 @@ For a list of code examples that use the Web Forms API, see the [How-to guides o
 
 
 ### Installation steps for JWT Grant authentication
-**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the DocuSign Developer Center, skip step 3 as it was automatically performed for you.
+**Note:** If you downloaded this code using [Quickstart](https://developers.docusign.com/docs/esign-rest-api/quickstart/) from the Docusign Developer Center, skip step 3 as it was automatically performed for you.
 
 1. Extract the Quickstart ZIP file or download or clone the code-examples-bash repository.
 1. In your command-line environment, switch to the folder:  
@@ -171,13 +171,25 @@ If you are using a Unix-like operating system (such as Mac or Linux), you may se
 This is because code files use CRLF as the line ending type, which is incompatible with Unix-like operating systems. To fix this issue, follow the steps below:
 
 1. Install [dos2unix](https://linux.die.net/man/1/dos2unix).
-1. Convert the files to use LF as the line ending type by running `dos2unix filename.sh`.  
+2. Convert the files to use LF as the line ending type by running `dos2unix filename.sh`.  
    * Example: `dos2unix eg002SigningViaEmail.sh`
-1. Rerun the Bash launcher.
+3. Rerun the Bash launcher.
 
+### Troubleshooting curl_init() issue
+If you followed all installation instructions, you may see the following error message after selecting an authentication method:
+
+`Fatal error: Uncaught Error: Call to undefined function curl_init()`
+
+This is because your PHP installation has not included or enabled the `CURL` extension.
+
+1. Locate your PHP folder. This is the folder that contains your PHP executable.
+2. Make a copy of either the `php-prod` or `php-dev` .ini file and name it `php.ini`:
+![copy_file]()
+3. Uncomment the `curl` extension line by removing the semicolon from `extension=curl` line:
+![uncomment]()
 
 ## ACG embedded signing project
-See [DocuSign Quickstart overview](https://developers.docusign.com/docs/esign-rest-api/quickstart/overview/#configuration) on the DocuSign Developer Center for more information on how to run the ACG embedded signing project.
+See [Docusign Quickstart overview](https://developers.docusign.com/docs/esign-rest-api/quickstart/overview/#configuration) on the Docusign Developer Center for more information on how to run the ACG embedded signing project.
 
 
 ## Payments code example
