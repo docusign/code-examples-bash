@@ -183,10 +183,9 @@ If you followed all installation instructions, you may see the following error m
 This is because your PHP installation has not included or enabled the `CURL` extension.
 
 1. Locate your PHP folder. This is the folder that contains your PHP executable.
-2. Make a copy of either the `php-prod` or `php-dev` .ini file and name it `php.ini`:
-![copy_file]()
-3. Uncomment the `curl` extension line by removing the semicolon from `extension=curl` line:
-![uncomment]()
+2. Make a copy of either the `php-prod` or `php-dev` .ini file and name it `php.ini`.
+3. Uncomment the `curl` extension by removing the semicolon from `extension=curl` line.
+4. Rerun the Bash launcher.
 
 ## ACG embedded signing project
 See [Docusign Quickstart overview](https://developers.docusign.com/docs/esign-rest-api/quickstart/overview/#configuration) on the Docusign Developer Center for more information on how to run the ACG embedded signing project.
