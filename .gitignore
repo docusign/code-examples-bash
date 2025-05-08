@@ -11,3 +11,4 @@ UserData.csv
 config/API_ACCOUNT_ID
 config/CLICKWRAP_ID
 config/ds_access_token.txt
+examples/ConnectedFields/__pycache__/
