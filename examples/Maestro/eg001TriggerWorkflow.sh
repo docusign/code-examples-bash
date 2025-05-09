@@ -44,7 +44,7 @@ echo ""
 #apx-snippet-start:GetWorkflowsList
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
-    curl -w '%{http_code}' --request GET "${base_path}/accounts/${account_id}/workflows" \
+    curl -w '%{http_code}' --request GET "${base_path}/accounts/60b2b6db-7d3b-4bf8-95ba-a516bf479749/workflows" \
     "${Headers[@]}" \
     --output ${response}
 )
@@ -68,7 +68,7 @@ workflow_id=$(grep -B 1 '"name": "Example workflow - send invite to signer"' $re
 # Get the trigger URL
 # workflow_id comes from the response of the Workflows: getWorkflowsList endpoint
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
-Status=$(curl -s -w "%{http_code}\n" -i --request GET "${base_path}/accounts/${account_id}/workflows/${workflow_id}/trigger-requirements" \
+Status=$(curl -s -w "%{http_code}\n" -i --request GET "${base_path}/accounts/60b2b6db-7d3b-4bf8-95ba-a516bf479749/workflows/8fdfb076-bfbe-4709-a8c0-1a7f886903ad/trigger-requirements" \
     "${Headers[@]}" \
     --output ${response})
 #apx-snippet-end:GetWorkflowTriggerRequirements
