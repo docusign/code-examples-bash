@@ -968,6 +968,7 @@ function startMaestro() {
     PS3='Select the action : '
     select CHOICE in \
         "Trigger_Workflow" \
+        "Embed_Workflow" \
         "Home"; do
         case "$CHOICE" in
 
@@ -976,6 +977,10 @@ function startMaestro() {
             ;;
         Trigger_Workflow)
             bash examples/Maestro/eg001TriggerWorkflow.sh
+            startMaestro
+            ;;
+        Embed_Workflow)
+            bash examples/Maestro/eg002EmbedWorkflow.sh
             startMaestro
             ;;
         *)
