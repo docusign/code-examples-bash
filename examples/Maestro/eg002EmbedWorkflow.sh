@@ -15,7 +15,7 @@ workflow_id=$(cat config/WORKFLOW_ID)
 
 # Step 2: Validate workflow ID exists
 if [ -z "$workflow_id" ]; then
-    echo "❌ ERROR: No workflow ID found. Please run the trigger workflow script first."
+    echo "No workflow ID found. Please run the trigger workflow script first."
     exit 1
 fi
 
@@ -46,7 +46,7 @@ Status=$(curl -s -w "%{http_code}\n" -i --request POST \
 
 # Step 7: Handle errors
 if [[ "$Status" -gt "201" ]]; then
-  echo "❌ ERROR: Failed to generate embed URL"
+  echo "Failed to generate embed URL"
   cat $response
   rm "$request_data" "$response"
   exit 1
@@ -56,7 +56,7 @@ fi
 embed_url=$(grep '"url":' $response | sed -n 's/.*"url": "\([^"]*\)".*/\1/p')
 
 echo ""
-echo "✅ Embed URL successfully generated:"
+echo "Embed URL successfully generated:"
 echo "$embed_url"
 
 echo ""
