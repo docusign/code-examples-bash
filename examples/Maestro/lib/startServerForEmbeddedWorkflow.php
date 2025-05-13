@@ -16,14 +16,14 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
     #ds-snippet-start:eSign44Step6
     -->
     <br />
-    <h2>The document has been embedded with focused view.</h2>
+    <h2>The document has been embedded using Maestro Embedded Workflow.</h2>
     <br />
 
     <!DOCTYPE html>
     <html>
     <head>
         <meta charset=\"utf-8\" />
-        <title>Signing</title>
+        <title>Example Workflow</title>
         <style>
             html,
             body {
