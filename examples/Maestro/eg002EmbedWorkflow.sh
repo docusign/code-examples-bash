@@ -20,10 +20,19 @@ if [ -z "$instance_url" ]; then
     echo "No instance URL found. Please run the trigger workflow script first."
     exit 1
 fi
-
 # Step 3: Decode any escaped characters
 decoded_instance_url=$(echo "$instance_url" | sed 's/\\u0026/\&/g')
 
+
+host_url="http://localhost:8080"
+if which xdg-open &> /dev/null  ; then
+  xdg-open $host_url
+elif which open &> /dev/null    ; then
+  open $host_url
+elif which start &> /dev/null   ; then
+  start $host_url
+fi
+php ./examples/Maestro/lib/startServerForEmbeddedWorkflow.php "$decoded_instance_url"
 # Step 4: Output for developer
 echo ""
 echo "✅ Workflow instance URL retrieved for workflow ID: $workflow_id"
