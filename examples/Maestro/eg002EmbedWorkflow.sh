@@ -7,12 +7,6 @@ if [[ $SHELL != *"bash"* ]]; then
     exit 1
 fi
 
-# Step 1: Check that the workflow ID exists
-workflow_created=$(cat config/WORKFLOW_ID)
-if [ -z "$workflow_created" ]; then
-    bash ./examples/Maestro/utils.sh
-fi
-
 #check that create workflow script ran successfully
 workflow_created=$(cat config/WORKFLOW_ID)
 if [ -z "$workflow_created" ]; then
@@ -21,7 +15,7 @@ if [ -z "$workflow_created" ]; then
 fi
 
 # Step 2: Check that the instance URL exists
-instance_url=$(grep '"instance_url":' $response | sed -n 's/.*"instance_url": "\([^"]*\)".*/\1/p')
+instance_url=$(cat config/INSTANCE_URL)
 if [ -z "$instance_url" ]; then
     echo "No instance URL found. Please run the trigger workflow script first."
     exit 1

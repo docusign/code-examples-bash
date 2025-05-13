@@ -142,6 +142,8 @@ echo ""
 
 instance_url=$(grep '"instance_url":' $response | sed -n 's/.*"instance_url": "\([^"]*\)".*/\1/p')
 decoded_instance_url=$(echo $instance_url | sed 's/\\u0026/\&/g')
+echo "$decoded_instance_url" > config/INSTANCE_URL
+
 echo ""
 echo "Use this URL to complete the workflow steps:"
 echo $decoded_instance_url
