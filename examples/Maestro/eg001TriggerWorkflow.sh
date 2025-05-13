@@ -9,7 +9,7 @@ fi
 
 workflow_created=$(cat config/WORKFLOW_ID)
 if [ -z "$workflow_created" ]; then
-    bash ./examples/Maestro//lib/utils.sh
+    bash ./examples/Maestro/lib/utils.sh
 fi
 
 #check that create workflow script ran successfully
