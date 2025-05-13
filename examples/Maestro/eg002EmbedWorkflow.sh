@@ -33,15 +33,15 @@ elif which start &> /dev/null   ; then
   start $host_url
 fi
 php ./examples/Maestro/lib/startServerForEmbeddedWorkflow.php "$decoded_instance_url"
-# Step 4: Output for developer
-echo ""
-echo "✅ Workflow instance URL retrieved for workflow ID: $workflow_id"
-echo ""
-echo "🔗 URL:"
-echo "$decoded_instance_url"
-echo ""
-echo "📎 Use this HTML snippet to embed the workflow in your application:"
-echo ""
-echo "<div class=\"formContainer\">"
-echo "  <iframe src=\"$decoded_instance_url\" width=\"800\" height=\"600\"></iframe>"
-echo "</div>"
+# # Step 4: Output for developer
+# echo ""
+# echo "✅ Workflow instance URL retrieved for workflow ID: $workflow_id"
+# echo ""
+# echo "🔗 URL:"
+# echo "$decoded_instance_url"
+# echo ""
+# echo "📎 Use this HTML snippet to embed the workflow in your application:"
+# echo ""
+# echo "<div class=\"formContainer\">"
+# echo "  <iframe src=\"$decoded_instance_url\" width=\"800\" height=\"600\"></iframe>"
+# echo "</div>"
