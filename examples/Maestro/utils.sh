@@ -8,7 +8,7 @@ fi
 
 
 echo "This script uses the package uuidgen to create unique ids for workflow fields. If you do not already have this installed, please visit the Readme at link for installation instructions. If you are on Mac/linux, this is likely already installed."
-echo "Press any key to continue"
+echo "Press the enter key to continue."
 read continue
 
 TEMPLATE_ID=$(cat config/TEMPLATE_ID)
@@ -582,14 +582,16 @@ do
             consent_url=`cat $response | grep consentUrl | sed 's/.*\"consentUrl\":\"//' | sed 's/\".*//'`
             echo ""
             echo "Please grant consent at the following url to publish this workflow: ${consent_url}&host=${redirect_url}"
-            read -p "Press any key to continue"
+            read -p "Press the enter key to continue."
         else
             echo $message
             exit 0
         fi
     else
         published="true"
-        echo $workflow_id >config/WORKFLOW_ID
+        echo "${workflow_id}" > config/WORKFLOW_ID
+        echo "Please wait. The workflow is being published. This may take a few seconds."
+        sleep 8
         echo "Successfully created and published workflow ${workflow_id}, ID saved to config/WORKFLOW_ID"
     fi
 done
