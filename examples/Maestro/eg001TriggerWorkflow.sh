@@ -15,7 +15,7 @@ fi
 #check that create workflow script ran successfully
 workflow_created=$(cat config/WORKFLOW_ID)
 if [ -z "$workflow_created" ]; then
-    echo "please create a worklow before running this example"
+    echo "Please create and publish a workflow before running this example."
     exit 0
 fi
 
@@ -58,11 +58,31 @@ if [[ "$Status" -gt "201" ]]; then
     exit 0
 fi
 
-echo "Response:"
+echo "Workflows found:"
 cat $response
 echo ""
 
-workflow_id=$(grep -B 1 '"name": "Example workflow - send invite to signer"' $response | grep '"id":' | sed -n 's/.*"id": "\([^"]*\)".*/\1/p')
+workflow_ids=$(grep -B 3 -E '"status": "active"' "$response" | grep -B 2 '"name": "Example workflow - send invite to signer"' | grep '"id":' | sed -n 's/.*"id": "\([^"]*\)".*/\1/p')
+
+# Read the existing workflow ID from the config file
+config_workflow_id=""
+if [ -s config/WORKFLOW_ID ]; then
+  config_workflow_id=$(cat config/WORKFLOW_ID)
+fi
+
+# If there are multiple active workflows, checks if the config_workflow_id is in the workflow list and uses the config_workflow_id.
+if [ -n "$config_workflow_id" ] && echo "$workflow_ids" | grep -q "$config_workflow_id"; then
+  workflow_id="$config_workflow_id"
+else
+  workflow_id=$(echo "$workflow_ids" | head -n 1)
+fi
+
+# Error handling if no active workflow ID is found
+if [ -z "$workflow_id" ]; then
+  echo "Error: No active workflow ID found in the response."
+  echo "Please create and publish a workflow before running this example."
+  exit 0
+fi
 
 #apx-snippet-start:GetWorkflowTriggerRequirements
 # Get the trigger URL
@@ -81,7 +101,6 @@ if [[ "$Status" -gt "201" ]]; then
     exit 0
 fi
 
-echo "Response:"
 cat $response
 echo ""
 
