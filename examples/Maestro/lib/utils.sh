@@ -18,6 +18,12 @@ if [ -z "$TEMPLATE_ID" ]; then
 fi
 
 TEMPLATE_ID=$(cat config/TEMPLATE_ID)
+if [ -z "$TEMPLATE_ID" ]; then
+    echo "please create a worklow before running this example"
+    exit 0
+fi
+
+TEMPLATE_ID=$(cat config/TEMPLATE_ID)
 
 echo "Creating a new workflow"
 
