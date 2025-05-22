@@ -167,6 +167,11 @@ echo ""
 echo "Use this URL to complete the workflow steps:"
 echo $decoded_instance_url
 
+sleep 3
+
+echo ""
+echo "Opening a browser with the embedded workflow..."
+
 sleep 5
 
 #ds-snippet-start:Maestro1Step6
