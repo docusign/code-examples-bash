@@ -19,13 +19,6 @@ if [ -z "$workflow_created" ]; then
     exit 0
 fi
 
-#Check that the instance URL exists
-instance_url=$(cat config/INSTANCE_URL)
-if [ -z "$instance_url" ]; then
-    echo "No instance URL found. Please run the trigger workflow script first."
-    exit 1
-fi
-
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
