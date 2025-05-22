@@ -19,6 +19,13 @@ if [ -z "$workflow_created" ]; then
     exit 0
 fi
 
+#Check that the instance URL exists
+instance_url=$(cat config/INSTANCE_URL)
+if [ -z "$instance_url" ]; then
+    echo "No instance URL found. Please run the trigger workflow script first."
+    exit 1
+fi
+
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
@@ -166,6 +173,24 @@ echo "$decoded_instance_url" > config/INSTANCE_URL
 echo ""
 echo "Use this URL to complete the workflow steps:"
 echo $decoded_instance_url
+
+sleep 5
+
+#ds-snippet-start:Maestro1Step6
+# [Optional] Launch local server and embed workflow instance using the instance URL
+decoded_instance_url=$(echo "$instance_url" | sed 's/\\u0026/\&/g')
+
+
+host_url="http://localhost:8080"
+if which xdg-open &> /dev/null  ; then
+  xdg-open $host_url
+elif which open &> /dev/null    ; then
+  open $host_url
+elif which start &> /dev/null   ; then
+  start $host_url
+fi
+php ./examples/Maestro/lib/startServerForEmbeddedWorkflow.php "$decoded_instance_url"
+#ds-snippet-end:Maestro1Step6
 
 # Remove the temporary files
 rm "$request_data"

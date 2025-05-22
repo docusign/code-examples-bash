@@ -34,12 +34,10 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
         </style>
     </head>
     <body>
-    #ds-snippet-start:Maestro2Step3
         <div>
             <iframe src=$triggerUrl width=800 height=600>
             </iframe>
         </div>
-    #ds-snippet-end:Maestro2Step3
     </body>
     </html>
 
