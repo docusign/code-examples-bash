@@ -167,6 +167,29 @@ echo ""
 echo "Use this URL to complete the workflow steps:"
 echo $decoded_instance_url
 
+sleep 3
+
+echo ""
+echo "Opening a browser with the embedded workflow..."
+
+sleep 5
+
+#ds-snippet-start:Maestro1Step6
+# [Optional] Launch local server and embed workflow instance using the instance URL
+decoded_instance_url=$(echo "$instance_url" | sed 's/\\u0026/\&/g')
+
+
+host_url="http://localhost:8080"
+if which xdg-open &> /dev/null  ; then
+  xdg-open $host_url
+elif which open &> /dev/null    ; then
+  open $host_url
+elif which start &> /dev/null   ; then
+  start $host_url
+fi
+php ./examples/Maestro/lib/startServerForEmbeddedWorkflow.php "$decoded_instance_url"
+#ds-snippet-end:Maestro1Step6
+
 # Remove the temporary files
 rm "$request_data"
 rm "$response"
