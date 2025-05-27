@@ -150,9 +150,9 @@ Status=$(curl -s -w "%{http_code}\n" -i --request POST ${decoded_trigger_url} \
 #ds-snippet-end:Maestro1Step5
 
 
-instance_id=`cat $response | grep instance_id | sed 's/.*\"instance_id\":\"//' | sed 's/\".*//'`
+instance_id=$(grep '"instance_id":' $response | sed -n 's/.*"instance_id": "\([^"]*\)".*/\1/p')
 # Store the instance_id into the config file
-echo $instance_id >config/INSTANCE_ID
+echo "${instance_id}" > config/INSTANCE_ID
 
 echo ""
 echo "Response:"
