@@ -12,9 +12,6 @@ $socket         =  'tcp://' . $IP . ':' . $PORT;
 $responseOk = "HTTP/1.0 200 OK\r\n"
     . "Content-Type: text/html\r\n\r\n"
     . "
-    <!--
-    #ds-snippet-start:eSign44Step6
-    -->
     <br />
     <h2>The document has been embedded using Maestro Embedded Workflow.</h2>
     <br />
@@ -34,21 +31,23 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
         </style>
     </head>
     <body>
-    #ds-snippet-start:Maestro1Step6
+        <!--
+        #ds-snippet-start:Maestro1Step6
+        -->
         <div>
             <iframe src=$instanceUrl width=800 height=600>
             </iframe>
         </div>
-    #ds-snippet-end:Maestro1Step6
-
+        <!--
+        #ds-snippet-end:Maestro1Step6
+        -->
     </body>
+
     </html>
 
     <p><a>Continue</a></p>
 
-    <!--
-    #ds-snippet-end:eSign44Step6
-    -->";
+    ";
 
 ini_set('default_socket_timeout', 60 * 5);
 $server = stream_socket_server($socket, $errno, $errstr);
