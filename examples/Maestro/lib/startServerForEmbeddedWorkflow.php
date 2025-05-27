@@ -5,7 +5,7 @@ $IP             = 'localhost';
 
 $state          = bin2hex(random_bytes(5));
 
-$triggerUrl = "$argv[1]";
+$instanceUrl = "$argv[1]";
 
 $socket         =  'tcp://' . $IP . ':' . $PORT;
 
@@ -34,10 +34,13 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
         </style>
     </head>
     <body>
+    #ds-snippet-start:Maestro1Step6
         <div>
-            <iframe src=$triggerUrl width=800 height=600>
+            <iframe src=$instanceUrl width=800 height=600>
             </iframe>
         </div>
+    #ds-snippet-end:Maestro1Step6
+
     </body>
     </html>
 
