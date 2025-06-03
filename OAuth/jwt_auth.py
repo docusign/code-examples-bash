@@ -68,6 +68,10 @@ CONNECTED_FIELDS_SCOPES = [
     "signature", "adm_store_unified_repo_read"
 ]
 
+WORKSPACES_SCOPES = [
+    "signature", "impersonation", "dtr.company.read", "dtr.rooms.read", "dtr.rooms.write", "dtr.documents.write"
+]
+
 class DSClient:
 
     ds_app = None
@@ -95,6 +99,8 @@ class DSClient:
             use_scopes = NAVIGATOR_SCOPES
         elif (API_VERSION == "ConnectedFields"):
             use_scopes = CONNECTED_FIELDS_SCOPES
+        elif (API_VERSION == "Workspaces"):
+            use_scopes = WORKSPACES_SCOPES
         else:
             use_scopes = SCOPES
 

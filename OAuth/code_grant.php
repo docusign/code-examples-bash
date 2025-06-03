@@ -32,6 +32,8 @@ elseif($api_version == "Maestro") :
     $scope = "signature aow_manage";
 elseif($api_version == "Navigator") :
     $scope = "signature adm_store_unified_repo_read";
+elseif($api_version == "Workspaces") :
+    $scope = "signature impersonation dtr.company.read dtr.rooms.read dtr.rooms.write dtr.documents.write";
 endif;
 
 function generateCodeVerifier() {

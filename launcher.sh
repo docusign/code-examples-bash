@@ -183,6 +183,7 @@ function choices() {
         "Maestro" \
         "Navigator (beta)" \
         "Connected_Fields" \
+        "Workspaces" \
         "Exit"; do
         case "$METHOD" in
 
@@ -249,6 +250,12 @@ function choices() {
             api_version="ConnectedFields"
             login $api_version
             startConnectedFields
+            ;;
+
+        Workspaces)
+            api_version="Workspaces"
+            login $api_version
+            startWorkspaces
             ;;
 
         Exit)
@@ -1036,6 +1043,39 @@ function startConnectedFields() {
     done
 }
 
+function startWorkspaces() {
+    echo ""
+    PS3='Select the action : '
+    select CHOICE in \
+        "Create_Workspace" \
+        "Add_Document_To_Workspace" \
+        "Send_Envelope_With_Recipient_Info" \
+        "Home"; do
+        case "$CHOICE" in
+
+        Home)
+            choices
+            ;;
+        Create_Workspace)
+            bash examples/Workspaces/eg001CreateWorkspace.sh
+            startWorkspaces
+            ;;
+        Add_Document_To_Workspace)
+            bash examples/Workspaces/eg002AddDocumentToWorkspace.sh
+            startWorkspaces
+            ;;
+        Send_Envelope_With_Recipient_Info)
+            bash examples/Workspaces/eg003SendEnvelopeWithRecipientInfo.sh
+            startWorkspaces
+            ;;
+        *)
+            echo "Default action..."
+            startWorkspaces
+            ;;
+        esac
+    done
+}
+
 function continu() {
 
     isCFR
@@ -1079,6 +1119,9 @@ function continu() {
     elif [[ $api_version == "ConnectedFields" ]]
     then
       startConnectedFields
+    elif [[ $api_version == "Workspaces" ]]
+    then
+      startWorkspaces
     fi
 }
 

@@ -37,6 +37,8 @@ if ($api_version == "eSignature" || $api_version == "idEvidence") {
     $scope = "signature adm_store_unified_repo_read";
 } else if ($api_version == "ConnectedFields") {
     $scope = "signature adm_store_unified_repo_read";
+} else if ($api_version == "Workspaces") {
+    $scope = "signature impersonation dtr.company.read dtr.rooms.read dtr.rooms.write dtr.documents.write";
 }
 
 $body = encodeBase64URL(
