@@ -976,6 +976,7 @@ function startMaestro() {
     select CHOICE in \
         "Trigger_Workflow" \
         "Pause_Workflow" \
+        "Resume_Workflow" \
         "Cancel_Workflow" \
         "Home"; do
         case "$CHOICE" in
@@ -988,6 +989,10 @@ function startMaestro() {
             ;;
         Pause_Workflow)
             bash examples/Maestro/eg002PauseWorkflow.sh
+            startMaestro
+            ;;
+        Resume_Workflow)
+            bash examples/Maestro/eg003ResumeWorkflow.sh
             startMaestro
             ;;
         Cancel_Workflow)
