@@ -21,27 +21,27 @@ base_path="https://api-d.docusign.com/v1"
 request_data=$(mktemp /tmp/request-wseg-001.XXXXXX)
 response=$(mktemp /tmp/response-wseg-001.XXXXXX)
 
-#ds-snippet-start:Workflows1Step2
+#ds-snippet-start:Workspaces1Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
-#ds-snippet-end:Workflows1Step2
+#ds-snippet-end:Workspaces1Step2
 
 # Create the workspace definition
-#ds-snippet-start:Workflows1Step3
+#ds-snippet-start:Workspaces1Step3
 printf \
 '{
     "name" : "Example workspace"
 }' >> $request_data
-#ds-snippet-end:Workflows1Step3
+#ds-snippet-end:Workspaces1Step3
 
-#ds-snippet-start:Workflows1Step4
+#ds-snippet-start:Workspaces1Step4
 Status=$(curl -s -w "%{http_code}\n" -i \
      --request POST ${base_path}/accounts/${account_id}/workspaces \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
-#ds-snippet-end:Workflows1Step4
+#ds-snippet-end:Workspaces1Step4
 
 if [[ "$Status" -gt "201" ]] ; then
   echo ""
