@@ -28,16 +28,16 @@ base_path="https://api-d.docusign.com/v1"
 
 response=$(mktemp /tmp/response-wseg-002.XXXXXX)
 
-#ds-snippet-start:Workflows2Step2
+#ds-snippet-start:Workspaces2Step2
 declare -a Headers=(
     --header "Authorization: Bearer ${ACCESS_TOKEN}"
     --header "Accept: application/json"
 )
-#ds-snippet-end:Workflows2Step2
+#ds-snippet-end:Workspaces2Step2
 
 
 # Upload the file path to be added to the workspace 
-#ds-snippet-start:Workflows2Step3
+#ds-snippet-start:Workspaces2Step3
 echo ""
 echo "Enter the path to the document you want to add to the workspace:"
 echo ""
@@ -54,16 +54,16 @@ echo "Enter the name for the document in the workspace:"
 echo ""
 
 read doc_name
-#ds-snippet-end:Workflows2Step3
+#ds-snippet-end:Workspaces2Step3
 
-#ds-snippet-start:Workflows2Step4
+#ds-snippet-start:Workspaces2Step4
 Status=$(curl -s -w "%{http_code}" -o "${response}" \
     --request POST "${base_path}/accounts/${account_id}/workspaces/${workspace_id}/documents" \
     "${Headers[@]}" \
     -F "file=@${file_path}" \
     -F "name=${doc_name}"
 )
-#ds-snippet-end:Workflows2Step4
+#ds-snippet-end:Workspaces2Step4
 
 
 if [[ "$Status" -gt "201" ]]; then
