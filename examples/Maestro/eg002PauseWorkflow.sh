@@ -35,16 +35,18 @@ echo "Attempting to pause the Workflow.."
 echo ""
 
 #ds-snippet-start:Maestro2Step3
+#apx-snippet-start:pauseNewWorkflowInstances
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
     curl -w '%{http_code}' --request POST "${base_path}/accounts/${ACCOUNT_ID}/workflows/${workflow_id}/actions/pause" \
     "${Headers[@]}" \
     --output ${response}
 )
+#apx-snippet-end:pauseNewWorkflowInstances
 # If the status code returned is greater than 201 (OK / Accepted), display an error message with the API response.
 if [[ "$Status" -gt "201" ]]; then
     echo ""
-    echo "Unable to retrieve workflow instance: ${WORKFLOW_INSTANCE_ID}"
+    echo "Unable to pause workflow: ${workflow_id}"
     echo ""
     cat $response
     exit 0
