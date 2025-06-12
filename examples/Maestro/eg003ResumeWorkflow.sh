@@ -23,17 +23,20 @@ ACCOUNT_ID=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.com/v1"
 
 # Construct your API headers
+#apx-snippet-start:ResumeWorkflow
 #ds-snippet-start:Maestro3Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
 #ds-snippet-end:Maestro3Step2
+#apx-snippet-end:ResumeWorkflow
 
 echo ""
 echo "Attempting to resume the Workflow..."
 echo ""
 
 # Make the API call to resume
+#apx-snippet-start:ResumeWorkflow
 #ds-snippet-start:Maestro3Step3
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
@@ -57,6 +60,7 @@ echo "Response:"
 cat $response
 echo ""
 #ds-snippet-end:Maestro3Step3
+#apx-snippet-end:ResumeWorkflow
 
 # Remove the temporary files
 rm "$response"
