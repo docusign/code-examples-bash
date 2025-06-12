@@ -1,5 +1,4 @@
 #!/bin/bash
-# https://developers.docusign.com/docs/workflows-api/trigger-workflow
 # Trigger a new instance of a workflow
 #
 # Check that we're in a bash shell
