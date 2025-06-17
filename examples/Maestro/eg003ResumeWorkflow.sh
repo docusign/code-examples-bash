@@ -36,7 +36,7 @@ echo "Attempting to resume the Workflow..."
 echo ""
 
 # Make the API call to resume
-#apx-snippet-start:ResumeWorkflow
+#apx-snippet-start:resumePausedWorkflow
 #ds-snippet-start:Maestro3Step3
 response=$(mktemp /tmp/response-wftmp.XXXXXX)
 Status=$(
@@ -60,7 +60,7 @@ echo "Response:"
 cat $response
 echo ""
 #ds-snippet-end:Maestro3Step3
-#apx-snippet-end:ResumeWorkflow
+#apx-snippet-end:resumePausedWorkflow
 
 # Remove the temporary files
 rm "$response"
