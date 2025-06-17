@@ -1,5 +1,4 @@
 #!/bin/bash
-# https://developers.docusign.com/docs/workflows-api/trigger-workflow
 # Send an Workspace Envelope with Recipient Info
 #
 # Check that we're in a bash shell
@@ -31,7 +30,7 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 
 #Set the Workspace API base path
-base_path="https://api-d.docusign.com/v1"
+workspaces_base_path="https://api-d.docusign.com/v1"
 
 request_data=$(mktemp /tmp/request-wseg-001.XXXXXX)
 response=$(mktemp /tmp/response-wseg-001.XXXXXX)
@@ -53,7 +52,7 @@ printf \
 
 #ds-snippet-start:Workspaces3Step4
 Status=$(curl -s -w "%{http_code}\n" -i \
-     --request POST ${base_path}/accounts/${account_id}/workspaces/${workspace_id}/envelopes \
+     --request POST ${workspaces_base_path}/accounts/${account_id}/workspaces/${workspace_id}/envelopes \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
@@ -82,7 +81,7 @@ request_data=$(mktemp /tmp/request2-wseg-001.XXXXXX)
 response=$(mktemp /tmp/response2-wseg-001.XXXXXX)
 
 #Set the eSignature REST API base path
-base_path="https://demo.docusign.net/restapi"
+esign_base_path="https://demo.docusign.net/restapi"
 
 #ds-snippet-start:Workspaces3Step5
 printf \
@@ -114,7 +113,7 @@ printf \
 
 #ds-snippet-start:Workspaces3Step6
 Status=$(curl -s -o "${response}" -w "%{http_code}" \
-  --request PUT "${base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}" \
+  --request PUT "${esign_base_path}/v2.1/accounts/${account_id}/envelopes/${envelope_id}" \
   "${Headers[@]}" \
   --data-binary @"${request_data}")
 #ds-snippet-end:Workspaces3Step6

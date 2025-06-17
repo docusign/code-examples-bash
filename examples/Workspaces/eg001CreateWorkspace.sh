@@ -1,5 +1,4 @@
 #!/bin/bash
-# https://developers.docusign.com/docs/workflows-api/trigger-workflow
 # Send an Workspace Envelope with Recipient Info
 #
 # Check that we're in a bash shell
