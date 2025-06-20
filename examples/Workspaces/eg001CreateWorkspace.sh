@@ -27,6 +27,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
 #ds-snippet-end:Workspaces1Step2
 
 # Create the workspace definition
+#apx-snippet-start:createWorkspace
 #ds-snippet-start:Workspaces1Step3
 printf \
 '{
@@ -41,6 +42,7 @@ Status=$(curl -s -w "%{http_code}\n" -i \
     --data-binary @${request_data} \
     --output ${response})
 #ds-snippet-end:Workspaces1Step4
+#apx-snippet-end:createWorkspace
 
 if [[ "$Status" -gt "201" ]] ; then
   echo ""

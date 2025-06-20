@@ -56,6 +56,7 @@ echo ""
 read doc_name
 #ds-snippet-end:Workspaces2Step3
 
+#apx-snippet-start:addWorkspaceDocument
 #ds-snippet-start:Workspaces2Step4
 Status=$(curl -s -w "%{http_code}" -o "${response}" \
     --request POST "${base_path}/accounts/${account_id}/workspaces/${workspace_id}/documents" \
@@ -64,6 +65,7 @@ Status=$(curl -s -w "%{http_code}" -o "${response}" \
     -F "name=${doc_name}"
 )
 #ds-snippet-end:Workspaces2Step4
+#apx-snippet-end:addWorkspaceDocument
 
 
 if [[ "$Status" -gt "201" ]]; then
