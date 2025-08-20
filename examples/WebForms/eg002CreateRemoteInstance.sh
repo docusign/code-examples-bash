@@ -57,7 +57,6 @@ printf \
     "recipients": [
         {
             "roleName": "signer",
-            "routingOrder": "1",
             "name": "'"${SIGNER_NAME}"'",
             "email": "'"${SIGNER_EMAIL}"'"
         }
