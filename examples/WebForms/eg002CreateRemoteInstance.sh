@@ -46,7 +46,6 @@ request_data=$(mktemp /tmp/request-cw-001.XXXXXX)
 #ds-snippet-start:WebForms2Step4
 printf \
 '{
-    "clientUserId": "1234-5678-abcd-ijkl",
     "sendOption": "now",
     "formValues": {
         "PhoneNumber": "555-555-5555",
