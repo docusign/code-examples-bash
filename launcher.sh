@@ -952,6 +952,7 @@ function startWebForms() {
     PS3='Select the action : '
     select CHOICE in \
         "CreateInstance" \
+        "CreateRemoteInstance" \
         "Home"; do
         case "$CHOICE" in
 
@@ -960,6 +961,10 @@ function startWebForms() {
             ;;
         CreateInstance)
             bash examples/WebForms/eg001CreateInstance.sh
+            startWebForms
+            ;;
+        CreateRemoteInstance)
+            bash examples/WebForms/eg002CreateRemoteInstance.sh
             startWebForms
             ;;
         *)

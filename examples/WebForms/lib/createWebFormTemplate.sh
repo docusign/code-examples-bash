@@ -37,11 +37,16 @@ TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\":\"//' | s
 
 echo $TEMPLATE_ID
 
-if [ "${TEMPLATE_ID}" != "" ]; then
+if [ -n "${TEMPLATE_ID}" ]; then
     echo ""
     echo "Your account already includes the '${template_name}' template."
+
     # Save the template id for use by other scripts
+    if [ ! -f config/TEMPLATE_ID ]; then
+        echo "Saving the template ID to the config/TEMPLATE_ID file."
+    fi
     echo "${TEMPLATE_ID}" > config/TEMPLATE_ID
+
     rm "$response"
     echo ""
     echo "Done."
@@ -155,8 +160,12 @@ TEMPLATE_ID=`cat $response | grep templateId | sed 's/.*\"templateId\":\"//' | s
 
 echo ""
 echo "Template '${template_name}' was created! Template ID ${TEMPLATE_ID}."
+
 # Save the template id for use by other scripts
-echo ${TEMPLATE_ID} > config/WEB_FORM_TEMPLATE_ID
+if [ ! -f config/WEB_FORM_TEMPLATE_ID ]; then
+    echo "Saving the template ID to the config/WEB_FORM_TEMPLATE_ID file."
+fi
+echo "${TEMPLATE_ID}" > config/WEB_FORM_TEMPLATE_ID
 
 # cleanup
 rm "$request_data"
@@ -167,4 +176,3 @@ echo ""
 echo ""
 echo "Done."
 echo ""
-
