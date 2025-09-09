@@ -313,6 +313,7 @@ function startSignature() {
         "Shared_Access" \
         "Document_Generation" \
         "Focused_View" \
+        "Delete_Restore_Envelope" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -486,6 +487,10 @@ function startSignature() {
             bash examples/eSignature/eg044FocusedView.sh
             startSignature
             ;;
+        Delete_Restore_Envelope)
+            bash examples/eSignature/eg045DeleteRestoreEnvelope.sh
+            startSignature
+            ;;
         *)
             echo ""
             startSignature
@@ -528,6 +533,7 @@ function startCFRSignature() {
         "Bulk_Sending" \
         "Scheduled_Sending" \
         "Create_Signable_HTML_document" \
+        "Delete_Restore_Envelope"\
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -651,6 +657,10 @@ function startCFRSignature() {
             ;;
         Create_Signable_HTML_document)
             bash examples/eSignature/eg038ResponsiveSigning.sh
+            startCFRSignature
+            ;;
+        Delete_Restore_Envelope)
+            bash examples/eSignature/eg045DeleteRestoreEnvelope.sh
             startCFRSignature
             ;;
         *)
