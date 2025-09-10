@@ -1,6 +1,6 @@
 # Delete and Restore an Envelope
 #
-# This script performs two sequential operations on a DocuSign envelope:
+# This script performs two sequential operations on a Docusign envelope:
 # 1. Deletes the envelope by moving it to the Recycle Bin.
 # 2. Pauses for user confirmation.
 # 3. Restores the envelope from the Recycle Bin to the Sent Items folder.
@@ -60,7 +60,7 @@ fi
 
 echo ""
 echo "Deleting the Envelope with ID: ${envelope_id}"
-echo "Sending PUT request to DocuSign..."
+echo "Sending PUT request to Docusign..."
 echo "Results:"
 echo ""
 
@@ -77,7 +77,7 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
 
 echo ""
 echo ""
-echo "The deleted envelope is now in your DocuSign Recycle Bin."
+echo "The deleted envelope is now in your Docusign Recycle Bin."
 echo "You can check your web app to confirm the deletion."
 
 
@@ -90,7 +90,7 @@ read -p "Press Enter to proceed with restoring the envelope from the Recycle Bin
 
 echo ""
 echo "Restoring the Envelope from Recycle Bin to the Sent Items folder."
-echo "Sending PUT request to DocuSign..."
+echo "Sending PUT request to Docusign..."
 echo "Results:"
 echo ""
 
@@ -108,5 +108,5 @@ curl --header "Authorization: Bearer ${ACCESS_TOKEN}" \
 
 echo ""
 echo ""
-echo "The envelope has been restored and is now in your DocuSign Sent Items folder."
+echo "The envelope has been restored and is now in your Docusign Sent Items folder."
 echo ""
