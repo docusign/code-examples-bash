@@ -54,7 +54,7 @@ printf \
         "Company": "Tally",
         "JobTitle": "Programmer Writer"
     },
-    "expirationOffset": 3600
+    "expirationOffset": 24
 }' >$request_data
 #ds-snippet-end:WebForms1Step4
 
