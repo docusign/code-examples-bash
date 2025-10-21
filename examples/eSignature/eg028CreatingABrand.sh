@@ -1,5 +1,6 @@
+#!/bin/bash
 # Creating a brand
-
+#
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
   echo "PROBLEM: Run these scripts from within the bash shell."
@@ -52,7 +53,7 @@ Status=$(curl -w '%{http_code}' -i --request POST ${base_path}/v2.1/accounts/${a
      
 # If the Status code returned is greater than 399, display an error message along with the API response
 if [[ "$Status" -gt "399" ]] ; then
-    echo ""
+  echo ""
 	echo "Creating a new brand has failed."
 	echo ""
 	cat $response
@@ -80,4 +81,3 @@ echo ""
 echo ""
 echo "Done."
 echo ""
-
