@@ -35,18 +35,31 @@ declare -a Headers=(
 )
 #ds-snippet-end:Workspaces2Step2
 
+DOCUMENTS_DIR="demo_documents"
 
 # Upload the file path to be added to the workspace 
 #ds-snippet-start:Workspaces2Step3
-echo ""
-echo "Enter the path to the document you want to add to the workspace:"
-echo ""
-read file_path
+while true; do
+    echo ""
+    echo "Enter the PDF file name (e.g. World_Wide_Corp_Web_Form.pdf) from the demo_documents folder:"
+    echo ""
+    read file_name
 
-if [ ! -f "$file_path" ]; then
-    echo "File does not exist: $file_path"
-    exit 1
-fi
+    file_path="$DOCUMENTS_DIR/$file_name"
+
+    if [[ "$file_name" != *.pdf ]]; then
+        echo ""
+        echo "The file must be a PDF (must end with .pdf). Please try again."
+        continue
+    fi
+
+    if [ ! -f "$file_path" ]; then
+        echo ""
+        echo "File not found in demo_documents folder."
+        continue
+    fi
+    break
+done
 
 # Enter the document name for the workspace
 echo ""
