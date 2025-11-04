@@ -35,17 +35,18 @@ declare -a Headers=(
 )
 #ds-snippet-end:Workspaces2Step2
 
-DOCUMENTS_DIR="demo_documents"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEMO_DOCS_PATH="$(cd "$SCRIPT_DIR/../../demo_documents" && pwd)"
 
 # Upload the file path to be added to the workspace 
 #ds-snippet-start:Workspaces2Step3
 while true; do
     echo ""
-    echo "Enter the PDF file name (e.g. World_Wide_Corp_Web_Form.pdf) from the demo_documents folder:"
+    echo "Enter the PDF file name (e.g. World_Wide_Corp_Web_Form.pdf) from the ${DEMO_DOCS_PATH} folder:"
     echo ""
     read file_name
 
-    file_path="$DOCUMENTS_DIR/$file_name"
+    file_path="$DEMO_DOCS_PATH/$file_name"
 
     if [[ "$file_name" != *.pdf ]]; then
         echo ""
@@ -63,10 +64,22 @@ done
 
 # Enter the document name for the workspace
 echo ""
-echo "Enter the name for the document in the workspace:"
+echo "Enter the name for the document in the workspace (must end with .pdf):"
 echo ""
 
-read doc_name
+while true; do
+  read doc_name
+
+  doc_name=$(echo "$doc_name" | xargs)
+
+  if [[ "$doc_name" =~ \.pdf$ ]]; then
+    break
+  else
+    echo ""
+    echo "Invalid name. The document name must end with '.pdf' (e.g., example.pdf)."
+    echo "Please try again:"
+  fi
+done
 #ds-snippet-end:Workspaces2Step3
 
 #apx-snippet-start:addWorkspaceDocument
@@ -74,8 +87,7 @@ read doc_name
 Status=$(curl -s -w "%{http_code}" -o "${response}" \
     --request POST "${base_path}/accounts/${account_id}/workspaces/${workspace_id}/documents" \
     "${Headers[@]}" \
-    -F "file=@${file_path}" \
-    -F "name=${doc_name}"
+    -F "file=@${file_path};filename=${doc_name}" \
 )
 #ds-snippet-end:Workspaces2Step4
 #apx-snippet-end:addWorkspaceDocument
