@@ -36,7 +36,13 @@ declare -a Headers=(
 #ds-snippet-end:Workspaces2Step2
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DEMO_DOCS_PATH="$(cd "$SCRIPT_DIR/../../demo_documents" && pwd)"
+DEMO_DOCS_PATH_UNIX="$(cd "$SCRIPT_DIR/../../demo_documents" && pwd)"
+
+if command -v cygpath >/dev/null 2>&1; then
+  DEMO_DOCS_PATH="$(cygpath -w "$DEMO_DOCS_PATH_UNIX")"
+else
+  DEMO_DOCS_PATH="$DEMO_DOCS_PATH_UNIX"
+fi
 
 # Upload the file path to be added to the workspace 
 #ds-snippet-start:Workspaces2Step3
