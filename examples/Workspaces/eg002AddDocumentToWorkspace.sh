@@ -9,6 +9,7 @@ fi
 
 # Check that a workspace exists
 workspace_id=$(cat config/WORKSPACE_ID)
+workspace_name=$(cat config/WORKSPACE_NAME)
 if [ -z "$workspace_id" ]; then
     echo "Please create a workspace before running this example"
     exit 0
@@ -115,7 +116,8 @@ echo ""
 
 # Pull out the document ID and save it
 document_id=$(cat $response | grep document_id | sed 's/.*"document_id":"//' | sed 's/".*//')
-echo "Document added! ID: ${document_id}"
+echo ""
+echo "Document added to the workspace '${workspace_name}'! ID: ${document_id}"
 echo ${document_id} > config/DOCUMENT_ID
 
 rm "$response"

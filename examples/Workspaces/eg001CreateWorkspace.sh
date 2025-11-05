@@ -68,6 +68,7 @@ echo ""
 workspace_id=`cat $response | grep workspace_id | sed 's/.*\"workspace_id\":\"//' | sed 's/".*//'`
 echo "Workspace created! ID: ${workspace_id}"
 echo ${workspace_id} > config/WORKSPACE_ID
+echo ${workspace_name} > config/WORKSPACE_NAME
 
 rm "$response"
 rm "$request_data"
