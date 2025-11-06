@@ -1103,6 +1103,10 @@ function startWorkspaces() {
             bash examples/Workspaces/eg004CreateWorkspaceWithBrand.sh
             startWorkspaces
             ;;
+        Create_Upload_Request)
+            bash examples/Workspaces/eg005CreateUploadRequest.sh
+            startWorkspaces
+            ;;
         *)
             echo "Default action..."
             startWorkspaces
