@@ -1081,7 +1081,7 @@ function startWorkspaces() {
         "Add_Document_To_Workspace" \
         "Send_Envelope_With_Recipient_Info" \
         "Create_Workspace_With_Brand" \
-        "Create_Workspace_Upload_Request" \
+        "Create_Upload_Request" \
         "Home"; do
         case "$CHOICE" in
 
