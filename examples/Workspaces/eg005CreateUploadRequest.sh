@@ -1,5 +1,5 @@
 #!/bin/bash
-# Send an Workspace Envelope with Recipient Info
+# Create a workspace upload request
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -123,3 +123,4 @@ echo "Workspace upload request created! ID: ${upload_request_id}"
 
 rm "$response"
 rm "$request_data"
+
