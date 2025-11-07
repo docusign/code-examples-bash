@@ -26,7 +26,7 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Content-Type: application/json")
 #ds-snippet-end:Workspaces1Step2
 
-# Enter the name of the workspace to creat
+# Enter the name of the workspace to create
 echo ""
 echo "Enter the name for the new workspace:"
 echo ""
