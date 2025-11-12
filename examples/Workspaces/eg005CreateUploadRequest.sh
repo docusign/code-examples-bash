@@ -9,14 +9,14 @@ fi
 # Check that a workspace exists
 workspace_id=$(cat config/WORKSPACE_ID)
 if [ -z "$workspace_id" ]; then
-    echo "Please create a workspace before running this example"
+    echo "Please run the create Workspace example before running this code."
     exit 0
 fi
 
 # Check that a workspace creator ID exists
 workspace_creator_id=$(cat config/WORKSPACE_CREATOR_ID)
 if [ -z "$workspace_creator_id" ]; then
-    echo "No creator ID was recorded. Please create a workspace before running this example"
+    echo "No creator ID was recorded. Please run the create Workspace example before running this code."
     exit 0
 fi
 
@@ -104,5 +104,6 @@ echo "Workspace upload request created! ID: ${upload_request_id}"
 
 rm "$response"
 rm "$request_data"
+
 
 
