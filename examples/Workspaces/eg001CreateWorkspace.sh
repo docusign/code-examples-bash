@@ -1,5 +1,5 @@
 #!/bin/bash
-# Send an Workspace Envelope with Recipient Info
+# Create a workspace
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
