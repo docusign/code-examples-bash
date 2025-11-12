@@ -1,5 +1,5 @@
 #!/bin/bash
-# Send an Workspace Envelope with Recipient Info
+# Create a workspace upload request
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -9,14 +9,14 @@ fi
 # Check that a workspace exists
 workspace_id=$(cat config/WORKSPACE_ID)
 if [ -z "$workspace_id" ]; then
-    echo "Please run the create Workspace example before running this code."
+    echo "Please run the Create Workspace example before running this code."
     exit 0
 fi
 
 # Check that a workspace creator ID exists
 workspace_creator_id=$(cat config/WORKSPACE_CREATOR_ID)
 if [ -z "$workspace_creator_id" ]; then
-    echo "No creator ID was recorded. Please run the create Workspace example before running this code."
+    echo "No creator ID was recorded. Please run the Create Workspace example before running this code."
     exit 0
 fi
 
@@ -104,6 +104,7 @@ echo "Workspace upload request created! ID: ${upload_request_id}"
 
 rm "$response"
 rm "$request_data"
+
 
 
 
