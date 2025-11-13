@@ -11,11 +11,8 @@ echo "This script uses the package uuidgen to create unique ids for workflow fie
 echo "Press the enter key to continue."
 read continue
 
-TEMPLATE_ID=$(cat config/TEMPLATE_ID)
-if [ -z "$TEMPLATE_ID" ]; then
-    echo "Creating template"
-    bash ./examples/eSignature/eg008CreateTemplate.sh
-fi
+echo "Creating template"
+bash ./examples/eSignature/eg008CreateTemplate.sh
 
 TEMPLATE_ID=$(cat config/TEMPLATE_ID)
 if [ -z "$TEMPLATE_ID" ]; then
@@ -23,7 +20,6 @@ if [ -z "$TEMPLATE_ID" ]; then
     exit 0
 fi
 
-TEMPLATE_ID=$(cat config/TEMPLATE_ID)
 
 echo "Creating a new workflow"
 

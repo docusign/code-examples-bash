@@ -43,9 +43,9 @@ if [ -n "${TEMPLATE_ID}" ]; then
 
     # Save the template id for use by other scripts
     if [ ! -f config/TEMPLATE_ID ]; then
-        echo "Saving the template ID to the config/TEMPLATE_ID file."
+        echo "Saving the template ID to the config/WEB_FORM_TEMPLATE_ID file."
     fi
-    echo "${TEMPLATE_ID}" > config/TEMPLATE_ID
+    echo "${TEMPLATE_ID}" > config/WEB_FORM_TEMPLATE_ID
 
     rm "$response"
     echo ""
