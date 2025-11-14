@@ -45,15 +45,15 @@ else
 fi
 
 # This header will be used for both the API call to get the ID of the workspace creator, and to create the upload request
-#ds-snippet-start:Workspaces4Step2
+#ds-snippet-start:Workspaces5Step2
 declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Accept: application/json" \
     '--header' "Content-Type: application/json")
-#ds-snippet-end:Workspaces4Step2
+#ds-snippet-end:Workspaces5Step2
 
 # Create the workspace upload request definition
 #apx-snippet-start:createWorkspaceUploadRequest
-#ds-snippet-start:Workspaces4Step3
+#ds-snippet-start:Workspaces5Step3
 printf \
 '{
     "name": "Upload Request example '"${DUE_DATE}"'",
@@ -73,15 +73,15 @@ printf \
     ],
     "status": "draft"
 }' >> $request_data
-#ds-snippet-end:Workspaces4Step3
+#ds-snippet-end:Workspaces5Step3
 
-#ds-snippet-start:Workspaces4Step4
+#ds-snippet-start:Workspaces5Step4
 Status=$(curl -s -w "%{http_code}\n" -i \
      --request POST ${base_path}/accounts/${account_id}/workspaces/${workspace_id}/upload-requests \
     "${Headers[@]}" \
     --data-binary @${request_data} \
     --output ${response})
-#ds-snippet-end:Workspaces4Step4
+#ds-snippet-end:Workspaces5Step4
 #apx-snippet-end:createWorkspaceUploadRequest
 
 if [[ "$Status" -gt "201" ]] ; then
@@ -104,6 +104,7 @@ echo "Workspace upload request created! ID: ${upload_request_id}"
 
 rm "$response"
 rm "$request_data"
+
 
 
 
