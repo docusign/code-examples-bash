@@ -1,5 +1,5 @@
 #!/bin/bash
-# Send an Workspace Envelope with Recipient Info
+# Create a workspace
 #
 # Check that we're in a bash shell
 if [[ $SHELL != *"bash"* ]]; then
@@ -59,8 +59,11 @@ echo ""
 
 # Pull out the workspace ID and save it
 workspace_id=`cat $response | grep workspace_id | sed 's/.*\"workspace_id\":\"//' | sed 's/".*//'`
-echo "Workspace created! ID: ${workspace_id}"
+workspace_creator_id=$(grep -o -m 1 '"created_by_user_id":"[^"]*"' "$response" | \
+                           sed 's/.*"created_by_user_id":"\([^"]*\)".*/\1/')
+echo "Workspace created by user ${workspace_creator_id}!  Workspace ID: ${workspace_id}"
 echo ${workspace_id} > config/WORKSPACE_ID
+echo ${workspace_creator_id} > config/WORKSPACE_CREATOR_ID
 
 rm "$response"
 rm "$request_data"
