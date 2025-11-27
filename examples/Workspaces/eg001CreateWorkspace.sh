@@ -26,12 +26,19 @@ declare -a Headers=('--header' "Authorization: Bearer ${ACCESS_TOKEN}" \
     '--header' "Content-Type: application/json")
 #ds-snippet-end:Workspaces1Step2
 
+# Enter the name of the workspace to create
+echo ""
+echo "Enter the name for the new workspace:"
+echo ""
+
+read workspace_name
+
 # Create the workspace definition
 #apx-snippet-start:createWorkspace
 #ds-snippet-start:Workspaces1Step3
 printf \
 '{
-    "name" : "Example workspace"
+    "name" : "'"${workspace_name}"'"
 }' >> $request_data
 #ds-snippet-end:Workspaces1Step3
 

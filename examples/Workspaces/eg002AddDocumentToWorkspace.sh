@@ -9,6 +9,7 @@ fi
 
 # Check that a workspace exists
 workspace_id=$(cat config/WORKSPACE_ID)
+workspace_name=$(cat config/WORKSPACE_NAME)
 if [ -z "$workspace_id" ]; then
     echo "Please create a workspace before running this example"
     exit 0
@@ -35,25 +36,57 @@ declare -a Headers=(
 )
 #ds-snippet-end:Workspaces2Step2
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEMO_DOCS_PATH_UNIX="$(cd "$SCRIPT_DIR/../../demo_documents" && pwd)"
+
+if command -v cygpath >/dev/null 2>&1; then
+  DEMO_DOCS_PATH="$(cygpath -w "$DEMO_DOCS_PATH_UNIX")"
+else
+  DEMO_DOCS_PATH="$DEMO_DOCS_PATH_UNIX"
+fi
 
 # Upload the file path to be added to the workspace 
 #ds-snippet-start:Workspaces2Step3
-echo ""
-echo "Enter the path to the document you want to add to the workspace:"
-echo ""
-read file_path
+while true; do
+    echo ""
+    echo "Enter the PDF file name (e.g. World_Wide_Corp_Web_Form.pdf) from the ${DEMO_DOCS_PATH} folder:"
+    echo ""
+    read file_name
 
-if [ ! -f "$file_path" ]; then
-    echo "File does not exist: $file_path"
-    exit 1
-fi
+    file_path="$DEMO_DOCS_PATH/$file_name"
+
+    if [[ "$file_name" != *.pdf ]]; then
+        echo ""
+        echo "The file must be a PDF (must end with .pdf). Please try again."
+        continue
+    fi
+
+    if [ ! -f "$file_path" ]; then
+        echo ""
+        echo "File not found in demo_documents folder."
+        continue
+    fi
+    break
+done
 
 # Enter the document name for the workspace
 echo ""
-echo "Enter the name for the document in the workspace:"
+echo "Enter the name for the document in the workspace (must end with .pdf):"
 echo ""
 
-read doc_name
+while true; do
+  read doc_name
+
+  doc_name=$(echo "$doc_name" | xargs)
+
+  if [[ "$doc_name" =~ \.pdf$ ]]; then
+    break
+  else
+    echo ""
+    echo "Invalid name. The document name must end with '.pdf' (e.g., example.pdf)."
+    echo "Please try again:"
+  fi
+done
 #ds-snippet-end:Workspaces2Step3
 
 #apx-snippet-start:addWorkspaceDocument
@@ -61,8 +94,7 @@ read doc_name
 Status=$(curl -s -w "%{http_code}" -o "${response}" \
     --request POST "${base_path}/accounts/${account_id}/workspaces/${workspace_id}/documents" \
     "${Headers[@]}" \
-    -F "file=@${file_path}" \
-    -F "name=${doc_name}"
+    -F "file=@${file_path};filename=${doc_name}" \
 )
 #ds-snippet-end:Workspaces2Step4
 #apx-snippet-end:addWorkspaceDocument
@@ -84,7 +116,8 @@ echo ""
 
 # Pull out the document ID and save it
 document_id=$(cat $response | grep document_id | sed 's/.*"document_id":"//' | sed 's/".*//')
-echo "Document added! ID: ${document_id}"
+echo ""
+echo "Document added to the workspace '${workspace_name}'! ID: ${document_id}"
 echo ${document_id} > config/DOCUMENT_ID
 
 rm "$response"
