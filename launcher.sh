@@ -1081,6 +1081,7 @@ function startWorkspaces() {
         "Add_Document_To_Workspace" \
         "Send_Envelope_With_Recipient_Info" \
         "Create_Workspace_With_Brand" \
+        "Create_Upload_Request" \
         "Home"; do
         case "$CHOICE" in
 
@@ -1101,6 +1102,10 @@ function startWorkspaces() {
             ;;
         Create_Workspace_With_Brand)
             bash examples/Workspaces/eg004CreateWorkspaceWithBrand.sh
+            startWorkspaces
+            ;;
+        Create_Upload_Request)
+            bash examples/Workspaces/eg005CreateUploadRequest.sh
             startWorkspaces
             ;;
         *)
