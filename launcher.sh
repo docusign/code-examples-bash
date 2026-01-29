@@ -314,6 +314,7 @@ function startSignature() {
         "Document_Generation" \
         "Focused_View" \
         "Delete_Restore_Envelope" \
+        "Multiple_Delivery" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -489,6 +490,10 @@ function startSignature() {
             ;;
         Delete_Restore_Envelope)
             bash examples/eSignature/eg045DeleteRestoreEnvelope.sh
+            startSignature
+            ;;
+        Multiple_Delivery)
+            bash examples/eSignature/eg046MultipleDelivery.sh
             startSignature
             ;;
         *)
