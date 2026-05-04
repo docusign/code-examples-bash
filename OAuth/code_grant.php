@@ -31,7 +31,7 @@ elseif($api_version == "WebForms") :
 elseif($api_version == "Maestro") :
     $scope = "signature aow_manage";
 elseif($api_version == "Navigator") :
-    $scope = "signature adm_store_unified_repo_read";
+    $scope = "signature adm_store_unified_repo_read document_uploader_write document_uploader_read";
 elseif($api_version == "Workspaces") :
     $scope = "signature impersonation dtr.company.read dtr.rooms.read dtr.rooms.write dtr.documents.write";
 endif;
