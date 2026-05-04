@@ -54,8 +54,11 @@ declare -a demo_files=(
     "demo_documents/Id.jpg"
 )
 
-# Convert to array
-mapfile -t upload_urls_array <<<"$upload_urls"
+# Convert to array (cross-platform: works on macOS and Linux)
+upload_urls_array=()
+while IFS= read -r url; do
+    upload_urls_array+=("$url")
+done <<<"$upload_urls"
 
 # Upload each file
 for i in "${!demo_files[@]}"; do
