@@ -10,12 +10,6 @@ ACCESS_TOKEN=$(cat config/ds_access_token.txt)
 account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.com/v1"
 
-if [[ -z "$AGREEMENT_SET_ID" || "$AGREEMENT_SET_ID" == "{AGREEMENT_SET_ID}" ]]; then
-    echo "Invalid AGREEMENT_SET_ID value"
-    echo "Please provide a correct value in the configuration file and rerun this example."
-    exit 0
-fi
-
 request_data=$(mktemp /tmp/request-nav-003.XXXXXX)
 response=$(mktemp /tmp/response-nav-003.XXXXXX)
 
@@ -23,8 +17,7 @@ printf \
 '{
     "job_name": "Example bulk upload job",
     "expected_number_of_docs": 5,
-    "language": "en-US",
-    "agreement_set_ids": ["'"${AGREEMENT_SET_ID}"'"]
+    "language": "en-US"
 }' >> $request_data
 
 curl --request POST ${base_path}/accounts/${account_id}/upload/jobs \
