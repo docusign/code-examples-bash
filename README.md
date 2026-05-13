@@ -84,6 +84,14 @@ For more information about the scopes used for obtaining authorization to use th
 
 For a list of code examples that use the Rooms API, see the [How-to guides overview](https://developers.docusign.com/docs/rooms-api/how-to/) on the Docusign Developer Center.
 
+## Trust Records API
+
+**Note:** To run the Trust Records API examples, you must first complete the [Prerequisites](https://developers.docusign.com/docs/trust-records-api/how-to/retrieve-idevidence-artifacts/).  
+
+For more information about the scopes used for obtaining authorization to use the Trust Records API, see [Required scopes](https://developers.docusign.com/platform/auth/reference/scopes/).  
+
+For a list of code examples that use the Trust Records API, see the [How-to guides overview](https://developers.docusign.com/docs/trust-records-api/how-to/) on the Docusign Developer Center.
+
 ## Web Forms API
 
 The Web Forms API is available in all developer accounts, but only in certain production account plans. Contact [Docusign Support](https://support.docusign.com/) or your account manager to find out whether the Web Forms API is available for your production account plan.
