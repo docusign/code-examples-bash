@@ -61,7 +61,7 @@ MAESTRO_SCOPES = [
 ]
 
 NAVIGATOR_SCOPES = [
-    "signature", "adm_store_unified_repo_read"
+    "signature", "adm_store_unified_repo_read document_uploader_write document_uploader_read"
 ]
 
 CONNECTED_FIELDS_SCOPES = [
