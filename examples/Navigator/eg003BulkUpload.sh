@@ -11,7 +11,7 @@ account_id=$(cat config/API_ACCOUNT_ID)
 base_path="https://api-d.docusign.com/v1"
 
 request_data=$(mktemp /tmp/request-nav-003.XXXXXX)
-response=$(mktemp /tmp/response-nav-003.XXXXXX)''
+response=$(mktemp /tmp/response-nav-003.XXXXXX)
 
 #ds-snippet-start:Navigator3Step2
 printf \
