@@ -20,6 +20,7 @@ printf \
     "language": "en-US"
 }' >> $request_data
 
+#ds-snippet-start:Navigator3Step2
 curl --request POST ${base_path}/accounts/${account_id}/upload/jobs \
      --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Accept: application/json" \
@@ -30,6 +31,7 @@ curl --request POST ${base_path}/accounts/${account_id}/upload/jobs \
 # Extract job ID and upload URLs for each document
 job_id=$(cat "$response" | grep -o '"id":"[^"]*' | head -1 | cut -d'"' -f4)
 upload_urls=$(cat $response | grep -o '"upload_document":"[^"]*' | cut -d'"' -f4)
+#ds-snippet-end:Navigator3Step2
 
 echo "Created upload job with ID: $job_id"
 
@@ -53,6 +55,7 @@ while IFS= read -r url; do
     upload_urls_array+=("$url")
 done <<<"$upload_urls"
 
+#ds-snippet-start:Navigator3Step3
 # Upload each file
 for i in "${!demo_files[@]}"; do
     file_path="${demo_files[$i]}"
@@ -94,6 +97,7 @@ for i in "${!demo_files[@]}"; do
     
     echo "Uploading $filename..."
     
+
     # Make PUT request with binary file content and required headers.
     curl --request PUT "$upload_url" \
          --header "x-ms-blob-type: BlockBlob" \
@@ -101,15 +105,18 @@ for i in "${!demo_files[@]}"; do
          --header "Content-Type: ${content_type}" \
          --data-binary @"$file_path"
 done
+#ds-snippet-end:Navigator3Step3
 
 echo ""
 read -p "The documents have been uploaded. Press Enter to update the job status."
 
+#ds-snippet-start:Navigator3Step4
 curl --request POST "${base_path}/accounts/${account_id}/upload/jobs/${job_id}/actions/complete" \
      --header "Authorization: Bearer ${ACCESS_TOKEN}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
      --output "$response"
+#ds-snippet-end:Navigator3Step4
 
 echo ""
 echo "Bulk upload job has been completed. Response:"
