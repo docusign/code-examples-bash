@@ -34,7 +34,7 @@ if ($api_version == "eSignature" || $api_version == "idEvidence") {
 } else if ($api_version == "Maestro") {
     $scope = "signature aow_manage";
 } else if ($api_version == "Navigator") {
-    $scope = "signature adm_store_unified_repo_read";
+    $scope = "signature adm_store_unified_repo_read document_uploader_write document_uploader_read";
 } else if ($api_version == "ConnectedFields") {
     $scope = "signature adm_store_unified_repo_read";
 } else if ($api_version == "Workspaces") {

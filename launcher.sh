@@ -1033,6 +1033,7 @@ function startNavigator() {
     select CHOICE in \
         "List_Agreements" \
         "Get_Single_Agreement" \
+        "Bulk_Upload" \
         "Home"; do
         case "$CHOICE" in
 
@@ -1045,6 +1046,10 @@ function startNavigator() {
             ;;
         Get_Single_Agreement)
             bash examples/Navigator/eg002GetSingleAgreement.sh
+            startNavigator
+            ;;
+        Bulk_Upload)
+            bash examples/Navigator/eg003BulkUpload.sh
             startNavigator
             ;;
         *)
