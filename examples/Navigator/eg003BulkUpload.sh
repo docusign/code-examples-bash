@@ -40,6 +40,7 @@ read -p "Press Enter to upload documents for this job"
 echo "Uploading documents..."
 echo ""
 
+#ds-snippet-start:Navigator3Step3
 # Array of demo documents to upload
 declare -a demo_files=(
     "demo_documents/World_Wide_Corp_Battle_Plan_Trafalgar.docx"
@@ -55,7 +56,6 @@ while IFS= read -r url; do
     upload_urls_array+=("$url")
 done <<<"$upload_urls"
 
-#ds-snippet-start:Navigator3Step3
 # Upload each file
 for i in "${!demo_files[@]}"; do
     file_path="${demo_files[$i]}"
