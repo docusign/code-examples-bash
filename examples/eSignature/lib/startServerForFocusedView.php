@@ -20,8 +20,6 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
     <h2>The document has been embedded with focused view.</h2>
     <br />
 
-    <!DOCTYPE html>
-    <html>
     <head>
         <meta charset=\"utf-8\" />
         <title>Signing</title>
@@ -44,8 +42,6 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
     </body>
     </html>
 
-    <p><a>Continue</a></p>
-
     <script src='https://js.docusign.com/bundle.js'></script>
     <script>
         window.DocuSign.loadDocuSign('" . $integrationKey . "')
@@ -58,7 +54,7 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
                         branding: {
                             primaryButton: {
                                 /** Background color of primary button */
-                                backgroundColor: '#333',
+                                backgroundColor: '#50C878',
                                 /** Text color of primary button */
                                 color: '#fff',
                             }
@@ -67,8 +63,28 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
                         /** High-level components we allow specific overrides for */
                         signingNavigationButton: {
                             finishText: 'You have finished the document! Hooray!',
-                            position: 'bottom-center'
-                        }
+                            position: 'bottom-center',
+                            shape: 'pill',
+                        },
+
+                        signingAgreeButton: {
+                            finishText: 'I Agree',
+                        },
+
+                        signingDeclineButton: {
+                            show: true,
+                            finishText: 'Decline',
+                            backgroundColor: '#ff0000',
+                            color: '#ffffff',
+                        },
+
+                        downloadModal: {
+                            show: true,
+                        },
+
+                        declineModal: {
+                            show: true,
+                        },
                     }
                 });
             
@@ -79,7 +95,7 @@ $responseOk = "HTTP/1.0 200 OK\r\n"
                 signing.on('sessionEnd', (event) => {
                     /** The event here denotes what caused the sessionEnd to trigger, such as signing_complete, ttl_expired etc../ **/
                     console.log('sessionend', event);
-                    window.close();
+                    window.location.href = '/'
                 });
             
                 signing.mount('#agreement');
