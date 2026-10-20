@@ -1,6 +1,11 @@
 # Step 1: Obtain your OAuth token
 # Note: Substitute these values with your own
 ACCESS_TOKEN=$(cat config/ds_access_token.txt)
+ORGANIZATION_ID=$(cat config/ORGANIZATION_ID)
+if [[ -z "$ORGANIZATION_ID" ]]; then
+    echo "PROBLEM: Set ORGANIZATION_ID and add to config directory"
+    exit 0
+fi
 
 # Construct your API headers
 #ds-snippet-start:Monitor1Step2
@@ -32,7 +37,7 @@ while [ $complete == false ]; do
 ((iterations=iterations+1))
 # Create a temporary file to store the response
 response=$(mktemp /tmp/response-bs.XXXXXX)
-Status=$(curl -w '%{http_code}' -i --request GET "https://lens-d.docusign.net/api/v2.0/datasets/monitor/stream?cursor=${cursorValue}&limit=2000" \
+Status=$(curl -w '%{http_code}' -i --request GET "https://api-d.docusign.com/v1/organizations/${ORGANIZATION_ID}/stream?cursor=${cursorValue}&limit=2000" \
      "${Headers[@]}" \
      --output ${response})
 # If the Status code returned is greater than 201 (OK / Accepted), display an error message
