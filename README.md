@@ -128,8 +128,8 @@ For a list of code examples that use the Web Forms API, see the [How-to guides o
    where {base_url} is the URL for the web app.  
    
 1. [Git Bash command line](https://gitforwindows.org/), macOS Terminal, or Linux shell  
-1. For Authorization Code Grant authentication PHP 8.0.0 is required.
-   For JWT Grant authentication, PHP 8.0.0 and Python 3 are required.
+1. For Authorization Code Grant authentication, PHP 8.3.36 or later is required.
+   For JWT Grant authentication, PHP 8.3.36 or later and Python 3 are required.
 
 
 ### Installation steps
