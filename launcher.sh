@@ -315,6 +315,7 @@ function startSignature() {
         "Focused_View" \
         "Delete_Restore_Envelope" \
         "Multiple_Delivery" \
+        "Shared_Envelope_Access" \
         "Pick_An_API"; do
         case "$CHOICE" in
         Pick_An_API)
@@ -494,6 +495,10 @@ function startSignature() {
             ;;
         Multiple_Delivery)
             bash examples/eSignature/eg046MultipleDelivery.sh
+            startSignature
+            ;;
+        Shared_Envelope_Access)
+            bash examples/eSignature/eg047SharedEnvelopeAccess.sh
             startSignature
             ;;
         *)
